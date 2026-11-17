@@ -1,0 +1,3422 @@
+{
+  "spec_version": "1.2",
+  "gabarit": {
+    "id": "restaurants_maquis_T1",
+    "secteur": "restaurants_maquis",
+    "code": "T1",
+    "nom_affiche": "Plat du jour",
+    "objectif": "faire saliver en 3 s puis pousser a commander maintenant",
+    "statut": "ingenierie consolidee et close — prete pour le test reel T1 (aucune production lancee)"
+  },
+  "units": {
+    "video": "frames @30fps",
+    "fps": 30,
+    "total_frames": 900,
+    "total_s": 30.0,
+    "graphic_positions": "frames entieres @30fps",
+    "audio": "base temporelle independante (ms)",
+    "pixels": "base 1080x1920, export 720x1280 (facteur 0,667)",
+    "rounding": "round-half-up : f = floor(t_ms * 30 / 1000 + 0.5)",
+    "registre": "images_sortie_du_plan = images_source_visibles + images_figees ; les poignees de transition lues et non exportees sont comptees separement (frame_ledger)",
+    "echelle_k": "k = 1 / fraction de largeur prelevee ; k=1,00 = pleine largeur source"
+  },
+  "sources_techniques": [
+    {
+      "id": "SRC01",
+      "objet": "Composition / EditedMediaItemSequence, sequences qui se chevauchent (PiP, grille)",
+      "url": "https://developer.android.com/media/media3/transformer/composition",
+      "statut": "officiel",
+      "limite_documentee": "Crossfading video/audio non fourni en tant qu'effet natif",
+      "consequence": "le crossfade est construit par superposition + alpha par image (TR05)"
+    },
+    {
+      "id": "SRC02",
+      "objet": "VideoCompositorSettings.getOverlaySettings(inputId, presentationTimeUs)",
+      "url": "https://developer.android.com/media/media3/transformer/videocompositorsettings",
+      "statut": "officiel",
+      "consequence": "position, echelle, rotation et alpha par sequence ET par image"
+    },
+    {
+      "id": "SRC03",
+      "objet": "CanvasOverlay.onDraw(Canvas, presentationTimeUs) — @UnstableApi",
+      "url": "https://developer.android.com/reference/androidx/media3/effect/CanvasOverlay",
+      "statut": "unstable_api",
+      "consequence": "animation vectorielle et typographique par image, sans quantification en bitmaps"
+    },
+    {
+      "id": "SRC04",
+      "objet": "BitmapOverlay / StaticOverlaySettings (Bitmaps et overlays fixes)",
+      "url": "https://developer.android.com/reference/androidx/media3/effect/BitmapOverlay",
+      "statut": "officiel"
+    },
+    {
+      "id": "SRC05",
+      "objet": "LottieOverlay (sous-classe de CanvasOverlay)",
+      "url": "https://developer.android.com/reference/androidx/media3/effect/lottie/LottieOverlay",
+      "statut": "unstable_api",
+      "decision": "non retenu : nos animations sont parametriques, aucune dependance Lottie ajoutee"
+    },
+    {
+      "id": "SRC06",
+      "objet": "Version Media3 du projet",
+      "url": "https://developer.android.com/jetpack/androidx/releases/media3",
+      "statut": "non_verifiable",
+      "detail": "aucun fichier de dependances (gradle/version catalog) present dans l'espace de travail"
+    }
+  ],
+  "safe_zones": {
+    "x_min": 64,
+    "x_max": 920,
+    "y_min": 240,
+    "y_max": 1440
+  },
+  "data_contract": {
+    "champs": [
+      {
+        "id": "nom",
+        "obligatoire": true,
+        "max": 40,
+        "compos": [
+          "GB01",
+          "GB05"
+        ]
+      },
+      {
+        "id": "produit",
+        "obligatoire": true,
+        "max": 32,
+        "compos": [
+          "GB02",
+          "GB03"
+        ]
+      },
+      {
+        "id": "prix",
+        "obligatoire": true,
+        "max": 7,
+        "compos": [
+          "GB03",
+          "GB06"
+        ]
+      },
+      {
+        "id": "whatsapp",
+        "obligatoire": true,
+        "max": 20,
+        "compos": [
+          "GB08"
+        ]
+      },
+      {
+        "id": "quartier",
+        "obligatoire": true,
+        "max": 40,
+        "compos": [
+          "GB07"
+        ]
+      },
+      {
+        "id": "accroche",
+        "obligatoire": false,
+        "max": 48,
+        "compos": [
+          "GB04"
+        ]
+      }
+    ],
+    "regles_donnees": [
+      "trim des extremites, espaces multiples reduits a un seul",
+      "aucun changement d'accent, de casse, d'apostrophe ni de tiret",
+      "aucune troncature, aucune translitteration, aucun remplacement de caractere",
+      "le point final est retire pour nom/produit/accroche uniquement",
+      "prix : chaine conservee telle que saisie ; le suffixe ' FCFA' est ajoute a l'affichage uniquement s'il est absent ; jamais de conversion numerique pour l'affichage",
+      "quartier : decoupe sur virgule si presente, sinon sur ' - ' ou '/', sinon un seul segment ; jamais de coupure de mot",
+      "accroche : texte libre ; decoupee sur '·' ou '•' si present, sinon en 3 segments maximaux aux frontieres de mots, 16 caracteres cibles par segment"
+    ],
+    "regles_presentation": [
+      "titres en capitales a l'affichage (choix typographique, non stocke)",
+      "chiffres tabulaires pour prix et whatsapp",
+      "auto-fit N0..N3 mesure au rendu avec les metriques reelles des polices"
+    ],
+    "repli_accroche": [
+      {
+        "niveau": "A",
+        "condition": "accroche renseignee",
+        "effet": "GB04 a 300/345/390, sortie a 405 (bloc 300-405)"
+      },
+      {
+        "niveau": "B",
+        "condition": "accroche vide",
+        "effet": "GB04 supprime ; GB03 prolonge de 195 a 345 (le prix y reste visible) ; autres blocs inchanges",
+        "verif": "ecart maximal entre evenements (sortie GB03 345 -> entree GB05 450) = 105 frames = 3,50 s, conforme"
+      },
+      {
+        "niveau": "C",
+        "condition": "accroche vide et produit > 24 caracteres",
+        "effet": "niveau B + GB03 affiche le produit seul (le prix n'apparait plus que dans GB06)",
+        "verif": "aucune modification de timing : GB06 reste 540-615, aucun chevauchement"
+      },
+      {
+        "niveau": "D",
+        "condition": "accroche d'un seul mot",
+        "effet": "GB04 en carton plein cadre 300-360, echelle 1,12"
+      }
+    ],
+    "interdits": [
+      "afficher un exemple_affiche",
+      "inventer un prix, un avantage ou un texte",
+      "creer une syntaxe de saisie (separateurs imposes au commercant)"
+    ]
+  },
+  "scenes": [
+    {
+      "id": "S1",
+      "nom": "Le plat",
+      "affiche_s": 6,
+      "frames": 180,
+      "source_used_f": 170,
+      "source_tail_f": 4,
+      "source_available_f": 180,
+      "source_end_f": 176
+    },
+    {
+      "id": "S2",
+      "nom": "Le dessus et les details",
+      "affiche_s": 8,
+      "frames": 240,
+      "source_used_f": 230,
+      "source_tail_f": 4,
+      "source_available_f": 240,
+      "source_end_f": 236
+    },
+    {
+      "id": "S3",
+      "nom": "La personne qui sert",
+      "affiche_s": 7,
+      "frames": 210,
+      "source_used_f": 200,
+      "source_tail_f": 4,
+      "source_available_f": 210,
+      "source_end_f": 206
+    },
+    {
+      "id": "S4",
+      "nom": "Le lieu et le contact",
+      "affiche_s": 9,
+      "frames": 270,
+      "source_used_f": 245,
+      "source_tail_f": 25,
+      "source_available_f": 270,
+      "source_end_f": 245
+    }
+  ],
+  "plans": [
+    {
+      "id": "P01",
+      "scene": "S1",
+      "out_start_f": 0,
+      "out_end_f": 60,
+      "out_frames": 60,
+      "source_in_f": 9,
+      "source_out_f": 62,
+      "source_frames": 53,
+      "freeze_tail_f": 7,
+      "freeze_breakdown": {
+        "respirations_f": 7
+      },
+      "k_base": 1.0,
+      "movement": "MV01",
+      "transition_out": "TR01",
+      "handle_transition_f": 0,
+      "handle_out_f": 62,
+      "source_lue_f": 53,
+      "images_exportees_f": 60,
+      "images_non_lues_avant": 9
+    },
+    {
+      "id": "P02",
+      "scene": "S1",
+      "out_start_f": 60,
+      "out_end_f": 105,
+      "out_frames": 45,
+      "source_in_f": 65,
+      "source_out_f": 104,
+      "source_frames": 39,
+      "freeze_tail_f": 6,
+      "freeze_breakdown": {
+        "respirations_f": 6
+      },
+      "k_base": 1.35,
+      "movement": "MV03",
+      "transition_out": "TR02",
+      "handle_transition_f": 0,
+      "handle_out_f": 104,
+      "source_lue_f": 39,
+      "images_exportees_f": 45,
+      "images_non_lues_avant": 3
+    },
+    {
+      "id": "P03",
+      "scene": "S1",
+      "out_start_f": 105,
+      "out_end_f": 180,
+      "out_frames": 75,
+      "source_in_f": 107,
+      "source_out_f": 170,
+      "source_frames": 63,
+      "freeze_tail_f": 12,
+      "freeze_breakdown": {
+        "respirations_f": 12
+      },
+      "k_base": 1.7,
+      "movement": "MV05",
+      "transition_out": "TR03",
+      "handle_transition_f": 6,
+      "handle_out_f": 176,
+      "source_lue_f": 69,
+      "images_exportees_f": 75,
+      "images_non_lues_avant": 3
+    },
+    {
+      "id": "P04",
+      "scene": "S2",
+      "out_start_f": 180,
+      "out_end_f": 255,
+      "out_frames": 75,
+      "source_in_f": 9,
+      "source_out_f": 77,
+      "source_frames": 68,
+      "freeze_tail_f": 7,
+      "freeze_breakdown": {
+        "respirations_f": 7
+      },
+      "k_base": 1.0,
+      "movement": "MV01",
+      "transition_out": "TR01",
+      "handle_transition_f": 0,
+      "handle_out_f": 77,
+      "source_lue_f": 68,
+      "images_exportees_f": 75,
+      "images_non_lues_avant": 9
+    },
+    {
+      "id": "P05",
+      "scene": "S2",
+      "out_start_f": 255,
+      "out_end_f": 330,
+      "out_frames": 75,
+      "source_in_f": 80,
+      "source_out_f": 148,
+      "source_frames": 68,
+      "freeze_tail_f": 7,
+      "freeze_breakdown": {
+        "respirations_f": 7
+      },
+      "k_base": 1.4,
+      "movement": "MV05",
+      "transition_out": "TR01",
+      "handle_transition_f": 0,
+      "handle_out_f": 148,
+      "source_lue_f": 68,
+      "images_exportees_f": 75,
+      "images_non_lues_avant": 3
+    },
+    {
+      "id": "P06",
+      "scene": "S2",
+      "out_start_f": 330,
+      "out_end_f": 420,
+      "out_frames": 90,
+      "source_in_f": 151,
+      "source_out_f": 230,
+      "source_frames": 79,
+      "freeze_tail_f": 11,
+      "freeze_breakdown": {
+        "respirations_f": 11
+      },
+      "k_base": 1.1,
+      "movement": "MV02",
+      "transition_out": "TR05",
+      "handle_transition_f": 6,
+      "handle_out_f": 236,
+      "source_lue_f": 85,
+      "images_exportees_f": 90,
+      "images_non_lues_avant": 3
+    },
+    {
+      "id": "P07",
+      "scene": "S3",
+      "out_start_f": 420,
+      "out_end_f": 495,
+      "out_frames": 75,
+      "source_in_f": 9,
+      "source_out_f": 77,
+      "source_frames": 68,
+      "freeze_tail_f": 7,
+      "freeze_breakdown": {
+        "respirations_f": 7
+      },
+      "k_base": 1.25,
+      "movement": "MV06",
+      "transition_out": "TR01",
+      "handle_transition_f": 0,
+      "handle_out_f": 77,
+      "source_lue_f": 68,
+      "images_exportees_f": 75,
+      "images_non_lues_avant": 9
+    },
+    {
+      "id": "P08",
+      "scene": "S3",
+      "out_start_f": 495,
+      "out_end_f": 555,
+      "out_frames": 60,
+      "source_in_f": 80,
+      "source_out_f": 133,
+      "source_frames": 53,
+      "freeze_tail_f": 7,
+      "freeze_breakdown": {
+        "respirations_f": 7
+      },
+      "k_base": 1.55,
+      "movement": "MV03",
+      "transition_out": "TR01",
+      "handle_transition_f": 0,
+      "handle_out_f": 133,
+      "source_lue_f": 53,
+      "images_exportees_f": 60,
+      "images_non_lues_avant": 3
+    },
+    {
+      "id": "P09",
+      "scene": "S3",
+      "out_start_f": 555,
+      "out_end_f": 630,
+      "out_frames": 75,
+      "source_in_f": 136,
+      "source_out_f": 200,
+      "source_frames": 64,
+      "freeze_tail_f": 11,
+      "freeze_breakdown": {
+        "respirations_f": 11
+      },
+      "k_base": 1.0,
+      "movement": "MV05",
+      "transition_out": "TR04",
+      "handle_transition_f": 6,
+      "handle_out_f": 206,
+      "source_lue_f": 70,
+      "images_exportees_f": 75,
+      "images_non_lues_avant": 3
+    },
+    {
+      "id": "P10",
+      "scene": "S4",
+      "out_start_f": 630,
+      "out_end_f": 705,
+      "out_frames": 75,
+      "source_in_f": 9,
+      "source_out_f": 79,
+      "source_frames": 70,
+      "freeze_tail_f": 5,
+      "freeze_breakdown": {
+        "respirations_f": 5
+      },
+      "k_base": 1.4,
+      "movement": "MV01",
+      "transition_out": "TR01",
+      "handle_transition_f": 0,
+      "handle_out_f": 79,
+      "source_lue_f": 70,
+      "images_exportees_f": 75,
+      "images_non_lues_avant": 9
+    },
+    {
+      "id": "P11",
+      "scene": "S4",
+      "out_start_f": 705,
+      "out_end_f": 795,
+      "out_frames": 90,
+      "source_in_f": 82,
+      "source_out_f": 167,
+      "source_frames": 85,
+      "freeze_tail_f": 5,
+      "freeze_breakdown": {
+        "respirations_f": 5
+      },
+      "k_base": 1.05,
+      "movement": "MV02",
+      "transition_out": "TR01",
+      "handle_transition_f": 0,
+      "handle_out_f": 167,
+      "source_lue_f": 85,
+      "images_exportees_f": 90,
+      "images_non_lues_avant": 3
+    },
+    {
+      "id": "P12",
+      "scene": "S4",
+      "out_start_f": 795,
+      "out_end_f": 900,
+      "out_frames": 105,
+      "source_in_f": 170,
+      "source_out_f": 245,
+      "source_frames": 75,
+      "freeze_tail_f": 30,
+      "freeze_breakdown": {
+        "gel_cta_f": 30,
+        "respirations_f": 0
+      },
+      "k_base": 1.35,
+      "movement": "MV11+MV12",
+      "transition_out": "TR01",
+      "handle_transition_f": 0,
+      "handle_out_f": 245,
+      "source_lue_f": 75,
+      "images_exportees_f": 105,
+      "images_non_lues_avant": 3
+    }
+  ],
+  "graphic_blocks": [
+    {
+      "id": "GB01",
+      "compo": "enseigne_mot_a_mot",
+      "champ": [
+        "nom"
+      ],
+      "text_px_base": 76,
+      "text_px_720": 51,
+      "nominal": {
+        "x_min": 66,
+        "x_max": 918,
+        "y_min": 372,
+        "y_max": 468,
+        "w": 852,
+        "h": 96
+      },
+      "anchor": "centre",
+      "radius_px": 0,
+      "shadow_px": [
+        0,
+        3,
+        10
+      ],
+      "stroke_px": 2,
+      "rotation_deg": 0,
+      "pad_px": 24,
+      "box_shape": {
+        "x_min": 65,
+        "x_max": 919,
+        "y_min": 371,
+        "y_max": 469,
+        "w": 854,
+        "h": 98
+      },
+      "box_full": {
+        "x_min": 60,
+        "x_max": 924,
+        "y_min": 366,
+        "y_max": 477,
+        "w": 864,
+        "h": 111
+      },
+      "text_box": {
+        "x_min": 89,
+        "x_max": 895,
+        "y_min": 395,
+        "y_max": 445
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 4,
+        "x_max": 4,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB02",
+      "compo": "bandeau_produit",
+      "champ": [
+        "produit"
+      ],
+      "text_px_base": 84,
+      "text_px_720": 56,
+      "nominal": {
+        "x_min": 66,
+        "x_max": 918,
+        "y_min": 826,
+        "y_max": 974,
+        "w": 852,
+        "h": 148
+      },
+      "anchor": "centre",
+      "radius_px": 18,
+      "shadow_px": [
+        0,
+        4,
+        12
+      ],
+      "stroke_px": 2,
+      "rotation_deg": 0,
+      "pad_px": 24,
+      "box_shape": {
+        "x_min": 65,
+        "x_max": 919,
+        "y_min": 825,
+        "y_max": 975,
+        "w": 854,
+        "h": 150
+      },
+      "box_full": {
+        "x_min": 59,
+        "x_max": 925,
+        "y_min": 819,
+        "y_max": 985,
+        "w": 866,
+        "h": 166
+      },
+      "text_box": {
+        "x_min": 89,
+        "x_max": 895,
+        "y_min": 849,
+        "y_max": 951
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 5,
+        "x_max": 5,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB03",
+      "compo": "hero_lockup",
+      "champ": [
+        "produit",
+        "prix"
+      ],
+      "text_px_base": 84,
+      "text_px_720": 56,
+      "nominal": {
+        "x_min": 594,
+        "x_max": 900,
+        "y_min": 786,
+        "y_max": 1022,
+        "w": 306,
+        "h": 236
+      },
+      "anchor": "bas_droite_bandeau",
+      "radius_px": 18,
+      "shadow_px": [
+        0,
+        6,
+        16
+      ],
+      "stroke_px": 2,
+      "rotation_deg": -3,
+      "pad_px": 16,
+      "badge": {
+        "w": 306,
+        "h": 136,
+        "overlap_px": 40
+      },
+      "box_shape": {
+        "x_min": 587,
+        "x_max": 907,
+        "y_min": 777,
+        "y_max": 1031,
+        "w": 320,
+        "h": 254
+      },
+      "box_full": {
+        "x_min": 579,
+        "x_max": 915,
+        "y_min": 769,
+        "y_max": 1045,
+        "w": 336,
+        "h": 276
+      },
+      "text_box": {
+        "x_min": 603,
+        "x_max": 891,
+        "y_min": 793,
+        "y_max": 1015
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 0,
+        "x_max": 0,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB04",
+      "compo": "accroche_segments",
+      "champ": [
+        "accroche"
+      ],
+      "text_px_base": 52,
+      "text_px_720": 35,
+      "nominal": {
+        "x_min": 66,
+        "x_max": 918,
+        "y_min": 574,
+        "y_max": 666,
+        "w": 852,
+        "h": 92
+      },
+      "anchor": "centre",
+      "radius_px": 999,
+      "shadow_px": [
+        0,
+        4,
+        12
+      ],
+      "stroke_px": 2,
+      "rotation_deg": 0,
+      "pad_px": 24,
+      "box_shape": {
+        "x_min": 65,
+        "x_max": 919,
+        "y_min": 573,
+        "y_max": 667,
+        "w": 854,
+        "h": 94
+      },
+      "box_full": {
+        "x_min": 59,
+        "x_max": 925,
+        "y_min": 567,
+        "y_max": 677,
+        "w": 866,
+        "h": 110
+      },
+      "text_box": {
+        "x_min": 89,
+        "x_max": 895,
+        "y_min": 597,
+        "y_max": 643
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 5,
+        "x_max": 5,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB05",
+      "compo": "enseigne_rappel",
+      "champ": [
+        "nom"
+      ],
+      "text_px_base": 76,
+      "text_px_720": 51,
+      "nominal": {
+        "x_min": 66,
+        "x_max": 918,
+        "y_min": 372,
+        "y_max": 468,
+        "w": 852,
+        "h": 96
+      },
+      "anchor": "centre",
+      "radius_px": 0,
+      "shadow_px": [
+        0,
+        3,
+        10
+      ],
+      "stroke_px": 2,
+      "rotation_deg": 0,
+      "pad_px": 24,
+      "box_shape": {
+        "x_min": 65,
+        "x_max": 919,
+        "y_min": 371,
+        "y_max": 469,
+        "w": 854,
+        "h": 98
+      },
+      "box_full": {
+        "x_min": 60,
+        "x_max": 924,
+        "y_min": 366,
+        "y_max": 477,
+        "w": 864,
+        "h": 111
+      },
+      "text_box": {
+        "x_min": 89,
+        "x_max": 895,
+        "y_min": 395,
+        "y_max": 445
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 4,
+        "x_max": 4,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB06",
+      "compo": "prix_plein",
+      "champ": [
+        "prix"
+      ],
+      "text_px_base": 116,
+      "text_px_720": 77,
+      "nominal": {
+        "x_min": 182,
+        "x_max": 898,
+        "y_min": 780,
+        "y_max": 940,
+        "w": 716,
+        "h": 160
+      },
+      "anchor": "centre",
+      "radius_px": 20,
+      "shadow_px": [
+        0,
+        6,
+        16
+      ],
+      "stroke_px": 2,
+      "rotation_deg": -3,
+      "pad_px": 20,
+      "box_shape": {
+        "x_min": 177,
+        "x_max": 903,
+        "y_min": 760,
+        "y_max": 960,
+        "w": 726,
+        "h": 200
+      },
+      "box_full": {
+        "x_min": 169,
+        "x_max": 911,
+        "y_min": 752,
+        "y_max": 974,
+        "w": 742,
+        "h": 222
+      },
+      "text_box": {
+        "x_min": 197,
+        "x_max": 883,
+        "y_min": 780,
+        "y_max": 940
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 0,
+        "x_max": 0,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB07",
+      "compo": "adresse",
+      "champ": [
+        "quartier"
+      ],
+      "text_px_base": 54,
+      "text_px_720": 36,
+      "nominal": {
+        "x_min": 66,
+        "x_max": 918,
+        "y_min": 1114,
+        "y_max": 1246,
+        "w": 852,
+        "h": 132
+      },
+      "anchor": "centre",
+      "radius_px": 18,
+      "shadow_px": [
+        0,
+        4,
+        12
+      ],
+      "stroke_px": 2,
+      "rotation_deg": 0,
+      "pad_px": 24,
+      "box_shape": {
+        "x_min": 65,
+        "x_max": 919,
+        "y_min": 1113,
+        "y_max": 1247,
+        "w": 854,
+        "h": 134
+      },
+      "box_full": {
+        "x_min": 59,
+        "x_max": 925,
+        "y_min": 1107,
+        "y_max": 1257,
+        "w": 866,
+        "h": 150
+      },
+      "text_box": {
+        "x_min": 89,
+        "x_max": 895,
+        "y_min": 1137,
+        "y_max": 1223
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 5,
+        "x_max": 5,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB08",
+      "compo": "cta_whatsapp",
+      "champ": [
+        "whatsapp"
+      ],
+      "text_px_base": 60,
+      "text_px_720": 40,
+      "nominal": {
+        "x_min": 66,
+        "x_max": 918,
+        "y_min": 1272,
+        "y_max": 1388,
+        "w": 852,
+        "h": 116
+      },
+      "anchor": "centre",
+      "radius_px": 999,
+      "shadow_px": [
+        0,
+        6,
+        16
+      ],
+      "stroke_px": 2,
+      "rotation_deg": 0,
+      "pad_px": 24,
+      "box_shape": {
+        "x_min": 65,
+        "x_max": 919,
+        "y_min": 1271,
+        "y_max": 1389,
+        "w": 854,
+        "h": 118
+      },
+      "box_full": {
+        "x_min": 57,
+        "x_max": 927,
+        "y_min": 1263,
+        "y_max": 1403,
+        "w": 870,
+        "h": 140
+      },
+      "text_box": {
+        "x_min": 89,
+        "x_max": 895,
+        "y_min": 1295,
+        "y_max": 1365
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 7,
+        "x_max": 7,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    }
+  ],
+  "text_blocks": [
+    {
+      "id": "TXT01",
+      "bloc": "GB01",
+      "compo": "enseigne_mot_a_mot",
+      "champ": "nom",
+      "start_f": 15,
+      "end_f": 90,
+      "dur_f": 75,
+      "start_s": 0.5,
+      "end_s": 3.0
+    },
+    {
+      "id": "TXT02",
+      "bloc": "GB02",
+      "compo": "bandeau_produit",
+      "champ": "produit",
+      "start_f": 120,
+      "end_f": 165,
+      "dur_f": 45,
+      "start_s": 4.0,
+      "end_s": 5.5
+    },
+    {
+      "id": "TXT03",
+      "bloc": "GB03",
+      "compo": "hero_lockup",
+      "champ": "produit+prix",
+      "start_f": 195,
+      "end_f": 285,
+      "dur_f": 90,
+      "start_s": 6.5,
+      "end_s": 9.5
+    },
+    {
+      "id": "TXT04",
+      "bloc": "GB04",
+      "compo": "accroche_segments",
+      "champ": "accroche",
+      "start_f": 300,
+      "end_f": 405,
+      "dur_f": 105,
+      "start_s": 10.0,
+      "end_s": 13.5
+    },
+    {
+      "id": "TXT05",
+      "bloc": "GB05",
+      "compo": "enseigne_rappel",
+      "champ": "nom",
+      "start_f": 450,
+      "end_f": 525,
+      "dur_f": 75,
+      "start_s": 15.0,
+      "end_s": 17.5
+    },
+    {
+      "id": "TXT06",
+      "bloc": "GB06",
+      "compo": "prix_plein",
+      "champ": "prix",
+      "start_f": 540,
+      "end_f": 615,
+      "dur_f": 75,
+      "start_s": 18.0,
+      "end_s": 20.5
+    },
+    {
+      "id": "TXT07",
+      "bloc": "GB07",
+      "compo": "adresse",
+      "champ": "quartier",
+      "start_f": 645,
+      "end_f": 765,
+      "dur_f": 120,
+      "start_s": 21.5,
+      "end_s": 25.5
+    },
+    {
+      "id": "TXT08",
+      "bloc": "GB08",
+      "compo": "cta_whatsapp",
+      "champ": "whatsapp",
+      "start_f": 795,
+      "end_f": 900,
+      "dur_f": 105,
+      "start_s": 26.5,
+      "end_s": 30.0
+    }
+  ],
+  "events": [
+    {
+      "id": "TXT01-E1",
+      "block": "TXT01",
+      "compo": "enseigne_mot_a_mot",
+      "token": "{nom_w1}",
+      "frame": 15,
+      "frame_t": 0.5,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT01-E2",
+      "block": "TXT01",
+      "compo": "enseigne_mot_a_mot",
+      "token": "{nom_w2}",
+      "frame": 23,
+      "frame_t": 0.767,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT01-E3",
+      "block": "TXT01",
+      "compo": "enseigne_mot_a_mot",
+      "token": "{nom_w3}",
+      "frame": 30,
+      "frame_t": 1.0,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT01-X",
+      "block": "TXT01",
+      "compo": "enseigne_mot_a_mot",
+      "token": "EXIT",
+      "frame": 90,
+      "frame_t": 3.0,
+      "kind": "sortie"
+    },
+    {
+      "id": "TXT02-E1",
+      "block": "TXT02",
+      "compo": "bandeau_produit",
+      "token": "{produit_w1}",
+      "frame": 120,
+      "frame_t": 4.0,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT02-E2",
+      "block": "TXT02",
+      "compo": "bandeau_produit",
+      "token": "{produit_w2}",
+      "frame": 135,
+      "frame_t": 4.5,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT02-E3",
+      "block": "TXT02",
+      "compo": "bandeau_produit",
+      "token": "{produit_w3}",
+      "frame": 150,
+      "frame_t": 5.0,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT02-X",
+      "block": "TXT02",
+      "compo": "bandeau_produit",
+      "token": "EXIT",
+      "frame": 165,
+      "frame_t": 5.5,
+      "kind": "sortie"
+    },
+    {
+      "id": "TXT03-E1",
+      "block": "TXT03",
+      "compo": "hero_lockup",
+      "token": "{produit_w1}",
+      "frame": 195,
+      "frame_t": 6.5,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT03-E2",
+      "block": "TXT03",
+      "compo": "hero_lockup",
+      "token": "{prix}",
+      "frame": 210,
+      "frame_t": 7.0,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT03-E3",
+      "block": "TXT03",
+      "compo": "hero_lockup",
+      "token": "POP_PRIX",
+      "frame": 218,
+      "frame_t": 7.267,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT03-X",
+      "block": "TXT03",
+      "compo": "hero_lockup",
+      "token": "EXIT",
+      "frame": 285,
+      "frame_t": 9.5,
+      "kind": "sortie"
+    },
+    {
+      "id": "TXT04-E1",
+      "block": "TXT04",
+      "compo": "accroche_segments",
+      "token": "{accroche_s1}",
+      "frame": 300,
+      "frame_t": 10.0,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT04-E2",
+      "block": "TXT04",
+      "compo": "accroche_segments",
+      "token": "{accroche_s2}",
+      "frame": 345,
+      "frame_t": 11.5,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT04-E3",
+      "block": "TXT04",
+      "compo": "accroche_segments",
+      "token": "{accroche_s3}",
+      "frame": 390,
+      "frame_t": 13.0,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT04-X",
+      "block": "TXT04",
+      "compo": "accroche_segments",
+      "token": "EXIT",
+      "frame": 405,
+      "frame_t": 13.5,
+      "kind": "sortie"
+    },
+    {
+      "id": "TXT05-E1",
+      "block": "TXT05",
+      "compo": "enseigne_rappel",
+      "token": "{nom_w1}",
+      "frame": 450,
+      "frame_t": 15.0,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT05-E2",
+      "block": "TXT05",
+      "compo": "enseigne_rappel",
+      "token": "{nom_w2}",
+      "frame": 458,
+      "frame_t": 15.267,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT05-E3",
+      "block": "TXT05",
+      "compo": "enseigne_rappel",
+      "token": "{nom_w3}",
+      "frame": 465,
+      "frame_t": 15.5,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT05-X",
+      "block": "TXT05",
+      "compo": "enseigne_rappel",
+      "token": "EXIT",
+      "frame": 525,
+      "frame_t": 17.5,
+      "kind": "sortie"
+    },
+    {
+      "id": "TXT06-E1",
+      "block": "TXT06",
+      "compo": "prix_plein",
+      "token": "{prix}",
+      "frame": 540,
+      "frame_t": 18.0,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT06-E2",
+      "block": "TXT06",
+      "compo": "prix_plein",
+      "token": "POP_PRIX",
+      "frame": 570,
+      "frame_t": 19.0,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT06-X",
+      "block": "TXT06",
+      "compo": "prix_plein",
+      "token": "EXIT",
+      "frame": 615,
+      "frame_t": 20.5,
+      "kind": "sortie"
+    },
+    {
+      "id": "TXT07-E1",
+      "block": "TXT07",
+      "compo": "adresse",
+      "token": "{quartier_s1}",
+      "frame": 645,
+      "frame_t": 21.5,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT07-E2",
+      "block": "TXT07",
+      "compo": "adresse",
+      "token": "{quartier_s2}",
+      "frame": 720,
+      "frame_t": 24.0,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT07-X",
+      "block": "TXT07",
+      "compo": "adresse",
+      "token": "EXIT",
+      "frame": 765,
+      "frame_t": 25.5,
+      "kind": "sortie"
+    },
+    {
+      "id": "TXT08-E1",
+      "block": "TXT08",
+      "compo": "cta_whatsapp",
+      "token": "{whatsapp}",
+      "frame": 795,
+      "frame_t": 26.5,
+      "kind": "apparition"
+    },
+    {
+      "id": "TXT08-X",
+      "block": "TXT08",
+      "compo": "cta_whatsapp",
+      "token": "EXIT",
+      "frame": 900,
+      "frame_t": 30.0,
+      "kind": "sortie"
+    }
+  ],
+  "transitions": {
+    "library": [
+      {
+        "id": "TR01",
+        "nom": "cut_sec",
+        "dur_f": 0,
+        "easing": null,
+        "sequences": 1,
+        "status": "stable",
+        "api": "EditedMediaItemSequence (concatenation)"
+      },
+      {
+        "id": "TR02",
+        "nom": "punch_cut",
+        "dur_f": 6,
+        "easing": "easeOutQuint",
+        "sequences": 1,
+        "status": "stable",
+        "api": "MatrixTransformation sur le plan entrant"
+      },
+      {
+        "id": "TR03",
+        "nom": "wipe_geometrique",
+        "dur_f": 6,
+        "easing": "easeInOutQuad",
+        "sequences": 2,
+        "status": "beta",
+        "api": "VideoCompositorSettings.getOverlaySettings (2 sequences + translation diagonale)"
+      },
+      {
+        "id": "TR04",
+        "nom": "wipe_directionnel",
+        "dur_f": 6,
+        "easing": "easeInOutQuad",
+        "sequences": 2,
+        "status": "beta",
+        "api": "VideoCompositorSettings.getOverlaySettings (ancre horizontale animee)"
+      },
+      {
+        "id": "TR05",
+        "nom": "fondu_court_crossfade",
+        "dur_f": 6,
+        "easing": "easeInOutQuad",
+        "sequences": 2,
+        "status": "beta",
+        "api": "VideoCompositorSettings + StaticOverlaySettings.setAlphaScale anime par image"
+      },
+      {
+        "id": "TR06",
+        "nom": "speed_ramp_entrant",
+        "dur_f": 6,
+        "easing": "easeOutQuint",
+        "sequences": 1,
+        "status": "stable",
+        "api": "MatrixTransformation"
+      },
+      {
+        "id": "TR07",
+        "nom": "match_cut",
+        "dur_f": 0,
+        "easing": null,
+        "sequences": 1,
+        "status": "stable",
+        "api": "regle de selection de coupe"
+      },
+      {
+        "id": "TR08",
+        "nom": "mask_reveal",
+        "dur_f": 7,
+        "easing": "easeOutExpo",
+        "sequences": 2,
+        "status": "custom_required",
+        "api": "GlEffect personnalise (shader de masque) — HORS PILOTE"
+      }
+    ],
+    "assignments": [
+      {
+        "at_f": 60,
+        "at_s": 2.0,
+        "transition": "TR01"
+      },
+      {
+        "at_f": 105,
+        "at_s": 3.5,
+        "transition": "TR02"
+      },
+      {
+        "at_f": 180,
+        "at_s": 6.0,
+        "transition": "TR03"
+      },
+      {
+        "at_f": 255,
+        "at_s": 8.5,
+        "transition": "TR01"
+      },
+      {
+        "at_f": 330,
+        "at_s": 11.0,
+        "transition": "TR01"
+      },
+      {
+        "at_f": 420,
+        "at_s": 14.0,
+        "transition": "TR05"
+      },
+      {
+        "at_f": 495,
+        "at_s": 16.5,
+        "transition": "TR01"
+      },
+      {
+        "at_f": 555,
+        "at_s": 18.5,
+        "transition": "TR01"
+      },
+      {
+        "at_f": 630,
+        "at_s": 21.0,
+        "transition": "TR04"
+      },
+      {
+        "at_f": 705,
+        "at_s": 23.5,
+        "transition": "TR01"
+      },
+      {
+        "at_f": 795,
+        "at_s": 26.5,
+        "transition": "TR01"
+      }
+    ]
+  },
+  "movements": [
+    {
+      "id": "MV01",
+      "nom": "zoom_in_lent",
+      "parametres": {
+        "k_ratio": [
+          1.0,
+          1.05
+        ],
+        "easing": "easeInOutQuad"
+      },
+      "usage": "ouverture, preuve",
+      "limite": "jamais > 1.08 ; jamais sous 1.5 s"
+    },
+    {
+      "id": "MV02",
+      "nom": "zoom_out_lent",
+      "parametres": {
+        "k_ratio": [
+          1.0,
+          0.96
+        ],
+        "easing": "easeInOutQuad"
+      },
+      "usage": "respiration, elargissement",
+      "limite": "ne jamais descendre l'echelle effective sous 1.00"
+    },
+    {
+      "id": "MV03",
+      "nom": "push_in_rapide",
+      "parametres": {
+        "k_ratio": [
+          1.0,
+          1.08
+        ],
+        "dur_f": 6,
+        "easing": "easeOutQuint"
+      },
+      "usage": "impact de coupe",
+      "limite": "une seule fois par scene"
+    },
+    {
+      "id": "MV04",
+      "nom": "pull_out_rapide",
+      "parametres": {
+        "k_ratio": [
+          1.08,
+          1.0
+        ],
+        "dur_f": 6,
+        "easing": "easeOutCubic"
+      },
+      "usage": "sortie de bloc",
+      "limite": "a eviter sur un mot cle"
+    },
+    {
+      "id": "MV05",
+      "nom": "pan_h",
+      "parametres": {
+        "pan_px": [
+          -14,
+          14
+        ],
+        "easing": "easeInOutQuad"
+      },
+      "usage": "plan large",
+      "limite": "amplitude > 2.5 % de largeur = bords visibles"
+    },
+    {
+      "id": "MV06",
+      "nom": "pan_v",
+      "parametres": {
+        "pan_px": [
+          10,
+          -10
+        ],
+        "easing": "easeInOutQuad"
+      },
+      "usage": "visage, facade",
+      "limite": "< 6 px : imperceptible"
+    },
+    {
+      "id": "MV07",
+      "nom": "diagonale",
+      "parametres": {
+        "pan_px": [
+          12,
+          8
+        ],
+        "k_ratio": [
+          1.0,
+          1.02
+        ],
+        "easing": "easeInOutQuad"
+      },
+      "usage": "lieu, profondeur",
+      "limite": "sur un plan deja en zoom"
+    },
+    {
+      "id": "MV08",
+      "nom": "contre_mouvement_texte",
+      "parametres": {
+        "ratio_vs_plan": -0.3,
+        "easing": "linear",
+        "statut_t1": "ecarte"
+      },
+      "usage": "parallaxe simulee",
+      "limite": "ecarte pour T1 : pan maximal 14 px x 0,30 = 4 px residuels, sous le seuil perceptible ; couplage image/texte supprime (D-05)"
+    },
+    {
+      "id": "MV09",
+      "nom": "settle",
+      "parametres": {
+        "k_ratio": [
+          1.04,
+          1.0
+        ],
+        "dur_f": 4,
+        "easing": "easeOutCubic"
+      },
+      "usage": "apres un impact",
+      "limite": "—"
+    },
+    {
+      "id": "MV10",
+      "nom": "micro_shake",
+      "parametres": {
+        "amplitude_px": 4,
+        "dur_f": 4,
+        "decay": true
+      },
+      "usage": "punch cut, pop prix",
+      "limite": "> 150 ms = tremblement"
+    },
+    {
+      "id": "MV11",
+      "nom": "drift",
+      "parametres": {
+        "k_ratio": [
+          1.0,
+          1.02
+        ],
+        "easing": "linear",
+        "dur_min_f": 75
+      },
+      "usage": "fond de CTA",
+      "limite": "> 1.05 : distrait"
+    },
+    {
+      "id": "MV12",
+      "nom": "gel",
+      "parametres": {
+        "dur_f": 30
+      },
+      "usage": "derniere seconde",
+      "limite": "> 39 frames (1.3 s) = image figee"
+    }
+  ],
+  "presets": [
+    {
+      "id": "MD-T1-01",
+      "nom": "enseigne_mot_a_mot",
+      "bloc": "GB01",
+      "objets": [
+        "texte"
+      ],
+      "proprietes": [
+        "opacity",
+        "translate_y"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0
+        },
+        {
+          "f": 6,
+          "v": 1
+        }
+      ],
+      "dur_f": 6,
+      "easing": "easeOutExpo",
+      "entree_f": 6,
+      "maintien_f": 63,
+      "sortie_f": 6,
+      "sortie_easing": "easeOutCubic",
+      "interaction_image": "aucune (texte composé après transformation)",
+      "donnees": [
+        "nom"
+      ],
+      "refs_marche": [
+        "R1",
+        "R2",
+        "R4"
+      ],
+      "scene": "S1"
+    },
+    {
+      "id": "MD-T1-02",
+      "nom": "hook_cadre",
+      "bloc": "GB01",
+      "objets": [
+        "filets"
+      ],
+      "proprietes": [
+        "scale_x",
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0
+        },
+        {
+          "f": 5,
+          "v": 1
+        }
+      ],
+      "dur_f": 5,
+      "easing": "easeOutCubic",
+      "entree_f": 5,
+      "maintien_f": 65,
+      "sortie_f": 5,
+      "interaction_image": "filets fixes, 1re et derniere seconde",
+      "donnees": [],
+      "refs_marche": [
+        "R1",
+        "R2"
+      ],
+      "scene": "S1"
+    },
+    {
+      "id": "MD-T1-03",
+      "nom": "bandeau_produit",
+      "bloc": "GB02",
+      "objets": [
+        "carte",
+        "texte"
+      ],
+      "proprietes": [
+        "translate_y",
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 20
+        },
+        {
+          "f": 7,
+          "v": 0
+        }
+      ],
+      "dur_f": 7,
+      "easing": "easeOutExpo",
+      "entree_f": 7,
+      "maintien_f": 32,
+      "sortie_f": 6,
+      "interaction_image": "bandeau fixe pendant un pan horizontal",
+      "donnees": [
+        "produit"
+      ],
+      "refs_marche": [
+        "R1",
+        "R4"
+      ],
+      "scene": "S1"
+    },
+    {
+      "id": "MD-T1-04",
+      "nom": "hero_lockup",
+      "bloc": "GB03",
+      "objets": [
+        "carte",
+        "texte"
+      ],
+      "proprietes": [
+        "opacity",
+        "translate_y"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0
+        },
+        {
+          "f": 8,
+          "v": 1
+        }
+      ],
+      "dur_f": 8,
+      "easing": "easeOutExpo",
+      "entree_f": 8,
+      "maintien_f": 73,
+      "sortie_f": 9,
+      "interaction_image": "le bandeau reste fixe, l'image zoome dessous",
+      "donnees": [
+        "produit"
+      ],
+      "refs_marche": [
+        "R4",
+        "R6"
+      ],
+      "scene": "S2"
+    },
+    {
+      "id": "MD-T1-05",
+      "nom": "pastille_prix_pop",
+      "bloc": "GB03",
+      "objets": [
+        "badge"
+      ],
+      "proprietes": [
+        "scale",
+        "rotation"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0.6
+        },
+        {
+          "f": 3,
+          "v": 1.06
+        },
+        {
+          "f": 6,
+          "v": 1.0
+        },
+        {
+          "f": 10,
+          "v": 1.0
+        }
+      ],
+      "dur_f": 10,
+      "easing": "easeOutBack",
+      "entree_f": 10,
+      "maintien_f": 71,
+      "sortie_f": 9,
+      "interaction_image": "independant (overlay)",
+      "donnees": [
+        "prix"
+      ],
+      "rebond_f": 218,
+      "refs_marche": [
+        "R3",
+        "R5",
+        "R6"
+      ],
+      "scene": "S2"
+    },
+    {
+      "id": "MD-T1-06",
+      "nom": "accroche_segments",
+      "bloc": "GB04",
+      "objets": [
+        "pilule",
+        "texte"
+      ],
+      "proprietes": [
+        "scale",
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0.94
+        },
+        {
+          "f": 6,
+          "v": 1.0
+        }
+      ],
+      "segment_actif": {
+        "scale": 1.08,
+        "opacity_inactif": 0.65
+      },
+      "dur_f": 6,
+      "easing": "easeOutExpo",
+      "entree_f": 6,
+      "maintien_f": 93,
+      "sortie_f": 6,
+      "interaction_image": "aucun contre-mouvement : MV08 ecarte pour T1 (D-05)",
+      "donnees": [
+        "accroche"
+      ],
+      "refs_marche": [
+        "R1",
+        "R4"
+      ],
+      "scene": "S2"
+    },
+    {
+      "id": "MD-T1-07",
+      "nom": "enseigne_rappel",
+      "bloc": "GB05",
+      "objets": [
+        "texte"
+      ],
+      "proprietes": [
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0
+        },
+        {
+          "f": 6,
+          "v": 1
+        }
+      ],
+      "dur_f": 6,
+      "easing": "easeOutCubic",
+      "entree_f": 6,
+      "maintien_f": 63,
+      "sortie_f": 6,
+      "interaction_image": "aucune",
+      "donnees": [
+        "nom"
+      ],
+      "refs_marche": [
+        "R2",
+        "R4"
+      ],
+      "scene": "S3"
+    },
+    {
+      "id": "MD-T1-08",
+      "nom": "prix_plein_ecran",
+      "bloc": "GB06",
+      "objets": [
+        "badge",
+        "texte"
+      ],
+      "proprietes": [
+        "scale",
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0.6
+        },
+        {
+          "f": 3,
+          "v": 1.06
+        },
+        {
+          "f": 6,
+          "v": 1.0
+        },
+        {
+          "f": 8,
+          "v": 1.0
+        }
+      ],
+      "dur_f": 8,
+      "easing": "easeOutBack",
+      "entree_f": 8,
+      "maintien_f": 61,
+      "sortie_f": 6,
+      "interaction_image": "image calme obligatoire (P09 : pan 12 px max)",
+      "donnees": [
+        "prix"
+      ],
+      "rebond_f": 548,
+      "refs_marche": [
+        "R3",
+        "R6"
+      ],
+      "scene": "S3"
+    },
+    {
+      "id": "MD-T1-09",
+      "nom": "adresse_pin",
+      "bloc": "GB07",
+      "objets": [
+        "carte",
+        "icone",
+        "texte"
+      ],
+      "proprietes": [
+        "opacity",
+        "translate_x"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0
+        },
+        {
+          "f": 7,
+          "v": 1
+        }
+      ],
+      "dur_f": 7,
+      "easing": "easeOutExpo",
+      "entree_f": 7,
+      "maintien_f": 107,
+      "sortie_f": 6,
+      "interaction_image": "aucune",
+      "donnees": [
+        "quartier"
+      ],
+      "refs_marche": [
+        "R4",
+        "R7"
+      ],
+      "scene": "S4"
+    },
+    {
+      "id": "MD-T1-10",
+      "nom": "cta_whatsapp",
+      "bloc": "GB08",
+      "objets": [
+        "pilule",
+        "icone",
+        "texte"
+      ],
+      "proprietes": [
+        "scale",
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0.88
+        },
+        {
+          "f": 9,
+          "v": 1.0
+        }
+      ],
+      "dur_f": 9,
+      "easing": "easeOutBack",
+      "entree_f": 9,
+      "maintien_f": 96,
+      "sortie_f": 0,
+      "interaction_image": "aucune sortie : verrou jusqu'a la fin",
+      "donnees": [
+        "whatsapp"
+      ],
+      "refs_marche": [
+        "R5",
+        "R7"
+      ],
+      "scene": "S4"
+    },
+    {
+      "id": "MD-T1-11",
+      "nom": "verrou_final",
+      "bloc": "GB08",
+      "objets": [
+        "image",
+        "graphismes"
+      ],
+      "proprietes": [
+        "freeze"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0
+        }
+      ],
+      "dur_f": 30,
+      "easing": null,
+      "entree_f": 30,
+      "maintien_f": 0,
+      "sortie_f": 0,
+      "interaction_image": "gel de l'image a 29,000 s (frame 870)",
+      "donnees": [],
+      "refs_marche": [
+        "R3",
+        "R9"
+      ],
+      "scene": "S4"
+    },
+    {
+      "id": "MD-T1-12",
+      "nom": "filet_detail",
+      "bloc": "GB03",
+      "objets": [
+        "filets"
+      ],
+      "proprietes": [
+        "scale",
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0.8
+        },
+        {
+          "f": 4,
+          "v": 1
+        }
+      ],
+      "dur_f": 4,
+      "easing": "easeOutCubic",
+      "entree_f": 4,
+      "maintien_f": 26,
+      "sortie_f": 4,
+      "interaction_image": "2 coins opposes, 90 px",
+      "donnees": [],
+      "refs_marche": [
+        "R6",
+        "R8",
+        "R9"
+      ],
+      "scene": "S2"
+    },
+    {
+      "id": "MD-T1-13",
+      "nom": "passation_lockup",
+      "bloc": "GB06",
+      "objets": [
+        "badge"
+      ],
+      "proprietes": [
+        "scale"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 1.0
+        },
+        {
+          "f": 6,
+          "v": 1.0
+        }
+      ],
+      "dur_f": 6,
+      "easing": "linear",
+      "entree_f": 6,
+      "maintien_f": 0,
+      "sortie_f": 0,
+      "interaction_image": "meme ancre y que GB03 : aucun saut visuel",
+      "donnees": [
+        "prix"
+      ],
+      "refs_marche": [
+        "R6",
+        "R8"
+      ],
+      "scene": "S3"
+    },
+    {
+      "id": "MD-T1-14",
+      "nom": "sortie_courte",
+      "bloc": "*",
+      "objets": [
+        "tous"
+      ],
+      "proprietes": [
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 1
+        },
+        {
+          "f": 6,
+          "v": 0
+        }
+      ],
+      "dur_f": 6,
+      "easing": "easeOutCubic",
+      "entree_f": 0,
+      "maintien_f": 0,
+      "sortie_f": 6,
+      "interaction_image": "aucune",
+      "donnees": [],
+      "refs_marche": [
+        "R3",
+        "R8"
+      ],
+      "scene": "les 4 scenes (sortie generique)"
+    }
+  ],
+  "render_architecture": {
+    "modele": "2 sequences composites + 1 overlay CanvasOverlay",
+    "sequences": [
+      {
+        "id": 0,
+        "role": "plan principal A",
+        "piste": "video"
+      },
+      {
+        "id": 1,
+        "role": "plan entrant B, uniquement pendant les 3 transitions a 2 sequences (TR03, TR04, TR05)",
+        "piste": "video"
+      }
+    ],
+    "overlay": {
+      "classe": "T1GraphicsOverlay extends CanvasOverlay",
+      "statut": "unstable_api",
+      "principe": "onDraw(Canvas, presentationTimeUs) dessine la composition a chaque image sur UN Canvas unique",
+      "realite_technique": "CanvasOverlay derive de BitmapOverlay : une Bitmap de la taille du Canvas est allouee une fois par configure(), puis reutilisee et effacee a chaque image (getBitmap(presentationTimeUs) renvoie cette Bitmap)",
+      "allocations": "0 allocation par image ; 1 Bitmap ARGB_8888 par overlay : 1080x1920 = 8,3 Mo, 720x1280 = 3,7 Mo ; Path et TextLayout mesures une fois puis caches",
+      "charge_a_30fps": "budget cible <= 6 ms de dessin CPU par image sur un SoC 2 Go (marge sous les 33,3 ms) ; mesure obligatoire au test reel",
+      "repli": "BitmapOverlay + 5 a 7 bitmaps par apparition (principe V1.1) si l'API est absente de la version embarquee"
+    },
+    "ordre_de_composition": [
+      "etalonnage (matrice 4x5)",
+      "transformation geometrique (k + mouvement)",
+      "composition des sequences (VideoCompositorSettings)",
+      "overlay graphique CanvasOverlay",
+      "sortie encodeur"
+    ],
+    "determinisme": "aucun tirage aleatoire ; rotations indexees par plan",
+    "crossfade": {
+      "mecanisme": "VideoCompositorSettings.getOverlaySettings(int inputId, long presentationTimeUs) est appele A CHAQUE IMAGE et RETOURNE un nouvel OverlaySettings calcule a partir de presentationTimeUs",
+      "ce_n_est_pas": "une instance statique dont on modifierait les proprietes en continu",
+      "exemple": "t = (presentationTimeUs - t0) / duree : alpha_A = 1 - easeInOutQuad(t), alpha_B = easeInOutQuad(t) ; retour via StaticOverlaySettings.Builder().setAlphaScale(alpha).build()",
+      "statut": "aucun effet natif de crossfade ; cette construction est custom et doit etre validee au premier rendu"
+    }
+  },
+  "media3_spec": {
+    "politique_de_statut": "media3-effect et media3-transformer sont annotes @UnstableApi dans leur ensemble ; 'stable' n'est employe ici que pour les elements verifies sur la reference officielle, jamais par deduction",
+    "api_utilisees": [
+      {
+        "besoin": "recadrage + mouvement",
+        "api": "androidx.media3.effect.MatrixTransformation",
+        "annotation_verifiee": "@UnstableApi (interface, extends GlMatrixTransformation)",
+        "url": "https://developer.android.com/reference/androidx/media3/effect/MatrixTransformation",
+        "statut": "unstable",
+        "opt_in": "@OptIn(UnstableApi::class)",
+        "risque": "signature susceptible de changer entre versions mineures"
+      },
+      {
+        "besoin": "etalonnage",
+        "api": "RgbMatrix / HslAdjustment / Contrast (module media3-effect)",
+        "annotation_verifiee": "module @UnstableApi ; annotation individuelle non verifiee",
+        "statut": "unstable_presume",
+        "opt_in": "@OptIn(UnstableApi::class)"
+      },
+      {
+        "besoin": "graphismes animes par image",
+        "api": "androidx.media3.effect.CanvasOverlay (sous-classe)",
+        "annotation_verifiee": "@UnstableApi ; extends BitmapOverlay ; onDraw(Canvas, long) ; getBitmap(long)",
+        "url": "https://developer.android.com/reference/androidx/media3/effect/CanvasOverlay",
+        "statut": "unstable",
+        "opt_in": "@OptIn(UnstableApi::class)",
+        "realite": "expose une Bitmap de la taille du Canvas : le dessin est vectoriel, le stockage ne l'est pas"
+      },
+      {
+        "besoin": "texte statique",
+        "api": "androidx.media3.effect.TextOverlay",
+        "annotation_verifiee": "@UnstableApi ; extends BitmapOverlay ; SpannableString ; TEXT_SIZE_PIXELS = 100",
+        "url": "https://developer.android.com/reference/androidx/media3/effect/TextOverlay",
+        "statut": "unstable",
+        "decision": "non retenu : texte rastérisé a 100 px puis mis a l'echelle, insuffisant pour un titre de 116 px et inadapte aux animations par caractere"
+      },
+      {
+        "besoin": "animation vectorielle importee",
+        "api": "androidx.media3.effect.lottie.LottieOverlay",
+        "annotation_verifiee": "@UnstableApi ; extends CanvasOverlay",
+        "url": "https://developer.android.com/reference/androidx/media3/effect/lottie/LottieOverlay",
+        "statut": "unstable",
+        "decision": "non retenu : ajoute la dependance Lottie et un fichier Bodymovin par animation, alors que nos 14 presets sont parametriques et pilotés par les 6 champs"
+      },
+      {
+        "besoin": "composition de 2 sequences",
+        "api": "Composition + EditedMediaItemSequence + VideoCompositorSettings",
+        "annotation_verifiee": "documente dans le guide Transformer ; page de reference VideoCompositorSettings non accessible (404) au moment de la verification",
+        "url": "https://developer.android.com/media/media3/transformer/composition",
+        "statut": "a_confirmer_a_l_integration",
+        "risque": "signature exacte de getOverlaySettings a valider sur la version embarquee"
+      },
+      {
+        "besoin": "export",
+        "api": "androidx.media3.transformer.Transformer",
+        "annotation_verifiee": "@UnstableApi (classe finale)",
+        "url": "https://developer.android.com/reference/androidx/media3/transformer/Transformer",
+        "statut": "unstable",
+        "opt_in": "@OptIn(UnstableApi::class)"
+      },
+      {
+        "besoin": "plafond de cadence",
+        "api": "EditedMediaItem.Builder.setFrameRate",
+        "annotation_verifiee": "documente dans les notes de version Media3 (setFrameRate)",
+        "url": "https://developer.android.com/jetpack/androidx/releases/media3",
+        "statut": "a_confirmer_a_l_integration"
+      }
+    ],
+    "consequences_pratiques": [
+      "opt-in explicite requis dans le code Android (@OptIn(UnstableApi::class))",
+      "version figee dans le version catalog et montee testee une par une : une API @UnstableApi peut changer de signature entre 1.x",
+      "aucune de ces annotations n'empeche le prototype Python/FFmpeg : le test de rendu ne depend pas de Media3",
+      "le prototype valide le rendu, l'integration Android valide la disponibilite des API"
+    ],
+    "version_embarquee": "non verifiable dans cet espace de travail (aucun fichier Gradle / version catalog) ; verification prevue a l'integration, non bloquante pour le test FFmpeg",
+    "non_faisable": [
+      "mask reveal par masque alpha arbitraire : necessite un GlEffect personnalise (shader) — possible mais hors perimetre du pilote",
+      "LUT .cube : cout et allocation par image non justifies, remplacee par une matrice 4x5"
+    ]
+  },
+  "animation_techniques": [
+    {
+      "technique": "Bitmaps precalculees",
+      "principe": "5 a 7 PNG par apparition, affiches en sequence",
+      "avantages": [
+        "aucune API instable",
+        "cout de dessin quasi nul"
+      ],
+      "limites": [
+        "quantification visible (20 etats/s)",
+        "escalade du nombre de fichiers",
+        "aucune adaptation aux 6 champs sans regeneration"
+      ],
+      "cout": "memoire : 5 a 7 bitmaps par apparition, ~1 a 3 Mo par bloc",
+      "dependances": "aucune",
+      "compatibilite": "toutes versions",
+      "interet_T1": "repli uniquement"
+    },
+    {
+      "technique": "BitmapOverlay",
+      "principe": "une Bitmap affichee avec des OverlaySettings par image",
+      "avantages": [
+        "API documentee",
+        "compatible 1.3+"
+      ],
+      "limites": [
+        "contenu fige dans la Bitmap : une image = un etat",
+        "typo non re-renderisable a la taille de sortie"
+      ],
+      "cout": "1 bitmap + reglage par image",
+      "dependances": "aucune",
+      "compatibilite": "@UnstableApi",
+      "interet_T1": "brique de repli pour les etats complexes"
+    },
+    {
+      "technique": "CanvasOverlay",
+      "principe": "onDraw(Canvas, presentationTimeUs) : la composition est redessinee a chaque image sur une Bitmap unique",
+      "avantages": [
+        "animation continue, sans quantification",
+        "parametrable par les 6 champs",
+        "une seule classe pour les 14 presets"
+      ],
+      "limites": [
+        "Bitmap de la taille du Canvas allouee une fois (8,3 Mo en 1080p, 3,7 Mo en 720p)",
+        "dessin CPU : budget ~6 ms/image a tenir",
+        "annotee @UnstableApi"
+      ],
+      "cout": "CPU de dessin par image, pas de GPU dedie",
+      "dependances": "media3-effect",
+      "compatibilite": "@UnstableApi (verifie)",
+      "interet_T1": "TECHNIQUE RETENUE"
+    },
+    {
+      "technique": "TextOverlay",
+      "principe": "SpannableString rastérisé à TEXT_SIZE_PIXELS = 100 px puis mis a l'echelle",
+      "avantages": [
+        "simple pour un texte fixe",
+        "styles par caractere via Spannable"
+      ],
+      "limites": [
+        "rastérisation a 100 px : flou sur un titre de 116 px",
+        "pas de controle image par image au-dela du texte",
+        "pas de masque ni de reflow"
+      ],
+      "cout": "faible",
+      "dependances": "media3-effect",
+      "compatibilite": "@UnstableApi (verifie)",
+      "interet_T1": "non retenu"
+    },
+    {
+      "technique": "LottieOverlay",
+      "principe": "CanvasOverlay qui dessine un fichier Bodymovin",
+      "avantages": [
+        "animations riches concues par un motion designer",
+        "previsulation immediate"
+      ],
+      "limites": [
+        "dependance Lottie + un fichier par animation",
+        "les parametres (nom, prix) doivent etre injectes dans le JSON Lottie",
+        "poids memoire et temps de parse au premier rendu"
+      ],
+      "cout": "moyen a eleve pour 14 animations parametriques",
+      "dependances": "media3-effect + lottie",
+      "compatibilite": "@UnstableApi (verifie)",
+      "interet_T1": "non retenu : aucun gain face a un CanvasOverlay parametrique"
+    },
+    {
+      "technique": "Rendu personnalise (GlEffect / shader)",
+      "principe": "shader par image sur le GPU",
+      "avantages": [
+        "effets impossibles autrement (masque, distorsion)"
+      ],
+      "limites": [
+        "developpement et validation longs",
+        "risque de compatibilite GPU sur Tecno/2 Go",
+        "sort du perimetre du pilote"
+      ],
+      "cout": "eleve",
+      "dependances": "aucune dependance externe mais code natif OpenGL",
+      "compatibilite": "variable selon GPU",
+      "interet_T1": "reserve a TR08 (mask reveal), hors pilote"
+    }
+  ],
+  "market_traceability": [
+    {
+      "ref": "R1",
+      "source": "V6.2 ref. 3 et 5 — opus.pro (captions TikTok) et cursa (styles CapCut auto-captions)",
+      "observation": "segments de 3 a 7 mots sur 1 a 3 s ; 1 a 3 mots surlignes maximum par phrase",
+      "interet_commercial": "le commerçant est lu avant d'etre ecoute (publicite souvent vue sans son)",
+      "scene": "S1 (0-6 s)",
+      "preset": "MD-T1-01, MD-T1-02, MD-T1-03"
+    },
+    {
+      "ref": "R2",
+      "source": "V6.2 ref. 4 — kreateflo (typographie cinetique)",
+      "observation": "la typographie cinetique au tiers median retient mieux que le bas de cadre ; contour 2-3 px + ombre ~30 % / 10 px",
+      "interet_commercial": "nom et produit lisibles en plein soleil, sur dalle bon marche",
+      "scene": "S1 et S3",
+      "preset": "MD-T1-01, MD-T1-07"
+    },
+    {
+      "ref": "R3",
+      "source": "V6.2 ref. 6 — kitlab (guide cubic-bezier 2026)",
+      "observation": "depassement 15-20 % en translation, 5-10 % seulement en echelle, jamais sur l'opacite ; la sortie est toujours plus rapide que l'entree",
+      "interet_commercial": "rendu 'pro' percU sans artefacts de flash",
+      "scene": "les 4 scenes",
+      "preset": "MD-T1-05, MD-T1-08, MD-T1-14 + easing de tous les presets"
+    },
+    {
+      "ref": "R4",
+      "source": "V6.2 ref. 7 — framekitui (valeurs de spring Apple)",
+      "observation": "easeOutExpo (0,16 1,00 0,30 1,00) = courbe d'entree de reference, 200-260 ms",
+      "interet_commercial": "arrivee feutree = perception de qualite, sans rebond gadget",
+      "scene": "S1, S2, S4",
+      "preset": "MD-T1-01, MD-T1-03, MD-T1-04, MD-T1-06, MD-T1-09"
+    },
+    {
+      "ref": "R5",
+      "source": "V6.2 ref. 9 — arwriterai (analyse de 240 videos, 2026)",
+      "observation": "effets de 0,2 a 0,4 s ; speed ramp vers 3 s ; flash de 2 images ; jamais plus de 2 effets par plan",
+      "interet_commercial": "reset d'attention avant la decroissance mesuree vers 3 s",
+      "scene": "S1 et S3",
+      "preset": "MV03 (push 8 % sur 6 images) sur P02 2,0-3,5 s et P08 16,5-18,5 s ; MD-T1-05 (pop 0,32 s) ; TR02 a 105"
+    },
+    {
+      "ref": "R5b",
+      "source": "V6.2 ref. 9 (volet rythme)",
+      "observation": "jamais plus de 2 effets par plan",
+      "interet_commercial": "evite la surcharge qui fait sortir le spectateur",
+      "scene": "les 4 scenes",
+      "preset": "regle appliquee : 1 mouvement de plan + 1 transition maximum"
+    },
+    {
+      "ref": "R6",
+      "source": "V6.2 ref. 12 et 13 — pages produit Mojo / Canva",
+      "observation": "la qualite perCUe vient d'une signature animee par gabarit (lockup + pastille, couleurs de marque injectees), pas d'effets generiques",
+      "interet_commercial": "le commerce parait 'fait par un pro' alors que les rushes sont tournes au telephone",
+      "scene": "S2 et S3",
+      "preset": "MD-T1-04, MD-T1-05, MD-T1-12, MD-T1-13"
+    },
+    {
+      "ref": "R7",
+      "source": "V6.2 ref. 14, 15 et 16 — safe zones Reels/TikTok/Shorts 2026",
+      "observation": "zone commune 900 x 1400 centree ; marges hautes 108-220 px, basses 310-320 px, droite 84-140 px",
+      "interet_commercial": "aucun prix ni numero de telephone masque par l'interface de l'application",
+      "scene": "les 4 scenes",
+      "preset": "toutes les boites GB01-GB08 (F)"
+    },
+    {
+      "ref": "R8",
+      "source": "V6.2 ref. 8 — appypie (guide animation mobile)",
+      "observation": "n'animer que l'opacite, la translation et l'echelle est ce qui rend une animation 'gratuite' sur mobile",
+      "interet_commercial": "export possible sur un Android 2 Go sans faire chauffer le telephone",
+      "scene": "les 4 scenes",
+      "preset": "les 14 presets (aucun n'anime autre chose)"
+    },
+    {
+      "ref": "R9",
+      "source": "V6.2 ref. 22, 23 et 24 — guides Ken Burns",
+      "observation": "un zoom de 5 a 10 % reparti sur le plan est ressenti sans etre vu ; varier la direction d'un plan a l'autre",
+      "interet_commercial": "image vivante meme si la main tremble",
+      "scene": "S1, S2, S4",
+      "preset": "MV01, MV02, MV11 (rotation des mouvements verifiee)"
+    },
+    {
+      "ref": "R10",
+      "source": "V6.2 ref. 20 et 21 — Media3 editing app et notes de version",
+      "observation": "bitmaps de texte rasterisees une fois ; setFrameRate pour plafonner la sortie",
+      "interet_commercial": "le meme moteur tient sur les telephones du marche cible",
+      "scene": "les 4 scenes",
+      "preset": "architecture de rendu (C)"
+    }
+  ],
+  "market_traceability_warning": "Les pourcentages cites par R5 (+18 % de retention, +42 % de completion) proviennent d'articles marketing dont la methodologie n'est pas verifiable : ils justifient un CHOIX de montage, jamais une promesse de performance.",
+  "presets_justification": {
+    "regle": "chaque preset porte au moins une reference de marche (R1-R10) et un objectif commercial identifiable ; aucun preset n'existe 'pour l'effet'",
+    "carte": {
+      "MD-T1-01": "R1, R2, R4",
+      "MD-T1-02": "R1, R2",
+      "MD-T1-03": "R1, R4",
+      "MD-T1-04": "R4, R6",
+      "MD-T1-05": "R3, R5, R6",
+      "MD-T1-06": "R1, R4",
+      "MD-T1-07": "R2, R4",
+      "MD-T1-08": "R3, R6",
+      "MD-T1-09": "R4, R7",
+      "MD-T1-10": "R5, R7",
+      "MD-T1-11": "R3, R9",
+      "MD-T1-12": "R6, R8, R9",
+      "MD-T1-13": "R6, R8",
+      "MD-T1-14": "R3, R8"
+    }
+  },
+  "adapter_contract": {
+    "role": "un adaptateur unique (t1_adapter) lit les deux specifications et produit un render_plan.json intermediaire, consomme indifferemment par le prototype FFmpeg et par le backend Android Media3",
+    "v62_spec": {
+      "fichier": "vitrine-refonte/module_gabarits/spec_gabarits/restaurants_maquis_T1.spec_v6_2.json",
+      "autorite_sur": [
+        "duree de tournage des 4 prises (6/8/7/9 s)",
+        "contenu et contraintes des 6 champs",
+        "guide de tournage destine au commercant",
+        "direction artistique (polices, couleurs, contour, ombre)",
+        "catalogue de SFX et musique",
+        "definitions de scenes"
+      ],
+      "lecture_seule": true
+    },
+    "v12_spec": {
+      "fichier": "T1_ENGINEERING_SPEC_V1_2.json",
+      "autorite_sur": [
+        "positions et durees en frames",
+        "fenetres source par plan",
+        "8 blocs graphiques et 28 evenements",
+        "transitions et mouvement par plan",
+        "safe zones et boites completes",
+        "format d'affichage du prix",
+        "replis d'accroche A-D",
+        "assertions A1-A10"
+      ],
+      "lecture_seule": true
+    },
+    "precedence": "aucune valeur de V6.2 n'ecrase une valeur V1.2 : en cas de divergence sur le montage, V1.2 gagne ; en cas de divergence sur le tournage, les donnees et la DA, V6.2 gagne. Chaque valeur du render_plan porte sa provenance (v62 | v12 | derivee).",
+    "mapping": [
+      {
+        "v62": "scenes[i].duree_enregistree_s",
+        "v12": "scenes[i].frames (180/240/210/270)",
+        "render_plan": "scene.frames"
+      },
+      {
+        "v62": "plans[j].fenetre_prise (secondes)",
+        "v12": "plans[j].source_in_f / source_out_f",
+        "render_plan": "shot.in_frame / out_frame"
+      },
+      {
+        "v62": "textes_ecran[k].champ",
+        "v12": "text_blocks[k].champ + events",
+        "render_plan": "overlay.block[]"
+      },
+      {
+        "v62": "design_system (polices, couleurs, contour, ombre)",
+        "v12": "graphic_blocks[k].text_px_base / stroke_px / shadow_px",
+        "render_plan": "style"
+      },
+      {
+        "v62": "musique + sfx",
+        "v12": "(hors perimetre audio)",
+        "render_plan": "audio_track (inchange)"
+      },
+      {
+        "v12": "plans[j].k_base + movements",
+        "v62": "(inexistant)",
+        "render_plan": "shot.zoom_curve"
+      },
+      {
+        "v12": "transitions.assignments + library",
+        "v62": "(inexistant)",
+        "render_plan": "cut[i].transition"
+      }
+    ],
+    "prototype_ffmpeg": {
+      "role": "test de rendu du plan de montage",
+      "entree": "render_plan.json",
+      "ne_depend_pas_de": "Media3, Android, aucun SDK mobile",
+      "verifie": [
+        "900 images exportees",
+        "coupes aux frames prevues",
+        "blocs aux positions prevues",
+        "qualite perCUe des gels"
+      ]
+    },
+    "backend_media3": {
+      "role": "moteur embarque vise pour la production",
+      "entree": "render_plan.json (meme schema)",
+      "verifie": [
+        "disponibilite des API @UnstableApi",
+        "budget memoire et CPU a 30 fps",
+        "rendu identique a la reference FFmpeg"
+      ]
+    },
+    "interdit": "aucune modification des JSON de production n'est faite pendant cette cloture : l'adaptateur lit, il n'ecrit pas dans V6.2 ni dans V1.2"
+  },
+  "decisions": [
+    {
+      "id": "D-01",
+      "sujet": "durees de tournage",
+      "decision": "6 / 8 / 7 / 9 s conservees (V6.2)",
+      "statut": "DECIDE",
+      "consequence": "aucune tache de tournage ajoutee ; l'ecart est absorbe par le gel (D)"
+    },
+    {
+      "id": "D-02",
+      "sujet": "format de sortie du pilote",
+      "decision": "720 x 1280 a 30 fps",
+      "statut": "DECIDE",
+      "consequence": "k plafond 1,70 = 1,13x d'agrandissement, voir H"
+    },
+    {
+      "id": "D-03",
+      "sujet": "export 1080 x 1920",
+      "decision": "hors du premier test, sans etre declare impossible",
+      "statut": "DECIDE",
+      "consequence": "reouverture possible apres mesure du plafond k a 1080p"
+    },
+    {
+      "id": "D-04",
+      "sujet": "version Media3",
+      "decision": "verification a l'integration Android",
+      "statut": "DECIDE",
+      "consequence": "non bloquant pour le prototype FFmpeg ; repli BitmapOverlay decrit"
+    },
+    {
+      "id": "D-05",
+      "sujet": "MV08 contre-mouvement du texte",
+      "decision": "ecarte pour T1",
+      "statut": "DECIDE",
+      "consequence": "amplitude residuelle <= 4 px (pan 14 px x 0,30) : sous le seuil perceptible ; la lisibilite prime et le couplage image/texte est supprime"
+    },
+    {
+      "id": "D-06",
+      "sujet": "budget de gel",
+      "decision": "115 images dont 30 de gel CTA (D.1)",
+      "statut": "DECIDE",
+      "consequence": "qualite perCUe des gels = critere du premier test reel"
+    },
+    {
+      "id": "D-07",
+      "sujet": "plafond de recadrage",
+      "decision": "k = 1,70 conserve sur P03 : c'est la plus petite valeur qui tient A4 a la coupe 105",
+      "statut": "DECIDE_A_CONFIRMER",
+      "consequence": "1,133x d'agrandissement sur un seul plan (voir H) ; si le premier rendu le montre, repli deja calcule : P03 1,70 -> 1,55 et P02 1,35 -> 1,22, coupures a +16,2 % et +17,6 %, A4 toujours respecte"
+    },
+    {
+      "id": "D-08",
+      "sujet": "crossfade",
+      "decision": "construit par getOverlaySettings() par image",
+      "statut": "DECIDE_A_CONFIRMER",
+      "consequence": "aucun effet natif ; le rendu de TR05 doit etre valide visuellement"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "A1",
+      "enonce": "Chaque chaine affichee est tracable a un champ saisi ou a un libelle du gabarit ; aucune valeur n'est lue dans exemple_affiche.",
+      "methode": "chaque evenement porte provenance=user_input:<champ> ; controle d'appartenance a l'objet de saisie",
+      "test_negatif": "saisir exactement les valeurs d'exemple doit produire un montage valide"
+    },
+    {
+      "id": "A2",
+      "enonce": "Somme des 12 plans = 900 frames, contiguite exacte, aucun trou.",
+      "valeur": "12 plans, 900 frames, continu"
+    },
+    {
+      "id": "A3",
+      "enonce": "Toute fenetre source verifie source_out_f <= source_available_f - 4.",
+      "valeur": "12/12 fenetres valides, poignee de fin >= 4 frames par scene"
+    },
+    {
+      "id": "A4",
+      "enonce": "Aucune coupure n'a un ecart d'echelle effectif dans ]2 %, 15 %[.",
+      "valeur": "11 coupures, min |delta| = 16.6 %"
+    },
+    {
+      "id": "A5",
+      "enonce": "Un seul bloc graphique actif a la fois (aucune intersection d'intervalles).",
+      "valeur": "8 blocs, 0 intersection"
+    },
+    {
+      "id": "A6",
+      "enonce": "Aucun evenement graphique ne tombe dans une transition animee (TR02-TR08) ni a moins de 6 frames (0,20 s) de ses bords ; une coupe seche (TR01) peut coincider avec une entree.",
+      "valeur": "ecart minimal a une transition animee : 9 frames (0.30 s) ; 0 collision"
+    },
+    {
+      "id": "A7",
+      "enonce": "Tout evenement graphique est sur une frame entiere ; ecart a la grille musicale de 250 ms <= 0,5 frame.",
+      "valeur": "ecart max 0.5 frame(s)"
+    },
+    {
+      "id": "A8",
+      "enonce": "Le CTA couvre exactement les frames 795 a 899 incluses (3,500 s), sans sortie.",
+      "valeur": "795 -> 899 = 105 frames = 3,500 s"
+    },
+    {
+      "id": "A9",
+      "enonce": "La forme de chaque boite (rotation et contour compris) reste dans x 64-920 / y 240-1440 ; l'ombre peut deborder de 8 px au plus et reste dans le cadre 1080x1920.",
+      "valeur": "8/8 formes dans la safe zone ; debord d'ombre max 7 px ; 8/8 boites completes dans le cadre"
+    },
+    {
+      "id": "A10",
+      "enonce": "La piste graphique est independante de l'audio : remplacer l'audio par du silence ne change aucun evenement.",
+      "valeur": "invariant d'architecture (aucune lecture audio dans la piste graphique)"
+    },
+    {
+      "id": "A11",
+      "enonce": "Le registre des images est clos : somme des images exportees = 900, egale a la somme des images de prise utilisees + la somme des images figees ; les poignees de transition lues mais non exportees sont comptees separement.",
+      "methode": "frame_ledger : equation par plan, par scene et au total, verifiee a la generation",
+      "valeur": "900 = 785 images de prise + 115 images figees ; 18 images de poignee de transition lues et non exportees ; 97 images de prise non lues"
+    }
+  ],
+  "frame_ledger": {
+    "regle": "images_sortie_du_plan = images_source_visibles + images_figees ; les images lues puis non exportees (poignees de transition) sont comptees a part",
+    "unites": "images (frames) @30fps, intervalles semi-ouverts [debut, fin[ sur la timeline et sur la prise",
+    "plans": [
+      {
+        "plan": "P01",
+        "scene": "S1",
+        "sortie": [
+          0,
+          60
+        ],
+        "prise_disponible_f": 180,
+        "prise_lue": [
+          9,
+          62
+        ],
+        "images_prise_disponibles_f": 180,
+        "images_source_lues_f": 53,
+        "images_source_utilisees_f": 53,
+        "images_poignee_transition_f": 0,
+        "images_figees_f": 7,
+        "images_exportees_f": 60,
+        "transition_sortante": "TR01",
+        "non_lues_avant_plan_f": 9,
+        "equation": "60 = 53 + 7"
+      },
+      {
+        "plan": "P02",
+        "scene": "S1",
+        "sortie": [
+          60,
+          105
+        ],
+        "prise_disponible_f": 180,
+        "prise_lue": [
+          65,
+          104
+        ],
+        "images_prise_disponibles_f": 180,
+        "images_source_lues_f": 39,
+        "images_source_utilisees_f": 39,
+        "images_poignee_transition_f": 0,
+        "images_figees_f": 6,
+        "images_exportees_f": 45,
+        "transition_sortante": "TR02",
+        "non_lues_avant_plan_f": 3,
+        "equation": "45 = 39 + 6"
+      },
+      {
+        "plan": "P03",
+        "scene": "S1",
+        "sortie": [
+          105,
+          180
+        ],
+        "prise_disponible_f": 180,
+        "prise_lue": [
+          107,
+          176
+        ],
+        "images_prise_disponibles_f": 180,
+        "images_source_lues_f": 69,
+        "images_source_utilisees_f": 63,
+        "images_poignee_transition_f": 6,
+        "images_figees_f": 12,
+        "images_exportees_f": 75,
+        "transition_sortante": "TR03",
+        "non_lues_avant_plan_f": 3,
+        "equation": "75 = 63 + 12"
+      },
+      {
+        "plan": "P04",
+        "scene": "S2",
+        "sortie": [
+          180,
+          255
+        ],
+        "prise_disponible_f": 240,
+        "prise_lue": [
+          9,
+          77
+        ],
+        "images_prise_disponibles_f": 240,
+        "images_source_lues_f": 68,
+        "images_source_utilisees_f": 68,
+        "images_poignee_transition_f": 0,
+        "images_figees_f": 7,
+        "images_exportees_f": 75,
+        "transition_sortante": "TR01",
+        "non_lues_avant_plan_f": 9,
+        "equation": "75 = 68 + 7"
+      },
+      {
+        "plan": "P05",
+        "scene": "S2",
+        "sortie": [
+          255,
+          330
+        ],
+        "prise_disponible_f": 240,
+        "prise_lue": [
+          80,
+          148
+        ],
+        "images_prise_disponibles_f": 240,
+        "images_source_lues_f": 68,
+        "images_source_utilisees_f": 68,
+        "images_poignee_transition_f": 0,
+        "images_figees_f": 7,
+        "images_exportees_f": 75,
+        "transition_sortante": "TR01",
+        "non_lues_avant_plan_f": 3,
+        "equation": "75 = 68 + 7"
+      },
+      {
+        "plan": "P06",
+        "scene": "S2",
+        "sortie": [
+          330,
+          420
+        ],
+        "prise_disponible_f": 240,
+        "prise_lue": [
+          151,
+          236
+        ],
+        "images_prise_disponibles_f": 240,
+        "images_source_lues_f": 85,
+        "images_source_utilisees_f": 79,
+        "images_poignee_transition_f": 6,
+        "images_figees_f": 11,
+        "images_exportees_f": 90,
+        "transition_sortante": "TR05",
+        "non_lues_avant_plan_f": 3,
+        "equation": "90 = 79 + 11"
+      },
+      {
+        "plan": "P07",
+        "scene": "S3",
+        "sortie": [
+          420,
+          495
+        ],
+        "prise_disponible_f": 210,
+        "prise_lue": [
+          9,
+          77
+        ],
+        "images_prise_disponibles_f": 210,
+        "images_source_lues_f": 68,
+        "images_source_utilisees_f": 68,
+        "images_poignee_transition_f": 0,
+        "images_figees_f": 7,
+        "images_exportees_f": 75,
+        "transition_sortante": "TR01",
+        "non_lues_avant_plan_f": 9,
+        "equation": "75 = 68 + 7"
+      },
+      {
+        "plan": "P08",
+        "scene": "S3",
+        "sortie": [
+          495,
+          555
+        ],
+        "prise_disponible_f": 210,
+        "prise_lue": [
+          80,
+          133
+        ],
+        "images_prise_disponibles_f": 210,
+        "images_source_lues_f": 53,
+        "images_source_utilisees_f": 53,
+        "images_poignee_transition_f": 0,
+        "images_figees_f": 7,
+        "images_exportees_f": 60,
+        "transition_sortante": "TR01",
+        "non_lues_avant_plan_f": 3,
+        "equation": "60 = 53 + 7"
+      },
+      {
+        "plan": "P09",
+        "scene": "S3",
+        "sortie": [
+          555,
+          630
+        ],
+        "prise_disponible_f": 210,
+        "prise_lue": [
+          136,
+          206
+        ],
+        "images_prise_disponibles_f": 210,
+        "images_source_lues_f": 70,
+        "images_source_utilisees_f": 64,
+        "images_poignee_transition_f": 6,
+        "images_figees_f": 11,
+        "images_exportees_f": 75,
+        "transition_sortante": "TR04",
+        "non_lues_avant_plan_f": 3,
+        "equation": "75 = 64 + 11"
+      },
+      {
+        "plan": "P10",
+        "scene": "S4",
+        "sortie": [
+          630,
+          705
+        ],
+        "prise_disponible_f": 270,
+        "prise_lue": [
+          9,
+          79
+        ],
+        "images_prise_disponibles_f": 270,
+        "images_source_lues_f": 70,
+        "images_source_utilisees_f": 70,
+        "images_poignee_transition_f": 0,
+        "images_figees_f": 5,
+        "images_exportees_f": 75,
+        "transition_sortante": "TR01",
+        "non_lues_avant_plan_f": 9,
+        "equation": "75 = 70 + 5"
+      },
+      {
+        "plan": "P11",
+        "scene": "S4",
+        "sortie": [
+          705,
+          795
+        ],
+        "prise_disponible_f": 270,
+        "prise_lue": [
+          82,
+          167
+        ],
+        "images_prise_disponibles_f": 270,
+        "images_source_lues_f": 85,
+        "images_source_utilisees_f": 85,
+        "images_poignee_transition_f": 0,
+        "images_figees_f": 5,
+        "images_exportees_f": 90,
+        "transition_sortante": "TR01",
+        "non_lues_avant_plan_f": 3,
+        "equation": "90 = 85 + 5"
+      },
+      {
+        "plan": "P12",
+        "scene": "S4",
+        "sortie": [
+          795,
+          900
+        ],
+        "prise_disponible_f": 270,
+        "prise_lue": [
+          170,
+          245
+        ],
+        "images_prise_disponibles_f": 270,
+        "images_source_lues_f": 75,
+        "images_source_utilisees_f": 75,
+        "images_poignee_transition_f": 0,
+        "images_figees_f": 30,
+        "images_exportees_f": 105,
+        "transition_sortante": "TR01",
+        "non_lues_avant_plan_f": 3,
+        "equation": "105 = 75 + 30"
+      }
+    ],
+    "scenes": [
+      {
+        "scene": "S1",
+        "prise_disponible_f": 180,
+        "source_utilisee_f": 155,
+        "poignees_transition_lues_f": 6,
+        "images_figees_f": 25,
+        "images_exportees_f": 180,
+        "amorce_non_lue_f": 9,
+        "entretraits_non_lus_f": 6,
+        "reserve_fin_non_lue_f": 4,
+        "equation_exportees": "180 = 155 + 25",
+        "equation_prise": "180 = 9 (amorce) + 6 (entretraits) + 155 (source) + 6 (poignees) + 4 (reserve)"
+      },
+      {
+        "scene": "S2",
+        "prise_disponible_f": 240,
+        "source_utilisee_f": 215,
+        "poignees_transition_lues_f": 6,
+        "images_figees_f": 25,
+        "images_exportees_f": 240,
+        "amorce_non_lue_f": 9,
+        "entretraits_non_lus_f": 6,
+        "reserve_fin_non_lue_f": 4,
+        "equation_exportees": "240 = 215 + 25",
+        "equation_prise": "240 = 9 (amorce) + 6 (entretraits) + 215 (source) + 6 (poignees) + 4 (reserve)"
+      },
+      {
+        "scene": "S3",
+        "prise_disponible_f": 210,
+        "source_utilisee_f": 185,
+        "poignees_transition_lues_f": 6,
+        "images_figees_f": 25,
+        "images_exportees_f": 210,
+        "amorce_non_lue_f": 9,
+        "entretraits_non_lus_f": 6,
+        "reserve_fin_non_lue_f": 4,
+        "equation_exportees": "210 = 185 + 25",
+        "equation_prise": "210 = 9 (amorce) + 6 (entretraits) + 185 (source) + 6 (poignees) + 4 (reserve)"
+      },
+      {
+        "scene": "S4",
+        "prise_disponible_f": 270,
+        "source_utilisee_f": 230,
+        "poignees_transition_lues_f": 0,
+        "images_figees_f": 40,
+        "images_exportees_f": 270,
+        "amorce_non_lue_f": 9,
+        "entretraits_non_lus_f": 6,
+        "reserve_fin_non_lue_f": 25,
+        "equation_exportees": "270 = 230 + 40",
+        "equation_prise": "270 = 9 (amorce) + 6 (entretraits) + 230 (source) + 0 (poignees) + 25 (reserve)"
+      }
+    ],
+    "total": {
+      "duree_s": 30.0,
+      "images_exportees_f": 900,
+      "images_source_utilisees_f": 785,
+      "images_figees_f": 115,
+      "images_poignees_transition_lues_non_exportees_f": 18,
+      "images_non_lues_f": 97,
+      "images_tournees_f": 900,
+      "verification": "900 exportees = 785 source + 115 figees",
+      "duree_tournage_inchangee_s": [
+        6,
+        8,
+        7,
+        9
+      ]
+    }
+  },
+  "checks": {
+    "safe_zones": [
+      {
+        "id": "GB01",
+        "shape_dans_safe": true,
+        "full_dans_cadre": true,
+        "debord_ombre_px": 4
+      },
+      {
+        "id": "GB02",
+        "shape_dans_safe": true,
+        "full_dans_cadre": true,
+        "debord_ombre_px": 5
+      },
+      {
+        "id": "GB03",
+        "shape_dans_safe": true,
+        "full_dans_cadre": true,
+        "debord_ombre_px": 0
+      },
+      {
+        "id": "GB04",
+        "shape_dans_safe": true,
+        "full_dans_cadre": true,
+        "debord_ombre_px": 5
+      },
+      {
+        "id": "GB05",
+        "shape_dans_safe": true,
+        "full_dans_cadre": true,
+        "debord_ombre_px": 4
+      },
+      {
+        "id": "GB06",
+        "shape_dans_safe": true,
+        "full_dans_cadre": true,
+        "debord_ombre_px": 0
+      },
+      {
+        "id": "GB07",
+        "shape_dans_safe": true,
+        "full_dans_cadre": true,
+        "debord_ombre_px": 5
+      },
+      {
+        "id": "GB08",
+        "shape_dans_safe": true,
+        "full_dans_cadre": true,
+        "debord_ombre_px": 7
+      }
+    ],
+    "echelle_aux_coupures": [
+      {
+        "cut_f": 60,
+        "delta_pct": 28.6,
+        "verdict": "OK"
+      },
+      {
+        "cut_f": 105,
+        "delta_pct": 16.6,
+        "verdict": "OK"
+      },
+      {
+        "cut_f": 180,
+        "delta_pct": -41.2,
+        "verdict": "OK"
+      },
+      {
+        "cut_f": 255,
+        "delta_pct": 33.3,
+        "verdict": "OK"
+      },
+      {
+        "cut_f": 330,
+        "delta_pct": -21.4,
+        "verdict": "OK"
+      },
+      {
+        "cut_f": 420,
+        "delta_pct": 18.4,
+        "verdict": "OK"
+      },
+      {
+        "cut_f": 495,
+        "delta_pct": 24.0,
+        "verdict": "OK"
+      },
+      {
+        "cut_f": 555,
+        "delta_pct": -40.3,
+        "verdict": "OK"
+      },
+      {
+        "cut_f": 630,
+        "delta_pct": 40.0,
+        "verdict": "OK"
+      },
+      {
+        "cut_f": 705,
+        "delta_pct": -28.6,
+        "verdict": "OK"
+      },
+      {
+        "cut_f": 795,
+        "delta_pct": 33.9,
+        "verdict": "OK"
+      }
+    ],
+    "rotation_mouvements": "12/12 plans : aucun mouvement repete consecutivement ; MV01 <= 1 par scene ; P12 termine par MV11+MV12",
+    "gel_par_scene_f": {
+      "S1": 25,
+      "S2": 25,
+      "S3": 25,
+      "S4": 40
+    },
+    "gel_total_f": 115,
+    "gel_total_s": 3.833,
+    "blocs_sans_chevauchement": true,
+    "evenements_pres_des_transitions": [],
+    "ecart_max_grille_250ms_frames": 0.5,
+    "ecart_max_entre_evenements_frames": 105,
+    "ecart_max_entre_evenements_s": 3.5,
+    "distances_evenements_transitions": [
+      {
+        "event": "TXT01-E1",
+        "frame": 15,
+        "transition_animee": "TR02",
+        "intervalle": [
+          105,
+          111
+        ],
+        "distance_f": 90,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT01-E2",
+        "frame": 23,
+        "transition_animee": "TR02",
+        "intervalle": [
+          105,
+          111
+        ],
+        "distance_f": 82,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT01-E3",
+        "frame": 30,
+        "transition_animee": "TR02",
+        "intervalle": [
+          105,
+          111
+        ],
+        "distance_f": 75,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT01-X",
+        "frame": 90,
+        "transition_animee": "TR02",
+        "intervalle": [
+          105,
+          111
+        ],
+        "distance_f": 15,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT02-E1",
+        "frame": 120,
+        "transition_animee": "TR02",
+        "intervalle": [
+          105,
+          111
+        ],
+        "distance_f": 9,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT02-E2",
+        "frame": 135,
+        "transition_animee": "TR02",
+        "intervalle": [
+          105,
+          111
+        ],
+        "distance_f": 24,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT02-E3",
+        "frame": 150,
+        "transition_animee": "TR03",
+        "intervalle": [
+          180,
+          186
+        ],
+        "distance_f": 30,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT02-X",
+        "frame": 165,
+        "transition_animee": "TR03",
+        "intervalle": [
+          180,
+          186
+        ],
+        "distance_f": 15,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT03-E1",
+        "frame": 195,
+        "transition_animee": "TR03",
+        "intervalle": [
+          180,
+          186
+        ],
+        "distance_f": 9,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT03-E2",
+        "frame": 210,
+        "transition_animee": "TR03",
+        "intervalle": [
+          180,
+          186
+        ],
+        "distance_f": 24,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT03-E3",
+        "frame": 218,
+        "transition_animee": "TR03",
+        "intervalle": [
+          180,
+          186
+        ],
+        "distance_f": 32,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT03-X",
+        "frame": 285,
+        "transition_animee": "TR03",
+        "intervalle": [
+          180,
+          186
+        ],
+        "distance_f": 99,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT04-E1",
+        "frame": 300,
+        "transition_animee": "TR03",
+        "intervalle": [
+          180,
+          186
+        ],
+        "distance_f": 114,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT04-E2",
+        "frame": 345,
+        "transition_animee": "TR05",
+        "intervalle": [
+          420,
+          426
+        ],
+        "distance_f": 75,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT04-E3",
+        "frame": 390,
+        "transition_animee": "TR05",
+        "intervalle": [
+          420,
+          426
+        ],
+        "distance_f": 30,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT04-X",
+        "frame": 405,
+        "transition_animee": "TR05",
+        "intervalle": [
+          420,
+          426
+        ],
+        "distance_f": 15,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT05-E1",
+        "frame": 450,
+        "transition_animee": "TR05",
+        "intervalle": [
+          420,
+          426
+        ],
+        "distance_f": 24,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT05-E2",
+        "frame": 458,
+        "transition_animee": "TR05",
+        "intervalle": [
+          420,
+          426
+        ],
+        "distance_f": 32,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT05-E3",
+        "frame": 465,
+        "transition_animee": "TR05",
+        "intervalle": [
+          420,
+          426
+        ],
+        "distance_f": 39,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT05-X",
+        "frame": 525,
+        "transition_animee": "TR05",
+        "intervalle": [
+          420,
+          426
+        ],
+        "distance_f": 99,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT06-E1",
+        "frame": 540,
+        "transition_animee": "TR04",
+        "intervalle": [
+          630,
+          636
+        ],
+        "distance_f": 90,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT06-E2",
+        "frame": 570,
+        "transition_animee": "TR04",
+        "intervalle": [
+          630,
+          636
+        ],
+        "distance_f": 60,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT06-X",
+        "frame": 615,
+        "transition_animee": "TR04",
+        "intervalle": [
+          630,
+          636
+        ],
+        "distance_f": 15,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT07-E1",
+        "frame": 645,
+        "transition_animee": "TR04",
+        "intervalle": [
+          630,
+          636
+        ],
+        "distance_f": 9,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT07-E2",
+        "frame": 720,
+        "transition_animee": "TR04",
+        "intervalle": [
+          630,
+          636
+        ],
+        "distance_f": 84,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT07-X",
+        "frame": 765,
+        "transition_animee": "TR04",
+        "intervalle": [
+          630,
+          636
+        ],
+        "distance_f": 129,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT08-E1",
+        "frame": 795,
+        "transition_animee": "TR04",
+        "intervalle": [
+          630,
+          636
+        ],
+        "distance_f": 159,
+        "verdict": "OK"
+      },
+      {
+        "event": "TXT08-X",
+        "frame": 900,
+        "transition_animee": "TR04",
+        "intervalle": [
+          630,
+          636
+        ],
+        "distance_f": 264,
+        "verdict": "OK"
+      }
+    ],
+    "distance_min_transition_animee_f": 9
+  }
+}

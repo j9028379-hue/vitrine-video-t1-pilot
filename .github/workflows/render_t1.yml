@@ -1,0 +1,77 @@
+name: Render T1 — Plat du jour
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: render-t1-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout technical project
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes ffmpeg
+          ffmpeg -version | head -n 1
+          ffprobe -version | head -n 1
+
+      - name: Install Python dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Validate V1.2 and public-safe V6.2 reference JSON
+        run: |
+          python -m json.tool specs/T1_ENGINEERING_SPEC_V1_2.json > /dev/null
+          python -m json.tool specs/restaurants_maquis_T1.spec_v6_2.public-safe.json > /dev/null
+          python - <<'PY'
+          import json
+          a=json.load(open('specs/T1_ENGINEERING_SPEC_V1_2.json', encoding='utf-8'))
+          b=json.load(open('specs/restaurants_maquis_T1.spec_v6_2.public-safe.json', encoding='utf-8'))
+          assert a['spec_version']=='1.2' and b['spec_version']=='6.2'
+          assert len(a['plans'])==12 and len(a['scenes'])==4 and len(a['graphic_blocks'])==8 and len(a['presets'])==14
+          print('Reference specs validated; no writes performed.')
+          PY
+
+      - name: Download temporary Mixkit rushes and verify SHA-256
+        run: python -m engine.fetch_rushes --manifest rushes/manifest.json
+
+      - name: Build render_plan.json from the published public-safe reference inputs
+        run: python -m adapter.t1_adapter --v62 specs/restaurants_maquis_T1.spec_v6_2.public-safe.json
+
+      - name: Run automated tests
+        run: python -m pytest -q
+
+      - name: Render silent 720x1280 T1 advertisement
+        run: python -m engine.render --plan render_plan.json --output output/output_T1_sans_voix.mp4 --sheet output/planche_controle.png
+
+      - name: Verify 900 frames, 30 seconds, 30 fps, no audio
+        run: python -m engine.verify --video output/output_T1_sans_voix.mp4 --out output/verification.json
+
+      - name: Publish downloadable render artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: t1-sans-voix-${{ github.run_id }}
+          path: |
+            output/output_T1_sans_voix.mp4
+            output/verification.json
+            output/planche_controle.png
+            render_plan.json
+            rushes/manifest.json
+          if-no-files-found: warn
+          retention-days: 7

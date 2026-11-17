@@ -1,0 +1,1548 @@
+{
+  "spec_version": "6.2",
+  "gabarit_id": "restaurants_maquis_T1",
+  "secteur": "Restaurants et maquis",
+  "code": "T1",
+  "nom_affiche": "Plat du jour",
+  "cadence": {
+    "bpm": 120,
+    "beat_ms": 500,
+    "bar_ms": 2000,
+    "bars_total": 15,
+    "total_ms": 30000,
+    "regle": "tous les at_ms de text_track et sfx_track sont des multiples de 250 ms (croche)"
+  },
+  "design_system": {
+    "polices": {
+      "titres": {
+        "famille": "Montserrat",
+        "graisse": 800,
+        "style": "ExtraBold",
+        "licence": "SIL OFL 1.1",
+        "tracking_em": -0.02,
+        "interligne": 1.05,
+        "casse": "MAJUSCULES",
+        "auto_fit": "reduction par paliers de 10 pourcent jusqu'a tenir sur 1 ligne",
+        "pourquoi": "x-height large, apertures ouvertes, graisses 700+ recommandees pour le caption; le choix le plus sur en plein soleil"
+      },
+      "infos": {
+        "famille": "Plus Jakarta Sans",
+        "graisse_titres": 800,
+        "graisse_courant": 700,
+        "licence": "SIL OFL 1.1",
+        "chiffres": "tabulaires (tnum) obligatoires",
+        "pourquoi": "chiffres tabulaires natifs, accents francais complets, plus compact que Montserrat donc parfait pour prix et WhatsApp"
+      },
+      "regle_2_polices": "aucune troisieme police dans le gabarit"
+    },
+    "traitement_texte": {
+      "contour": {
+        "epaisseur_px": 2,
+        "couleur": "rgba(15,23,42,0.92)",
+        "usage": "obligatoire si luminance moyenne du plan > 60 pourcent"
+      },
+      "ombre": {
+        "opacite": 0.32,
+        "flou_px": 10,
+        "decalage_y_px": 3,
+        "rayon": 0
+      },
+      "lueur": {
+        "active": false,
+        "note": "pas de glow : floute les accents et coute un flou par image"
+      },
+      "contraste_min": "4.5:1 mesure sur la carte, pas sur la video"
+    },
+    "couleurs": {
+      "orange": "#F2621B",
+      "bleu_nuit": "#14225E",
+      "creme": "#FFF3EA",
+      "carte_sombre": "rgba(15,23,42,0.78)",
+      "blanc": "#FFFFFF",
+      "whatsapp_officiel": "#25D366",
+      "texte_sur_orange": "#FFFFFF"
+    },
+    "composants": {
+      "carte": {
+        "rayon_px": 18,
+        "padding_px": [
+          20,
+          28
+        ],
+        "fond": "rgba(15,23,42,0.78)"
+      },
+      "badge_prix": {
+        "rayon_px": 20,
+        "rotation_deg": -3,
+        "bordure_px": 2,
+        "bordure_couleur": "#FFFFFF",
+        "ombre": "0 6px 16px rgba(0,0,0,0.35)",
+        "chevauchement_px": 40,
+        "fond": "#F2621B"
+      },
+      "pilule_cta": {
+        "rayon_px": 999,
+        "fond": "#25D366",
+        "hauteur_px": 116,
+        "icone_px": 44
+      },
+      "micro_icones": {
+        "taille_px": 28,
+        "jeu": [
+          "assiette",
+          "flamme",
+          "pin"
+        ],
+        "style": "trait 2 px, monochrome blanc"
+      }
+    },
+    "zones_de_securite": {
+      "x_min": 64,
+      "x_max": 920,
+      "y_min": 240,
+      "y_max": 1440,
+      "source": "zone universelle 900x1400 centree en 1080x1920 (TikTok 900x1492 / Reels 996x1400) — durcie a droite (920) et en bas (1440)"
+    },
+    "courbes_animation": {
+      "easeOutExpo": {
+        "cubic_bezier": [
+          0.16,
+          1.0,
+          0.3,
+          1.0
+        ],
+        "usage": "entree de texte / apparition de bloc",
+        "evaluee_par": "Newton-Raphson 5 iterations par image, 0 allocation"
+      },
+      "easeOutBack_pop": {
+        "cubic_bezier": [
+          0.34,
+          1.56,
+          0.64,
+          1.0
+        ],
+        "usage": "pastille prix, badge, pop",
+        "depassement_max": "6 pourcent en echelle"
+      },
+      "easeOutQuint": {
+        "cubic_bezier": [
+          0.22,
+          1.0,
+          0.36,
+          1.0
+        ],
+        "usage": "zoom punch de coupe (6 images)"
+      },
+      "easeOutCubic": {
+        "cubic_bezier": [
+          0.33,
+          1.0,
+          0.68,
+          1.0
+        ],
+        "usage": "sortie douce de texte (fade)"
+      },
+      "easeInCubic": {
+        "cubic_bezier": [
+          0.32,
+          0.0,
+          0.67,
+          0.0
+        ],
+        "usage": "sortie rapide / element qui part"
+      },
+      "easeInOutQuad": {
+        "cubic_bezier": [
+          0.45,
+          0.0,
+          0.55,
+          1.0
+        ],
+        "usage": "mouvement continu de plan, wipe, pan"
+      },
+      "linear": {
+        "cubic_bezier": [
+          0.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "usage": "compteur, remplissage pur"
+      }
+    }
+  },
+  "styles_de_texte": [
+    {
+      "nom": "nom",
+      "police": "Montserrat 800",
+      "taille_px_1080": 76,
+      "couleur": "#FFFFFF",
+      "fond": "aucun (contour 2 px)",
+      "y_centre_px": 420,
+      "animation": {
+        "entree": "easeOutExpo",
+        "duree_ms": 220,
+        "translate_y_px": [
+          24,
+          0
+        ],
+        "opacite": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "nom": "produit",
+      "police": "Montserrat 800",
+      "taille_px_1080": 84,
+      "couleur": "#FFFFFF",
+      "fond": "carte_sombre",
+      "y_centre_px": 900,
+      "animation": {
+        "entree": "easeOutExpo",
+        "duree_ms": 240,
+        "echelle": [
+          0.94,
+          1.0
+        ]
+      }
+    },
+    {
+      "nom": "hero_lockup",
+      "police": "Montserrat 800 + Plus Jakarta Sans 800",
+      "taille_px_1080": [
+        84,
+        116
+      ],
+      "couleur": [
+        "#FFFFFF",
+        "#14225E sur #F2621B"
+      ],
+      "fond": "carte_sombre + badge_prix",
+      "y_centre_px": 860,
+      "animation": {
+        "entree": "easeOutExpo",
+        "duree_ms": 260,
+        "prix": {
+          "easing": "easeOutBack_pop",
+          "duree_ms": 320,
+          "echelle": [
+            0.6,
+            1.06,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "nom": "prix_seul",
+      "police": "Plus Jakarta Sans 800",
+      "taille_px_1080": 116,
+      "couleur": "#14225E",
+      "fond": "badge_prix orange",
+      "y_centre_px": 860,
+      "animation": {
+        "entree": "easeOutBack_pop",
+        "duree_ms": 320,
+        "echelle": [
+          0.6,
+          1.06,
+          1.0
+        ]
+      }
+    },
+    {
+      "nom": "accroche_kinetique",
+      "police": "Montserrat 800",
+      "taille_px_1080": 52,
+      "couleur": "#FFFFFF",
+      "fond": "pilule orange pour le segment actif seulement",
+      "y_centre_px": 620,
+      "animation": {
+        "entree": "easeOutExpo",
+        "duree_ms": 200,
+        "segment_actif": {
+          "echelle": 1.08,
+          "autres": 0.65,
+          "courbe": "easeOutQuint"
+        }
+      }
+    },
+    {
+      "nom": "quartier",
+      "police": "Plus Jakarta Sans 700",
+      "taille_px_1080": 54,
+      "couleur": "#FFFFFF",
+      "fond": "carte_sombre",
+      "y_centre_px": 1180,
+      "animation": {
+        "entree": "easeOutExpo",
+        "duree_ms": 220
+      }
+    },
+    {
+      "nom": "whatsapp",
+      "police": "Plus Jakarta Sans 700",
+      "taille_px_1080": 60,
+      "couleur": "#FFFFFF",
+      "fond": "pilule_cta #25D366",
+      "y_centre_px": 1330,
+      "animation": {
+        "entree": "easeOutBack_pop",
+        "duree_ms": 300,
+        "sortie": "aucune (verrouille 3,5 s)"
+      }
+    }
+  ],
+  "transitions": {
+    "zoom_punch": {
+      "type": "speed_ramp_zoom",
+      "images": 6,
+      "echelle_sortante": [
+        1.0,
+        1.12
+      ],
+      "echelle_entrante": [
+        1.08,
+        1.0
+      ],
+      "courbe": "easeOutQuint",
+      "cout": "leger",
+      "decodeurs": 1,
+      "note": "speed ramp 100->112 pourcent sur les 6 dernieres images, 108->100 sur les 6 premieres"
+    },
+    "wipe_geometrique": {
+      "type": "wipe_diagonal",
+      "duree_ms": 200,
+      "courbe": "easeInOutQuad",
+      "angle_deg": 18,
+      "bord": "2 px blanc a 60 pourcent",
+      "cout": "leger",
+      "decodeurs": 1,
+      "note": "l'image A est gelee, le masque avance : aucun second decodeur"
+    },
+    "wipe_directionnel": {
+      "type": "push_gauche",
+      "duree_ms": 200,
+      "courbe": "easeInOutQuad",
+      "flou_mouvement": "3 echantillons, +-8 px, alpha 0.22",
+      "cout": "moyen (200 ms seulement)",
+      "decodeurs": 1
+    },
+    "fondu_enchain_6f": {
+      "type": "crossfade",
+      "images": 6,
+      "courbe": "easeInOutQuad",
+      "cout": "leger mais 2 decodeurs",
+      "note": "seul moment a 2 flux video : 200 ms, jamais deux fondus de suite"
+    },
+    "punch_cut": {
+      "type": "cut_avec_impact",
+      "images": 2,
+      "echelle_entrante": [
+        1.06,
+        1.0
+      ],
+      "courbe": "easeOutQuint",
+      "camera_shake": {
+        "amplitude_px": 4,
+        "duree_ms": 120,
+        "images": 4
+      },
+      "cout": "leger",
+      "decodeurs": 1
+    },
+    "cut": {
+      "type": "cut_sec",
+      "cout": "nul",
+      "decodeurs": 1
+    }
+  },
+  "scenes": [
+    {
+      "scene": 1,
+      "nom": "Le plat",
+      "debut_ms": 0,
+      "fin_ms": 6000,
+      "duree_s": 6.0,
+      "plans": [
+        "P01",
+        "P02",
+        "P03"
+      ],
+      "guide_tournage": {
+        "titre": "Le plat",
+        "duree_a_tourner_s": 6.0,
+        "prise": 1,
+        "consigne": "Approche ton téléphone tout près du plat bien chaud pour montrer tous les détails. Commence un peu loin puis rapproche-toi doucement.",
+        "mention_voix": "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit.",
+        "exemples": {
+          "fr": "Voici notre riz au poulet braisé bien chaud avec alloco, prêt maintenant !",
+          "en": "This is our braised chicken rice with fried plantain, hot and ready right now!"
+        },
+        "langues_autorisees_de_parole": [
+          "fon",
+          "yoruba",
+          "français",
+          "anglais"
+        ],
+        "a_montrer": [
+          "l'assiette entière",
+          "la fumée ou le brillant de la sauce",
+          "ta main qui sert"
+        ],
+        "a_eviter": [
+          "filmer de trop loin",
+          "montrer le sol ou le plafond",
+          "bouger trop vite"
+        ],
+        "arret_automatique": "CameraX.setDurationLimit(6.0 s) — aucune action du commerçant",
+        "carte_ecran_08": {
+          "ligne_1": "SCÈNE 1/4",
+          "ligne_2": "6 secondes",
+          "exemple_affiche_sous_la_mention": "Voici notre riz au poulet braisé bien chaud avec alloco, prêt maintenant !"
+        }
+      }
+    },
+    {
+      "scene": 2,
+      "nom": "La texture, de pres",
+      "debut_ms": 6000,
+      "fin_ms": 14000,
+      "duree_s": 8.0,
+      "plans": [
+        "P04",
+        "P05",
+        "P06"
+      ],
+      "guide_tournage": {
+        "titre": "Le dessus et les détails",
+        "duree_a_tourner_s": 8.0,
+        "prise": 2,
+        "consigne": "Passe ton téléphone au-dessus du plat pour montrer tout ce qu'il y a dedans, puis approche-toi très près de la partie la plus appétissante.",
+        "mention_voix": "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour dire ce qu'il y a dans le plat et comment tu le prépares.",
+        "exemples": {
+          "fr": "Regardez la sauce : tout est préparé ce matin avec de l'huile propre.",
+          "en": "Look at the sauce: everything is cooked this morning with fresh oil."
+        },
+        "langues_autorisees_de_parole": [
+          "fon",
+          "yoruba",
+          "français",
+          "anglais"
+        ],
+        "a_montrer": [
+          "le plat rempli vu d'au-dessus",
+          "le plus près possible de la sauce ou de la viande"
+        ],
+        "a_eviter": [
+          "tes doigts devant la caméra",
+          "filmer vers la fenêtre (tout devient sombre)"
+        ],
+        "arret_automatique": "CameraX.setDurationLimit(8.0 s) — aucune action du commerçant",
+        "carte_ecran_08": {
+          "ligne_1": "SCÈNE 2/4",
+          "ligne_2": "8 secondes",
+          "exemple_affiche_sous_la_mention": "Regardez la sauce : tout est préparé ce matin avec de l'huile propre."
+        }
+      }
+    },
+    {
+      "scene": 3,
+      "nom": "Le geste, la personne",
+      "debut_ms": 14000,
+      "fin_ms": 21000,
+      "duree_s": 7.0,
+      "plans": [
+        "P07",
+        "P08",
+        "P09"
+      ],
+      "guide_tournage": {
+        "titre": "La personne qui sert",
+        "duree_a_tourner_s": 7.0,
+        "prise": 3,
+        "consigne": "Filme la personne qui sert ou qui mange : sa main, son visage, son sourire. Mets-toi devant elle ou de côté, comme tu veux.",
+        "mention_voix": "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit.",
+        "exemples": {
+          "fr": "C'est moi qui prépare tous les jours. Venez goûter, on sert de midi jusqu'au soir.",
+          "en": "I cook it myself every day. Come and taste, we serve from noon until evening."
+        },
+        "langues_autorisees_de_parole": [
+          "fon",
+          "yoruba",
+          "français",
+          "anglais"
+        ],
+        "a_montrer": [
+          "une main qui sert",
+          "le visage de la personne",
+          "le comptoir propre derrière"
+        ],
+        "a_eviter": [
+          "filmer quelqu'un qui ne veut pas être filmé",
+          "filmer un coin sombre"
+        ],
+        "arret_automatique": "CameraX.setDurationLimit(7.0 s) — aucune action du commerçant",
+        "carte_ecran_08": {
+          "ligne_1": "SCÈNE 3/4",
+          "ligne_2": "7 secondes",
+          "exemple_affiche_sous_la_mention": "C'est moi qui prépare tous les jours. Venez goûter, on sert de midi jusqu'au soir."
+        }
+      }
+    },
+    {
+      "scene": 4,
+      "nom": "La devanture et le contact",
+      "debut_ms": 21000,
+      "fin_ms": 30000,
+      "duree_s": 9.0,
+      "plans": [
+        "P10",
+        "P11",
+        "P12"
+      ],
+      "guide_tournage": {
+        "titre": "Le lieu et le contact",
+        "duree_a_tourner_s": 9.0,
+        "prise": 4,
+        "consigne": "Recule et filme l'entrée de ton local avec le nom écrit dessus, puis le comptoir. On doit reconnaître l'endroit.",
+        "mention_voix": "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit.",
+        "exemples": {
+          "fr": "Nous sommes à Abomey-Calavi, Arconville, à côté de la station. Appelez-nous sur WhatsApp.",
+          "en": "We are in Abomey-Calavi, Arconville, next to the station. Call us on WhatsApp."
+        },
+        "langues_autorisees_de_parole": [
+          "fon",
+          "yoruba",
+          "français",
+          "anglais"
+        ],
+        "a_montrer": [
+          "le nom ou l'enseigne de ton local",
+          "la rue autour",
+          "l'entrée de face"
+        ],
+        "a_eviter": [
+          "filmer les passants de près",
+          "filmer le ciel"
+        ],
+        "arret_automatique": "CameraX.setDurationLimit(9.0 s) — aucune action du commerçant",
+        "carte_ecran_08": {
+          "ligne_1": "SCÈNE 4/4",
+          "ligne_2": "9 secondes",
+          "exemple_affiche_sous_la_mention": "Nous sommes à Abomey-Calavi, Arconville, à côté de la station. Appelez-nous sur WhatsApp."
+        }
+      }
+    }
+  ],
+  "video_track": [
+    {
+      "plan_id": "P01",
+      "scene": 1,
+      "source": {
+        "prise": 1,
+        "in_ms": 400,
+        "out_ms": 2900,
+        "duree_ms": 2500
+      },
+      "timeline": {
+        "start_ms": 0,
+        "end_ms": 2500,
+        "start_s": 0.0,
+        "end_s": 2.5
+      },
+      "transition_in": null,
+      "mouvement_continu": {
+        "type": "zoom_in_lent",
+        "courbe": "easeInOutQuad",
+        "parametres": {
+          "scale_de": 1.0,
+          "scale_a": 1.06
+        },
+        "regle": "le mouvement demarre a l'image 1 et finit a la derniere image du plan, jamais de redemarrage",
+        "amplitude_max_pct": 7
+      },
+      "etalonnage": "resto_chaud_2026 / scene 1",
+      "camera_shake": {
+        "actif": false
+      }
+    },
+    {
+      "plan_id": "P02",
+      "scene": 1,
+      "source": {
+        "prise": 1,
+        "in_ms": 2900,
+        "out_ms": 4900,
+        "duree_ms": 2000
+      },
+      "timeline": {
+        "start_ms": 2500,
+        "end_ms": 4500,
+        "start_s": 2.5,
+        "end_s": 4.5
+      },
+      "transition_in": null,
+      "mouvement_continu": {
+        "type": "zoom_in_lent",
+        "courbe": "easeInOutQuad",
+        "parametres": {
+          "scale_de": 1.03,
+          "scale_a": 1.08
+        },
+        "regle": "le mouvement demarre a l'image 1 et finit a la derniere image du plan, jamais de redemarrage",
+        "amplitude_max_pct": 7
+      },
+      "etalonnage": "resto_chaud_2026 / scene 1",
+      "camera_shake": {
+        "actif": false
+      }
+    },
+    {
+      "plan_id": "P03",
+      "scene": 1,
+      "source": {
+        "prise": 1,
+        "in_ms": 4900,
+        "out_ms": 6400,
+        "duree_ms": 1500
+      },
+      "timeline": {
+        "start_ms": 4500,
+        "end_ms": 6000,
+        "start_s": 4.5,
+        "end_s": 6.0
+      },
+      "transition_in": null,
+      "mouvement_continu": {
+        "type": "pan_droite",
+        "courbe": "easeInOutQuad",
+        "parametres": {
+          "scale_de": 1.06,
+          "scale_a": 1.06,
+          "pan_px": [
+            -14,
+            14
+          ]
+        },
+        "regle": "le mouvement demarre a l'image 1 et finit a la derniere image du plan, jamais de redemarrage",
+        "amplitude_max_pct": 7
+      },
+      "etalonnage": "resto_chaud_2026 / scene 1",
+      "camera_shake": {
+        "actif": false
+      }
+    },
+    {
+      "plan_id": "P04",
+      "scene": 2,
+      "source": {
+        "prise": 2,
+        "in_ms": 300,
+        "out_ms": 3300,
+        "duree_ms": 3000
+      },
+      "timeline": {
+        "start_ms": 6000,
+        "end_ms": 9000,
+        "start_s": 6.0,
+        "end_s": 9.0
+      },
+      "transition_in": "wipe_geometrique",
+      "mouvement_continu": {
+        "type": "zoom_in_lent",
+        "courbe": "easeInOutQuad",
+        "parametres": {
+          "scale_de": 1.0,
+          "scale_a": 1.05
+        },
+        "regle": "le mouvement demarre a l'image 1 et finit a la derniere image du plan, jamais de redemarrage",
+        "amplitude_max_pct": 7
+      },
+      "etalonnage": "resto_chaud_2026 / scene 2",
+      "camera_shake": {
+        "actif": false
+      }
+    },
+    {
+      "plan_id": "P05",
+      "scene": 2,
+      "source": {
+        "prise": 2,
+        "in_ms": 3300,
+        "out_ms": 5800,
+        "duree_ms": 2500
+      },
+      "timeline": {
+        "start_ms": 9000,
+        "end_ms": 11500,
+        "start_s": 9.0,
+        "end_s": 11.5
+      },
+      "transition_in": "cut",
+      "mouvement_continu": {
+        "type": "pan_gauche",
+        "courbe": "easeInOutQuad",
+        "parametres": {
+          "scale_de": 1.05,
+          "scale_a": 1.05,
+          "pan_px": [
+            14,
+            -14
+          ]
+        },
+        "regle": "le mouvement demarre a l'image 1 et finit a la derniere image du plan, jamais de redemarrage",
+        "amplitude_max_pct": 7
+      },
+      "etalonnage": "resto_chaud_2026 / scene 2",
+      "camera_shake": {
+        "actif": false
+      }
+    },
+    {
+      "plan_id": "P06",
+      "scene": 2,
+      "source": {
+        "prise": 2,
+        "in_ms": 5800,
+        "out_ms": 8300,
+        "duree_ms": 2500
+      },
+      "timeline": {
+        "start_ms": 11500,
+        "end_ms": 14000,
+        "start_s": 11.5,
+        "end_s": 14.0
+      },
+      "transition_in": "zoom_punch",
+      "mouvement_continu": {
+        "type": "zoom_in_lent",
+        "courbe": "easeInOutQuad",
+        "parametres": {
+          "scale_de": 1.02,
+          "scale_a": 1.07
+        },
+        "regle": "le mouvement demarre a l'image 1 et finit a la derniere image du plan, jamais de redemarrage",
+        "amplitude_max_pct": 7
+      },
+      "etalonnage": "resto_chaud_2026 / scene 2",
+      "camera_shake": {
+        "actif": false
+      }
+    },
+    {
+      "plan_id": "P07",
+      "scene": 3,
+      "source": {
+        "prise": 3,
+        "in_ms": 300,
+        "out_ms": 3300,
+        "duree_ms": 3000
+      },
+      "timeline": {
+        "start_ms": 14000,
+        "end_ms": 17000,
+        "start_s": 14.0,
+        "end_s": 17.0
+      },
+      "transition_in": "fondu_enchain_6f",
+      "mouvement_continu": {
+        "type": "pan_haut",
+        "courbe": "easeInOutQuad",
+        "parametres": {
+          "scale_de": 1.03,
+          "scale_a": 1.03,
+          "pan_px": [
+            10,
+            -10
+          ]
+        },
+        "regle": "le mouvement demarre a l'image 1 et finit a la derniere image du plan, jamais de redemarrage",
+        "amplitude_max_pct": 7
+      },
+      "etalonnage": "resto_chaud_2026 / scene 3",
+      "camera_shake": {
+        "actif": false
+      }
+    },
+    {
+      "plan_id": "P08",
+      "scene": 3,
+      "source": {
+        "prise": 3,
+        "in_ms": 3300,
+        "out_ms": 5300,
+        "duree_ms": 2000
+      },
+      "timeline": {
+        "start_ms": 17000,
+        "end_ms": 19000,
+        "start_s": 17.0,
+        "end_s": 19.0
+      },
+      "transition_in": "cut",
+      "mouvement_continu": {
+        "type": "zoom_out_lent",
+        "courbe": "easeInOutQuad",
+        "parametres": {
+          "scale_de": 1.06,
+          "scale_a": 1.0
+        },
+        "regle": "le mouvement demarre a l'image 1 et finit a la derniere image du plan, jamais de redemarrage",
+        "amplitude_max_pct": 7
+      },
+      "etalonnage": "resto_chaud_2026 / scene 3",
+      "camera_shake": {
+        "actif": false
+      }
+    },
+    {
+      "plan_id": "P09",
+      "scene": 3,
+      "source": {
+        "prise": 3,
+        "in_ms": 5300,
+        "out_ms": 7300,
+        "duree_ms": 2000
+      },
+      "timeline": {
+        "start_ms": 19000,
+        "end_ms": 21000,
+        "start_s": 19.0,
+        "end_s": 21.0
+      },
+      "transition_in": "cut",
+      "mouvement_continu": {
+        "type": "pan_droite",
+        "courbe": "easeInOutQuad",
+        "parametres": {
+          "scale_de": 1.04,
+          "scale_a": 1.04,
+          "pan_px": [
+            -12,
+            12
+          ]
+        },
+        "regle": "le mouvement demarre a l'image 1 et finit a la derniere image du plan, jamais de redemarrage",
+        "amplitude_max_pct": 7
+      },
+      "etalonnage": "resto_chaud_2026 / scene 3",
+      "camera_shake": {
+        "actif": false
+      }
+    },
+    {
+      "plan_id": "P10",
+      "scene": 4,
+      "source": {
+        "prise": 4,
+        "in_ms": 200,
+        "out_ms": 3200,
+        "duree_ms": 3000
+      },
+      "timeline": {
+        "start_ms": 21000,
+        "end_ms": 24000,
+        "start_s": 21.0,
+        "end_s": 24.0
+      },
+      "transition_in": "wipe_directionnel",
+      "mouvement_continu": {
+        "type": "zoom_in_lent",
+        "courbe": "easeInOutQuad",
+        "parametres": {
+          "scale_de": 1.0,
+          "scale_a": 1.05
+        },
+        "regle": "le mouvement demarre a l'image 1 et finit a la derniere image du plan, jamais de redemarrage",
+        "amplitude_max_pct": 7
+      },
+      "etalonnage": "resto_chaud_2026 / scene 4",
+      "camera_shake": {
+        "actif": false
+      }
+    },
+    {
+      "plan_id": "P11",
+      "scene": 4,
+      "source": {
+        "prise": 4,
+        "in_ms": 3200,
+        "out_ms": 5700,
+        "duree_ms": 2500
+      },
+      "timeline": {
+        "start_ms": 24000,
+        "end_ms": 26500,
+        "start_s": 24.0,
+        "end_s": 26.5
+      },
+      "transition_in": "punch_cut",
+      "mouvement_continu": {
+        "type": "zoom_out_lent",
+        "courbe": "easeInOutQuad",
+        "parametres": {
+          "scale_de": 1.05,
+          "scale_a": 1.0
+        },
+        "regle": "le mouvement demarre a l'image 1 et finit a la derniere image du plan, jamais de redemarrage",
+        "amplitude_max_pct": 7
+      },
+      "etalonnage": "resto_chaud_2026 / scene 4",
+      "camera_shake": {
+        "actif": false
+      }
+    },
+    {
+      "plan_id": "P12",
+      "scene": 4,
+      "source": {
+        "prise": 4,
+        "in_ms": 5700,
+        "out_ms": 9200,
+        "duree_ms": 3500
+      },
+      "timeline": {
+        "start_ms": 26500,
+        "end_ms": 30000,
+        "start_s": 26.5,
+        "end_s": 30.0
+      },
+      "transition_in": "cut",
+      "mouvement_continu": {
+        "type": "pan_bas",
+        "courbe": "easeInOutQuad",
+        "parametres": {
+          "scale_de": 1.05,
+          "scale_a": 1.0,
+          "pan_px": [
+            -8,
+            8
+          ]
+        },
+        "regle": "le mouvement demarre a l'image 1 et finit a la derniere image du plan, jamais de redemarrage",
+        "amplitude_max_pct": 7
+      },
+      "etalonnage": "resto_chaud_2026 / scene 4",
+      "camera_shake": {
+        "actif": false
+      }
+    }
+  ],
+  "text_track": [
+    {
+      "block_id": "T_nom",
+      "style": "nom",
+      "champ_source": "nom",
+      "timeline": {
+        "start_ms": 500,
+        "end_ms": 3000,
+        "duree_ms": 2500
+      },
+      "sur_le_temps": {
+        "start_beat": 1.0,
+        "duree_beats": 5.0
+      },
+      "layout": {
+        "y_centre_px": 420
+      },
+      "mots": [
+        {
+          "texte": "MAQUIS",
+          "at_ms": 500,
+          "at_beat": 1.0
+        },
+        {
+          "texte": "CHEZ",
+          "at_ms": 750,
+          "at_beat": 1.5
+        },
+        {
+          "texte": "OUSMANE",
+          "at_ms": 1000,
+          "at_beat": 2.0
+        }
+      ],
+      "anim_out": {
+        "type": "fade",
+        "easing": "easeOutCubic",
+        "duree_ms": 200
+      }
+    },
+    {
+      "block_id": "T_produit",
+      "style": "produit",
+      "champ_source": "produit",
+      "timeline": {
+        "start_ms": 3500,
+        "end_ms": 6000,
+        "duree_ms": 2500
+      },
+      "sur_le_temps": {
+        "start_beat": 7.0,
+        "duree_beats": 5.0
+      },
+      "layout": {
+        "y_centre_px": 900
+      },
+      "mots": [
+        {
+          "texte": "RIZ",
+          "at_ms": 3500,
+          "at_beat": 7.0
+        },
+        {
+          "texte": "AU",
+          "at_ms": 4000,
+          "at_beat": 8.0
+        },
+        {
+          "texte": "POULET",
+          "at_ms": 4500,
+          "at_beat": 9.0
+        }
+      ],
+      "anim_out": {
+        "type": "fade",
+        "easing": "easeOutCubic",
+        "duree_ms": 200
+      }
+    },
+    {
+      "block_id": "T_hero_lockup",
+      "style": "hero_lockup",
+      "champ_source": "produit+prix",
+      "timeline": {
+        "start_ms": 6500,
+        "end_ms": 9500,
+        "duree_ms": 3000
+      },
+      "sur_le_temps": {
+        "start_beat": 13.0,
+        "duree_beats": 6.0
+      },
+      "layout": {
+        "y_centre_px": 860
+      },
+      "mots": [
+        {
+          "texte": "RIZ AU POULET + ALLOCO",
+          "at_ms": 6500,
+          "at_beat": 13.0
+        },
+        {
+          "texte": "2 500 FCFA",
+          "at_ms": 7000,
+          "at_beat": 14.0
+        }
+      ],
+      "anim_in": {
+        "prix": {
+          "easing": "easeOutBack_pop",
+          "duree_ms": 320,
+          "echelle": [
+            0.6,
+            1.06,
+            1.0
+          ],
+          "rebond_a_ms": 7340
+        }
+      },
+      "anim_out": {
+        "type": "fade",
+        "easing": "easeOutCubic",
+        "duree_ms": 200
+      }
+    },
+    {
+      "block_id": "T_accroche",
+      "style": "accroche_kinetique",
+      "champ_source": "accroche",
+      "timeline": {
+        "start_ms": 10000,
+        "end_ms": 14500,
+        "duree_ms": 4500
+      },
+      "sur_le_temps": {
+        "start_beat": 20.0,
+        "duree_beats": 9.0
+      },
+      "layout": {
+        "y_centre_px": 620
+      },
+      "segments": [
+        {
+          "texte": "PLAT CHAUD",
+          "at_ms": 10000,
+          "at_beat": 20.0
+        },
+        {
+          "texte": "GOUT ORIGINAL",
+          "at_ms": 11500,
+          "at_beat": 23.0
+        },
+        {
+          "texte": "TOUS LES JOURS",
+          "at_ms": 13000,
+          "at_beat": 26.0
+        }
+      ],
+      "regle_segment_actif": "1 seul actif : pilule orange, echelle 1.08, les autres a 0.65 d'opacite et 1.00 d'echelle",
+      "anim_out": {
+        "type": "fade",
+        "easing": "easeOutCubic",
+        "duree_ms": 200
+      }
+    },
+    {
+      "block_id": "T_nom_rappel",
+      "style": "nom",
+      "champ_source": "nom",
+      "timeline": {
+        "start_ms": 15000,
+        "end_ms": 17500,
+        "duree_ms": 2500
+      },
+      "sur_le_temps": {
+        "start_beat": 30.0,
+        "duree_beats": 5.0
+      },
+      "layout": {
+        "y_centre_px": 420
+      },
+      "mots": [
+        {
+          "texte": "MAQUIS",
+          "at_ms": 15000,
+          "at_beat": 30.0
+        },
+        {
+          "texte": "CHEZ",
+          "at_ms": 15250,
+          "at_beat": 30.5
+        },
+        {
+          "texte": "OUSMANE",
+          "at_ms": 15500,
+          "at_beat": 31.0
+        }
+      ],
+      "anim_out": {
+        "type": "fade",
+        "easing": "easeOutCubic",
+        "duree_ms": 200
+      }
+    },
+    {
+      "block_id": "T_prix_seul",
+      "style": "prix_seul",
+      "champ_source": "prix",
+      "timeline": {
+        "start_ms": 18000,
+        "end_ms": 20500,
+        "duree_ms": 2500
+      },
+      "sur_le_temps": {
+        "start_beat": 36.0,
+        "duree_beats": 5.0
+      },
+      "layout": {
+        "y_centre_px": 860
+      },
+      "mots": [
+        {
+          "texte": "2 500 FCFA",
+          "at_ms": 18000,
+          "at_beat": 36.0
+        }
+      ],
+      "anim_in": {
+        "prix": {
+          "easing": "easeOutBack_pop",
+          "duree_ms": 320,
+          "echelle": [
+            0.6,
+            1.06,
+            1.0
+          ],
+          "rebond_a_ms": 18340
+        }
+      },
+      "anim_out": {
+        "type": "fade",
+        "easing": "easeOutCubic",
+        "duree_ms": 200
+      }
+    },
+    {
+      "block_id": "T_quartier",
+      "style": "quartier",
+      "champ_source": "quartier",
+      "timeline": {
+        "start_ms": 21500,
+        "end_ms": 25000,
+        "duree_ms": 3500
+      },
+      "sur_le_temps": {
+        "start_beat": 43.0,
+        "duree_beats": 7.0
+      },
+      "layout": {
+        "y_centre_px": 1180
+      },
+      "mots": [
+        {
+          "texte": "ABOMEY-CALAVI",
+          "at_ms": 21500,
+          "at_beat": 43.0
+        },
+        {
+          "texte": "ARCONVILLE",
+          "at_ms": 22500,
+          "at_beat": 45.0
+        }
+      ],
+      "anim_out": {
+        "type": "fade",
+        "easing": "easeOutCubic",
+        "duree_ms": 200
+      }
+    },
+    {
+      "block_id": "T_whatsapp",
+      "style": "whatsapp",
+      "champ_source": "whatsapp",
+      "timeline": {
+        "start_ms": 26500,
+        "end_ms": 30000,
+        "duree_ms": 3500
+      },
+      "sur_le_temps": {
+        "start_beat": 53.0,
+        "duree_beats": 7.0
+      },
+      "layout": {
+        "y_centre_px": 1330
+      },
+      "mots": [
+        {
+          "texte": "Commander : NUMÉRO DE DÉMO NON ATTRIBUÉ",
+          "at_ms": 26500,
+          "at_beat": 53.0
+        }
+      ],
+      "verrouille_ms": 3500,
+      "anim_out": {
+        "type": "aucune",
+        "raison": "le CTA reste immobile jusqu'a 30,000 s"
+      }
+    }
+  ],
+  "sfx_track": [
+    {
+      "sfx": "pop_impact",
+      "at_ms": 6500,
+      "at_beat": 13.0,
+      "gain_db": -5,
+      "gain_db_voix_active": -8,
+      "declenche_par": "apparition du bandeau hero"
+    },
+    {
+      "sfx": "ding_cash",
+      "at_ms": 7340,
+      "at_beat": 14.68,
+      "gain_db": -5,
+      "gain_db_voix_active": -8,
+      "declenche_par": "rebond exact de la pastille prix"
+    },
+    {
+      "sfx": "whoosh_fast",
+      "at_ms": 5900,
+      "at_beat": 11.8,
+      "gain_db": -5,
+      "gain_db_voix_active": -8,
+      "declenche_par": "100 ms avant le wipe geometrique"
+    },
+    {
+      "sfx": "whoosh_fast",
+      "at_ms": 8900,
+      "at_beat": 17.8,
+      "gain_db": -5,
+      "gain_db_voix_active": -8,
+      "declenche_par": "100 ms avant le zoom punch"
+    },
+    {
+      "sfx": "swoosh_soft",
+      "at_ms": 13900,
+      "at_beat": 27.8,
+      "gain_db": -5,
+      "gain_db_voix_active": -8,
+      "declenche_par": "100 ms avant le fondu enchaine"
+    },
+    {
+      "sfx": "swoosh_soft",
+      "at_ms": 16900,
+      "at_beat": 33.8,
+      "gain_db": -5,
+      "gain_db_voix_active": -8,
+      "declenche_par": "100 ms avant la coupe de la scene 3"
+    },
+    {
+      "sfx": "ding_cash",
+      "at_ms": 18340,
+      "at_beat": 36.68,
+      "gain_db": -5,
+      "gain_db_voix_active": -8,
+      "declenche_par": "rebond exact du prix seul"
+    },
+    {
+      "sfx": "whoosh_fast",
+      "at_ms": 20900,
+      "at_beat": 41.8,
+      "gain_db": -5,
+      "gain_db_voix_active": -8,
+      "declenche_par": "100 ms avant le wipe directionnel"
+    },
+    {
+      "sfx": "pop_impact",
+      "at_ms": 21500,
+      "at_beat": 43.0,
+      "gain_db": -5,
+      "gain_db_voix_active": -8,
+      "declenche_par": "arrivee du bloc quartier (0,5 s apres la transition)"
+    },
+    {
+      "sfx": "whoosh_fast",
+      "at_ms": 23900,
+      "at_beat": 47.8,
+      "gain_db": -5,
+      "gain_db_voix_active": -8,
+      "declenche_par": "100 ms avant le punch cut"
+    },
+    {
+      "sfx": "notif_whatsapp",
+      "at_ms": 26500,
+      "at_beat": 53.0,
+      "gain_db": -5,
+      "gain_db_voix_active": -8,
+      "declenche_par": "apparition du CTA verrouille"
+    }
+  ],
+  "audio": {
+    "musique": {
+      "famille": "maquis_afrobeats_120",
+      "bpm_famille": 120,
+      "selection": "automatique_aleatoire_ota",
+      "regle_anti_repetition": "selected_music_id != last_played_music_id (exclusion stricte du dernier son joue)",
+      "stockage_dernier_son": "SharedPreferences cle last_played_music_id (survit a la fermeture de l'app)",
+      "pool": {
+        "taille_min_pour_tirage": 2,
+        "si_pool_egal_1": "on rejoue la meme piste mais avec un point de depart different et un fade d'entree de 800 ms",
+        "extensible_ota": true,
+        "manifeste": "music_manifest.json telecharge, champs id, famille, bpm, duree_ms, url, sha256, taille_ko",
+        "controle": "sha256 verifie avant lecture, piste rejetee si different"
+      },
+      "catalogue_local_actuel": [
+        {
+          "id": "maquis_afro_01",
+          "bpm": 120,
+          "duree_ms": 32000,
+          "taille_ko": 420
+        },
+        {
+          "id": "maquis_afro_02",
+          "bpm": 120,
+          "duree_ms": 34500,
+          "taille_ko": 448
+        },
+        {
+          "id": "maquis_afro_03",
+          "bpm": 120,
+          "duree_ms": 30000,
+          "taille_ko": 396
+        }
+      ],
+      "gain_mix_db": -6,
+      "gain_pendant_voix_db": -16,
+      "telechargement": "wifi ou charge > 40 pourcent, prefetch pendant l'ecran de guidage, jamais pendant l'export"
+    },
+    "voix": {
+      "principe": "l'audio des prises n'est jamais coupe",
+      "normalisation": "-16 LUFS integre, crete -1 dBTP",
+      "reduction_de_bruit": "douce, un seul passage, uniquement si le plancher de bruit depasse -45 dBFS",
+      "langues": "aucune contrainte — aucune reconnaissance vocale, aucune transcription",
+      "prise_muette": "si aucune voix detectee dans la scene, la musique reste a -6 dB"
+    },
+    "ducking": {
+      "mode": "automatique",
+      "detection": "enveloppe RMS fenetre 10 ms calculee hors ligne avant l'export (30 s = 3000 valeurs, moins de 2 Mo de RAM)",
+      "seuil_db": -26,
+      "lookahead_ms": 80,
+      "hold_ms": 200,
+      "attaque_ms": 60,
+      "relachement_ms": 400,
+      "profondeur_db": -10,
+      "cible": "musique -6 dB vers -16 dB pendant la parole, retour doux a -6 dB",
+      "seuil_scene": "une scene est consideree parlee si la voix cumule au moins 400 ms au-dessus du seuil",
+      "courbe": "rampe lineaire sur l'attaque, easeOutCubic sur le relachement",
+      "anti_pompage": "hold 200 ms empeche la musique de remonter entre deux mots"
+    },
+    "sfx": {
+      "gain_db": -5,
+      "gain_db_voix_active": -8,
+      "catalogue_local": "30 fichiers .m4a"
+    },
+    "fade_out": {
+      "debut_ms": 28500,
+      "fin_ms": 30000,
+      "duree_ms": 1500,
+      "courbe": "easeOutCubic"
+    }
+  },
+  "fin_de_video": {
+    "fin_exacte_ms": 30000,
+    "cta_verrouille_ms": 3500,
+    "regles": [
+      "aucune sortie de texte apres 26,50 s",
+      "la musique finit a 30,000 s sans coupure audible",
+      "le dernier plan ne bouge plus apres 29,00 s (mouvement stabilise)"
+    ]
+  },
+  "mouvement_continu": {
+    "regle": "chaque plan bouge du premier au dernier image, meme si le commercant a filme sans bouger",
+    "variation": "jamais deux plans de suite avec le meme mouvement (zoom_in, zoom_out, pan_gauche, pan_droite, pan_haut, pan_bas)",
+    "amplitude": "1,00 vers 1,05 a 1,07 sur la duree du plan, jamais plus",
+    "source": "le zoom de 5 a 10 pourcent sur la duree du plan est la plage ou le mouvement est ressenti sans etre vu"
+  },
+  "contraintes_moteur": {
+    "decodeurs": "1 a la fois, 2 pendant 6 images de fondu (200 ms) uniquement",
+    "rendu_texte": "bitmaps rasterisees une fois avant l'export, jamais de rendu de texte par image",
+    "animation": "opacite, translation et echelle seulement — jamais de flou, de glow ou de masque anime par image",
+    "etalonnage": "matrice de couleur 4x5, pas de LUT .cube",
+    "easing": "5 iterations de Newton par image et par piste, cout negligeable",
+    "export": {
+      "resolution_defaut": "720x1280",
+      "resolution_si_3go": "1080x1920",
+      "fps": 30,
+      "codec": "H.264 Baseline",
+      "debit_mbps": [
+        6,
+        9
+      ],
+      "audio": "AAC 128 kbps"
+    },
+    "memoire_pic_estimee_mo": {
+      "2_go": 180,
+      "3_go": 260
+    }
+  },
+  "ecran_08": {
+    "nom": "Caméra guidée",
+    "regle_absolue": "la carte de consigne n'est JAMAIS affichée pendant l'enregistrement",
+    "etats": {
+      "etat_1_lecture": {
+        "declencheur": "arrivée sur la scène, retour arrière, ou appui sur Refaire",
+        "camera": "aperçu plein écran en arrière-plan, assombri à 40 %",
+        "carte": {
+          "taille_px_1080": 620,
+          "rayon_px": 28,
+          "fond": "rgba(15,23,42,0.92)",
+          "position": "centre de l'écran",
+          "arriere_plan": "aperçu caméra plein écran, assombri à 40 %",
+          "contenu": [
+            {
+              "ordre": 1,
+              "champ": "ligne_1",
+              "police": "Plus Jakarta Sans 700",
+              "taille_px": 34,
+              "couleur": "#F2621B",
+              "tracking_em": 0.06
+            },
+            {
+              "ordre": 2,
+              "champ": "ligne_2",
+              "police": "Montserrat 800",
+              "taille_px": 72,
+              "couleur": "#FFFFFF"
+            },
+            {
+              "ordre": 3,
+              "champ": "consigne",
+              "police": "Plus Jakarta Sans 700",
+              "taille_px": 40,
+              "couleur": "#FFFFFF",
+              "lignes_max": 4
+            },
+            {
+              "ordre": 4,
+              "champ": "mention_voix",
+              "police": "Plus Jakarta Sans 600",
+              "taille_px": 32,
+              "couleur": "#FFF3EA à 85 %",
+              "icone": "micro"
+            },
+            {
+              "ordre": 5,
+              "champ": "exemple",
+              "police": "Plus Jakarta Sans 600 italique",
+              "taille_px": 30,
+              "couleur": "#FFFFFF à 70 %",
+              "guillemets": true
+            }
+          ],
+          "bouton": {
+            "texte": "GO · Commencer",
+            "hauteur_px": 96,
+            "rayon_px": 999,
+            "fond": "#F2621B",
+            "texte_px": 46,
+            "action_unique": true
+          }
+        },
+        "seule_action": "GO · Commencer"
+      },
+      "etat_2_enregistrement": {
+        "declencheur": "appui sur GO · Commencer",
+        "carte": "DISPARAÎT IMMÉDIATEMENT — retirée à l'image 0, aucune transition conservée sur les premières images utiles",
+        "elements_a_l_ecran": [
+          {
+            "element": "chrono",
+            "position": "haut centre, marge 64 px",
+            "style": "pastille rouge + mm:ss, Plus Jakarta Sans 700, 34 px"
+          },
+          {
+            "element": "barre de progression",
+            "position": "bas, largeur 88 %",
+            "style": "4 px, se remplit sur la durée de la scène"
+          }
+        ],
+        "3_dernieres_secondes": "chrono et barre en #F2621B + vibration",
+        "autres_textes": "aucun",
+        "autres_boutons": "aucun — arrêt automatique à la durée exacte"
+      },
+      "etat_3_validation": {
+        "declencheur": "fin des secondes imposées",
+        "apercu": "immédiat, AVEC LE SON, en boucle",
+        "boutons": [
+          {
+            "texte": "Refaire",
+            "style": "contour 2 px blanc sur fond sombre",
+            "action": "supprime la prise et revient à l'état 1 de la MÊME scène"
+          },
+          {
+            "texte": "Scène suivante",
+            "style": "plein #F2621B",
+            "action": "affiche la carte de la scène suivante (état 1) avant le prochain GO"
+          }
+        ],
+        "apres_scene_4": {
+          "texte": "Voir mon montage",
+          "action": "enchaîne sur l'écran de statut de montage"
+        }
+      }
+    },
+    "regle_de_retour": "un retour arrière depuis l'état 3 ramène à l'état 1 de la scène courante, jamais directement à l'enregistrement"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "manifest_version": 1,
+  "project": "VITRINE VIDÉO — T1 Plat du jour",
+  "note": "Temporary render inputs only. Download at render time, verify SHA-256, do not commit or redistribute raw footage.",
+  "license_policy": "Only Mixkit Stock Video Free License clips explicitly marked for commercial or personal use are included. No Restricted License clips.",
+  "sources": [
+    {
+      "id": "S1",
+      "filename": "3075.mp4",
+      "title": "Food with natural ingredients",
+      "scene_use": "S1 — establishing food close-up / appetizing plated ingredients",
+      "page_url": "https://mixkit.co/free-stock-video/food-with-natural-ingredients-3075/",
+      "download_url": "https://assets.mixkit.co/videos/3075/3075-720.mp4",
+      "license_name": "Mixkit Stock Video Free License",
+      "license_url": "https://mixkit.co/license/#videoFree",
+      "license_status": "Commercial or personal use stated on item page",
+      "sha256": "699728beaa82a0023e7f71c660a076aa2fee466669aac09e259b48b16d585902",
+      "redistribute_original": false
+    },
+    {
+      "id": "S2",
+      "filename": "3552.mp4",
+      "title": "Burgers on plates on a table",
+      "scene_use": "S2 — overhead food details (stock example, not the demo business's actual dish)",
+      "page_url": "https://mixkit.co/free-stock-video/burgers-on-plates-on-a-table-3552/",
+      "download_url": "https://assets.mixkit.co/videos/3552/3552-720.mp4",
+      "license_name": "Mixkit Stock Video Free License",
+      "license_url": "https://mixkit.co/license/#videoFree",
+      "license_status": "Commercial or personal use stated on item page",
+      "sha256": "6c96d5135dcdc8ff03185e32c73769d7bb04d372cd88db878e1fb7f8a09d2494",
+      "redistribute_original": false
+    },
+    {
+      "id": "S3",
+      "filename": "4672.mp4",
+      "title": "Waiter serving meat stew in a restaurant",
+      "scene_use": "S3 — serving action",
+      "page_url": "https://mixkit.co/free-stock-video/waiter-serving-meat-stew-in-a-restaurant-4672/",
+      "download_url": "https://assets.mixkit.co/videos/4672/4672-720.mp4",
+      "license_name": "Mixkit Stock Video Free License",
+      "license_url": "https://mixkit.co/license/#videoFree",
+      "license_status": "Commercial or personal use stated on item page",
+      "sha256": "aa8e58e60f8ccb0fa706178b1e65033b66b38abb33e407e90e3583fcde9ce9d9",
+      "redistribute_original": false
+    },
+    {
+      "id": "S4",
+      "filename": "2597.mp4",
+      "title": "Outdoor restaurant seating on cobbled street",
+      "scene_use": "S4 — generic restaurant exterior/location context; not the demo business address",
+      "page_url": "https://mixkit.co/free-stock-video/outdoor-restaurant-seating-on-cobbled-street-2597/",
+      "download_url": "https://assets.mixkit.co/videos/2597/2597-720.mp4",
+      "license_name": "Mixkit Stock Video Free License",
+      "license_url": "https://mixkit.co/license/#videoFree",
+      "license_status": "Commercial or personal use stated on item page",
+      "sha256": "32e4a5856a032e37f339b9f9e6bb2d8a71c47bcf3f2c051603b51073d9990e17",
+      "redistribute_original": false
+    }
+  ]
+}

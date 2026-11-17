@@ -1,0 +1,18 @@
+# Downloaded source footage: download temporarily at render time; never commit originals
+rushes/source/**
+!rushes/source/.gitkeep
+
+# Generated renders/artifacts
+output/*.mp4
+output/*.png
+output/verification.json
+render_plan.json
+
+# Keep the canonical, unmodified V6.2 reference local; publish only its redacted demo-text derivative.
+specs/restaurants_maquis_T1.spec_v6_2.json
+
+# Python/cache
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.venv/
