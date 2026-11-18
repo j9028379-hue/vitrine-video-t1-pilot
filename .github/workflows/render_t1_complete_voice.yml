@@ -111,18 +111,22 @@ jobs:
           set -euo pipefail
           python - <<'PY'
           from PIL import Image, ImageDraw, ImageFont
-          W, H = 688, 164
+          W, H = 688, 220
           sign = Image.new('RGBA', (W, H), (22, 18, 13, 255))
           draw = ImageDraw.Draw(sign)
           draw.rectangle((2, 2, W - 3, H - 3), outline=(235, 184, 66, 255), width=5)
-          serif = ImageFont.truetype('assets/fonts/DMSerifDisplay-Regular.ttf', 61)
-          sans = ImageFont.truetype('assets/fonts/Montserrat-Variable.ttf', 22)
+          serif = ImageFont.truetype('assets/fonts/DMSerifDisplay-Regular.ttf', 56)
+          badge = ImageFont.truetype('assets/fonts/Montserrat-Variable.ttf', 27)
+          sans = ImageFont.truetype('assets/fonts/Montserrat-Variable.ttf', 21)
           title = 'BAMAKI SHALOM'
           box = draw.textbbox((0, 0), title, font=serif)
-          draw.text(((W - (box[2] - box[0])) / 2, 25), title, font=serif, fill=(255, 246, 218, 255))
-          sub = 'RESTAURANT  ·  CALAVI'
+          draw.text(((W - (box[2] - box[0])) / 2, 18), title, font=serif, fill=(255, 246, 218, 255))
+          simulation = 'SIMULATION VISUELLE'
+          box = draw.textbbox((0, 0), simulation, font=badge)
+          draw.text(((W - (box[2] - box[0])) / 2, 102), simulation, font=badge, fill=(255, 193, 72, 255))
+          sub = 'RUSH STOCK  ·  CALAVI'
           box = draw.textbbox((0, 0), sub, font=sans)
-          draw.text(((W - (box[2] - box[0])) / 2, 116), sub, font=sans, fill=(235, 184, 66, 255))
+          draw.text(((W - (box[2] - box[0])) / 2, 162), sub, font=sans, fill=(255, 246, 218, 255))
           sign.save('work/sign_overlay.png')
 
           notice = Image.new('RGBA', (688, 58), (15, 15, 15, 225))
