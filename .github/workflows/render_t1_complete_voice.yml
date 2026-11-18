@@ -1,6 +1,9 @@
 name: Render T1 complet — polices canoniques + voix
 
 on:
+  push:
+    branches:
+      - feat/t1-special-menu-reference-v1
   workflow_dispatch:
 
 permissions:
