@@ -333,14 +333,38 @@ Méthode des fenêtres sources, pour éviter toute ambiguïté : l'image du mast
 
 ## 12. Liens directs (téléchargement testé)
 
-| Livrable | Lien |
-|---|---|
-| Master final (`output_T1_master_final.mp4`) | voir Release `t1-audit-final` (asset `output_T1_master_final.mp4`) |
-| Référence V3.1 (`output_T1_sans_voix_v3_1.mp4`) | voir Release `t1-audit-final` |
-| 12 captures + planche | voir Release `t1-audit-final` (asset `ui-screens_et_planche.zip`) |
-| Planches d'audit du montage | voir Release `t1-audit-final` (asset `planches_audit_montage.zip`) |
-| Ce rapport | voir Release `t1-audit-final` (asset `T1_AUDIT_FINAL_PARCOURS_ET_MONTAGE.md`) |
+Release : **`t1-audit-final`** — https://github.com/j9028379-hue/vitrine-video-t1-pilot/releases/tag/t1-audit-final
 
-Chaque lien est vérifié par une requête HTTP **sans authentification** (`curl -sIL`) : code 200 et `content-length` non nul. Une page GitHub qui *affiche* un lien ne suffit pas — c'est le fichier qui doit se télécharger. Les liens exacts, testés, sont ajoutés ci-dessous après création de la Release.
+Préfixe commun : `https://github.com/j9028379-hue/vitrine-video-t1-pilot/releases/download/t1-audit-final/`
 
-<!-- LIENS_TESTES -->
+| Livrable | Fichier | Code HTTP | Octets servis |
+|---|---|---|---|
+| **Master final** | `output_T1_master_final.mp4` | 200 | 9 207 121 |
+| Référence V3.1 | `output_T1_sans_voix_v3_1.mp4` | 200 | 9 291 554 |
+| V4 démo | `output_T1_sans_voix_v4_demo.mp4` | 200 | 9 492 461 |
+| V3 | `output_T1_sans_voix_v3.mp4` | 200 | 8 861 052 |
+| V2 | `output_T1_sans_voix_v2.mp4` | 200 | 22 915 774 |
+| 12 captures + planche des 12 états | `ui-screens_et_planche.zip` | 200 | 13 972 877 |
+| Planches d'audit du montage | `planches_audit_montage.zip` | 200 | 7 250 217 |
+| Ce rapport | `T1_AUDIT_FINAL_PARCOURS_ET_MONTAGE.md` | 200 | 29 214 |
+| Journal d'exécution | `execution_manifest_v4.json` | 200 | 12 603 |
+| Contrôle du master | `final_master_checks.json` | 200 | 8 289 |
+
+### 12.1 Vérification faite, pas supposée
+
+- Chaque lien a été appelé **sans aucun en-tête d'authentification** (`curl -sIL`) : **10/10 en 200** avec `content-length` non nul. Ce n'est donc pas une page GitHub qui affiche un lien, c'est le fichier qui se télécharge.
+- Le master a été **entièrement retéléchargé** depuis ce lien puis comparé : SHA-256 `97c3477d8043b3c1b8f5f11144d8b9f1aa65a803c0f5aa68a7747d6fb27dea91` — identique au fichier produit ; relu ensuite par OpenCV : **900 images, 30,0 i/s, 720×1280**.
+- Le message « fichier trop volumineux » du dépôt ne concerne plus l'accès : les binaires sont dans la Release, pas dans l'arborescence Git.
+- Aucune connexion au compte propriétaire n'est nécessaire pour télécharger : le dépôt est public et les assets de Release sont publics.
+
+### 12.2 Pages publiées
+
+- Dépôt : https://github.com/j9028379-hue/vitrine-video-t1-pilot (commit de l'audit : `dc94572`)
+- Démonstration (GitHub Pages) : https://j9028379-hue.github.io/vitrine-video-t1-pilot/
+- Maquette du parcours : https://j9028379-hue.github.io/vitrine-video-t1-pilot/simulation/
+
+Ces deux dernières pages servent le commit poussé : la fiche verticale, les états A/B/C et le mode `?capture=1` y sont désormais identiques aux captures livrées.
+
+### 12.3 Note d'honnêteté sur l'espace de travail
+
+Le dépôt complet, une fois l'audio versionné inclus, pèse ~240 Mo. Comme l'audio est hors périmètre et déjà sur GitHub, il n'a pas été matérialisé dans l'espace de travail (exclusion Git locale) ; les rushes Mixkit (45 Mo, régénérables par `bash rushes/build_scenes.sh`) et les MP4 antérieurs (V2, V3, V4 démo : présents dans la Release) ont été retirés du disque après publication. Rien n'est perdu : code et images sont sur GitHub, binaires sur la Release.
