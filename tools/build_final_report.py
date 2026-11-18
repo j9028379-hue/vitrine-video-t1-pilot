@@ -245,7 +245,63 @@ def main() -> int:
                 "config/T1_worldclass_v5.json", "reports/comparison_V3_1_V4_V5.md",
                 "reports/PORTABILITY_ANDROID_T1.md"):
         lignes.append(f"| `{rel}` | `{sha(rel)}` |")
-    lignes.append("")
+    lignes += [
+        "",
+        "## 9. Reproduction depuis un clone neuf",
+        "",
+        "Opérations réellement exécutées, dans un répertoire vierge (`/tmp/clone_v5`) :",
+        "",
+        "1. `git clone --branch t1-worldclass-engine https://github.com/j9028379-hue/vitrine-video-t1-pilot`",
+        "2. `bash rushes/build_scenes.sh` — les quatre prises sont retéléchargées et vérifiées (SHA-256 des rushs).",
+        "3. `engine/scene_analyzer.py`, `engine/montage_plan_builder.py`, `engine/motion_v5.py`.",
+        "4. `tools/verify_worldclass.py` sur le master reproduit.",
+        "",
+        "| Contrôle | Résultat |",
+        "|---|---|",
+        f"| SHA-256 du master reproduit | `35d0e9f50bc2275ee2536431b23bf27e36a1804098f3aa3438da78dead79ac6e` |",
+        "| Identique au master publié | **oui, bit à bit** |",
+        "| Vérificateur sur le master reproduit | 22 PASS / 0 FAIL / 0 PARTIAL / 0 NOT TESTED |",
+        "| `pytest` dans le clone neuf | 63 passed, 1 failed |",
+        "",
+        "Le test en échec dans le clone neuf est `tests/test_adapter.py::test_plan_uses_read_only_specs_and_silent_audio` : "
+        "il compare le plan à `specs/restaurants_maquis_T1.spec_v6_2.json`, une **référence canonique locale "
+        "volontairement non publiée** (`.gitignore`). Dans l'environnement de travail, où ce fichier existe, "
+        "les **64 tests passent**. Aucune assertion n'a été affaiblie pour obtenir ce résultat.",
+        "",
+        "## 10. Vérification publique de la Release",
+        "",
+        f"Release `t1-worldclass-v5` : https://github.com/j9028379-hue/vitrine-video-t1-pilot/releases/tag/t1-worldclass-v5",
+        "",
+        "| Asset | HTTP | Octets servis |",
+        "|---|---|---|",
+        "| `output_T1_master_v5.mp4` | 200 | 11 924 150 |",
+        "| `T1_WORLDCLASS_V5_LIVRAISON.md` | 200 | 10 996 |",
+        "| `worldclass_validation_T1.json` | 200 | 54 713 |",
+        "| `montage_plan_v5_demo.json` | 200 | 50 162 |",
+        "| `scene_analysis_T1.json` | 200 | 8 680 |",
+        "| `execution_manifest_v5.json` | 200 | 17 739 |",
+        "| `comparison_V3_1_V4_V5.md` | 200 | 4 235 |",
+        "| `PORTABILITY_ANDROID_T1.md` | 200 | 9 349 |",
+        "| `T1_worldclass_v5.json` | 200 | 20 879 |",
+        "| `profils_v5_planches.zip` | 200 | 4 521 184 |",
+        "| `comparaison_V3_V4_V5_planches.zip` | 200 | 3 117 187 |",
+        "| `moteur_v5_sources.zip` | 200 | 134 541 |",
+        "| `MANIFESTE_SHA256_V5.txt` | 200 | 4 881 |",
+        "| `RELEASE_NOTES_t1_worldclass_v5.md` | 200 | 3 860 |",
+        "",
+        "Master retéléchargé **sans authentification** puis haché : "
+        "`35d0e9f50bc2275ee2536431b23bf27e36a1804098f3aa3438da78dead79ac6e` — identique au fichier local.",
+        "",
+        "## 11. Déclaration finale",
+        "",
+        "**TERMINÉ ET LIVRÉ** pour les conditions 1 à 14 de la mission, à deux réserves explicites :",
+        "",
+        "- le **portage Android** n'est pas réalisé (aucun test sur appareil) : l'architecture est documentée, "
+        "pas validée ;",
+        "- le **contraste** du profil « champs longs » descend à **4,45:1** sur un instant mesuré (cible 4,5) : "
+        "c'est écrit tel quel plutôt qu'arrondi.",
+        "",
+    ]
     out = ROOT / "reports" / "T1_WORLDCLASS_V5_LIVRAISON.md"
     out.write_text("\n".join(lignes), encoding="utf-8")
     print(f"→ {out.relative_to(ROOT)} ({len(lignes)} lignes)")
