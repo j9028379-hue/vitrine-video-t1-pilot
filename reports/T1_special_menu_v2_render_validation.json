@@ -1,0 +1,125 @@
+{
+  "status": "PASS",
+  "config": "config/T1_special_menu_reference_v2.json",
+  "video": "output/output_T1_special_menu_reference_v2.mp4",
+  "video_sha256": "9a485a6f202c9438c74628cd05bf4dfa8d0a623794d7af717592b196074e38b0",
+  "video_bytes": 20595205,
+  "decoded": {
+    "width": 720,
+    "height": 1280,
+    "fps": 30.0,
+    "advertised_frames": 900,
+    "decoded_frames": 900,
+    "duration_s": 30.0
+  },
+  "motion": {
+    "adjacent_pair_count": 899,
+    "mad_mean": 5.206882,
+    "mad_median": 4.330404,
+    "mad_p95": 14.259293,
+    "mad_max": 45.965252,
+    "static_pairs_mad_lt_0_15": 0,
+    "near_static_pairs_mad_lt_0_50": 0,
+    "declared_cut_metrics": [
+      {
+        "at_f": 60,
+        "mad": 19.376448
+      },
+      {
+        "at_f": 120,
+        "mad": 10.254612
+      },
+      {
+        "at_f": 180,
+        "mad": 29.607006
+      },
+      {
+        "at_f": 240,
+        "mad": 9.932292
+      },
+      {
+        "at_f": 300,
+        "mad": 37.067535
+      },
+      {
+        "at_f": 360,
+        "mad": 22.369963
+      },
+      {
+        "at_f": 420,
+        "mad": 35.347828
+      },
+      {
+        "at_f": 480,
+        "mad": 24.643673
+      },
+      {
+        "at_f": 540,
+        "mad": 28.751221
+      },
+      {
+        "at_f": 630,
+        "mad": 39.78133
+      },
+      {
+        "at_f": 690,
+        "mad": 18.869322
+      },
+      {
+        "at_f": 750,
+        "mad": 24.435999
+      },
+      {
+        "at_f": 810,
+        "mad": 13.237422
+      }
+    ]
+  },
+  "cta_final_frame": {
+    "frame": 899,
+    "green_accent_pixels": 349,
+    "frame_mean_luma_proxy": 20.190228,
+    "graphics_opacity_contract": 1.0
+  },
+  "price_display": {
+    "example_input": "2500",
+    "example_output": "2 500 FCFA",
+    "single_line_lockup": true,
+    "baseline_alignment": true
+  },
+  "impact_transition_contract": {
+    "enabled": true,
+    "major_cut_frames": [
+      180,
+      420,
+      630
+    ],
+    "minor_cut_frames": [
+      60,
+      120,
+      240,
+      300,
+      360,
+      480,
+      540,
+      690,
+      750,
+      810
+    ],
+    "source_time_map": "identity",
+    "audio_time_map": "identity",
+    "text_layer_affected": false
+  },
+  "non_destructive": {
+    "capture_guide_sha256": "93a807f88e0e0f909cb589e8539419a4d1c387c12bc1b9966ba7dbe1a936075c",
+    "capture_guide_matches_base": true,
+    "origin_main": "ad4ff15a76dcba7bd08b7e8f56052e842b3e794f",
+    "expected_origin_main": "ad4ff15a76dcba7bd08b7e8f56052e842b3e794f",
+    "origin_main_untouched": true
+  },
+  "audio": {
+    "present_in_visual_preview": false,
+    "reason": "Audio phase remains intentionally paused.",
+    "speech_timeline_contract": "1.0x continuous source time per scene"
+  }
+}

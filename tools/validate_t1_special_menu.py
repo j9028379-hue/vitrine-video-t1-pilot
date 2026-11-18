@@ -33,16 +33,19 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    config = load_json(args.config)
+    config_path = args.config.resolve()
+    video_path = args.video.resolve()
+    report_path = args.report.resolve()
+    config = load_json(config_path)
     validate_config(config)
     capture_path = ROOT / config["scene_capture_contract"]["source"]
     capture_hash = sha256(capture_path)
     if capture_hash != CAPTURE_SHA256_AT_BASE:
         raise AssertionError("Le guide de capture a été modifié.")
 
-    cap = cv2.VideoCapture(str(args.video))
+    cap = cv2.VideoCapture(str(video_path))
     if not cap.isOpened():
-        raise FileNotFoundError(args.video)
+        raise FileNotFoundError(video_path)
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = float(cap.get(cv2.CAP_PROP_FPS))
@@ -95,10 +98,10 @@ def main() -> None:
 
     report = {
         "status": "PASS",
-        "config": str(args.config.relative_to(ROOT)),
-        "video": str(args.video.relative_to(ROOT)),
-        "video_sha256": sha256(args.video),
-        "video_bytes": args.video.stat().st_size,
+        "config": str(config_path.relative_to(ROOT)),
+        "video": str(video_path.relative_to(ROOT)),
+        "video_sha256": sha256(video_path),
+        "video_bytes": video_path.stat().st_size,
         "decoded": {
             "width": width,
             "height": height,
@@ -123,6 +126,20 @@ def main() -> None:
             "frame_mean_luma_proxy": round(final_mean, 6),
             "graphics_opacity_contract": 1.0,
         },
+        "price_display": {
+            "example_input": config.get("price_format", {}).get("example_input"),
+            "example_output": config.get("price_format", {}).get("example_output"),
+            "single_line_lockup": config.get("price_format", {}).get("single_line_lockup", False),
+            "baseline_alignment": config.get("price_format", {}).get("baseline_alignment", False),
+        },
+        "impact_transition_contract": {
+            "enabled": bool(config.get("impact_transition_system", {}).get("enabled")),
+            "major_cut_frames": config.get("impact_transition_system", {}).get("major_scene_cuts", {}).get("cut_frames", []),
+            "minor_cut_frames": config.get("impact_transition_system", {}).get("minor_cuts", {}).get("cut_frames", []),
+            "source_time_map": config.get("impact_transition_system", {}).get("source_time_map", "identity"),
+            "audio_time_map": config.get("impact_transition_system", {}).get("audio_time_map", "identity"),
+            "text_layer_affected": config.get("impact_transition_system", {}).get("text_layer_affected", False),
+        },
         "non_destructive": {
             "capture_guide_sha256": capture_hash,
             "capture_guide_matches_base": True,
@@ -139,8 +156,8 @@ def main() -> None:
     }
     if origin_main is not None:
         assert report["non_destructive"]["origin_main_untouched"] is True
-    args.report.parent.mkdir(parents=True, exist_ok=True)
-    args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))
 
 

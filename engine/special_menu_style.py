@@ -88,6 +88,19 @@ def validate_config(config: dict[str, Any]) -> None:
     for key in ("crossfades", "wipes", "glitches", "speed_ramps", "freeze_frames"):
         if config["edit_timeline"][key]:
             raise ValueError(f"{key} doit rester vide pour cette référence.")
+    impact = config.get("impact_transition_system")
+    if impact and impact.get("enabled"):
+        if impact.get("source_time_map") != "identity" or impact.get("audio_time_map") != "identity":
+            raise ValueError("Les transitions impact ne doivent jamais remapper la parole.")
+        major = impact["major_scene_cuts"]["cut_frames"]
+        minor = impact["minor_cuts"]["cut_frames"]
+        declared = sorted(config["edit_timeline"]["hard_cut_frames"])
+        if sorted(major + minor) != declared:
+            raise ValueError("Chaque coupe doit recevoir exactement un profil impact.")
+        if major != [180, 420, 630]:
+            raise ValueError("Les effets majeurs sont réservés aux trois frontières de scènes.")
+        if impact.get("text_layer_affected") is not False:
+            raise ValueError("Les effets impact doivent rester derrière le texte net.")
     for font in config["fonts"].values():
         if not isinstance(font, dict) or "file" not in font:
             continue
@@ -331,10 +344,24 @@ def _soft_scrim(frame: np.ndarray, center_y: float, strength: float, sigma_y: fl
 
 
 def _display_price(value: str) -> tuple[str, str]:
-    clean = " ".join(value.strip().split())
+    """Return a grouped number and currency without mutating merchant data.
+
+    Numeric values are grouped from the right (``2500`` -> ``2 500``). The
+    renderer then keeps number + currency in one non-breaking visual lockup.
+    Non-numeric merchant strings are preserved verbatim after whitespace
+    normalization.
+    """
+    clean = " ".join(value.replace("\u00a0", " ").replace("\u202f", " ").strip().split())
     upper = clean.upper()
     if upper.endswith("FCFA"):
-        return clean[:-4].strip(), "FCFA"
+        clean = clean[:-4].strip()
+    compact = clean.replace(" ", "")
+    if compact.isdigit():
+        groups: list[str] = []
+        while compact:
+            groups.append(compact[-3:])
+            compact = compact[:-3]
+        clean = " ".join(reversed(groups))
     return clean, "FCFA"
 
 
@@ -402,14 +429,36 @@ def render_graphics(
         main, suffix = _display_price(fields["prix"])
         price_layer, price_draw = _new_layer(w, h)
         price_font = _font(display_path, 86)
-        while price_font.getlength(main) > w * 0.72 and price_font.size > 58:
-            price_font = _font(display_path, price_font.size - 1)
-        main_w = price_font.getlength(main)
-        y = int(h * 0.66)
-        price_draw.text(((w - main_w) / 2, y), main, font=price_font, fill=ivory)
         util = _font(utility_path, 28, 700)
-        suffix_w = util.getlength(suffix)
-        price_draw.text(((w - suffix_w) / 2, y + int(price_font.size * 0.92)), suffix, font=util, fill=secondary)
+        price_spec = next(g for g in config["graphics"] if g["id"] == "G02_PRICE")
+        single_line = price_spec.get("layout", {}).get("mode") == "single_line_baseline"
+        if single_line:
+            gap = int(price_spec["layout"].get("number_currency_gap_px", 18))
+            suffix_w = util.getlength(suffix)
+            while price_font.getlength(main) + gap + suffix_w > w * 0.82 and price_font.size > 58:
+                price_font = _font(display_path, price_font.size - 1)
+            main_w = price_font.getlength(main)
+            total_w = main_w + gap + suffix_w
+            start_x = (w - total_w) / 2
+            baseline = int(h * float(price_spec["layout"].get("baseline_y", 0.72)))
+            # ``ls`` anchors both fonts to the same baseline: a clear protected
+            # gap replaces the former stacked/overlapping currency label.
+            price_draw.text((start_x, baseline), main, font=price_font, fill=ivory, anchor="ls")
+            price_draw.text(
+                (start_x + main_w + gap, baseline),
+                suffix,
+                font=util,
+                fill=secondary,
+                anchor="ls",
+            )
+        else:
+            while price_font.getlength(main) > w * 0.72 and price_font.size > 58:
+                price_font = _font(display_path, price_font.size - 1)
+            main_w = price_font.getlength(main)
+            y = int(h * 0.66)
+            price_draw.text(((w - main_w) / 2, y), main, font=price_font, fill=ivory)
+            suffix_w = util.getlength(suffix)
+            price_draw.text(((w - suffix_w) / 2, y + int(price_font.size * 0.92)), suffix, font=util, fill=secondary)
         progress = (frame_index - 184) / 20.0
         layer = Image.alpha_composite(layer, _reveal(price_layer, progress))
 
@@ -513,6 +562,120 @@ def render_graphics(
     return cv2.cvtColor(np.asarray(composed), cv2.COLOR_RGB2BGR)
 
 
+def impact_transition_state(config: dict[str, Any], frame_index: int) -> dict[str, Any] | None:
+    """Return a non-temporal cut treatment for one output frame.
+
+    The state never changes source time. It only drives spatial/color uniforms
+    around an existing single-frame hard cut.
+    """
+    system = config.get("impact_transition_system")
+    if not system or not system.get("enabled"):
+        return None
+    profiles = (
+        ("major", system["major_scene_cuts"]),
+        ("minor", system["minor_cuts"]),
+    )
+    for kind, profile in profiles:
+        for index, cut in enumerate(profile["cut_frames"]):
+            pre = int(profile["pre_frames"])
+            post = int(profile["post_frames"])
+            start = cut - pre
+            end = cut + post
+            if not start <= frame_index < end:
+                continue
+            if frame_index < cut:
+                phase = "outgoing"
+                intensity = (frame_index - start + 1) / max(pre, 1)
+            else:
+                phase = "incoming"
+                intensity = 1.0 - (frame_index - cut) / max(post, 1)
+            if kind == "major":
+                label = profile["directions_by_cut"].get(str(cut), "right")
+                direction = 1 if label == "right" else -1
+            else:
+                direction = 1 if index % 2 == 0 else -1
+            window_progress = (frame_index - start) / max(end - start - 1, 1)
+            return {
+                "kind": kind,
+                "profile": profile,
+                "cut_f": cut,
+                "phase": phase,
+                "intensity": float(np.clip(intensity, 0.0, 1.0)),
+                "window_progress": float(np.clip(window_progress, 0.0, 1.0)),
+                "direction": direction,
+            }
+    return None
+
+
+def _translate_reflect(frame: np.ndarray, dx: float) -> np.ndarray:
+    matrix = np.float32([[1.0, 0.0, dx], [0.0, 1.0, 0.0]])
+    return cv2.warpAffine(
+        frame,
+        matrix,
+        (frame.shape[1], frame.shape[0]),
+        flags=cv2.INTER_LINEAR,
+        borderMode=cv2.BORDER_REFLECT_101,
+    )
+
+
+def _directional_blur(frame: np.ndarray, pixels: int, direction: int) -> np.ndarray:
+    if pixels <= 0:
+        return frame
+    samples = 5
+    accumulator = np.zeros_like(frame, dtype=np.float32)
+    weights = np.asarray([0.10, 0.17, 0.26, 0.27, 0.20], dtype=np.float32)
+    for sample, weight in zip(np.linspace(0.0, pixels, samples), weights):
+        accumulator += _translate_reflect(frame, direction * float(sample)).astype(np.float32) * weight
+    return np.clip(accumulator, 0, 255).astype(np.uint8)
+
+
+def _chromatic_shift(frame: np.ndarray, pixels: int, direction: int) -> np.ndarray:
+    if pixels <= 0:
+        return frame
+    blue, green, red = cv2.split(frame)
+    red = _translate_reflect(red, direction * pixels)
+    blue = _translate_reflect(blue, -direction * pixels)
+    return cv2.merge((blue, green, red))
+
+
+def apply_impact_transition(frame: np.ndarray, state: dict[str, Any] | None) -> np.ndarray:
+    """Premium zoom/whip/flash treatment applied to background video only."""
+    if state is None:
+        return frame
+    profile = state["profile"]
+    intensity = state["intensity"]
+    direction = state["direction"]
+    phase_sign = 1 if state["phase"] == "outgoing" else -1
+
+    translation_max = float(profile.get("translation_px_max", 0.0))
+    if translation_max:
+        frame = _translate_reflect(frame, phase_sign * direction * translation_max * intensity)
+
+    blur_px = int(round(float(profile.get("directional_blur_px_max", 0)) * intensity))
+    frame = _directional_blur(frame, blur_px, phase_sign * direction)
+
+    chromatic_px = int(round(float(profile.get("chromatic_shift_px_max", 0)) * intensity))
+    frame = _chromatic_shift(frame, chromatic_px, direction)
+
+    image = frame.astype(np.float32)
+    flash_alpha = float(profile.get("warm_flash_alpha_max", 0.0)) * intensity
+    if flash_alpha:
+        amber_bgr = np.asarray([58.0, 174.0, 255.0], dtype=np.float32)
+        image = image * (1.0 - flash_alpha) + amber_bgr[None, None, :] * flash_alpha
+
+    sweep_alpha = float(profile.get("gold_light_sweep_alpha_max", 0.0))
+    if sweep_alpha:
+        h, w = frame.shape[:2]
+        yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+        diagonal = xx / max(w - 1, 1) + 0.62 * yy / max(h - 1, 1)
+        center = -0.18 + 1.98 * state["window_progress"]
+        band = np.exp(-0.5 * ((diagonal - center) / 0.10) ** 2)[..., None]
+        gold = np.asarray([80.0, 196.0, 255.0], dtype=np.float32)
+        alpha = sweep_alpha * band * (0.45 + 0.55 * intensity)
+        image = image * (1.0 - alpha) + gold[None, None, :] * alpha
+    return np.clip(image, 0, 255).astype(np.uint8)
+
+
 def find_shot(config: dict[str, Any], frame_index: int) -> dict[str, Any]:
     for shot in config["edit_timeline"]["shots"]:
         if shot["out_start_f"] <= frame_index < shot["out_end_f_exclusive"]:
@@ -574,11 +737,15 @@ def render_project(
                 shot = find_shot(config, global_index)
                 shot_t = (global_index - shot["out_start_f"]) / max(shot["out_frames"] - 1, 1)
                 eased = ease_in_out_sine(shot_t)
+                impact_state = impact_transition_state(config, global_index)
                 scale = shot["zoom"]["start"] + (shot["zoom"]["end"] - shot["zoom"]["start"]) * eased
+                if impact_state is not None:
+                    scale *= 1.0 + float(impact_state["profile"].get("zoom_extra", 0.0)) * impact_state["intensity"]
                 frame = crop_zoom(frame, scale, tuple(shot["anchor_normalized"]))
                 if vignette is None or vignette.shape[:2] != frame.shape[:2]:
                     vignette = _vignette(frame.shape[0], frame.shape[1], 0.16)
                 frame = apply_cinematic_grade(frame, grade, look, scene_index, local_index, lut, vignette)
+                frame = apply_impact_transition(frame, impact_state)
                 frame = cv2.resize(frame, (canvas["width"], canvas["height"]), interpolation=cv2.INTER_CUBIC)
 
                 # Reproduce the 8-frame outro darkening on video only. CTA stays opaque.
@@ -624,6 +791,12 @@ def render_project(
         "frames":frames_written,
         "duration_s":frames_written / canvas["fps"],
         "audio":False,
+        "impact_transitions": {
+            "enabled": bool(config.get("impact_transition_system", {}).get("enabled")),
+            "major_cut_frames": config.get("impact_transition_system", {}).get("major_scene_cuts", {}).get("cut_frames", []),
+            "minor_cut_frames": config.get("impact_transition_system", {}).get("minor_cuts", {}).get("cut_frames", []),
+            "source_time_map": config.get("impact_transition_system", {}).get("source_time_map", "identity"),
+        },
         "sha256":digest,
         "bytes":output_path.stat().st_size,
         "scenes":scene_reports,
