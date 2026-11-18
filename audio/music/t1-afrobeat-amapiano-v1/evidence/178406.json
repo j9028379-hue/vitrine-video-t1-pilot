@@ -1,0 +1,104 @@
+{
+  "retrieved_at": "2026-11-18",
+  "track_id": 178406,
+  "official_page": "https://pixabay.com/music/afrobeat-match-out-free-afro-amapiano-instrumental-178406/",
+  "official_content_url": "https://cdn.pixabay.com/download/audio/2023/11/27/audio_d5c53ad5c1.mp3?filename=artbybigvee-match-out-free-afro-amapiano-instrumental-178406.mp3",
+  "license": "https://pixabay.com/service/license-summary/",
+  "title": "Match Out - Free Afro Amapiano Instrumental by artbybigvee | Royalty-free Music",
+  "headline": "Match out afro amapiano instrumental music",
+  "artist": "artbybigvee",
+  "artist_url": "https://pixabay.com/users/artbybigvee-7284076/",
+  "description": "This energetic afro amapiano instrumental track features groovy log drums, driving percussion, and vibrant melodies. It is perfect for tiktok videos, instagram reels, dance content, and upbeat youtube vlogs.",
+  "duration": "PT2M46S",
+  "date_published": "2023-11-28T06:01:02.677Z",
+  "encoding_format": "audio/mpeg",
+  "genre": [
+    "Afrobeat",
+    "Upbeat",
+    "Electronic"
+  ],
+  "keywords": "Freebeats, Beats, Beat, Music, Dance, Party, Instrumental, Free Beats, Free Instrumental, Logdrums, Amapiano, Afro, Produce, Music Producer, Love, Keys, Melody, Afrobeat, Wizkid, Davido, African, Producer In Nigeria, Nigerian, South African, Nigerian Music Producer",
+  "content_id_registered": false,
+  "content_id_evidence": "No Content ID Registered label on rendered official page and no such JSON-LD additionalProperty.",
+  "official_original_filename": "artbybigvee-match-out-free-afro-amapiano-instrumental-178406.mp3",
+  "original_sha256": "b3b9de35b7b1c03c6599ffa3da55792f6c6e7aa0ad89308093c965bba41e6934",
+  "original_bytes": 5327307,
+  "json_ld": {
+    "@context": "https://schema.org",
+    "@type": [
+      "MusicRecording",
+      "AudioObject"
+    ],
+    "acquireLicensePage": "https://pixabay.com/music/afrobeat-match-out-free-afro-amapiano-instrumental-178406/",
+    "additionalProperty": [
+      {
+        "@type": "PropertyValue",
+        "name": "Mood",
+        "value": "Uplifting, Restless, Bright, Laid Back, Energetic"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Movement",
+        "value": "Chasing, Running, Smooth, Medium Fast"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Theme",
+        "value": "Music For Videos, Music For Youtube Videos, Vlog Music"
+      }
+    ],
+    "author": {
+      "@type": "Person",
+      "description": "|| Music Producer || Artist || Graphic Designer - WhatsApp : +2348135184066",
+      "image": "https://cdn.pixabay.com/user/2022/10/15/12-11-39-537_96x96.jpg",
+      "interactionStatistic": {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/FollowAction",
+        "userInteractionCount": 611
+      },
+      "name": "artbybigvee",
+      "url": "https://pixabay.com/users/artbybigvee-7284076/"
+    },
+    "commentCount": 1,
+    "contentUrl": "https://cdn.pixabay.com/download/audio/2023/11/27/audio_d5c53ad5c1.mp3?filename=artbybigvee-match-out-free-afro-amapiano-instrumental-178406.mp3",
+    "datePublished": "2023-11-28T06:01:02.677Z",
+    "description": "This energetic afro amapiano instrumental track features groovy log drums, driving percussion, and vibrant melodies. It is perfect for tiktok videos, instagram reels, dance content, and upbeat youtube vlogs.",
+    "duration": "PT2M46S",
+    "encodingFormat": "audio/mpeg",
+    "genre": [
+      "Afrobeat",
+      "Upbeat",
+      "Electronic"
+    ],
+    "headline": "Match out afro amapiano instrumental music",
+    "interactionStatistic": [
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/ViewAction",
+        "userInteractionCount": 57033
+      },
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/DownloadAction",
+        "userInteractionCount": 13746
+      },
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/LikeAction",
+        "userInteractionCount": 68
+      },
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/BookmarkAction",
+        "userInteractionCount": 42
+      }
+    ],
+    "isAccessibleForFree": true,
+    "isFamilyFriendly": true,
+    "keywords": "Freebeats, Beats, Beat, Music, Dance, Party, Instrumental, Free Beats, Free Instrumental, Logdrums, Amapiano, Afro, Produce, Music Producer, Love, Keys, Melody, Afrobeat, Wizkid, Davido, African, Producer In Nigeria, Nigerian, South African, Nigerian Music Producer",
+    "license": "https://pixabay.com/service/license-summary/",
+    "name": "Match Out - Free Afro Amapiano Instrumental by artbybigvee | Royalty-free Music",
+    "thumbnailUrl": "https://cdn.pixabay.com/audio/2023/11/27/01-34-14-232_200x200.jpg",
+    "uploadDate": "2023-11-28T06:01:02.677Z"
+  }
+}

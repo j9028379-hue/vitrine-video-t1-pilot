@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -10,8 +11,11 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 V12_PATH = ROOT / "specs" / "T1_ENGINEERING_SPEC_V1_2.json"
 V62_PATH = ROOT / "specs" / "restaurants_maquis_T1.spec_v6_2.json"
+V62_PUBLIC_PATH = ROOT / "specs" / "restaurants_maquis_T1.spec_v6_2.public-safe.json"
+DEFAULT_V62_PATH = V62_PATH if V62_PATH.exists() else V62_PUBLIC_PATH
 INPUT_PATH = ROOT / "demo" / "T1_demo_input.json"
 OUTPUT_PATH = ROOT / "render_plan.json"
+MUSIC_PACK_PATH = ROOT / "config" / "T1_special_menu_music_pack_v1_0_0.json"
 
 
 def load_json(path: Path) -> Any:
@@ -64,6 +68,8 @@ def validate_specs(v12: dict[str, Any], v62: dict[str, Any]) -> None:
 
 def build_render_plan(v12: dict[str, Any], v62: dict[str, Any], raw_input: dict[str, Any], v62_source: str | None = None) -> dict[str, Any]:
     validate_specs(v12, v62)
+    if v62_source is None:
+        v62_source = str(DEFAULT_V62_PATH.relative_to(ROOT))
     if raw_input.get("demo") is not True:
         raise ValueError("Le fichier d'entrée de ce pilote doit rester explicitement marqué demo=true.")
     data = normalize_fields(raw_input, v12["data_contract"])
@@ -110,7 +116,7 @@ def build_render_plan(v12: dict[str, Any], v62: dict[str, Any], raw_input: dict[
         "demo_only": True,
         "spec_sources": {
             "v12": "specs/T1_ENGINEERING_SPEC_V1_2.json",
-            "v62": v62_source or str(V62_PATH.relative_to(ROOT)),
+            "v62": v62_source,
             "write_back": False,
         },
         "output": {"width": 720, "height": 1280, "fps": 30, "frames": 900, "duration_s": 30.0, "audio": False},
@@ -128,20 +134,96 @@ def build_render_plan(v12: dict[str, Any], v62: dict[str, Any], raw_input: dict[
     }
 
 
+def select_music_track(
+    music_pack: dict[str, Any],
+    *,
+    render_job_id: str,
+    requested_variant_id: str = "auto",
+) -> dict[str, Any]:
+    """Select one of the four approved, production-ready local tracks."""
+    tracks = music_pack.get("tracks", [])
+    approved_ids = music_pack.get("selection_contract", {}).get("allowed_variant_ids", [])
+    expected_pixabay_ids = [239426, 464383, 406552, 178406]
+    if len(tracks) != 4 or [track.get("id") for track in tracks] != approved_ids:
+        raise ValueError("Le pack musical doit contenir exactement les quatre variantes approuvées.")
+    if [track.get("pixabay_id") for track in tracks] != expected_pixabay_ids:
+        raise ValueError("Le pack musical ne correspond pas au lot approuvé.")
+    if any(track.get("content_id_registered") or not track.get("production_eligible") for track in tracks):
+        raise ValueError("Toutes les variantes doivent être sans Content ID et prêtes pour la production.")
+    by_id = {track["id"]: track for track in tracks}
+    if requested_variant_id != "auto":
+        if requested_variant_id not in by_id:
+            raise ValueError(f"Variante musicale inconnue : {requested_variant_id}")
+        return by_id[requested_variant_id]
+    if not render_job_id:
+        raise ValueError("render_job_id est obligatoire pour une sélection automatique reproductible.")
+    digest = hashlib.sha256(render_job_id.encode("utf-8")).digest()
+    return tracks[int.from_bytes(digest[:8], "big") % 4]
+
+
+def attach_music_track(
+    plan: dict[str, Any],
+    music_pack: dict[str, Any],
+    *,
+    render_job_id: str,
+    requested_variant_id: str = "auto",
+) -> dict[str, Any]:
+    """Attach the selected local MP3 without changing merchant data or visual timing."""
+    selected = select_music_track(
+        music_pack,
+        render_job_id=render_job_id,
+        requested_variant_id=requested_variant_id,
+    )
+    plan["output"]["audio"] = True
+    plan["audio_track"] = {
+        "enabled": True,
+        "mode": "offline_music_sidecar_v1",
+        "pack_id": music_pack["id"],
+        "variant_id": selected["id"],
+        "pixabay_id": selected["pixabay_id"],
+        "file": selected["file"],
+        "sha256": selected["sha256"],
+        "start_f": 0,
+        "end_f_exclusive": 900,
+        "time_map": "identity_1_0x",
+        "network_required": False,
+        "runtime_no_speech_gain_db": selected["runtime_no_speech_gain_db"],
+        "runtime_speech_gain_db": selected["runtime_speech_gain_db"],
+        "duck_attack_ms": music_pack["mix_contract"]["duck_attack_ms"],
+        "duck_release_ms": music_pack["mix_contract"]["duck_release_ms"],
+        "final_ducking_status": music_pack["mix_contract"]["final_ducking_status"],
+        "sfx": False,
+        "production_eligible": True,
+    }
+    return plan
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--v12", type=Path, default=V12_PATH)
-    parser.add_argument("--v62", type=Path, default=V62_PATH)
+    parser.add_argument("--v62", type=Path, default=DEFAULT_V62_PATH)
     parser.add_argument("--input", type=Path, default=INPUT_PATH)
     parser.add_argument("--output", type=Path, default=OUTPUT_PATH)
+    parser.add_argument("--enable-music", action="store_true", help="Attach the approved T1 four-track offline music sidecar.")
+    parser.add_argument("--music-pack", type=Path, default=MUSIC_PACK_PATH)
+    parser.add_argument("--music-variant", default="auto", help="Variant ID, or 'auto' for deterministic selection.")
+    parser.add_argument("--render-job-id", default="t1-demo-0001", help="Stable key used by automatic music selection.")
     args = parser.parse_args()
     try:
         v62_source = str(args.v62.resolve().relative_to(ROOT))
     except ValueError:
         v62_source = str(args.v62.resolve())
     plan = build_render_plan(load_json(args.v12), load_json(args.v62), load_json(args.input), v62_source=v62_source)
+    if args.enable_music:
+        plan = attach_music_track(
+            plan,
+            load_json(args.music_pack),
+            render_job_id=args.render_job_id,
+            requested_variant_id=args.music_variant,
+        )
     args.output.write_text(json.dumps(plan, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"render_plan.json écrit : {args.output} — {len(plan['shots'])} plans, {len(plan['overlays'])} blocs, {plan['output']['frames']} images.")
+    music_note = f", musique {plan['audio_track']['variant_id']}" if plan["audio_track"]["enabled"] else ", silencieux"
+    print(f"render_plan.json écrit : {args.output} — {len(plan['shots'])} plans, {len(plan['overlays'])} blocs, {plan['output']['frames']} images{music_note}.")
 
 
 if __name__ == "__main__":

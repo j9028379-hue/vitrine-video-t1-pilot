@@ -1,0 +1,83 @@
+{
+  "manifest_schema_version": "1.0.0",
+  "package_id": "t1-special-menu-afrobeat-amapiano-music-v1",
+  "version": "1.0.0",
+  "status": "release_ready_all_four_tracks",
+  "base_silent_release": "t1-special-menu-template-v1.0.0-silent",
+  "config": "config/T1_special_menu_music_pack_v1_0_0.json",
+  "runtime": {
+    "offline": true,
+    "backend": "AndroidX Media3 local asset",
+    "server_download": false
+  },
+  "artifacts": [
+    {
+      "path": "config/T1_special_menu_music_pack_v1_0_0.json",
+      "bytes": 11337,
+      "sha256": "2ddb781df3934a770bf3312a8a6c3f005d8bbf2ebe6beb08ca48164c68d18c81"
+    },
+    {
+      "path": "audio/music/t1-afrobeat-amapiano-v1/t1_239426_120bpm_30s.mp3",
+      "bytes": 603335,
+      "sha256": "bc4caf2d2e34cd099801c54af24cfe6426a117b5d3e4fe9dd61679a133858d8a"
+    },
+    {
+      "path": "audio/music/t1-afrobeat-amapiano-v1/t1_464383_120bpm_30s.mp3",
+      "bytes": 603332,
+      "sha256": "05b196f07598a9d7b26231930019b353914661fb7408536b45690377c099fbd6"
+    },
+    {
+      "path": "audio/music/t1-afrobeat-amapiano-v1/t1_406552_120bpm_30s.mp3",
+      "bytes": 603340,
+      "sha256": "156c7cc2927425cb407f71652579ea59af3e0212f50114d92bac97568ff9a056"
+    },
+    {
+      "path": "audio/music/t1-afrobeat-amapiano-v1/t1_178406_120bpm_30s.mp3",
+      "bytes": 601666,
+      "sha256": "08a9816f7f130919f1ac610dba9ce7fe8acc6b2e8a2acbb0b4f3b463f7eaf99b"
+    },
+    {
+      "path": "audio/music/t1-afrobeat-amapiano-v1/evidence/239426.json",
+      "bytes": 4167,
+      "sha256": "b4d1000ad22bb291385eaa3a58665d9d1e6db56f640e1da77f541d5ba177ab9e"
+    },
+    {
+      "path": "audio/music/t1-afrobeat-amapiano-v1/evidence/464383.json",
+      "bytes": 4519,
+      "sha256": "6b4a32611150d7aef92527d7f2b7cb90a60ec14f593c3b145b54f5f7ce28b9f3"
+    },
+    {
+      "path": "audio/music/t1-afrobeat-amapiano-v1/evidence/406552.json",
+      "bytes": 3924,
+      "sha256": "14bf91d32e3fac81c5a1562bc5ecfac680a8c0e78326282a3551a43acb5d1974"
+    },
+    {
+      "path": "audio/music/t1-afrobeat-amapiano-v1/evidence/178406.json",
+      "bytes": 4869,
+      "sha256": "88d01b97a7f98821a5cdfab88fe7941c09f10149c9181b179f0dfbf3348c1ee1"
+    },
+    {
+      "path": "audio/music/t1-afrobeat-amapiano-v1/source_manifest.json",
+      "bytes": 3071,
+      "sha256": "10b281a5c61a878e76eda31d12162c02652da2459797c8582fc355763a0b496c"
+    },
+    {
+      "path": "audio/music/t1-afrobeat-amapiano-v1/BUILD_PROVENANCE.json",
+      "bytes": 1219,
+      "sha256": "1ff2ef0e23a0bf27ea286b28d307c13b426fa9ebc37829481e57b275c1901d4d"
+    }
+  ],
+  "release_gates": {
+    "exactly_four_tracks": true,
+    "approved_pixabay_ids": [
+      239426,
+      464383,
+      406552,
+      178406
+    ],
+    "content_id_track_count": 0,
+    "all_audio_qc": true,
+    "all_tracks_production_ready": true,
+    "rejected_track_not_bundled": 573944
+  }
+}

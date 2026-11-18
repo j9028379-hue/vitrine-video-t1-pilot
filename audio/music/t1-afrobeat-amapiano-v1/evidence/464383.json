@@ -1,0 +1,88 @@
+{
+  "track_id": 464383,
+  "key": "alone",
+  "official_page": "https://pixabay.com/music/afrobeat-afrobeat-instrumental-2026-alone-burnaboy-x-wizkid-x-fireboy-typebeat-464383/",
+  "official_content_url": "https://cdn.pixabay.com/download/audio/2026/01/11/audio_ee0abc6548.mp3?filename=dmsoundworks-afrobeat-instrumental-2026-alone-burnaboy-x-wizkid-x-fireboy-typebeat-464383.mp3",
+  "license": "https://pixabay.com/service/license-summary/",
+  "title": "Afrobeat Instrumental 2026 ALONE BurnaBoy x Wizkid x FireBoy TypeBeat by DMSOUNDWORKS | Royalty-free Music",
+  "description": "A smooth and chill instrumental afrobeat track featuring warm synths, rhythmic percussion, and a laid-back groove inspired by Burna Boy and Wizkid. Perfect as background music for travel vlogs, Instagram reels, lifestyle content, and summer videos.",
+  "duration": "PT2M48S",
+  "encoding_format": "audio/mpeg",
+  "date_published": "2026-01-12T16:10:07.759Z",
+  "keywords": "Afrobeat, Afrobeattypebeat, Afrobeatinstrumental, Afrobeat2026, Burnaboy, Wizkid, Alone, Nature",
+  "sha256": "deb3cd5f8d09da35eb12f86dd1097a9971869c92af960a450932652dcb35a337",
+  "bytes": 5390001,
+  "local_original": "/home/user/T1_music_candidates/originals/dmsoundworks-afrobeat-instrumental-2026-alone-burnaboy-x-wizkid-x-fireboy-typebeat-464383.mp3",
+  "json_ld": {
+    "@context": "https://schema.org",
+    "@type": [
+      "MusicRecording",
+      "AudioObject"
+    ],
+    "acquireLicensePage": "https://pixabay.com/music/afrobeat-afrobeat-instrumental-2026-alone-burnaboy-x-wizkid-x-fireboy-typebeat-464383/",
+    "additionalProperty": [
+      {
+        "@type": "PropertyValue",
+        "name": "Mood",
+        "value": "Mysterious, Laid Back"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Movement",
+        "value": "Medium"
+      }
+    ],
+    "author": {
+      "@type": "Person",
+      "description": "🎶 I’m Allan Matola, AfroBeat producer and creator. All my free beats here on Pixabay are yours to download and use—no leasing required. Feel free to release your songs on DSPs with them.\r\n\r\n❤️ If you’d like to support my work, you can make a donation directly on this page.\r\n\r\n👉 For leasing options with formal agreements, visit my store: DM Sound Works (Beats) on Beatsafi",
+      "image": "https://cdn.pixabay.com/user/2026/07/26/08-46-45-857_96x96.png",
+      "interactionStatistic": {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/FollowAction",
+        "userInteractionCount": 161
+      },
+      "name": "DMSOUNDWORKS",
+      "url": "https://pixabay.com/users/dmsoundworks-35274139/"
+    },
+    "commentCount": 0,
+    "contentUrl": "https://cdn.pixabay.com/download/audio/2026/01/11/audio_ee0abc6548.mp3?filename=dmsoundworks-afrobeat-instrumental-2026-alone-burnaboy-x-wizkid-x-fireboy-typebeat-464383.mp3",
+    "datePublished": "2026-01-12T16:10:07.759Z",
+    "description": "A smooth and chill instrumental afrobeat track featuring warm synths, rhythmic percussion, and a laid-back groove inspired by Burna Boy and Wizkid. Perfect as background music for travel vlogs, Instagram reels, lifestyle content, and summer videos.",
+    "duration": "PT2M48S",
+    "encodingFormat": "audio/mpeg",
+    "genre": [
+      "Afrobeat",
+      "Beats"
+    ],
+    "headline": "Afrobeat instrumental alone chill music",
+    "interactionStatistic": [
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/ViewAction",
+        "userInteractionCount": 17055
+      },
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/DownloadAction",
+        "userInteractionCount": 3039
+      },
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/LikeAction",
+        "userInteractionCount": 36
+      },
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/BookmarkAction",
+        "userInteractionCount": 21
+      }
+    ],
+    "isAccessibleForFree": true,
+    "isFamilyFriendly": true,
+    "keywords": "Afrobeat, Afrobeattypebeat, Afrobeatinstrumental, Afrobeat2026, Burnaboy, Wizkid, Alone, Nature",
+    "license": "https://pixabay.com/service/license-summary/",
+    "name": "Afrobeat Instrumental 2026 ALONE BurnaBoy x Wizkid x FireBoy TypeBeat by DMSOUNDWORKS | Royalty-free Music",
+    "thumbnailUrl": "https://cdn.pixabay.com/audio/2026/01/14/16-44-36-468_200x200.png",
+    "uploadDate": "2026-01-12T16:10:07.759Z"
+  }
+}

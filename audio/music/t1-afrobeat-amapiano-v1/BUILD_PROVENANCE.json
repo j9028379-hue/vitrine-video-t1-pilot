@@ -1,0 +1,32 @@
+{
+  "build_date": "2026-11-18",
+  "scope": "Exactly four user-approved T1 Afrobeat/Amapiano variants",
+  "approved_pixabay_ids": [239426, 464383, 406552, 178406],
+  "explicitly_excluded_pixabay_ids": [573944],
+  "replacement_decision": "Match Out 178406 replaces Content-ID track 573944 after user audition and approval.",
+  "transform": {
+    "decoder": "FFmpeg/libsndfile to PCM",
+    "tempo_engine": "Rubber Band R3",
+    "bpm_target": 120,
+    "duration_s_decoded": 30.0,
+    "decoded_samples_per_channel": 1323000,
+    "sample_rate_hz": 44100,
+    "channels": 2,
+    "input_peak_margin_factor": 0.45,
+    "fade_in_ms": 8,
+    "fade_out_start_s": 29.88,
+    "fade_out_ms": 120,
+    "loudness": "FFmpeg loudnorm two-pass, I=-17 LUFS, TP=-1 dBTP, LRA=7",
+    "encoder": "libmp3lame 160 kbit/s stereo",
+    "scene_markers_s": [0, 6, 14, 21, 30],
+    "scene_markers_frames_at_30fps": [0, 180, 420, 630, 900]
+  },
+  "quality_limits": {
+    "decoded_duration_s_exact": 30.0,
+    "bpm": [118, 122],
+    "integrated_lufs": [-17.7, -16.7],
+    "true_peak_dbtp_max": -0.7,
+    "content_id_track_count": 0
+  },
+  "next_phase": "Generate and integrate voice-over, then validate real ducking against all four music variants."
+}

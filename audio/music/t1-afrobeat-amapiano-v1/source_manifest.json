@@ -1,0 +1,59 @@
+{
+  "retrieved_at": "2026-11-18",
+  "approved_ids": [
+    239426,
+    464383,
+    406552,
+    178406
+  ],
+  "tracks": [
+    {
+      "pixabay_id": 239426,
+      "title": "Go Down",
+      "artist": "WizzykeyzBeat",
+      "official_page": "https://pixabay.com/music/afrobeat-go-down-amapiano-instrumental-beat-producer-by-wizzykeyz-beat-239426/",
+      "official_content_url": "https://cdn.pixabay.com/download/audio/2024/09/10/audio_59658d41e3.mp3?filename=wizzykeyzbeat-go-down-amapiano-instrumental-beat-producer-by-wizzykeyz-beat-239426.mp3",
+      "license": "https://pixabay.com/service/license-summary/",
+      "content_id_registered": false,
+      "official_original_filename": "wizzykeyzbeat-go-down-amapiano-instrumental-beat-producer-by-wizzykeyz-beat-239426.mp3",
+      "original_sha256": "54234c7cbcdc1dc8b93a20e9f8f24d6e478d86dfaa69cd2e9a1f32e74aad6f6b",
+      "original_bytes": 3074507
+    },
+    {
+      "pixabay_id": 464383,
+      "title": "ALONE",
+      "artist": "DMSOUNDWORKS",
+      "official_page": "https://pixabay.com/music/afrobeat-afrobeat-instrumental-2026-alone-burnaboy-x-wizkid-x-fireboy-typebeat-464383/",
+      "official_content_url": "https://cdn.pixabay.com/download/audio/2026/01/11/audio_ee0abc6548.mp3?filename=dmsoundworks-afrobeat-instrumental-2026-alone-burnaboy-x-wizkid-x-fireboy-typebeat-464383.mp3",
+      "license": "https://pixabay.com/service/license-summary/",
+      "content_id_registered": false,
+      "official_original_filename": "dmsoundworks-afrobeat-instrumental-2026-alone-burnaboy-x-wizkid-x-fireboy-typebeat-464383.mp3",
+      "original_sha256": "deb3cd5f8d09da35eb12f86dd1097a9971869c92af960a450932652dcb35a337",
+      "original_bytes": 5390001
+    },
+    {
+      "pixabay_id": 406552,
+      "title": "PAUSE",
+      "artist": "audiolibraryinfinite",
+      "official_page": "https://pixabay.com/music/afrobeat-pause-406552/",
+      "official_content_url": "https://cdn.pixabay.com/download/audio/2025/09/18/audio_a3d651fc68.mp3?filename=audiolibraryinfinite-pause-406552.mp3",
+      "license": "https://pixabay.com/service/license-summary/",
+      "content_id_registered": false,
+      "official_original_filename": "audiolibraryinfinite-pause-406552.mp3",
+      "original_sha256": "b12807accd817f0588ea8f0911b94cb155f8d6603c9b0559db2b683fc40cde57",
+      "original_bytes": 7674624
+    },
+    {
+      "pixabay_id": 178406,
+      "title": "Match Out",
+      "artist": "artbybigvee",
+      "official_page": "https://pixabay.com/music/afrobeat-match-out-free-afro-amapiano-instrumental-178406/",
+      "official_content_url": "https://cdn.pixabay.com/download/audio/2023/11/27/audio_d5c53ad5c1.mp3?filename=artbybigvee-match-out-free-afro-amapiano-instrumental-178406.mp3",
+      "license": "https://pixabay.com/service/license-summary/",
+      "content_id_registered": false,
+      "official_original_filename": "artbybigvee-match-out-free-afro-amapiano-instrumental-178406.mp3",
+      "original_sha256": "b3b9de35b7b1c03c6599ffa3da55792f6c6e7aa0ad89308093c965bba41e6934",
+      "original_bytes": 5327307
+    }
+  ]
+}

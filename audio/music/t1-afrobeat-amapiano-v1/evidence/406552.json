@@ -1,0 +1,87 @@
+{
+  "track_id": 406552,
+  "key": "pause",
+  "official_page": "https://pixabay.com/music/afrobeat-pause-406552/",
+  "official_content_url": "https://cdn.pixabay.com/download/audio/2025/09/18/audio_a3d651fc68.mp3?filename=audiolibraryinfinite-pause-406552.mp3",
+  "license": "https://pixabay.com/service/license-summary/",
+  "title": "PAUSE by audiolibraryinfinite | Royalty-free Music",
+  "description": "Afrobeat instrumental, Afrobeat 2024, Afrobeat 2025 music. Free for use.",
+  "duration": "PT4M",
+  "encoding_format": "audio/mpeg",
+  "date_published": "2025-09-19T07:30:01.439Z",
+  "keywords": "Afrobeat Instrumental, Afrobeat 2024, Afrobeat 2025, Amapiano Instrumental, Afrobeat Mix, Afrobeats 2024, Afrobeats Mix, Afrobeat Dance, Afro Music Free, No Copyright Afrobeat, Royalty Free Afrobeat, Naija Music, Afrotrap Music, Afrobeat Free Music, Free Bg Afrobeat, Afropiano Beats, Best Afrobeat Music, Ai Generated",
+  "sha256": "b12807accd817f0588ea8f0911b94cb155f8d6603c9b0559db2b683fc40cde57",
+  "bytes": 7674624,
+  "local_original": "/home/user/T1_music_candidates/originals/audiolibraryinfinite-pause-406552.mp3",
+  "json_ld": {
+    "@context": "https://schema.org",
+    "@type": [
+      "MusicRecording",
+      "AudioObject"
+    ],
+    "acquireLicensePage": "https://pixabay.com/music/afrobeat-pause-406552/",
+    "additionalProperty": [
+      {
+        "@type": "PropertyValue",
+        "name": "Mood",
+        "value": "Restless, Laid Back, Bright, Uplifting, Dreamy"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Movement",
+        "value": "Medium Fast, Running"
+      }
+    ],
+    "author": {
+      "@type": "Person",
+      "description": "MORE FREE TRACKS ON OUR YOUTUBE: Infinite Aura Level 🎧\r\nhttps://youtube.com/@infinitefreeaudio?si=GnfBKoVmLQr1xuTk",
+      "image": "https://cdn.pixabay.com/user/2024/11/20/23-23-51-486_96x96.jpg",
+      "interactionStatistic": {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/FollowAction",
+        "userInteractionCount": 314
+      },
+      "name": "audiolibraryinfinite",
+      "url": "https://pixabay.com/users/audiolibraryinfinite-47107590/"
+    },
+    "commentCount": 3,
+    "contentUrl": "https://cdn.pixabay.com/download/audio/2025/09/18/audio_a3d651fc68.mp3?filename=audiolibraryinfinite-pause-406552.mp3",
+    "datePublished": "2025-09-19T07:30:01.439Z",
+    "description": "Afrobeat instrumental, Afrobeat 2024, Afrobeat 2025 music. Free for use.",
+    "duration": "PT4M",
+    "encodingFormat": "audio/mpeg",
+    "genre": [
+      "Afrobeat",
+      "Electronic"
+    ],
+    "interactionStatistic": [
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/ViewAction",
+        "userInteractionCount": 53428
+      },
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/DownloadAction",
+        "userInteractionCount": 12320
+      },
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/LikeAction",
+        "userInteractionCount": 190
+      },
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/BookmarkAction",
+        "userInteractionCount": 98
+      }
+    ],
+    "isAccessibleForFree": true,
+    "isFamilyFriendly": true,
+    "keywords": "Afrobeat Instrumental, Afrobeat 2024, Afrobeat 2025, Amapiano Instrumental, Afrobeat Mix, Afrobeats 2024, Afrobeats Mix, Afrobeat Dance, Afro Music Free, No Copyright Afrobeat, Royalty Free Afrobeat, Naija Music, Afrotrap Music, Afrobeat Free Music, Free Bg Afrobeat, Afropiano Beats, Best Afrobeat Music, Ai Generated",
+    "license": "https://pixabay.com/service/license-summary/",
+    "name": "PAUSE by audiolibraryinfinite | Royalty-free Music",
+    "thumbnailUrl": "https://cdn.pixabay.com/audio/2025/09/18/14-14-45-297_200x200.jpg",
+    "uploadDate": "2025-09-19T07:30:01.439Z"
+  }
+}
