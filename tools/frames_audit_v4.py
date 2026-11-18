@@ -45,9 +45,11 @@ def main():
     for tr in manifest["transitions"]:
         if tr["dur_f"] == 0:
             continue
-        t = round((tr["frame"] + tr["dur_f"] / 2) / 30, 3)
-        items.append((frame(master, t), f"{t:04.2f}s {tr['id']} {tr['nom']}"))
-    print(sheet(items, 2, (300, 534), OUT / "planche_transitions_master_final.png", "Transitions réellement exécutées (durée V1.2)"))
+        # une image par étape de la transition (durée V1.2 = 6 images)
+        for k in (0, 2, 4):
+            t = round((tr["frame_debut"] + k) / 30, 3)
+            items.append((frame(master, t), f"{t:04.2f}s {tr['id']} {tr['nom']} f{k+1}/6"))
+    print(sheet(items, 4, (250, 445), OUT / "planche_transitions_master_final.png", "Transitions réellement exécutées (durée V1.2)"))
     # planche C : un point par bloc graphique
     items = []
     for b in manifest["blocs"]:

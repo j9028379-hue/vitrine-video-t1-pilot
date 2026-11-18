@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "output/output_T1_master_final.mp4"
 NORM = Path("/tmp/norm")
 GRID = (180, 40)
-BANDE = (20, 170)  # bande haute : aucune carte de texte ne s'y trouve (hors pastille y=168)
+BANDE_FRAC = (20 / 1280, 170 / 1280)  # bande haute relative : identique quelle que soit la définition
 
 
 def vignette(img: np.ndarray) -> np.ndarray:
@@ -43,7 +43,9 @@ def descriptor(img: np.ndarray, z: float = 1.0) -> np.ndarray:
         cw, ch = int(round(w / z)), int(round(h / z))
         x0, y0 = (w - cw) // 2, (h - ch) // 2
         g = cv2.resize(g[y0:y0 + ch, x0:x0 + cw], (w, h), interpolation=cv2.INTER_LINEAR)
-    return cv2.resize(g[BANDE[0]:BANDE[1]], GRID, interpolation=cv2.INTER_AREA).astype(np.float32)
+    hh = g.shape[0]
+    y0, y1 = int(round(BANDE_FRAC[0] * hh)), max(int(round(BANDE_FRAC[1] * hh)), int(round(BANDE_FRAC[0] * hh)) + 8)
+    return cv2.resize(g[y0:y1], GRID, interpolation=cv2.INTER_AREA).astype(np.float32)
 
 
 def zoomed(img: np.ndarray, z: float) -> np.ndarray:

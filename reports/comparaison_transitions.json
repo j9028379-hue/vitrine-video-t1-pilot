@@ -1,0 +1,71 @@
+{
+  "methode": "images réelles des deux MP4, fenêtres d'images déclarées",
+  "transitions": [
+    {
+      "seconde": 6.0,
+      "v3_1_images": [
+        176,
+        178,
+        180,
+        182,
+        184,
+        187
+      ],
+      "v3_1_duree_f": 12,
+      "reconcilie_images": [
+        179,
+        180,
+        181,
+        182,
+        183,
+        184
+      ],
+      "reconcilie_duree_f": 6,
+      "nom": "6,0 s — whip pan → TR04 wipe_directionnel"
+    },
+    {
+      "seconde": 14.0,
+      "v3_1_images": [
+        416,
+        418,
+        420,
+        422,
+        424,
+        427
+      ],
+      "v3_1_duree_f": 12,
+      "reconcilie_images": [
+        419,
+        420,
+        421,
+        422,
+        423,
+        424
+      ],
+      "reconcilie_duree_f": 6,
+      "nom": "14,0 s — push → TR06 speed_ramp_entrant"
+    },
+    {
+      "seconde": 21.0,
+      "v3_1_images": [
+        626,
+        628,
+        630,
+        632,
+        634,
+        637
+      ],
+      "v3_1_duree_f": 12,
+      "reconcilie_images": [
+        629,
+        630,
+        631,
+        632,
+        633,
+        634
+      ],
+      "reconcilie_duree_f": 6,
+      "nom": "21,0 s — diagonale → TR03 wipe_geometrique"
+    }
+  ]
+}

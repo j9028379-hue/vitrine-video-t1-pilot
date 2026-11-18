@@ -1,6 +1,7 @@
 {
   "plan": "render_plan_v4_demo.json",
   "moteur": "engine/motion_v4.py",
+  "presentation": "config/T1_presentation_v3_1.json",
   "frames": 900,
   "plans": [
     {
@@ -33,7 +34,7 @@
       },
       "transition_sortie": "TR01",
       "blocs_visibles": [
-        "GB01 nom (enseigne mot à mot)"
+        "GB01"
       ]
     },
     {
@@ -63,11 +64,11 @@
           "dur_f": 6,
           "easing": "easeOutQuint"
         },
-        "base": 1.35
+        "base": 1.25
       },
       "transition_sortie": "TR02",
       "blocs_visibles": [
-        "GB01 nom (enseigne mot à mot)"
+        "GB01"
       ]
     },
     {
@@ -96,11 +97,11 @@
           ],
           "easing": "easeInOutQuad"
         },
-        "base": 1.7
+        "base": 1.28
       },
-      "transition_sortie": "TR03",
+      "transition_sortie": "TR04",
       "blocs_visibles": [
-        "GB02 bandeau produit"
+        "GB02"
       ]
     },
     {
@@ -133,7 +134,7 @@
       },
       "transition_sortie": "TR01",
       "blocs_visibles": [
-        "GB03 lockup produit + prix"
+        "GB03"
       ]
     },
     {
@@ -162,12 +163,12 @@
           ],
           "easing": "easeInOutQuad"
         },
-        "base": 1.4
+        "base": 1.24
       },
       "transition_sortie": "TR01",
       "blocs_visibles": [
-        "GB03 lockup produit + prix",
-        "GB04 accroche segmentée"
+        "GB03",
+        "GB04"
       ]
     },
     {
@@ -198,9 +199,9 @@
         },
         "base": 1.1
       },
-      "transition_sortie": "TR05",
+      "transition_sortie": "TR06",
       "blocs_visibles": [
-        "GB04 accroche segmentée"
+        "GB04"
       ]
     },
     {
@@ -233,7 +234,7 @@
       },
       "transition_sortie": "TR01",
       "blocs_visibles": [
-        "GB05 rappel enseigne"
+        "GB05"
       ]
     },
     {
@@ -263,12 +264,12 @@
           "dur_f": 6,
           "easing": "easeOutQuint"
         },
-        "base": 1.55
+        "base": 1.28
       },
       "transition_sortie": "TR01",
       "blocs_visibles": [
-        "GB05 rappel enseigne",
-        "GB06 prix plein écran"
+        "GB05",
+        "GB06"
       ]
     },
     {
@@ -299,9 +300,9 @@
         },
         "base": 1.0
       },
-      "transition_sortie": "TR04",
+      "transition_sortie": "TR03",
       "blocs_visibles": [
-        "GB06 prix plein écran"
+        "GB06"
       ]
     },
     {
@@ -330,11 +331,11 @@
           ],
           "easing": "easeInOutQuad"
         },
-        "base": 1.4
+        "base": 1.24
       },
       "transition_sortie": "TR01",
       "blocs_visibles": [
-        "GB07 adresse + épingle"
+        "GB07"
       ]
     },
     {
@@ -367,7 +368,7 @@
       },
       "transition_sortie": "TR01",
       "blocs_visibles": [
-        "GB07 adresse + épingle"
+        "GB07"
       ]
     },
     {
@@ -397,124 +398,54 @@
           "easing": "linear",
           "dur_min_f": 75
         },
-        "base": 1.35
+        "base": 1.24
       },
       "transition_sortie": "TR01",
       "blocs_visibles": [
-        "GB08 CTA WhatsApp"
+        "GB08"
       ]
     }
   ],
   "transitions": [
     {
-      "frame": 60,
-      "seconde": 2.0,
-      "id": "TR01",
-      "nom": "cut_sec",
-      "rendu": "cut",
-      "dur_f": 0,
-      "de_plan": "P01",
-      "vers_plan": "P02"
-    },
-    {
-      "frame": 105,
+      "frame_debut": 104,
+      "frame_fin": 110,
       "seconde": 3.5,
       "id": "TR02",
       "nom": "punch_cut",
       "rendu": "punch_cut",
       "dur_f": 6,
-      "de_plan": "P02",
-      "vers_plan": "P03"
+      "coupe_f": 105
     },
     {
-      "frame": 180,
+      "frame_debut": 179,
+      "frame_fin": 185,
       "seconde": 6.0,
-      "id": "TR03",
-      "nom": "wipe_geometrique",
-      "rendu": "wipe_diagonale",
-      "dur_f": 6,
-      "de_plan": "P03",
-      "vers_plan": "P04"
-    },
-    {
-      "frame": 255,
-      "seconde": 8.5,
-      "id": "TR01",
-      "nom": "cut_sec",
-      "rendu": "cut",
-      "dur_f": 0,
-      "de_plan": "P04",
-      "vers_plan": "P05"
-    },
-    {
-      "frame": 330,
-      "seconde": 11.0,
-      "id": "TR01",
-      "nom": "cut_sec",
-      "rendu": "cut",
-      "dur_f": 0,
-      "de_plan": "P05",
-      "vers_plan": "P06"
-    },
-    {
-      "frame": 420,
-      "seconde": 14.0,
-      "id": "TR05",
-      "nom": "fondu_court_crossfade",
-      "rendu": "fondu",
-      "dur_f": 6,
-      "de_plan": "P06",
-      "vers_plan": "P07"
-    },
-    {
-      "frame": 495,
-      "seconde": 16.5,
-      "id": "TR01",
-      "nom": "cut_sec",
-      "rendu": "cut",
-      "dur_f": 0,
-      "de_plan": "P07",
-      "vers_plan": "P08"
-    },
-    {
-      "frame": 555,
-      "seconde": 18.5,
-      "id": "TR01",
-      "nom": "cut_sec",
-      "rendu": "cut",
-      "dur_f": 0,
-      "de_plan": "P08",
-      "vers_plan": "P09"
-    },
-    {
-      "frame": 630,
-      "seconde": 21.0,
       "id": "TR04",
       "nom": "wipe_directionnel",
-      "rendu": "wipe_directionnel",
+      "rendu": "whip_blur",
       "dur_f": 6,
-      "de_plan": "P09",
-      "vers_plan": "P10"
+      "coupe_f": 180
     },
     {
-      "frame": 705,
-      "seconde": 23.5,
-      "id": "TR01",
-      "nom": "cut_sec",
-      "rendu": "cut",
-      "dur_f": 0,
-      "de_plan": "P10",
-      "vers_plan": "P11"
+      "frame_debut": 419,
+      "frame_fin": 425,
+      "seconde": 14.0,
+      "id": "TR06",
+      "nom": "speed_ramp_entrant",
+      "rendu": "push_rampe",
+      "dur_f": 6,
+      "coupe_f": 420
     },
     {
-      "frame": 795,
-      "seconde": 26.5,
-      "id": "TR01",
-      "nom": "cut_sec",
-      "rendu": "cut",
-      "dur_f": 0,
-      "de_plan": "P11",
-      "vers_plan": "P12"
+      "frame_debut": 629,
+      "frame_fin": 635,
+      "seconde": 21.0,
+      "id": "TR03",
+      "nom": "wipe_geometrique",
+      "rendu": "diagonale",
+      "dur_f": 6,
+      "coupe_f": 630
     }
   ],
   "blocs": [
@@ -591,38 +522,14 @@
       "end_s": 30.0
     }
   ],
-  "fenetres_graphiques": {
-    "GB01": [
-      15,
-      90
-    ],
-    "GB02": [
-      120,
-      165
-    ],
-    "GB03": [
-      195,
-      285
-    ],
-    "GB04": [
-      300,
-      405
-    ],
-    "GB05": [
-      450,
-      525
-    ],
-    "GB06": [
-      540,
-      615
-    ],
-    "GB07": [
-      645,
-      765
-    ],
-    "GB08": [
-      795,
-      900
-    ]
-  }
+  "presentation_blocs": [
+    "GB01",
+    "GB02",
+    "GB03",
+    "GB04",
+    "GB05",
+    "GB06",
+    "GB07",
+    "GB08"
+  ]
 }

@@ -101,7 +101,7 @@
         "freeze_tail_f": 6
       },
       "zoom_curve": {
-        "base": 1.35,
+        "base": 1.25,
         "movement_id": "MV03",
         "movement": "push_in_rapide",
         "parameters": {
@@ -111,7 +111,8 @@
           ],
           "dur_f": 6,
           "easing": "easeOutQuint"
-        }
+        },
+        "base_precedent": 1.35
       },
       "transition_out": "TR02",
       "color_grade": "resto_chaud_2026 / scene 1"
@@ -132,7 +133,7 @@
         "freeze_tail_f": 12
       },
       "zoom_curve": {
-        "base": 1.7,
+        "base": 1.28,
         "movement_id": "MV05",
         "movement": "pan_h",
         "parameters": {
@@ -141,10 +142,12 @@
             14
           ],
           "easing": "easeInOutQuad"
-        }
+        },
+        "base_precedent": 1.7
       },
-      "transition_out": "TR03",
-      "color_grade": "resto_chaud_2026 / scene 1"
+      "transition_out": "TR04",
+      "color_grade": "resto_chaud_2026 / scene 1",
+      "transition_out_precedente": "TR03"
     },
     {
       "id": "P04",
@@ -192,7 +195,7 @@
         "freeze_tail_f": 7
       },
       "zoom_curve": {
-        "base": 1.4,
+        "base": 1.24,
         "movement_id": "MV05",
         "movement": "pan_h",
         "parameters": {
@@ -201,7 +204,8 @@
             14
           ],
           "easing": "easeInOutQuad"
-        }
+        },
+        "base_precedent": 1.4
       },
       "transition_out": "TR01",
       "color_grade": "resto_chaud_2026 / scene 2"
@@ -233,8 +237,9 @@
           "easing": "easeInOutQuad"
         }
       },
-      "transition_out": "TR05",
-      "color_grade": "resto_chaud_2026 / scene 2"
+      "transition_out": "TR06",
+      "color_grade": "resto_chaud_2026 / scene 2",
+      "transition_out_precedente": "TR05"
     },
     {
       "id": "P07",
@@ -282,7 +287,7 @@
         "freeze_tail_f": 7
       },
       "zoom_curve": {
-        "base": 1.55,
+        "base": 1.28,
         "movement_id": "MV03",
         "movement": "push_in_rapide",
         "parameters": {
@@ -292,7 +297,8 @@
           ],
           "dur_f": 6,
           "easing": "easeOutQuint"
-        }
+        },
+        "base_precedent": 1.55
       },
       "transition_out": "TR01",
       "color_grade": "resto_chaud_2026 / scene 3"
@@ -324,8 +330,9 @@
           "easing": "easeInOutQuad"
         }
       },
-      "transition_out": "TR04",
-      "color_grade": "resto_chaud_2026 / scene 3"
+      "transition_out": "TR03",
+      "color_grade": "resto_chaud_2026 / scene 3",
+      "transition_out_precedente": "TR04"
     },
     {
       "id": "P10",
@@ -343,7 +350,7 @@
         "freeze_tail_f": 5
       },
       "zoom_curve": {
-        "base": 1.4,
+        "base": 1.24,
         "movement_id": "MV01",
         "movement": "zoom_in_lent",
         "parameters": {
@@ -352,7 +359,8 @@
             1.05
           ],
           "easing": "easeInOutQuad"
-        }
+        },
+        "base_precedent": 1.4
       },
       "transition_out": "TR01",
       "color_grade": "resto_chaud_2026 / scene 4"
@@ -403,7 +411,7 @@
         "freeze_tail_f": 30
       },
       "zoom_curve": {
-        "base": 1.35,
+        "base": 1.24,
         "movement_id": "MV11",
         "movement": "drift",
         "parameters": {
@@ -413,7 +421,8 @@
           ],
           "easing": "linear",
           "dur_min_f": 75
-        }
+        },
+        "base_precedent": 1.35
       },
       "transition_out": "TR01",
       "color_grade": "resto_chaud_2026 / scene 4"
@@ -433,7 +442,9 @@
     {
       "at_f": 180,
       "at_s": 6.0,
-      "transition": "TR03"
+      "transition": "TR04",
+      "transition_precedente": "TR03",
+      "justification": "V3.1 rendait ici un whip pan (translation + flou). TR04 wipe_directionnel est l'identifiant V1.2 qui porte cette intention ; le rendu conserve translation + flou directionnel."
     },
     {
       "at_f": 255,
@@ -448,7 +459,9 @@
     {
       "at_f": 420,
       "at_s": 14.0,
-      "transition": "TR05"
+      "transition": "TR06",
+      "transition_precedente": "TR05",
+      "justification": "V3.1 rendait ici un directional push (échelles croisées). TR06 speed_ramp_entrant est l'identifiant V1.2 correspondant ; TR05 (fondu court) aurait adouci la dynamique approuvée."
     },
     {
       "at_f": 495,
@@ -463,7 +476,9 @@
     {
       "at_f": 630,
       "at_s": 21.0,
-      "transition": "TR04"
+      "transition": "TR03",
+      "transition_precedente": "TR04",
+      "justification": "V3.1 rendait ici la révélation diagonale à ruban orange sous l'étiquette erronée « mask_reveal ». TR03 wipe_geometrique est son identifiant exact."
     },
     {
       "at_f": 705,
@@ -1715,5 +1730,10 @@
   "audio_track": {
     "enabled": false,
     "note": "Premier rendu T1 volontairement muet; musique, SFX, voix et sous-titres hors périmètre."
+  },
+  "presentation": "config/T1_presentation_v3_1.json",
+  "transitions_reconciliation": {
+    "principe": "Les identifiants suivent la bibliothèque V1.2 ; les rendus conservent la dynamique V3.1 approuvée.",
+    "duree": "6 images (V1.2), fenêtre centrée sur la coupe [coupe-3, coupe+3) ; V3.1 utilisait 12 images centrées [coupe-4, coupe+8) — la vitesse par image est doublée pour conserver le caractère de whip."
   }
 }

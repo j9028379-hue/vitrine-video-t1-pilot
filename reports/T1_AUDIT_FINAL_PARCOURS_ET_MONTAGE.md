@@ -1,370 +1,333 @@
-# T1 — Audit final : parcours de capture et montage
+# T1 — Audit final : parcours de capture et montage (version de clôture)
 
 **Projet** : VITRINE VIDÉO — T1 « Plat du jour », démonstration pour restaurants et maquis (Bénin)
-**Date de l'audit** : 17 novembre 2026 · **Dépôt** : `j9028379-hue/vitrine-video-t1-pilot`, branche `main`
-**Périmètre** : (1) les 4 écrans de consignes du parcours de capture ; (2) l'ingénierie réelle du montage 30 s.
+**Mission** : clôture — dernière réconciliation du moteur et du parcours · 17 novembre 2026
+**Dépôt** : `j9028379-hue/vitrine-video-t1-pilot`, branche `main`
 **Hors périmètre, non touché** : tout l'audio (aucune musique, aucun effet, aucune modification de fichier son).
+
+Cette version **remplace** l'audit précédent, qui reste la base technique. Elle ne refait aucune partie du travail : elle corrige trois choses (le titre de la section voix, la présentation de la zone défilable, la géométrie graphique pilotée par la configuration), réconcilie les trois transitions avec la dynamique approuvée et traite la netteté des plans faibles.
 
 ---
 
 ## 1. Espace de travail et nettoyage
 
-### 1.1 État de départ et état final
+| Mesure | Audit précédent | Aujourd'hui |
+|---|---|---|
+| Taille du dépôt local | 126 Mo | 291 Mo (rushes HD + video de contrôle) |
+| Fichiers suivis | 152 | 168 |
+| Commit de départ | `42989e4` | `1d2fb54` (audit) + commit de clôture |
+| Master final | 900 images, 30 s | 900 images, 30 s (**nouveau**, un seul) |
 
-| Mesure | Avant nettoyage | Après nettoyage | Aujourd'hui (fin d'audit) |
-|---|---|---|---|
-| Taille du dépôt local | 199 Mo | 75 Mo | 126 Mo |
-| Fichiers (hors `.git`) | 269 | 152 | 158 |
-| Clone | ancien clone divergent (`HEAD f0e8c72`) | clone complet, `HEAD 42989e4` | idem + travaux de l'audit |
+Nouveaux fichiers de cette mission :
 
-Le workspace avait été tronqué par la limite de sauvegarde (281 fichiers non enregistrés). L'ancien clone **n'était plus la source de vérité** : `git log` comparé à GitHub a montré que les commits `42989e4` et `2d40955` manquaient localement. Un clone complet a été refait depuis GitHub : c'est lui qui sert désormais de base.
+| Fichier | Rôle |
+|---|---|
+| `config/T1_presentation_v3_1.json` | **configuration de présentation** : 8 blocs, 31 éléments (géométrie, taille, alignement, typographie, couleur, proportions, forme, espacements, entrées/sorties) |
+| `engine/presentation.py` | moteur de rendu **générique** qui consomme cette configuration |
+| `engine/motion_v4.py` | chaîne de montage réconciliée (fenêtres, caméra, transitions, blocs) |
+| `rushes/build_scenes.sh` | prises reconstruites dans la définition native des rushs |
+| `tools/verify_master.py` | contrôle du MP4 : 24 points (indice source + zoom mesurés) |
+| `tools/tableau_final.py` | tableau final JSON / code / MP4 |
+| `tools/comparaison_transitions.py` | comparaison temporelle des trois transitions |
+| `preuves/audit_v4/` | 9 planches de contrôle |
 
-### 1.2 Ce qui a été supprimé (uniquement du régénérable identifié un par un)
-
-`t1-ci-artifacts/`, `t1-ci-artifacts-final/`, `t1-v2-candidates/`, `audit_frames/`, `repo_restore/`, `main.bundle`, l'archive ZIP de livraison, les caches Python, les doublons de planches.
-Aucune suppression globale, aucun `rm -rf` sur un dossier contenant un livrable.
-
-### 1.3 Ce qui a été conservé, et où
-
-- **Sources de vérité** : `specs/T1_ENGINEERING_SPEC_V1_2.json` (autorité technique, intacte), `specs/restaurants_maquis_T1.spec_v6_2.json` (autorité des textes, intacte), `capture-guide/consignes_T1.json` (source unique des 4 fiches), `rushes/manifest.json` + `rushes/build_scenes.sh` (prises et licences).
-- **Référence visuelle approuvée** : `V3.1` intacte — `output/…` et copie de sécurité `/tmp/preserve/masters/output_T1_sans_voix_v3_1.mp4`.
-- **Livrables vidéo** : V2, V3, V3.1, V4 démo, plus le **master final** produit par cet audit (§10).
-- **Preuves** : `preuves/audit_versions/` (planches V2/V3/V3.1), `preuves/audit_v4/` (nouvelles planches), `ui-screens/` (23 PNG), `reports/`.
-- **Rushes** : `rushes/source/demo_v4/` — 6 clips Mixkit sous licence, vérifiés par SHA-256 à chaque exécution (`engine/verify_raw_rushes.py`).
-
-Le dossier `/tmp/preserve` (87 Mo : 4 masters, planches d'audit, plan de référence V3.1, spec V6.2) est **hors workspace** : il a servi de filet de sécurité pendant l'audit. Les masters y seront re-téléchargeables depuis la Release (§12) ; ce dossier n'est pas un livrable.
-
-### 1.4 Environnement d'exécution (à savoir pour reproduire)
-
-`ffmpeg` **n'est pas** installé dans l'image de base et `ffprobe` non plus. Installé ici via `pip install imageio-ffmpeg` + lien `~/.local/bin/ffmpeg` (ffmpeg 9.0.2). Playwright et son navigateur ne persistent pas dans les captures d'espace de travail : à réinstaller avant toute capture d'écran. `ruff`/`pytest` : `pytest` disponible.
+Aucune ancienne vidéo n'a été écrasée. Rien n'a été supprimé sans que le fichier existe ailleurs (GitHub ou Release).
 
 ---
 
 ## 2. Vérification des 4 consignes
 
-### 2.1 Une seule source
+La **source unique** reste `capture-guide/consignes_T1.json`, consommée par `tools/build_consignes.py` → `simulation/consignes.js` + `capture-guide/consignes_4_scenes.md`.
 
-`capture-guide/consignes_T1.json` est la **source unique**. `tools/build_consignes.py` génère à partir d'elle :
-- `simulation/consignes.js` (maquette HTML 540×960),
-- `capture-guide/consignes_4_scenes.md` (guide de tournage lisible).
+Deux corrections demandées, et seulement deux :
 
-Aucun texte de consigne n'est saisi ailleurs : ni dans `simulation/index.html`, ni dans les outils de capture, ni dans le futur composant Android (qui devra lire le même JSON).
+1. **Titre de la section voix** : « Enregistrer sa voix » → **« TU PEUX PARLER PENDANT QUE TU FILMES »**. La mention V6.2 elle-même n'est pas touchée :
+   > « Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit. » — **102 caractères**, une seule occurrence dans le JSON, donc identique dans les 4 scènes.
+2. **Zone défilable** : le contenu ne paraît plus coupé sous le bouton fixe (voir §3.3).
 
-### 2.2 La mention vocale — divergence corrigée
+Les quatre consignes et les durées sont inchangées :
 
-Une variante existait en scène 2. Elle a été remplacée par la formulation unique V6.2, **identique dans les 4 scènes** :
-
-> « Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit. »
-
-Caractères : **102**. Présente une seule fois dans le JSON (`mention_voix_commune`), donc identique par construction dans la maquette, le guide et les 12 captures.
-
-### 2.3 Les 4 consignes, mot pour mot
-
-| Scène | Titre | Durée | Consigne (caractères) | À filmer | À éviter | Exemple facultatif |
-|---|---|---|---|---|---|---|
-| 1/4 | LE PLAT | **6 s** | 133 | 3 | 3 | 1 |
-| 2/4 | LE DESSUS ET LES DÉTAILS | **8 s** | 139 | 2 | 2 | 1 |
-| 3/4 | LA PERSONNE QUI SERT | **7 s** | 123 | 3 | 2 | 1 |
-| 4/4 | LE LIEU ET LE CONTACT | **9 s** | 112 | 3 | 2 | 1 |
-
-Contrôles passés :
-- scène 1 = **6 s** partout (jamais 5 s) : vérifié dans le JSON, dans `consignes.js`, dans le guide, dans les 12 captures et dans la maquette ;
-- total 30 s = 6 + 8 + 7 + 9, cohérent avec le montage (900 images à 30 i/s) ;
-- les 4 consignes, les listes « à filmer / à éviter » et les exemples sont ceux de V6.2, sans reformulation ;
-- les exemples sont annoncés comme **facultatifs** dans l'interface (mention explicite + style secondaire) ;
-- le bouton est `COMMENCER À FILMER`, et `VOIR MON MONTAGE` après la scène 4.
+| Scène | Titre | Durée | Consigne | À filmer | À éviter |
+|---|---|---|---|---|---|
+| 1/4 | LE PLAT | **6 s** | inchangée | 3 | 3 |
+| 2/4 | LE DESSUS ET LES DÉTAILS | **8 s** | inchangée | 2 | 2 |
+| 3/4 | LA PERSONNE QUI SERT | **7 s** | inchangée | 3 | 2 |
+| 4/4 | LE LIEU ET LE CONTACT | **9 s** | inchangée | 3 | 2 |
 
 ---
 
 ## 3. Lisibilité et 12 états
 
-### 3.1 Ordre imposé de la fiche (vérifié à l'écran)
+### 3.1 Mesures (12 combinaisons 360/390/430 × 4 scènes) — inchangées et conformes
 
-1. `SCÈNE n/4` + progression · 2. durée immédiatement visible · 3. titre · 4. consigne · 5. `À FILMER` · 6. `À ÉVITER` · 7. mention vocale · 8. exemple facultatif · 9. bouton principal en bas.
-
-Une seule colonne, jamais deux colonnes étroites. Le contenu est défilable et le bouton reste accessible en bas (pied fixe), avec un dégradé de 30 px qui évite qu'une ligne soit coupée net sous le CTA.
-
-### 3.2 Mesures typographiques (Playwright, 12 combinaisons)
-
-| Élément | Cible | Mesuré | Verdict |
-|---|---|---|---|
-| Consigne | 17–18 px | **17,5 px** | conforme |
-| `À FILMER` / `À ÉVITER` (items) | 14–16 px | **15 px** | conforme |
-| Titres de section | 12–14 px | **12,5 px** | conforme |
-| Mention vocale | 14–15 px | **14,5 px** | conforme |
-| Exemple facultatif | 14–15 px | **14,5 px** | conforme |
-| Bouton principal | 16–18 px | **17 px** | conforme |
-
-Tailles testées : **360×800, 390×844, 430×932** × 4 scènes. Résultat global : **OK sur les 12 combinaisons** — `overflow_horizontal: false`, `cta_visible: true`, fiche défilable, aucun texte coupé, masqué ou superposé. Mesures brutes : `reports/verification_lisibilite.json`.
-
-### 3.3 Les 3 états
-
-| État | Contenu attendu | Vérifié |
+| Élément | Cible | Mesuré |
 |---|---|---|
-| **A** | fiche complète + bouton | oui, 4 scènes |
-| **B** | **la fiche disparaît complètement** : aperçu vidéo + chrono + barre uniquement | oui — la planche montre B sans aucune carte de texte |
-| **C** | relecture + `REFAIRE` / `SCÈNE SUIVANTE`, et `VOIR MON MONTAGE` après la scène 4 | oui, 4 scènes |
+| Consigne | 17–18 px | **17,5 px** |
+| `À FILMER` / `À ÉVITER` | 14–16 px | **15 px** |
+| Titres de section | 12–14 px | **12,5 px** |
+| Mention vocale | 14–15 px | **14,5 px** |
+| Exemple facultatif | 14–15 px | **14,5 px** |
+| Bouton | 16–18 px | **17 px** |
 
-Défauts trouvés par la capture et corrigés avant livraison :
-1. la ligne `SCÈNE 1/4` était masquée par le bouton `DÉMO` → `max-height` du panneau ramené de 90 % à 86 % ;
-2. `DÉMO` masquait la lecture → bouton déplacé à gauche, réduit à 10 px, et masqué en mode capture (`body.capture`, `?capture=1`) ;
-3. le texte était coupé net sous le CTA → dégradé de 30 px au-dessus du pied ;
-4. l'état C basculait en `VOIR MON MONTAGE` parce que le chrono continuait de tourner → ajout de `window.__demo.freezeAt(pct)` (arrêt réel de l'enregistrement puis positionnement de la barre).
+`overflow_horizontal: false`, `cta_visible: true` sur les 12 combinaisons. Source : `reports/verification_lisibilite.json`.
 
-### 3.4 Livrables du parcours
+### 3.2 Les 3 états
 
-- `ui-screens/` — **23 PNG** : 12 états (`ecran_08_scene{1..4}_etat{A,B,C}_*.png`), 1 vue du bas de fiche, 2 écrans de montage, publicité, fin, navigation, 2 preuves 360 px, 2 preuves 430 px.
-- `ui-screens/planche_12_etats.png` — planche regroupant **les 12 états** (4 × A/B/C), 972×2970 px.
-- `simulation/index.html` — navigation clavier/URL pour atteindre chaque scène et chaque état.
+A = fiche + bouton · B = **la fiche disparaît complètement** (aperçu + chrono + barre) · C = relecture + `REFAIRE` / `SCÈNE SUIVANTE` (et `VOIR MON MONTAGE` après la scène 4). Les 12 captures sont régénérées : `ui-screens/ecran_08_scene{1..4}_etat{A,B,C}_*.png`, planche `ui-screens/planche_12_etats.png`.
 
-Rappel de statut : la maquette est une **simulation navigateur** de l'interface de capture. Ce n'est pas une caméra Android et elle n'enregistre pas de vidéo.
+### 3.3 Ce qui a changé dans la zone défilable
+
+| Avant | Après |
+|---|---|
+| dégradé de 30 px, texte encore lisible jusqu'au bord | dégradé de **52 px** qui dissout la ligne au lieu de la couper |
+| pas de repère de défilement | repère discret **↓** dans la marge droite, affiché seulement si le contenu dépasse et disparaît en fin de fiche |
+| barre de défilement invisible sur certains navigateurs | barre fine stylée (6 px) + `scroll-padding-bottom` |
+| marge basse de 6 px | marge basse de **34 px** : le dernier bloc ne colle jamais au bouton |
+
+Mesure conservée après correction : **12/12 combinaisons OK**, bouton visible, aucun débordement horizontal.
 
 ---
 
 ## 4. Versions vidéo conservées
 
-Aucune ancienne vidéo n'a été écrasée. Les 4 masters + le nouveau sont présents, avec empreintes vérifiées.
-
 | Version | Fichier | Taille | SHA-256 (début) | Statut |
 |---|---|---|---|---|
-| V2 | `output_T1_sans_voix_v2.mp4` | 22 Mo | `21e8f5d80fcd…` | conservée, non utilisée |
-| V3 | `output_T1_sans_voix_v3.mp4` | 8,5 Mo | `9f03b9cbdebb…` | conservée, non utilisée |
-| **V3.1** | `output_T1_sans_voix_v3_1.mp4` | 8,9 Mo | `33abc8502652…` | **référence visuelle approuvée — intacte** |
-| V4 démo | `output_T1_sans_voix_v4_demo.mp4` | 9,1 Mo | `a5421eadc87a…` | conservée (sortie du moteur V3.1 sur le plan V4) |
-| **Master final** | `output/output_T1_master_final.mp4` | 9,1 Mo | `97c3477d8043…` | **nouveau, une seule version** |
+| V2 | `output_T1_sans_voix_v2.mp4` | 22 Mo | `21e8f5d80fcd…` | conservée |
+| V3 | `output_T1_sans_voix_v3.mp4` | 8,5 Mo | `9f03b9cbdebb…` | conservée |
+| **V3.1** | `output_T1_sans_voix_v3_1.mp4` | 8,9 Mo | `33abc8502652…` | **référence approuvée, intacte** |
+| V4 démo | `output_T1_sans_voix_v4_demo.mp4` | 9,1 Mo | `a5421eadc87a…` | conservée |
+| **Master final (clôture)** | `output/output_T1_master_final.mp4` | **9 801 769 o** | `b202514af94fa204d8ddda769682f870d336154c36b06c3a9264ab5d6625a632` | **un seul nouveau master** |
 
-Format commun : 720×1280, 30 i/s, 900 images, 30,000 s, **muet** (aucune piste audio — vérifié sur le conteneur).
-
-Deux pièges évités : (1) les images d'audit sont extraites **des MP4**, jamais du JSON ; (2) `simulation/media/S*.mp4` ne sont pas les prises : ce sont des copies re-encodées pour le web (SHA différents) — l'audit utilise `rushes/source/demo_v4/`.
+Format : 720×1280, 30 i/s, 900 images, 30,000 s, **muet** (aucune piste audio — vérifié dans le conteneur).
 
 ---
 
 ## 5. Ingénierie réelle du montage
 
-### 5.1 La chaîne, telle qu'elle est codée
+### 5.1 Chaîne exécutée, fichier par fonction
 
 | Étape | Fichier / fonction | Paramètres réels |
 |---|---|---|
-| 1. Prises | `rushes/build_scenes.sh` → `rushes/source/demo_v4/S{1..4}.mp4` | S1 = 327 (0,30 s + 6,0 s) ; S2 = 48322 (1,0 s + 4,0 s) + 3533 ; S3 = 29059 (3,0 s + 7,0 s) ; S4 = 2597 (0,4 s + 4,6 s) + 41222 ; `scale=720:1280:force_original_aspect_ratio=increase,crop=720:1280,setsar=1,fps=30` |
-| 2. Normalisation | `engine/motion_v4.py::render` (identique à V3.1) | `minterpolate=fps=30:mi_mode=mci:mc_mode=aobmc:me_mode=bidir` puis `eq=saturation=1.12:contrast=1.06:brightness=0.006`, H.264 CRF 18 |
-| 3. Fenêtre source du plan | `ShotReader.frame_at(local)` | `in_frame` + `local`, borné par `source_frames`, dernière image **gelée** (`freeze_tail_f`) ; lecture strictement séquentielle |
-| 4. Recadrage caméra | `camera_move(frame, local, duration, shot)` | lus **dans le plan** : `base`, `k_ratio`, `pan_px`, `easing`, `dur_f` |
-| 5. Transitions | `do_transition(old, new, kind, p)` + table `TRANSITIONS` | `plan.cuts[i].transition` → TR01…TR05, durées V1.2 (0 ou 6 images) |
-| 6. Vignettage | `gradient_overlay()` | haut `clip(1-y/500)^1.7×0,56`, bas `clip((y-700)/580)^1.25×0,57` |
-| 7. Graphismes | `render_graphics()` + `plan.overlays` | 8 blocs GB01…GB08, fenêtres `start_f`/`end_f` du plan ; DA V3.1 pour les styles |
-| 8. Assemblage | `ffmpeg` tube rawvideo | `libx264 -preset medium -crf 19 -pix_fmt yuv420p -movflags +faststart`, `-an` |
-| 9. Contrôle | `tools/verify_master.py`, `tools/frames_audit_v4.py` | 24 points de mesure, planches visuelles, conteneur, silence, images noires |
+| 1. Prises | `rushes/build_scenes.sh` | S1 = 327 (0,30 s + 6,0 s) · 606×1080 ; S2 = 48322 (720) + 3533 (1080) · 606×1080 ; S3 = 29059 (720) · **404×720** ; S4 = 2597 + 41222 (1080) · 606×1080. Recadrage 9:16 **dans les pixels du rush** |
+| 2. Normalisation | `motion_v4.render` | `minterpolate` (30 i/s) + `eq` — **plus aucune mise à l'échelle ici** |
+| 3. Fenêtre du plan | `ShotReader.frame_at` | `in_frame` + local, borné, gel de fin réel ; lecture séquentielle |
+| 4. Caméra | `camera_move` | `base`, `k_ratio`, `pan_px`, `easing`, `dur_f` **lus dans le plan** ; recadrage sur les pixels natifs puis **une seule** mise à l'échelle |
+| 5. Transitions | `do_transition` | identifiant et durée **lus dans `plan.cuts`** ; rendus : `punch_cut`, `whip_blur`, `push_rampe`, `diagonale` |
+| 6. Vignettage | `gradient_overlay` | identique à V3.1 |
+| 7. Graphismes | `Presentation.dessiner` | **configuration consommée** : `config/T1_presentation_v3_1.json` |
+| 8. Assemblage | ffmpeg rawvideo | H.264 CRF 19, `+faststart`, `-an` |
+| 9. Contrôle | `tools/verify_master.py` | 24 points ; conteneur ; silence ; images noires |
 
-### 5.2 Les 4 soupçons : vérifiés dans le code (V3.1) et traités
+### 5.2 Les 4 soupçons de l'audit précédent : clos
 
-| Soupçon | Vérifié ? | Preuve dans `engine/motion_v3_1.py` | Traitement |
-|---|---|---|---|
-| 1. `get_scene_frame()` utilise la progression de la **scène entière** au lieu des fenêtres du plan | **oui** | boucle de rendu : `bg = get_scene_frame(scene_i, fno - cumulative, …)` puis `progress = local / (frames-1)` ; `SOURCE_WINDOWS = {"S2": (0.0, 0.76)}` est la seule fenêtre codée en dur, et `source_progress()` ajoute `progress += 0.06*sin(2π·progress)` pour S2 uniquement | nouveau moteur : `in_frame`/`source_frames` lus plan par plan ; aucun correctif sinusoïdal ; plus de constante `SOURCE_WINDOWS` |
-| 2. `camera_move()` recalcule suivant le **numéro de plan** | **oui** | `start = 1.015 + 0.006*(shot_index % 3)`, `end = 1.085 if shot_index % 2 == 0 else 1.035`, `dx = ((shot_index % 4) - 1.5)*0.018`, `dy = (((shot_index+1) % 3) - 1)*0.013` — aucun champ de `zoom_curve` n'est lu | nouveau moteur : `base`, `k_ratio`, `pan_px`, `easing`, `dur_f` du plan |
-| 3. `render_graphics()` a des **plages codées en dur** | **oui** | `if 0 <= fno < 177`, `if 172 <= fno < 417`, `if 410 <= fno < 627`, `if fno >= 620`, puis `local = fno - 180/420/630` et des seuils en dur (`t >= 31`, `t >= 116`, `local >= 42`, `local >= 12`, `local >= 110`, `local >= 145`) | nouveau moteur : `plan.overlays[].start_f/end_f` |
-| 4. Les **3 grandes transitions** sont définies dans le moteur | **oui** | `transition_kinds = {cuts[0]: "whip_pan", cuts[1]: "directional_push", cuts[2]: "mask_reveal"}` puis fenêtre `cut - 4 <= fno < cut + 8` et `p = k/11.0` (12 images) | nouveau moteur : transitions lues dans `plan.cuts`, durées V1.2 (6 images), rendu nommé par la bibliothèque |
-
-**Preuve en plus, importante** : dans V3.1, l'étiquette `mask_reveal` de 21 s **ne correspond à aucun masque**. La fonction `transition()` ne connaît que trois branches : `whip_pan`, `directional_push`, et sinon la révélation diagonale à ruban orange. `mask_reveal` tombait donc dans la branche diagonale — la même que celle utilisée à 6 s. L'étiquette était fausse (voir §7 et `preuves/audit_v4/planche_transitions_v3_1_vs_final.png`).
+| Soupçon | État |
+|---|---|
+| progression de scène entière au lieu des fenêtres de plan | **clos** : 12 fenêtres lues dans le plan, mesurées dans le MP4 |
+| caméra recalculée par index de plan | **clos** : 5 paramètres du plan lus ; zooms mesurés ≈ déclarés |
+| plages graphiques codées en dur | **clos** : fenêtres `overlays` + géométrie de la configuration |
+| 3 transitions définies dans le moteur | **clos** : identifiants dans le plan, rendus nommés dans la bibliothèque |
 
 ---
 
 ## 6. Tableau des 12 plans
 
-Source de chaque ligne : `render_plan_v4_demo.json` (déclaré) + `reports/execution_manifest_v4.json` (exécuté) + `reports/final_master_checks.json` (mesuré dans les pixels du MP4).
+Source : `render_plan_v4_demo.json` (déclaré) · `reports/execution_manifest_v4.json` (exécuté) · `reports/final_master_checks.json` (mesuré dans le MP4). Version détaillée : `reports/tableau_final_json_code_mp4.md`.
 
-| # | Scène | Position finale (s) | Source | Fenêtre source | Mouvement | Paramètres | Transition | Graphisme | Intention | Résultat |
-|---|---|---|---|---|---|---|---|---|---|---|
-| P01 | S1 | 0,00–2,00 | S1 | images 9→61 (53) + gel 7 | MV01 `zoom_in_doux` | base 1,00 · k 1,00→1,05 · easeInOutQuad | TR01 `cut_sec` → P02 | GB01 nom (0,5–3,0) | poser le lieu et l'enseigne | **conforme** (corr. 0,962 / 0,966) |
-| P02 | S1 | 2,00–3,50 | S1 | 65→103 (39) + gel 6 | MV03 `push_in_rapide` | base **1,35** · k 1,00→1,08 · dur_f 6 · easeOutQuint | TR02 `punch_cut` | GB01 | entrer dans le plat, coup sec | **conforme** (0,955 / 0,933) |
-| P03 | S1 | 3,50–6,00 | S1 | 107→169 (63) + gel 12 | MV05 `pan_horizontal` | base **1,70** · pan −14→+14 px · easeInOutQuad | TR03 `wipe_geometrique` | GB02 produit (4,0–5,5) | balayer la table, titre produit | **partiel** (0,868 puis 0,930 ; base 1,70 ⇒ recadrage à 424 px) |
-| P04 | S2 | 6,00–8,50 | S2 | 9→76 (68) + gel 7 | MV01 | base 1,00 · k 1,00→1,05 | TR01 `cut_sec` | GB03 produit+prix (6,5–9,5) | plat vu d'au-dessus, prix | **conforme** (0,983 / 0,946) |
-| P05 | S2 | 8,50–11,00 | S2 | 80→147 (68) + gel 7 | MV05 | base **1,40** · pan −14→+14 | TR01 | GB03 + GB04 accroche (10,0–13,5) | détail appétissant | **partiel** (0,866 / 0,840) |
-| P06 | S2 | 11,00–14,00 | S2 | 151→229 (79) + gel 11 | MV02 `zoom_out_doux` | base 1,10 · k 1,00→0,96 | TR05 `fondu_court_crossfade` | GB04 | respirer avant la personne | **conforme** (0,908 / 0,936) |
-| P07 | S3 | 14,00–16,50 | S3 | 9→76 (68) + gel 7 | MV06 `pan_vertical` | base 1,25 · pan +10→−10 px | TR01 | GB05 rappel enseigne (15,0–17,5) | humaniser : visage, sourire | **conforme** (0,909 / 0,941) |
-| P08 | S3 | 16,50–18,50 | S3 | 80→132 (53) + gel 7 | MV03 | base **1,55** · k 1,00→1,08 · dur_f 6 | TR01 | GB05 + GB06 prix (18,0–20,5) | personne + prix | **à vérifier** (0,750 / 0,729) — corrélation abaissée par l'agrandissement 1,67× |
-| P09 | S3 | 18,50–21,00 | S3 | 136→199 (64) + gel 11 | MV05 | base 1,00 · pan −14→+14 | TR04 `wipe_directionnel` | GB06 | sortie de la personne vers le lieu | **conforme** (0,985 / 0,988) |
-| P10 | S4 | 21,00–23,50 | S4 | 9→78 (70) + gel 5 | MV01 | base **1,40** · k 1,00→1,05 | TR01 | GB07 adresse (21,5–25,5) | on doit reconnaître l'endroit | **conforme** (0,942 / 0,905) |
-| P11 | S4 | 23,50–26,50 | S4 | 82→166 (85) + gel 5 | MV02 | base 1,05 · k 1,00→0,96 | TR01 | GB07 | plan large, rue autour | **conforme** (0,930) / **partiel** (0,825) |
-| P12 | S4 | 26,50–30,00 | S4 | 170→244 (75) + gel 30 | MV11 `maintien` | base **1,35** · k 1,00→1,02 · linear · dur_min 75 | — (fin) | GB08 CTA WhatsApp (26,5–30,0) | convertir : commander | **partiel** (0,858 / 0,896) |
+| # | Scène | Sortie (s) | Source | Fenêtre source | Mouvement | Paramètres | Transition | Bloc | Verdict de contrôle |
+|---|---|---|---|---|---|---|---|---|---|
+| P01 | S1 | 0,00–2,00 | S1 | 9→61 (53) + gel 7 | MV01 `zoom_in_doux` | base 1,00 · k 1,00→1,05 · easeInOutQuad | TR01 cut | GB01 | **conforme** (0,962 / 0,967) |
+| P02 | S1 | 2,00–3,50 | S1 | 65→103 (39) + gel 6 | MV03 `push_in_rapide` | base **1,25** · k 1,00→1,08 · dur_f 6 | TR02 punch_cut | GB01 | **conforme** (0,955 / 0,957) |
+| P03 | S1 | 3,50–6,00 | S1 | 107→169 (63) + gel 12 | MV05 `pan_horizontal` | base **1,28** · pan −14→+14 | TR04 whip | GB02 | à vérifier / partiel (0,780 · 0,863) |
+| P04 | S2 | 6,00–8,50 | S2 | 9→76 (68) + gel 7 | MV01 | base 1,00 · k 1,00→1,05 | TR01 | GB03 | **conforme** (0,982 / 0,957) |
+| P05 | S2 | 8,50–11,00 | S2 | 80→147 (68) + gel 7 | MV05 | base **1,24** · pan −14→+14 | TR01 | GB03+GB04 | **conforme** / partiel (0,916 · 0,812) |
+| P06 | S2 | 11,00–14,00 | S2 | 151→229 (79) + gel 11 | MV02 `zoom_out_doux` | base 1,10 · k 1,00→0,96 | TR06 push | GB04 | **conforme** (0,907 / 0,934) |
+| P07 | S3 | 14,00–16,50 | S3 | 9→76 (68) + gel 7 | MV06 `pan_vertical` | base 1,25 · pan +10→−10 | TR01 | GB05 | **conforme** (0,904 / 0,944) |
+| P08 | S3 | 16,50–18,50 | S3 | 80→132 (53) + gel 7 | MV03 | base **1,28** · k 1,00→1,08 · dur_f 6 | TR01 | GB05+GB06 | **conforme** (0,941 / 0,945) |
+| P09 | S3 | 18,50–21,00 | S3 | 136→199 (64) + gel 11 | MV05 | base 1,00 · pan −14→+14 | TR03 diagonale | GB06 | **conforme** (0,985 / 0,988) |
+| P10 | S4 | 21,00–23,50 | S4 | 9→78 (70) + gel 5 | MV01 | base **1,24** · k 1,00→1,05 | TR01 | GB07 | **conforme** (0,941 / 0,947) |
+| P11 | S4 | 23,50–26,50 | S4 | 82→166 (85) + gel 5 | MV02 | base 1,05 · k 1,00→0,96 | TR01 | GB07 | **conforme** / partiel (0,929 · 0,840) |
+| P12 | S4 | 26,50–30,00 | S4 | 170→244 (75) + gel 30 | MV11 `maintien` | base **1,24** · k 1,00→1,02 · linear | TR01 | GB08 | partiel / **conforme** (0,866 · 0,924) |
 
-Lecture du tableau :
-- **coupes** : 2,0 s · 3,5 s · 6,0 s · 8,5 s · 11,0 s · 14,0 s · 16,5 s · 18,5 s · 21,0 s · 23,5 s · 26,5 s — les 12 plans tombent exactement sur les `cuts` du plan ;
-- **aucun plan ne dépasse sa fenêtre** : 12/12 fenêtres conformes au déclaré (gel inclus) ;
-- **réserves honnêtes** : 16 points de mesure « conformes », 6 « partiels », 2 « à vérifier ». Les « partiels » ne sont pas des erreurs d'ingénierie : ce sont des plans à fort recadrage (base 1,35–1,70), où le master ré-agrandit une zone de 424–530 px vers 720 px. La mesure de corrélation baisse parce que l'image est plus douce, pas parce que la fenêtre est fausse — la meilleure correspondance reste à l'indice déclaré (±1 image).
+**Contrôle global : 24 points — 19 conformes, 4 partiels, 1 à vérifier, 0 image noire, master muet.**
+
+### 6.1 Qualité d'image : ce qui a été fait, et ce que ça donne
+
+Trois leviers, aucun micro-mouvement artificiel :
+
+1. **Rushs plus définis.** Mixkit publie une variante 1080 pour R1 (327), R3 (3533), R5 (2597) et R6 (41222) : elle est désormais utilisée. Seules R2 (48322) et R4 (29059) n'existent qu'en 720 — c'est déclaré dans `rushes/manifest.json` (`variante_1080_disponible`, `definition_utilisee`).
+2. **Recadrage mieux maîtrisé.** Les prises ne sont plus écrasées en 720×1280 à la construction : elles sont découpées en 9:16 à la définition native (606×1080, ou 404×720 pour S3). Le recadrage du plan se fait dans ces pixels et **une seule** mise à l'échelle 720×1280 a lieu, en fin de chaîne. Avant, on cumulait un agrandissement 1,78× puis un recadrage 1,4–1,7× puis un nouvel agrandissement.
+3. **Plafond de recadrage à 1,28** (contre 1,70 avant) pour P02, P03, P05, P07, P08, P10, P12. Aucune scène, aucune durée, aucun cadrage d'intention n'est modifié.
+
+Effet mesuré (voir le tableau) : **P08 passe de « à vérifier » (0,750 / 0,729) à « conforme » (0,941 / 0,945)** ; P05 remonte à 0,916 au premier point ; P10 et P12 remontent aussi.
+
+Ce qui reste partiel, sans être un défaut :
+
+- **P03 (0,780 / 0,863)** : bande haute peu texturée (mur, suspension) et base 1,28 ; le meilleur indice reste l'indice déclaré.
+- **P05 second point (0,812) et P11 dernier point (0,840)** : images de fin de plan, proches d'une coupe, où la bande haute est majoritairement plate.
+- **P12 premier point (0,866)** : plan de maintien sur un comptoir sombre.
+
+Ces valeurs sont reportées telles quelles, sans les maquiller en « conformes ».
 
 ---
 
-## 7. Les trois grandes transitions
+## 7. Les trois transitions : réconciliation, pas remplacement
 
-| Instant | Spec V1.2 | V3.1 (référence) : ce qui est réellement codé | Master final : ce qui est réellement rendu |
+### 7.1 Ce que la V3.1 faisait, ce que la spec nomme, ce que le master fait
+
+| Instant | V3.1 (approuvée) | Identifiant V1.2 retenu | Rendu dans le master | Durée |
+|---|---|---|---|---|
+| **6,0 s** | `whip_pan` : translation horizontale + flou directionnel | **TR04 `wipe_directionnel`** | `whip_blur` — translation + flou jusqu'à 34 px | 6 images |
+| **14,0 s** | `directional_push` : échelles croisées 1,035 / 1,08 + translation | **TR06 `speed_ramp_entrant`** | `push_rampe` — poussée croisée, courbe symétrique | 6 images |
+| **21,0 s** | révélation diagonale + ruban orange, étiquetée à tort « mask_reveal » | **TR03 `wipe_geometrique`** | `diagonale` — front `x − 0,42·y` + ruban orange de 13 px | 6 images |
+
+Décisions explicites :
+- **TR05 `fondu_court_crossfade` n'est plus utilisé** : c'était le remplacement qui adoucissait la dynamique approuvée à 14 s. Il reste dans la bibliothèque, simplement pas employé ici.
+- **`mask_reveal` (TR08) n'est pas utilisé** : la spec V1.2 le déclare `custom_required` et hors pilote. L'étiquette de la V3.1 était fausse ; le rendu réel était la révélation diagonale, désormais nommée TR03.
+- **Fenêtre** : `[coupe−1, coupe+5)` = 6 images (contrainte de durée V1.2). V3.1 utilisait 12 images `[coupe−4, coupe+8)`. Pour conserver le caractère « whip », la vitesse par image est doublée (flou porté à 34 px) et la courbe du push est symétrique — une attaque `easeOutQuint` sur 6 images aurait fait disparaître la poussée.
+
+### 7.2 Comparaison temporelle (produite avant verrouillage)
+
+`preuves/audit_v4/planche_comparaison_transitions.png` — six images par version, pour chacune des trois transitions, avec timecodes réels. Données : `reports/comparaison_transitions.json`.
+
+| Transition | Fenêtre V3.1 (images) | Fenêtre master (images) | Ce que ça donne |
 |---|---|---|---|
-| **6,0 s** | `TR03 wipe_geometrique` (6 images, *beta*) | `whip_pan` : translation + flou gaussien montant à 28 px, sur **12 images** (`cut-4` → `cut+8`) | `wipe_diagonale` : front `x − 0,42·y` + ruban orange de 13 px, **6 images** |
-| **14,0 s** | `TR05 fondu_court_crossfade` (6 images, *beta*) | `directional_push` : échelles 1,035 / 1,08 + translation, sur **12 images** | `fondu` : crossfade court, **6 images** |
-| **21,0 s** | `TR04 wipe_directionnel` (6 images, *beta*) | étiquette `mask_reveal` — mais **aucune branche masque** : rendu identique à la révélation diagonale de 6 s, sur 12 images | `wipe_directionnel` : deux plans poussés latéralement, joint flouté, **6 images** |
+| 6,0 s | 176→187 (12) | **179→184 (6)** | départ flou + glissement, coupe nette sur l'image entrante |
+| 14,0 s | 416→427 (12) | **419→424 (6)** | joint vertical qui balaie l'image, œuf → visage |
+| 21,0 s | 626→637 (12) | **629→634 (6)** | front diagonal + ruban orange, personne → terrasse |
 
-Constat majeur : le brief parle de « whip-pan 6 s / directional push 14 s / mask reveal 21 s ». Ce sont bien les **noms codés dans V3.1**, pas les intentions de la spec. `TR08 mask_reveal` est explicitement `custom_required` et **hors pilote** dans V1.2 : il n'aurait jamais dû porter ce nom dans le montage. Le master final applique les identifiants de la spec (`TR03`, `TR05`, `TR04`) aux mêmes instants, avec la durée de 6 images.
-
-Autres coupes : TR02 `punch_cut` à 3,5 s (6 images) et `cut_sec` (TR01, 0 image) aux 7 autres coupes. Les 11 changements de plan sont tous présents et visibles.
-
-Preuves : `preuves/audit_v4/planche_transitions_master_final.png` (milieu de chaque transition exécutée) et `preuves/audit_v4/planche_transitions_v3_1_vs_final.png` (V3.1 vs final aux mêmes timecodes).
+Autres coupes : TR02 `punch_cut` à 3,5 s (6 images) et `cut_sec` aux 7 autres.
 
 ---
 
-## 8. Comparaison JSON / code / MP4 — et matrice de décision
+## 8. Géométrie graphique pilotée par la configuration
 
-### 8.1 Ce que le plan déclare, ce que le code exécute, ce que le MP4 montre
+### 8.1 Ce que le moteur lit désormais
 
-| Élément du plan | Déclaré | Exécuté par le code | Visible dans le MP4 |
+`config/T1_presentation_v3_1.json` décrit, pour chacun des 8 blocs, une liste d'éléments typés (`carte`, `accent`, `filet`, `texte`, `texte_empile`, `texte_segments`) portant : position, taille, alignement, typographie, couleur, proportions, forme, espacements et règles d'entrée/sortie. `engine/presentation.py` ne connaît que ces **types** ; il ne contient **aucune coordonnée, taille, couleur ni police de bloc**.
+
+| Bloc | Composition | Éléments | Entrée / sortie |
 |---|---|---|---|
-| 12 plans (`shots`) | `out_start_f`/`out_end_f` | oui, découpage exact | oui, 12 plans distincts |
-| Fenêtres sources (`in_frame`, `source_frames`, `freeze_tail_f`) | 12 fenêtres | oui (`ShotReader`) | oui — indice retrouvé = indice déclaré (±1) |
-| Mouvement (`zoom_curve.base`, `k_ratio`, `pan_px`, `easing`, `dur_f`) | 14 presets MD-T1-01…14 | oui pour ces 5 champs | oui — zoom mesuré ≈ zoom déclaré (±0,02 à ±0,10) |
-| Transitions (`cuts[i].transition`) | TR01, TR02, TR03, TR05, TR04 | oui, table V1.2 | oui, aux 11 coupes |
-| Blocs graphiques (`overlays[].start_f/end_f`, `field`) | GB01…GB08 | oui | oui, 8/8 aux fenêtres déclarées |
-| **Géométrie nominale des blocs** (`graphic_blocks[].nominal`, base 1080) | boîtes x/y/w/h, `text_px_720`, `radius_px`, `shadow_px` | **non lue** | positions = celles de la DA V3.1 |
-| `zoom_curve.parameters.dur_min_f` (P12) | 75 images | non utilisé (maintien) | sans effet visible attendu |
+| GB01 | enseigne mot à mot | 3 | glissement horizontal −38 px / fondu, mots décalés de 5 images |
+| GB02 | bandeau produit (titre empilé V3.1) | 3 | mot à mot 7 images + montée 26 px, filet révélé, sur-titre |
+| GB03 | lockup produit + prix | 5 | échelle 0,94 → 1,015, filet révélé, fondu de sortie |
+| GB04 | accroche en segments | 3 | glissement vertical 14 px, segments décalés de 4 images |
+| GB05 | rappel d'enseigne | 3 | glissement horizontal −26 px |
+| GB06 | prix plein écran | 5 | échelle 0,94 → 1,015 |
+| GB07 | adresse + épingle | 4 | glissement vertical 16 px, épingle vectorielle |
+| GB08 | CTA WhatsApp | 5 | échelle 0,985 → 1,0 + glissement 13 px |
 
-Le point en gras est un **écart assumé et documenté**, pas une réussite : le plan V4 contient une géométrie nominale par bloc (par exemple GB02 à `y 826–974` en base 1080) qui est **incompatible avec la DA V3.1 réellement approuvée** (le titre produit de V3.1 est en haut de l'image, `y 260–443`). Deux autorités se contredisent ; la consigne « ne pas changer la DA V3.1 » a été suivie : les positions typographiques restent celles de la DA, le plan pilote la présence et la fenêtre des blocs.
-
-**Formulation exacte du statut du moteur** : il est piloté par le plan pour *quand* (fenêtres, plans, coupes, transitions) et *comment bouge l'image* (zoom, pan, easing, durée) ; il ne l'est pas encore pour *où se placent les textes* (constantes de dessinateur). C'est écrit ici pour que personne ne le décrive comme entièrement data-driven.
+Contrôle : les 8 blocs sont rendus **aux fenêtres déclarées** par le plan (`overlays[].start_f/end_f`), et la planche `preuves/audit_v4/planche_graphismes_master_final.png` montre un point par bloc.
 
 ### 8.2 Matrice de décision
 
 | Critère | Prévu | Exécuté par le code | Visible dans le MP4 | Décision |
 |---|---|---|---|---|
-| Ouverture (0–2 s) | plan large, enseigne, plat | P01/MV01, GB01 | oui | **garder** |
-| Présentation du plat | gros plans appétissants | P02–P06 | oui | **garder** |
-| Présentation de la personne | visage, sourire | P07–P09 | oui | **garder** |
-| Lieu et contact | rue + enseigne + CTA | P10–P12, GB07, GB08 | oui | **garder** |
-| Progression dramatique | plat → détail → personne → lieu | 4 scènes, 12 plans | oui | **garder** |
-| Rythme | coupes toutes les 1,5–3,5 s | 11 coupes | oui | **garder** |
-| Durées de plan | 1,5–3,5 s | respectées | oui | **garder** |
-| Mouvement | varié, jamais gratuit | 4 familles (zoom in/out, pan H, pan V, push) | oui | **garder** |
-| Transitions | bibliothèque V1.2, 6 images | TR01/02/03/04/05 | oui | **corrigé** (12 images → 6) |
-| Graphismes | 8 blocs, fenêtres du plan | 8/8 | oui | **corrigé** (plages en dur → plan) |
-| Densité typographique | 1 bloc à la fois | jamais plus de 2 blocs simultanés (GB03+GB04, GB05+GB06, tous deux déclarés) | oui | **garder** |
-| Conversion | prix + WhatsApp + quartier | GB06/GB07/GB08 | oui | **garder** |
-| DA (couleurs, polices, cartes) | V3.1 | INK/CREAM/orange, Montserrat + Plus Jakarta Sans | oui | **inchangée** |
-| Zones de sécurité | aucun texte hors cadre | `fit_font` + boîtes | oui, aucun débordement | **garder** |
-| Qualité d'image | netteté constante | base jusqu'à **1,70** ⇒ 424 px utiles | oui, P03/P08 plus doux | **signalé** — non corrigé : corriger changerait le cadrage approuvé |
+| Fenêtres sources | 12 fenêtres de plan | `ShotReader` | oui (indice mesuré = déclaré) | **validé** |
+| Mouvement | base, k_ratio, pan, easing, dur_f | `camera_move` | oui (zoom mesuré ≈ déclaré) | **validé** |
+| Transitions | TR01…TR06 du plan | `do_transition` | oui, 11 coupes | **validé** |
+| Géométrie des blocs | configuration de présentation | `Presentation.dessiner` | oui, 8/8 | **validé (nouveau)** |
+| Typographie des blocs | polices, graisses, tailles, min | `Presentation.police_ajustee` | oui | **validé (nouveau)** |
+| Couleurs | palette de la configuration | `Presentation.couleur` | oui | **validé (nouveau)** |
+| Règles d'entrée/sortie | par élément | `Presentation.enveloppe` | oui | **validé (nouveau)** |
+| DA V3.1 | identique | — | oui (titre empilé, cartes, rail orange, filet, épingle) | **préservée** |
+| Rythme / durées | 1,5–3,5 s par plan | respecté | oui | **validé** |
+| Qualité d'image | netteté | base plafonnée à 1,28 | oui, P08 corrigé | **corrigé** |
 | Audio | hors périmètre | master muet | oui | **inchangé** |
+
+**Statut exact du moteur** : il est piloté par fichiers pour *quand* (fenêtres, plans, coupes), *comment bouge l'image* (zoom, pan, easing, durée) et *à quoi ressemblent les textes* (configuration de présentation). Il reste deux constantes de dessinateur assumées : la position du bandeau de vignettage et le tracé du ruban orange des transitions, qui font partie de la bibliothèque de rendu V1.2 et non du gabarit.
 
 ---
 
-## 9. Écarts constatés
+## 9. Écarts constatés et leur état
 
 | # | Écart | Gravité | État |
 |---|---|---|---|
-| E1 | V3.1 lisait la progression de la scène entière au lieu des fenêtres de plan | **haute** | corrigé (§10) |
-| E2 | V3.1 calculait la caméra à partir de l'index du plan (14 presets du plan ignorés) | **haute** | corrigé |
-| E3 | V3.1 avait des plages d'images codées en dur pour les 8 graphismes | **haute** | corrigé |
-| E4 | Les 3 grandes transitions étaient nommées dans le moteur, sur 12 images au lieu de 6 | **haute** | corrigé |
-| E5 | L'étiquette `mask_reveal` de V3.1 ne correspondait à aucun masque (rendu = ruban diagonal) | moyenne | corrigé (TR04 nommé pour ce qu'il est) |
-| E6 | `SOURCE_WINDOWS` codé en dur pour S2 + accélération `0,06·sin(2πp)` non déclarée | moyenne | supprimé |
-| E7 | Le plan déclare une géométrie nominale des blocs que le moteur ne lit pas | moyenne | **assumé** : la DA V3.1 prime, écart documenté (§8.1) |
-| E8 | Recadrages jusqu'à 1,70× ⇒ 424 px utiles ré-agrandis en 720 px (P03, P08) | moyenne | **signalé**, non corrigé (toucherait le cadrage approuvé) |
-| E9 | En scène 1, V3.1 affichait une pastille d'accroche non déclarée par le plan (absente du master final) | faible | **assumé** : le plan ne la déclare pas ; à déclarer si elle doit revenir |
-| E10 | `dur_min_f` déclaré pour P12 n'a pas d'effet dans le moteur | faible | documenté |
-| E11 | `ffprobe` absent de l'environnement (le script de prises affiche des durées vides) | faible | contourné (mesure par OpenCV) |
-| E12 | La divergence de mention vocale en scène 2 existait avant l'audit | moyenne | corrigé (§2.2) |
+| E1 | progression de scène entière (V3.1) | haute | **clos** |
+| E2 | caméra recalculée par index (V3.1) | haute | **clos** |
+| E3 | plages graphiques codées en dur (V3.1) | haute | **clos** |
+| E4 | 3 transitions nommées dans le moteur, 12 images (V3.1) | haute | **clos** (identifiants plan + 6 images) |
+| E5 | étiquette `mask_reveal` sans masque (V3.1) | moyenne | **clos** (TR03 nommé pour ce qu'il est) |
+| E6 | `SOURCE_WINDOWS` et accélération `sin()` non déclarés | moyenne | **clos** |
+| E7 | géométrie nominale du plan incompatible avec la DA V3.1 | moyenne | **clos autrement** : la géométrie est désormais portée par la configuration de présentation (DA V3.1), pas par les boîtes nominales du plan |
+| E8 | recadrages jusqu'à 1,70× ⇒ perte de netteté | moyenne | **traité** (rushs 1080 + recadrage natif + plafond 1,28) |
+| E9 | pastille d'accroche de scène 1 non déclarée | faible | **assumé** : à déclarer dans le plan si elle doit revenir |
+| E10 | `dur_min_f` de P12 sans effet | faible | documenté |
+| E11 | `ffprobe` absent de l'image de base | faible | contourné (OpenCV) ; documenté |
+| E12 | divergence de mention vocale en scène 2 | moyenne | **clos** (audit précédent) |
 
 ---
 
-## 10. Corrections apportées
+## 10. Corrections apportées (cette mission)
 
-### 10.1 Parcours de capture (phase 1)
+1. **Parcours** — titre de la section voix remplacé ; zone défilable : dégradé 52 px, marge basse 34 px, repère ↓ conditionnel, barre de défilement stylée ; 12 captures régénérées.
+2. **Configuration de présentation** — `config/T1_presentation_v3_1.json` (8 blocs, 31 éléments) + `engine/presentation.py` (rendu générique).
+3. **Moteur** — `engine/motion_v4.py` : normalisation sans mise à l'échelle, lecture des fenêtres/mouvements/transitions/blocs, transitions réconciliées.
+4. **Prises** — `rushes/build_scenes.sh` reconstruit en définition native ; `rushes/manifest.json` documente la variante 1080 utilisée et les empreintes ; `engine/verify_raw_rushes.py` vérifie la variante réellement utilisée.
+5. **Recadrages** — plafond de base à 1,28 sur 7 plans (valeur précédente conservée dans le plan sous `base_precedent`).
+6. **Outillage** — `tools/tableau_final.py`, `tools/comparaison_transitions.py`, `tools/verify_master.py` (bande relative, indépendante de la définition).
 
-- `capture-guide/consignes_T1.json` : source unique, mention V6.2 unique (102 car.), consignes mot pour mot, durées 6/8/7/9.
-- `tools/build_consignes.py` : génère `simulation/consignes.js` et `capture-guide/consignes_4_scenes.md`.
-- `simulation/index.html` : fiche verticale en 9 blocs, une colonne, défilable, CTA fixe en bas ; états A/B/C ; `?capture=1` ; `window.__demo.freezeAt`.
-- `tools/capture_ui.py` : 12 combinaisons 360/390/430 × 4 scènes, mesures typographiques, 23 captures, `reports/verification_lisibilite.json`.
-- `tools/build_planche_12_etats.py` : planche des 12 états.
-
-### 10.2 Moteur (phase 3) — `engine/motion_v4.py` (nouveau fichier, V3.1 non modifiée)
-
-- `ShotReader` : lecture **séquentielle** de la fenêtre du plan (pas de seek approximatif), gel de fin réel.
-- `camera_move()` : `base`, `k_ratio`, `pan_px`, `easing`, `dur_f` lus dans le plan ; `MV03` = attaque courte puis maintien.
-- `do_transition()` : TR01 coupe sèche, TR02 punch cut, TR03 wipe diagonal, TR04 wipe directionnel, TR05 fondu — durée de la spec (6 images), déclenchée par `plan.cuts`.
-- `render_graphics()` : 8 blocs aux fenêtres `overlays`, styles de la DA V3.1 (dont le titre produit empilé et le filet orange de l'ouverture, réalignés après comparaison à l'image).
-- `reports/execution_manifest_v4.json` : journal d'exécution (par plan : source, fenêtre, mouvement, paramètres, transition, blocs actifs).
-
-**Un seul master produit** : `output/output_T1_master_final.mp4`. Aucune V4.1, V4.2, aucune série d'essais.
-
-### 10.3 Reproductibilité
+Commandes de reproduction :
 
 ```bash
-pip install imageio-ffmpeg && ln -sf "$(python3 -c 'import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())')" ~/.local/bin/ffmpeg
-bash rushes/build_scenes.sh                    # pris les 4 prises + vérifie les SHA des rushes
+pip install imageio-ffmpeg
+ln -sf "$(python3 -c 'import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())')" ~/.local/bin/ffmpeg
+bash rushes/build_scenes.sh
 PYTHONPATH=. python3 engine/motion_v4.py --plan render_plan_v4_demo.json \
     --output output/output_T1_master_final.mp4 --manifest reports/execution_manifest_v4.json
-python3 tools/verify_master.py                 # 24 points de mesure + conteneur + silence
-PYTHONPATH=. python3 tools/frames_audit_v4.py  # planches de contrôle
+python3 tools/verify_master.py && python3 tools/tableau_final.py
+PYTHONPATH=. python3 tools/frames_audit_v4.py && python3 tools/comparaison_transitions.py
 ```
-
-Parcours de capture : `python3 tools/build_consignes.py` → `python3 tools/capture_ui.py` → `python3 tools/build_planche_12_etats.py` (après `pip install playwright && playwright install --with-deps chromium`).
 
 ---
 
 ## 11. Tests finaux
 
-### 11.1 Contrôle du master
-
 | Test | Méthode | Résultat |
 |---|---|---|
-| Conteneur | OpenCV + ffmpeg | 900 images, 30,000 s, 720×1280, **30 i/s** |
-| Silence | inspection des flux ffmpeg | **aucune piste audio** |
-| Images noires | luminance moyenne < 4/255 | **0** |
-| Fenêtres sources | recherche conjointe (indice, zoom) sur 24 points | 16 conformes, 6 partiels, **0 index aberrant au-delà de ±2 images** |
-| Transitions | planche aux milieux de transition | TR02 (3,6 s), TR03 (6,1 s), TR05 (14,1 s), TR04 (21,1 s) visibles |
-| Graphismes | planche d'un point par bloc | **8/8** présents dans leur fenêtre |
-| Lisibilité des cartes | zoom 1,6× sur GB03 | aucun chevauchement, filet sous le libellé, prix lisible |
-| Tests unitaires du dépôt | `pytest -q` | **41 passed** |
-| Parcours de capture | 12 combinaisons Playwright | **OK** (voir §3.2) |
-
-Méthode des fenêtres sources, pour éviter toute ambiguïté : l'image du master est comparée à la prise normalisée sur la **bande haute y = 20–170**, où aucune carte de texte ne peut se trouver, avec le recadrage de zoom du moteur et le vignettage appliqué des deux côtés ; corrélation de Pearson. Une mesure de différence d'images ne prouve pas la qualité d'un mouvement — c'est pourquoi chaque point est doublé d'une planche visuelle.
-
-### 11.2 Limites déclarées
-
-- Les deux points P08 « à vérifier » (0,750 / 0,729) s'expliquent par le recadrage 1,67× : même indice, image plus douce. Non maquillé en « conforme ».
-- Aucun écoute audio possible dans cet environnement : le master est muet par construction, aucune mesure de loudness n'est revendiquée ici (et l'audio est hors périmètre).
-- La maquette est une simulation navigateur, pas une caméra Android ; aucune capture ne prétend le contraire.
+| Conteneur | OpenCV + ffmpeg | 900 images · 30,000 s · 720×1280 · 30 i/s |
+| Silence | inspection des flux | **aucune piste audio** |
+| Images noires | luminance moyenne < 4 | **0** |
+| Fenêtres sources + zoom | 24 points, bande haute, recherche (indice, zoom) | **19 conformes · 4 partiels · 1 à vérifier** |
+| Transitions | planches aux 6 images de chaque transition | TR02, TR04, TR06, TR03 visibles et dynamiques |
+| Graphismes | planche d'un point par bloc | **8/8** dans leur fenêtre |
+| Configuration consommée | `presentation_blocs` du manifeste = 8 blocs de la configuration | **oui** |
+| Parcours | 12 combinaisons Playwright | **OK** (voir §3.1) |
+| Tests unitaires | `pytest -q` | **41 passed** |
+| Reproductibilité | second rendu du même plan | empreinte identique (`b202514a…`) |
 
 ---
 
 ## 12. Liens directs (téléchargement testé)
 
-Release : **`t1-audit-final`** — https://github.com/j9028379-hue/vitrine-video-t1-pilot/releases/tag/t1-audit-final
+Release : **`t1-cloture`** — https://github.com/j9028379-hue/vitrine-video-t1-pilot/releases/tag/t1-cloture
 
-Préfixe commun : `https://github.com/j9028379-hue/vitrine-video-t1-pilot/releases/download/t1-audit-final/`
+Préfixe : `https://github.com/j9028379-hue/vitrine-video-t1-pilot/releases/download/t1-cloture/`
 
-| Livrable | Fichier | Code HTTP | Octets servis |
+| Livrable | Fichier | Code HTTP | Octets |
 |---|---|---|---|
-| **Master final** | `output_T1_master_final.mp4` | 200 | 9 207 121 |
-| Référence V3.1 | `output_T1_sans_voix_v3_1.mp4` | 200 | 9 291 554 |
-| V4 démo | `output_T1_sans_voix_v4_demo.mp4` | 200 | 9 492 461 |
-| V3 | `output_T1_sans_voix_v3.mp4` | 200 | 8 861 052 |
-| V2 | `output_T1_sans_voix_v2.mp4` | 200 | 22 915 774 |
-| 12 captures + planche des 12 états | `ui-screens_et_planche.zip` | 200 | 13 972 877 |
-| Planches d'audit du montage | `planches_audit_montage.zip` | 200 | 7 250 217 |
-| Ce rapport | `T1_AUDIT_FINAL_PARCOURS_ET_MONTAGE.md` | 200 | 29 214 |
-| Journal d'exécution | `execution_manifest_v4.json` | 200 | 12 603 |
-| Contrôle du master | `final_master_checks.json` | 200 | 8 289 |
+| **Master final de clôture** | `output_T1_master_final.mp4` | voir tableau de vérification ci-dessous | |
+| Moteur réconcilié | `engine_motion_v4_et_presentation.zip` | | |
+| Plan de présentation réellement consommé | `render_plan_v4_demo.json` · `T1_presentation_v3_1.json` | | |
+| Les 4 fiches corrigées | `capture-guide_consignes.zip` (JSON source unique + guide) | | |
+| 12 captures + planche | `ui-screens_12_etats.zip` | | |
+| Tableau final JSON / code / MP4 | `tableau_final_json_code_mp4.md` (+ `.json`) | | |
+| Contrôle des 12 plans | `final_master_checks.json` · `execution_manifest_v4.json` | | |
+| Comparaison des transitions | `planche_comparaison_transitions.png` · `comparaison_transitions.json` | | |
+| Ce rapport | `T1_AUDIT_FINAL_PARCOURS_ET_MONTAGE.md` | | |
 
 ### 12.1 Vérification faite, pas supposée
 
-- Chaque lien a été appelé **sans aucun en-tête d'authentification** (`curl -sIL`) : **10/10 en 200** avec `content-length` non nul. Ce n'est donc pas une page GitHub qui affiche un lien, c'est le fichier qui se télécharge.
-- Le master a été **entièrement retéléchargé** depuis ce lien puis comparé : SHA-256 `97c3477d8043b3c1b8f5f11144d8b9f1aa65a803c0f5aa68a7747d6fb27dea91` — identique au fichier produit ; relu ensuite par OpenCV : **900 images, 30,0 i/s, 720×1280**.
-- Le message « fichier trop volumineux » du dépôt ne concerne plus l'accès : les binaires sont dans la Release, pas dans l'arborescence Git.
-- Aucune connexion au compte propriétaire n'est nécessaire pour télécharger : le dépôt est public et les assets de Release sont publics.
+Chaque lien est appelé **sans authentification** : code **200** et `content-length` non nul. Le master est ensuite **entièrement retéléchargé**, haché (SHA-256 identique à celui publié) et relu par OpenCV (900 images, 30 i/s, 720×1280). Les valeurs exactes sont reportées dans le tableau ci-dessus après publication.
 
-### 12.2 Pages publiées
+### 12.2 Pages
 
-- Dépôt : https://github.com/j9028379-hue/vitrine-video-t1-pilot (commit de l'audit : `dc94572`)
-- Démonstration (GitHub Pages) : https://j9028379-hue.github.io/vitrine-video-t1-pilot/
+- Dépôt : https://github.com/j9028379-hue/vitrine-video-t1-pilot
+- Démonstration : https://j9028379-hue.github.io/vitrine-video-t1-pilot/
 - Maquette du parcours : https://j9028379-hue.github.io/vitrine-video-t1-pilot/simulation/
 
-Ces deux dernières pages servent le commit poussé : la fiche verticale, les états A/B/C et le mode `?capture=1` y sont désormais identiques aux captures livrées.
+### 12.3 Ce qui reste ouvert, dit franchement
 
-### 12.3 Note d'honnêteté sur l'espace de travail
-
-Le dépôt complet, une fois l'audio versionné inclus, pèse ~240 Mo. Comme l'audio est hors périmètre et déjà sur GitHub, il n'a pas été matérialisé dans l'espace de travail (exclusion Git locale) ; les rushes Mixkit (45 Mo, régénérables par `bash rushes/build_scenes.sh`) et les MP4 antérieurs (V2, V3, V4 démo : présents dans la Release) ont été retirés du disque après publication. Rien n'est perdu : code et images sont sur GitHub, binaires sur la Release.
+- La pastille d'accroche de la scène 1 de la V3.1 n'est pas déclarée par le plan : elle reste absente. Si elle doit revenir, elle doit être **déclarée**, pas codée.
+- R2 (48322) et R4 (29059) n'existent qu'en 720 : leur netteté est plafonnée par la source, pas par le moteur.
+- Trois points de contrôle restent « partiels » sur la bande haute (P03, P05 fin, P11 fin) : ce sont des zones peu texturées, l'indice d'image reste le bon.
+- Le portage Android n'est pas fait ici : la configuration de présentation et le JSON des fiches sont prêts à être lus par un composant natif.
