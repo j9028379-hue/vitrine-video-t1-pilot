@@ -303,17 +303,22 @@ Release : **`t1-cloture`** — https://github.com/j9028379-hue/vitrine-video-t1-
 
 Préfixe : `https://github.com/j9028379-hue/vitrine-video-t1-pilot/releases/download/t1-cloture/`
 
-| Livrable | Fichier | Code HTTP | Octets |
+| Livrable | Fichier | Code HTTP | Octets servis |
 |---|---|---|---|
-| **Master final de clôture** | `output_T1_master_final.mp4` | voir tableau de vérification ci-dessous | |
-| Moteur réconcilié | `engine_motion_v4_et_presentation.zip` | | |
-| Plan de présentation réellement consommé | `render_plan_v4_demo.json` · `T1_presentation_v3_1.json` | | |
-| Les 4 fiches corrigées | `capture-guide_consignes.zip` (JSON source unique + guide) | | |
-| 12 captures + planche | `ui-screens_12_etats.zip` | | |
-| Tableau final JSON / code / MP4 | `tableau_final_json_code_mp4.md` (+ `.json`) | | |
-| Contrôle des 12 plans | `final_master_checks.json` · `execution_manifest_v4.json` | | |
-| Comparaison des transitions | `planche_comparaison_transitions.png` · `comparaison_transitions.json` | | |
-| Ce rapport | `T1_AUDIT_FINAL_PARCOURS_ET_MONTAGE.md` | | |
+| **Master final de clôture** | `output_T1_master_final.mp4` | 200 | **9 801 769** |
+| Référence V3.1 (intacte) | `output_T1_sans_voix_v3_1.mp4` | 200 | 9 291 554 |
+| Moteur réconcilié | `engine_motion_v4_et_presentation.zip` | 200 | 11 876 |
+| Configuration de présentation | `T1_presentation_v3_1.json` | 200 | 19 527 |
+| Plan de présentation | `render_plan_v4_demo.json` | 200 | 38 625 |
+| Les 4 fiches corrigées | `capture-guide_consignes.zip` | 200 | 2 945 |
+| 12 captures + planche | `ui-screens_12_etats.zip` | 200 | 17 595 322 |
+| Tableau final JSON / code / MP4 | `tableau_final_json_code_mp4.md` | 200 | 2 662 |
+| … version machine | `tableau_final_json_code_mp4.json` | 200 | 15 309 |
+| Contrôle des 12 plans | `final_master_checks.json` | 200 | 8 299 |
+| Journal d'exécution | `execution_manifest_v4.json` | 200 | 10 827 |
+| Comparaison des transitions (planche) | `planche_comparaison_transitions.png` | 200 | 3 362 694 |
+| Comparaison des transitions (données) | `comparaison_transitions.json` | 200 | 1 235 |
+| Ce rapport | `T1_AUDIT_FINAL_PARCOURS_ET_MONTAGE.md` | 200 | 23 403 |
 
 ### 12.1 Vérification faite, pas supposée
 
