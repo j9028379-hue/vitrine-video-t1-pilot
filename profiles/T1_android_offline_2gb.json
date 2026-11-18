@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "T1_ANDROID_OFFLINE_2GB",
+  "display_name": "T1 Android hors ligne — téléphone 2 Go",
+  "status": "required_low_end_profile",
+  "scope": "capture, assembly and export on the customer's phone without a remote render server",
+  "device_floor": {
+    "ram_mb": 2048,
+    "android_api_min": 26,
+    "cpu_abis": [
+      "arm64-v8a",
+      "armeabi-v7a"
+    ],
+    "required_hardware": [
+      "H.264/AVC hardware decoder at 720x1280 30 fps",
+      "H.264/AVC hardware encoder at 720x1280 30 fps",
+      "OpenGL ES 3.0",
+      "camera and microphone"
+    ]
+  },
+  "network_policy": {
+    "render_server": false,
+    "network_required_for_capture": false,
+    "network_required_for_render": false,
+    "network_required_for_export": false,
+    "all_runtime_assets_bundled": true
+  },
+  "engine_policy": {
+    "preferred_android_backend": "AndroidX Media3 Transformer + MediaCodec + one custom GlEffect",
+    "composition_model": "one EditedMediaItemSequence containing S1, S2, S3 and S4",
+    "decoder_count": 1,
+    "encoder_count": 1,
+    "simultaneous_video_streams": 1,
+    "hardware_acceleration_required": true,
+    "bundled_ffmpeg_required": false,
+    "ffmpeg_policy": "not the primary engine; an alternative port is accepted only if it passes the same conformance pack",
+    "reference_backend": "Python/OpenCV/Pillow is for reproducibility and golden-master generation, not the mobile runtime"
+  },
+  "capture_profile": {
+    "container": "mp4",
+    "video_mime": "video/avc",
+    "preferred_width": 720,
+    "preferred_height": 1280,
+    "minimum_width": 540,
+    "minimum_height": 960,
+    "maximum_width": 1080,
+    "maximum_height": 1920,
+    "fps": 30,
+    "pixel_format": "YUV420 hardware-native",
+    "orientation": "portrait 9:16; rotation metadata normalized before assembly",
+    "audio_mime": "audio/mp4a-latm",
+    "audio_codec": "AAC-LC",
+    "audio_sample_rates_hz": [
+      44100,
+      48000
+    ],
+    "audio_channels": [
+      1,
+      2
+    ]
+  },
+  "export_profile": {
+    "container": "mp4",
+    "video_mime": "video/avc",
+    "width": 720,
+    "height": 1280,
+    "fps": 30,
+    "frames": 900,
+    "duration_ms": 30000,
+    "target_video_bitrate_bps": 5000000,
+    "allowed_video_bitrate_bps": [
+      4000000,
+      6000000
+    ],
+    "gop_seconds_max": 2,
+    "fast_start": true,
+    "audio_phase": "deferred; merchant voice timing remains reserved at 1.0x"
+  },
+  "resource_budgets": {
+    "peak_managed_plus_native_memory_target_mb": 220,
+    "peak_managed_plus_native_memory_hard_limit_mb": 256,
+    "minimum_free_storage_before_render_mb": 350,
+    "maximum_decoded_frames_retained": 3,
+    "maximum_full_resolution_rgba_intermediates": 2,
+    "text_rasterization": "once per unique text block, never once per frame",
+    "media_reading": "sequential",
+    "temporary_files": "one output-in-progress plus bounded metadata; delete on success, cancellation or failure",
+    "render_concurrency": 1
+  },
+  "effect_tiers": {
+    "FULL": {
+      "selection": "device meets all hardware requirements and thermal state is normal",
+      "rules": [
+        "execute all V3 optical events",
+        "use the exact timing and parameters in premium_transition_choreography",
+        "render deterministic luma grain"
+      ]
+    },
+    "LOW_END_2GB": {
+      "selection": "default for this profile",
+      "rules": [
+        "keep every cut, event name, event duration, transform, text, color and CTA frame unchanged",
+        "pre-rasterize all text overlays",
+        "execute bloom and Gaussian softness on a half-resolution intermediate and composite once",
+        "combine warm flash, sweep and chromatic uniforms in one custom GlEffect pass",
+        "disable deterministic luma grain",
+        "replace local contrast with one lightweight sharpen pass or omit it when the encoder is under sustained load",
+        "never degrade face safety, text sharpness, price formatting or the final CTA"
+      ]
+    }
+  },
+  "thermal_and_lifecycle": {
+    "background_behavior": "persist accepted capture URIs; pause or cancel the active export according to the host application's foreground-service policy",
+    "thermal_normal": "continue",
+    "thermal_moderate": "force LOW_END_2GB tier and prohibit concurrent renders",
+    "thermal_severe": "pause before starting a new encoder stage and return a retryable local error if the device cannot cool",
+    "low_battery": "no network fallback; host application may require charging before starting",
+    "process_death": "discard partial output, preserve accepted input URIs and allow deterministic restart"
+  },
+  "non_degradable_invariants": [
+    "S1=6 s, S2=8 s, S3=7 s, S4=9 s",
+    "900 output frames at 30 fps",
+    "source and merchant-voice time maps remain identity",
+    "no crossfade, frame blending, speed ramp, freeze or automatic subtitle",
+    "DM Serif Display and Montserrat remain bundled and checksum-verified",
+    "price remains on one line",
+    "human-scene effects remain face-safe",
+    "CTA remains fully visible through frame 899"
+  ],
+  "qualification_required_from_integrator": {
+    "real_device_classes": [
+      "2 GB Android Go or equivalent",
+      "3-4 GB mainstream Android"
+    ],
+    "checks": [
+      "capture all four scenes",
+      "complete one offline render",
+      "stay within the hard memory budget",
+      "decode the exported 900 frames",
+      "compare conformance keyframes",
+      "verify restart after cancellation and process death"
+    ]
+  }
+}

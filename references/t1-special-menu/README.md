@@ -16,7 +16,11 @@ Référence publique : [TikTok — Special Menu | Food Template](https://www.tik
 10. `../../reports/T1_SPECIAL_MENU_V3_UNIFICATION.md` — spécification V3 ;
 11. `../../output/output_T1_special_menu_reference_v3.mp4` — prévisualisation V3 approuvée ;
 12. `../../config/T1_special_menu_reference_v3_1.json` — même rendu, contrat d’intégration explicite des 12 écrans ;
-13. `../../reports/T1_CAPTURE_FLOW_12_SCREENS_INTEGRATION.md` — passage formulaire → captures → moteur.
+13. `../../reports/T1_CAPTURE_FLOW_12_SCREENS_INTEGRATION.md` — passage formulaire → captures → moteur ;
+14. `../../config/T1_special_menu_template_v1_0_0.json` — contrat canonique stable du gabarit ;
+15. `../../packages/t1-special-menu-v1/manifest.json` — manifeste, hashes et point d’entrée du paquet ;
+16. `../../profiles/T1_android_offline_2gb.json` — exécution locale pour téléphone Android de 2 Go ;
+17. `../../reports/T1_TEMPLATE_PACKAGE_V1_SILENT.md` — passation finale avant musique.
 
 ## Reproduire les rendus
 
@@ -37,12 +41,17 @@ PYTHONPATH=. python3 tools/validate_t1_special_menu.py \
 # V3.1 : régénérer le contrat programmeur des 12 écrans (aucun nouveau rendu)
 PYTHONPATH=. python3 tools/build_t1_capture_flow_v3_1.py
 
+# Paquet stable du gabarit, hors ligne et ciblé 2 Go
+PYTHONPATH=. python3 tools/build_t1_template_package_v1.py
+PYTHONPATH=. python3 tools/validate_t1_template_package.py --require-golden
+
 PYTHONPATH=. pytest -q \
   tests/test_t1_special_menu_reference.py \
   tests/test_special_menu_renderer.py \
   tests/test_special_menu_v2_refinements.py \
   tests/test_special_menu_v3_choreography.py \
-  tests/test_t1_capture_flow_12_screens.py
+  tests/test_t1_capture_flow_12_screens.py \
+  tests/test_t1_template_package_v1.py
 ```
 
 ## Règles de sécurité produit

@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "job_id": "t1-golden-0001",
+  "idempotency_key": "t1-special-menu-golden-v1",
+  "template_id": "restaurants_maquis_T1_special_menu_v1_0_0",
+  "template_version": "1.0.0",
+  "execution_profile": "T1_REFERENCE_PYTHON",
+  "network_policy": "offline_only",
+  "merchant_payload": {
+    "nom": "MAQUIS DÉMO",
+    "produit": "BURGER MAISON",
+    "prix": "2 500",
+    "whatsapp": "NUMÉRO FICTIF",
+    "quartier": "ARCONVILLE — ADRESSE FICTIVE",
+    "accroche": "CHAUD · SERVI · AUJOURD’HUI"
+  },
+  "captures": {
+    "S1": {
+      "uri": "simulation/media/S1.mp4",
+      "mime_type": "video/mp4",
+      "video_codec": "H.264",
+      "width": 540,
+      "height": 960,
+      "fps": 30,
+      "frame_count": 180,
+      "duration_ms": 6000,
+      "rotation_degrees": 0,
+      "has_audio": true,
+      "audio_codec": "fixture_external_voice_track",
+      "audio_uri": "simulation/media/voix1.mp3",
+      "sha256": "0940247f74605b650139d0f4d0e3f5aedf942736c8dab43e1457748072bc8033"
+    },
+    "S2": {
+      "uri": "simulation/media/S2.mp4",
+      "mime_type": "video/mp4",
+      "video_codec": "H.264",
+      "width": 540,
+      "height": 960,
+      "fps": 30,
+      "frame_count": 240,
+      "duration_ms": 8000,
+      "rotation_degrees": 0,
+      "has_audio": true,
+      "audio_codec": "fixture_external_voice_track",
+      "audio_uri": "simulation/media/voix2.mp3",
+      "sha256": "62c991e577132a59fc0dc4cbab5bc38dbde4c2afe5fd85bfcb99126a939cf9fa"
+    },
+    "S3": {
+      "uri": "simulation/media/S3.mp4",
+      "mime_type": "video/mp4",
+      "video_codec": "H.264",
+      "width": 540,
+      "height": 960,
+      "fps": 30,
+      "frame_count": 210,
+      "duration_ms": 7000,
+      "rotation_degrees": 0,
+      "has_audio": true,
+      "audio_codec": "fixture_external_voice_track",
+      "audio_uri": "simulation/media/voix3.mp3",
+      "sha256": "668a39c0df544dbe36ddcbb94bf3b545635271ec146343fdb0b19bca24686a51"
+    },
+    "S4": {
+      "uri": "simulation/media/S4.mp4",
+      "mime_type": "video/mp4",
+      "video_codec": "H.264",
+      "width": 540,
+      "height": 960,
+      "fps": 30,
+      "frame_count": 271,
+      "duration_ms": 9033,
+      "rotation_degrees": 0,
+      "has_audio": true,
+      "audio_codec": "fixture_external_voice_track",
+      "audio_uri": "simulation/media/voix4.mp3",
+      "sha256": "8ab5cece53aafddca76258c7b2483d970e030da9fc51c2180db5042261c1364f"
+    }
+  },
+  "audio_mode": "silent_conformance_voice_timeline_reserved",
+  "output": {
+    "uri": "output/output_T1_special_menu_reference_v3.mp4",
+    "container": "mp4",
+    "video_mime": "video/avc",
+    "width": 720,
+    "height": 1280,
+    "fps": 30,
+    "frames": 900,
+    "duration_ms": 30000,
+    "target_video_bitrate_bps": 5000000,
+    "overwrite": true
+  }
+}

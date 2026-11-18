@@ -1,0 +1,2845 @@
+{
+  "$schema": "../schemas/T1_template_package.schema.json",
+  "schema_version": "2.0.0",
+  "id": "restaurants_maquis_T1_special_menu_v1_0_0",
+  "display_name": "T1 — Special Menu — paquet de gabarit hors ligne v1.0.0",
+  "status": "stable_silent_template_contract",
+  "approved_reference": "references/t1-special-menu/reference_decompilation_v1.json",
+  "non_destructive_contract": {
+    "base_commit": "ad4ff15a76dcba7bd08b7e8f56052e842b3e794f",
+    "main_branch_must_not_change": true,
+    "capture_guide_unchanged": true,
+    "existing_specs_unchanged": true,
+    "existing_releases_unchanged": true,
+    "visual_phase_audio_pause_preserved": true,
+    "previous_preview_release_untouched": "t1-special-menu-reference-v1-preview",
+    "previous_preview_releases_untouched": [
+      "t1-special-menu-reference-v1-preview",
+      "t1-special-menu-reference-v2-preview",
+      "t1-special-menu-reference-v3-preview",
+      "t1-special-menu-reference-v3-1-integration-preview"
+    ]
+  },
+  "canvas": {
+    "width": 720,
+    "height": 1280,
+    "fps": 30,
+    "frames": 900,
+    "duration_s": 30.0,
+    "frame_interval_ms": 33.333333
+  },
+  "cadence": {
+    "bpm": 120,
+    "beat_frames": 15,
+    "beat_s": 0.5,
+    "four_beat_phrase_frames": 60,
+    "four_beat_phrase_s": 2.0,
+    "mapping_from_reference": "114.84375 BPM / ~63f phrase -> 120 BPM / exactly 60f phrase"
+  },
+  "scene_capture_contract": {
+    "source": "capture-guide/consignes_T1.json",
+    "must_remain_byte_identical": true,
+    "voice_allowed_all_scenes": true,
+    "languages_free": true,
+    "speech_subtitles": false,
+    "scenes": [
+      {
+        "id": "S1",
+        "name": "Le plat",
+        "start_f": 0,
+        "end_f_exclusive": 180,
+        "frames": 180,
+        "duration_s": 6.0,
+        "capture_instruction_unchanged": true
+      },
+      {
+        "id": "S2",
+        "name": "Le dessus et les détails",
+        "start_f": 180,
+        "end_f_exclusive": 420,
+        "frames": 240,
+        "duration_s": 8.0,
+        "capture_instruction_unchanged": true
+      },
+      {
+        "id": "S3",
+        "name": "La personne qui sert",
+        "start_f": 420,
+        "end_f_exclusive": 630,
+        "frames": 210,
+        "duration_s": 7.0,
+        "capture_instruction_unchanged": true,
+        "face_and_mouth_protected": true
+      },
+      {
+        "id": "S4",
+        "name": "Le lieu et le contact",
+        "start_f": 630,
+        "end_f_exclusive": 900,
+        "frames": 270,
+        "duration_s": 9.0,
+        "capture_instruction_unchanged": true
+      }
+    ],
+    "stable_ui_screen_count": 12,
+    "stable_ui_screen_formula": "4 scenes x 3 states (A guide, B recording, C review)",
+    "implementation_handoff_pointer": "#/implementation_handoff"
+  },
+  "merchant_input_contract": {
+    "source": "specs/T1_ENGINEERING_SPEC_V1_2.json#/data_contract",
+    "new_required_fields": 0,
+    "fields": [
+      {
+        "id": "nom",
+        "required": true,
+        "max_chars": 40,
+        "uses": [
+          "G01_MICRO",
+          "G04_LOCATION",
+          "G05_CTA"
+        ]
+      },
+      {
+        "id": "produit",
+        "required": true,
+        "max_chars": 32,
+        "uses": [
+          "G01_HERO",
+          "G05_CTA"
+        ]
+      },
+      {
+        "id": "prix",
+        "required": true,
+        "max_chars": 7,
+        "uses": [
+          "G02_PRICE",
+          "G05_CTA"
+        ],
+        "display_rule": "append FCFA only when absent"
+      },
+      {
+        "id": "whatsapp",
+        "required": true,
+        "max_chars": 20,
+        "uses": [
+          "G05_CTA"
+        ]
+      },
+      {
+        "id": "quartier",
+        "required": true,
+        "max_chars": 40,
+        "uses": [
+          "G04_LOCATION"
+        ]
+      },
+      {
+        "id": "accroche",
+        "required": false,
+        "max_chars": 48,
+        "uses": [
+          "G03_HOOK"
+        ],
+        "empty_rule": "omit G03; never invent replacement copy"
+      }
+    ],
+    "fixed_template_copy": [
+      "PLAT DU JOUR",
+      "COMMANDER MAINTENANT"
+    ],
+    "fixed_copy_is_not_merchant_claim": true
+  },
+  "fonts": {
+    "display_serif": {
+      "family": "DM Serif Display",
+      "file": "assets/fonts/DMSerifDisplay-Regular.ttf",
+      "sha256": "8cc3643535edf039aa5d95440a8542735e9197e4f4b8d9303e980fefbf5ab616",
+      "license": "SIL OFL 1.1",
+      "weight": 400,
+      "reference_role": "Special"
+    },
+    "light_sans": {
+      "family": "Montserrat",
+      "file": "assets/fonts/Montserrat-Variable.ttf",
+      "license": "SIL OFL 1.1",
+      "weight": 300,
+      "tracking_em": 0.15,
+      "reference_role": "Menu"
+    },
+    "utility": {
+      "family": "Plus Jakarta Sans",
+      "file": "assets/fonts/PlusJakartaSans-Variable.ttf",
+      "license": "SIL OFL 1.1",
+      "weight": 700,
+      "tabular_figures": true,
+      "role": "price, address, WhatsApp"
+    },
+    "forbidden_fallbacks": [
+      "Roboto default",
+      "Android sans fallback",
+      "OpenCV Hershey for final text"
+    ],
+    "font_load_failure": "hard_fail_render"
+  },
+  "look_pipeline": {
+    "id": "warm_low_key_food_cinema_v1",
+    "analysis_scope": "per scene, sampled once; fixed parameters within each scene to prevent exposure flicker",
+    "working_space": "sRGB float32 0..1",
+    "steps": [
+      {
+        "order": 1,
+        "op": "percentile_exposure",
+        "sample_stride_f": 15,
+        "target_luma_median": 0.29,
+        "gain_clamp": [
+          0.82,
+          1.18
+        ]
+      },
+      {
+        "order": 2,
+        "op": "capped_gray_world",
+        "max_channel_gain_delta": 0.06
+      },
+      {
+        "order": 3,
+        "op": "warm_balance",
+        "rgb_gain": [
+          1.055,
+          1.005,
+          0.945
+        ],
+        "target_mean_red_minus_blue_0_255": 30.0
+      },
+      {
+        "order": 4,
+        "op": "filmic_curve",
+        "points": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.05,
+            0.022
+          ],
+          [
+            0.18,
+            0.13
+          ],
+          [
+            0.5,
+            0.49
+          ],
+          [
+            0.82,
+            0.87
+          ],
+          [
+            1.0,
+            0.985
+          ]
+        ],
+        "interpolation": "monotonic_linear_lut_4096"
+      },
+      {
+        "order": 5,
+        "op": "split_tone",
+        "shadow_rgb": [
+          0.985,
+          1.005,
+          1.018
+        ],
+        "highlight_rgb": [
+          1.03,
+          1.01,
+          0.97
+        ],
+        "shadow_end": 0.35,
+        "highlight_start": 0.62
+      },
+      {
+        "order": 6,
+        "op": "selective_saturation",
+        "global": 1.06,
+        "orange_red": 1.1,
+        "green": 0.9,
+        "cyan_blue": 0.94,
+        "skin_protect": true
+      },
+      {
+        "order": 7,
+        "op": "local_contrast",
+        "unsharp_radius_px_at_720": 1.1,
+        "amount": 0.12
+      },
+      {
+        "order": 8,
+        "op": "vignette",
+        "strength": 0.16,
+        "inner_radius": 0.48,
+        "outer_radius": 0.95,
+        "center": [
+          0.5,
+          0.48
+        ]
+      },
+      {
+        "order": 9,
+        "op": "deterministic_luma_grain",
+        "sigma": 0.006,
+        "seed_formula": "scene_index*100000 + frame_index",
+        "chroma_grain": false
+      }
+    ],
+    "text_readability": {
+      "method": "soft full-frame/radial darkening only",
+      "hard_rectangles_forbidden": true,
+      "gray_boxes_forbidden": true,
+      "max_extra_darkening": 0.22,
+      "feather_px_at_720": 96
+    }
+  },
+  "edit_timeline": {
+    "timebase": "frames_at_30fps",
+    "end_semantics": "exclusive",
+    "shots": [
+      {
+        "id": "P01",
+        "scene": "S1",
+        "out_start_f": 0,
+        "out_end_f_exclusive": 60,
+        "out_frames": 60,
+        "source_in_f": 0,
+        "source_out_f_exclusive": 60,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.0,
+          "end": 1.04,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4801,
+          0.4944
+        ],
+        "intent": "plat_entier_approche",
+        "transition_in": "none",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P02",
+        "scene": "S1",
+        "out_start_f": 60,
+        "out_end_f_exclusive": 120,
+        "out_frames": 60,
+        "source_in_f": 60,
+        "source_out_f_exclusive": 120,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.08,
+          "end": 1.12,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4801,
+          0.4944
+        ],
+        "intent": "sauce_brillance_main",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P03",
+        "scene": "S1",
+        "out_start_f": 120,
+        "out_end_f_exclusive": 180,
+        "out_frames": 60,
+        "source_in_f": 120,
+        "source_out_f_exclusive": 180,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.16,
+          "end": 1.2,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4801,
+          0.4944
+        ],
+        "intent": "macro_partie_appetissante",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P04",
+        "scene": "S2",
+        "out_start_f": 180,
+        "out_end_f_exclusive": 240,
+        "out_frames": 60,
+        "source_in_f": 0,
+        "source_out_f_exclusive": 60,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.0,
+          "end": 1.03,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4919,
+          0.5219
+        ],
+        "intent": "dessus_large",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P05",
+        "scene": "S2",
+        "out_start_f": 240,
+        "out_end_f_exclusive": 300,
+        "out_frames": 60,
+        "source_in_f": 60,
+        "source_out_f_exclusive": 120,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.08,
+          "end": 1.12,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4919,
+          0.5219
+        ],
+        "intent": "detail_a",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P06",
+        "scene": "S2",
+        "out_start_f": 300,
+        "out_end_f_exclusive": 360,
+        "out_frames": 60,
+        "source_in_f": 120,
+        "source_out_f_exclusive": 180,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.16,
+          "end": 1.2,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4919,
+          0.5219
+        ],
+        "intent": "detail_b",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P07",
+        "scene": "S2",
+        "out_start_f": 360,
+        "out_end_f_exclusive": 420,
+        "out_frames": 60,
+        "source_in_f": 180,
+        "source_out_f_exclusive": 240,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.06,
+          "end": 1.1,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4919,
+          0.5219
+        ],
+        "intent": "detail_final",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P08",
+        "scene": "S3",
+        "out_start_f": 420,
+        "out_end_f_exclusive": 480,
+        "out_frames": 60,
+        "source_in_f": 0,
+        "source_out_f_exclusive": 60,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.0,
+          "end": 1.02,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4254,
+          0.4042
+        ],
+        "intent": "personne_service_plan_moyen",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P09",
+        "scene": "S3",
+        "out_start_f": 480,
+        "out_end_f_exclusive": 540,
+        "out_frames": 60,
+        "source_in_f": 60,
+        "source_out_f_exclusive": 120,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.07,
+          "end": 1.09,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4254,
+          0.4042
+        ],
+        "intent": "personne_service_plan_serre",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P10",
+        "scene": "S3",
+        "out_start_f": 540,
+        "out_end_f_exclusive": 630,
+        "out_frames": 90,
+        "source_in_f": 120,
+        "source_out_f_exclusive": 210,
+        "source_frames": 90,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.0,
+          "end": 1.03,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4254,
+          0.4042
+        ],
+        "intent": "visage_sourire_service",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P11",
+        "scene": "S4",
+        "out_start_f": 630,
+        "out_end_f_exclusive": 690,
+        "out_frames": 60,
+        "source_in_f": 0,
+        "source_out_f_exclusive": 60,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.0,
+          "end": 1.02,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4729,
+          0.4782
+        ],
+        "intent": "entree_large",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P12",
+        "scene": "S4",
+        "out_start_f": 690,
+        "out_end_f_exclusive": 750,
+        "out_frames": 60,
+        "source_in_f": 60,
+        "source_out_f_exclusive": 120,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.08,
+          "end": 1.12,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4729,
+          0.4782
+        ],
+        "intent": "enseigne",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P13",
+        "scene": "S4",
+        "out_start_f": 750,
+        "out_end_f_exclusive": 810,
+        "out_frames": 60,
+        "source_in_f": 120,
+        "source_out_f_exclusive": 180,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.0,
+          "end": 1.04,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4729,
+          0.4782
+        ],
+        "intent": "comptoir",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P14",
+        "scene": "S4",
+        "out_start_f": 810,
+        "out_end_f_exclusive": 900,
+        "out_frames": 90,
+        "source_in_f": 180,
+        "source_out_f_exclusive": 270,
+        "source_frames": 90,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.08,
+          "end": 1.11,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4729,
+          0.4782
+        ],
+        "intent": "lieu_sous_cta",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      }
+    ],
+    "hard_cut_frames": [
+      60,
+      120,
+      180,
+      240,
+      300,
+      360,
+      420,
+      480,
+      540,
+      630,
+      690,
+      750,
+      810
+    ],
+    "crossfades": [],
+    "wipes": [],
+    "glitches": [],
+    "speed_ramps": [],
+    "freeze_frames": [],
+    "rule": "temporal source mapping remains continuous and 1.0x inside every merchant scene"
+  },
+  "speech_continuity": {
+    "source_audio_policy": "detach each scene audio, concatenate at exact scene boundaries, never retime, never slice words at internal visual cuts",
+    "internal_hard_cuts": "transform/crop changes only; source time remains continuous",
+    "S3_face_rule": "no source-frame drop, duplication, speed change or mouth occlusion",
+    "future_audio_phase": "preserve validated 120 BPM grid, ducking, non-repetition and sector identity; no speech subtitles",
+    "visual_preview_audio": false
+  },
+  "graphics": [
+    {
+      "id": "G01_HERO",
+      "start_f": 4,
+      "reveal_end_f": 24,
+      "end_f_exclusive": 60,
+      "scene": "S1",
+      "fields": [
+        "produit"
+      ],
+      "layout": {
+        "anchor": "center",
+        "center_x": 0.5,
+        "top_y": 0.245,
+        "max_width": 0.78,
+        "lines_max": 2
+      },
+      "style": {
+        "font": "display_serif",
+        "size_px": 84,
+        "min_size_px": 52,
+        "line_height": 0.92,
+        "color": "#FBF7EE",
+        "align": "center"
+      },
+      "animation": {
+        "type": "left_to_right_mask",
+        "easing": "linear",
+        "opacity": 1.0
+      }
+    },
+    {
+      "id": "G01_LABEL",
+      "start_f": 4,
+      "reveal_end_f": 24,
+      "end_f_exclusive": 60,
+      "scene": "S1",
+      "fixed_text": "PLAT DU JOUR",
+      "layout": {
+        "center_x": 0.5,
+        "top_y": 0.365,
+        "max_width": 0.62
+      },
+      "style": {
+        "font": "light_sans",
+        "size_px": 35,
+        "min_size_px": 28,
+        "tracking_em": 0.15,
+        "color": "#FBF7EE",
+        "align": "center"
+      },
+      "animation": {
+        "type": "left_to_right_mask",
+        "easing": "linear"
+      }
+    },
+    {
+      "id": "G01_MICRO",
+      "start_f": 0,
+      "end_f_exclusive": 60,
+      "scene": "S1",
+      "fields": [
+        "nom"
+      ],
+      "layout": {
+        "center_x": 0.5,
+        "baseline_y": 0.845,
+        "max_width": 0.62
+      },
+      "style": {
+        "font": "light_sans",
+        "size_px": 12,
+        "tracking_em": 0.1,
+        "color": "#EDE4D5",
+        "opacity": 0.82,
+        "align": "center"
+      }
+    },
+    {
+      "id": "G02_PRICE",
+      "start_f": 184,
+      "reveal_end_f": 204,
+      "end_f_exclusive": 240,
+      "scene": "S2",
+      "fields": [
+        "prix"
+      ],
+      "layout": {
+        "center_x": 0.5,
+        "top_y": 0.67,
+        "max_width": 0.76,
+        "mode": "single_line_baseline",
+        "baseline_y": 0.72,
+        "number_currency_gap_px": 18,
+        "non_breaking": true
+      },
+      "style": {
+        "font": "display_serif",
+        "size_px": 86,
+        "min_size_px": 58,
+        "color": "#FBF7EE",
+        "align": "center",
+        "currency_font": "utility",
+        "currency_size_px": 28,
+        "currency_weight": 700,
+        "currency_baseline_shift_px": 0
+      },
+      "animation": {
+        "type": "left_to_right_mask",
+        "easing": "linear"
+      }
+    },
+    {
+      "id": "G03_HOOK",
+      "start_f": 304,
+      "reveal_end_f": 324,
+      "end_f_exclusive": 360,
+      "scene": "S2",
+      "fields": [
+        "accroche"
+      ],
+      "optional": true,
+      "empty_behavior": "omit",
+      "layout": {
+        "center_x": 0.5,
+        "top_y": 0.2,
+        "max_width": 0.78,
+        "lines_max": 2
+      },
+      "style": {
+        "font": "display_serif",
+        "size_px": 58,
+        "min_size_px": 40,
+        "color": "#FBF7EE",
+        "align": "center"
+      },
+      "animation": {
+        "type": "left_to_right_mask",
+        "easing": "linear"
+      }
+    },
+    {
+      "id": "G04_LOCATION",
+      "start_f": 634,
+      "reveal_end_f": 655,
+      "end_f_exclusive": 750,
+      "scene": "S4",
+      "fields": [
+        "nom",
+        "quartier"
+      ],
+      "layout": {
+        "center_x": 0.5,
+        "top_y": 0.22,
+        "max_width": 0.8
+      },
+      "style": {
+        "primary_font": "display_serif",
+        "primary_size_px": 62,
+        "primary_min_px": 42,
+        "secondary_font": "light_sans",
+        "secondary_size_px": 24,
+        "secondary_tracking_em": 0.1,
+        "color": "#FBF7EE",
+        "align": "center"
+      },
+      "animation": {
+        "type": "left_to_right_mask",
+        "easing": "linear"
+      }
+    },
+    {
+      "id": "G05_CTA",
+      "start_f": 810,
+      "reveal_end_f": 830,
+      "end_f_exclusive": 900,
+      "scene": "S4",
+      "fields": [
+        "produit",
+        "prix",
+        "whatsapp",
+        "nom"
+      ],
+      "fixed_text": "COMMANDER MAINTENANT",
+      "layout": {
+        "center_x": 0.5,
+        "top_y": 0.49,
+        "max_width": 0.82,
+        "bottom_safe_y": 0.89,
+        "mode": "mirror_opening",
+        "hero_max_width": 0.78
+      },
+      "style": {
+        "primary_font": "display_serif",
+        "primary_size_px": 84,
+        "primary_min_size_px": 52,
+        "primary_line_height": 0.92,
+        "secondary_font": "light_sans",
+        "secondary_size_px": 35,
+        "secondary_tracking_em": 0.15,
+        "support_font": "utility",
+        "price_size_px": 26,
+        "contact_size_px": 34,
+        "micro_size_px": 13,
+        "color": "#FBF7EE",
+        "secondary_color": "#EDE4D5",
+        "whatsapp_accent": "#25D366",
+        "hard_card": false,
+        "border": false
+      },
+      "animation": {
+        "type": "left_to_right_mask",
+        "easing": "linear",
+        "reveal_frames": 20,
+        "hold_full_opacity_through_f": 899
+      },
+      "background_outro": {
+        "start_f": 892,
+        "end_f_exclusive": 900,
+        "fade_to_black_alpha": 0.34,
+        "graphics_opacity": 1.0
+      }
+    }
+  ],
+  "fallbacks": {
+    "accroche_empty": "omit G03 and leave food image clean",
+    "long_product": "fit 84->52 px; then split at nearest word boundary into two balanced lines; never truncate",
+    "long_name": "fit 62->42 px; maximum two lines; never remove accents",
+    "bright_background": "increase soft radial darkening up to 0.22; never draw a rectangular scrim",
+    "face_detected": "move non-CTA text away from face; CTA only in S4",
+    "missing_font": "fail with explicit error; do not substitute"
+  },
+  "android_media3_contract": {
+    "capture_layer_change": false,
+    "scene_files_unchanged": true,
+    "composition": "EditedMediaItemSequence for S1..S4; frame-continuous transforms per scene",
+    "hard_cuts": "single-sequence concatenation or matrix-state discontinuity; zero overlap",
+    "color": "custom GlEffect implementing LUT/split-tone/vignette; deterministic uniforms per scene",
+    "text": "pre-rasterized transparent overlays from bundled TTFs or Android Canvas with exact typefaces",
+    "mask_reveal": "animated clip rect / shader x-threshold; one overlay sequence",
+    "decoder_budget": "one video decoder; no two-stream crossfade",
+    "audio_future": "original scene audio remains at 1.0x; music/SFX phase separate"
+  },
+  "quality_gates": [
+    {
+      "id": "Q01",
+      "assert": "canvas == 720x1280@30 and frames == 900"
+    },
+    {
+      "id": "Q02",
+      "assert": "scene boundaries == [0,180,420,630,900]"
+    },
+    {
+      "id": "Q03",
+      "assert": "all shot source windows are contiguous within each scene"
+    },
+    {
+      "id": "Q04",
+      "assert": "all source_speed == 1.0 and no freeze frames"
+    },
+    {
+      "id": "Q05",
+      "assert": "all transitions are zero-frame hard cuts"
+    },
+    {
+      "id": "Q06",
+      "assert": "S3 has no time remap and no face overlay"
+    },
+    {
+      "id": "Q07",
+      "assert": "G05_CTA opacity at frame 899 == 1.0"
+    },
+    {
+      "id": "Q08",
+      "assert": "no hard-edged gray/black rectangle behind text"
+    },
+    {
+      "id": "Q09",
+      "assert": "font files exist and SHA256 matches"
+    },
+    {
+      "id": "Q10",
+      "assert": "capture-guide/consignes_T1.json remains byte-identical to base commit"
+    },
+    {
+      "id": "Q11",
+      "assert": "no speech subtitles"
+    },
+    {
+      "id": "Q12",
+      "assert": "main branch and previous releases remain untouched"
+    },
+    {
+      "id": "Q13",
+      "assert": "numeric input 2500 displays exactly as 2 500 FCFA in one baseline lockup"
+    },
+    {
+      "id": "Q14",
+      "assert": "impact transition source_time_map and audio_time_map are identity"
+    },
+    {
+      "id": "Q15",
+      "assert": "major effects occur only at [180,420,630] and never affect text layers"
+    },
+    {
+      "id": "Q16",
+      "assert": "V1 preview release and files remain available unchanged"
+    },
+    {
+      "id": "Q17",
+      "assert": "G05 primary field/font/size and reveal grammar mirror G01"
+    },
+    {
+      "id": "Q18",
+      "assert": "G05 secondary line uses Montserrat Light tracking 0.15 and no border/card"
+    },
+    {
+      "id": "Q19",
+      "assert": "13 cut events have 13 distinct narrative assignments and are not one repeated pulse"
+    },
+    {
+      "id": "Q20",
+      "assert": "human-phase events are face-safe with zero chromatic shift"
+    },
+    {
+      "id": "Q21",
+      "assert": "CTA background is stable after frame 817 while text holds through frame 899"
+    },
+    {
+      "id": "Q22",
+      "assert": "V1 and V2 releases remain untouched"
+    },
+    "canonical template validates against T1_template_package.schema.json",
+    "RenderJob, RenderResult and RenderError fixtures validate against their schemas",
+    "all package artifacts match manifest SHA-256 values",
+    "all four source clips match the media ingest contract",
+    "offline 2 GB profile requires one decoder and no remote server",
+    "golden output hash and 12 keyframe metrics are locked",
+    "music remains deferred and SFX remains none"
+  ],
+  "revision": {
+    "from": "restaurants_maquis_T1_special_menu_reference_v3_1",
+    "visual_revision": "V3 approved",
+    "requested_at": "2026-11-18",
+    "purpose": "freeze a complete template-side handoff before music calibration",
+    "visual_renderer_changed": false,
+    "capture_flow_changed": false,
+    "new_required_merchant_fields": 0,
+    "adds": [
+      "formal schemas",
+      "exact media ingest contract",
+      "offline 2 GB execution profile",
+      "typed render protocol and errors",
+      "golden conformance pack",
+      "checksummed package manifest"
+    ]
+  },
+  "price_format": {
+    "raw_merchant_value_immutable": true,
+    "numeric_display_grouping": "groups of 3 digits separated by a regular protected space",
+    "currency": "FCFA",
+    "number_currency_separator": "protected visual gap",
+    "single_line_lockup": true,
+    "number_font": "display_serif",
+    "currency_font": "utility",
+    "baseline_alignment": true,
+    "example_input": "2500",
+    "example_output": "2 500 FCFA"
+  },
+  "impact_transition_system": {
+    "enabled": false,
+    "base_edit": "single-frame hard cuts remain at the exact declared cut frames",
+    "source_time_map": "identity",
+    "audio_time_map": "identity",
+    "speech_safe": true,
+    "text_layer_affected": false,
+    "minor_cuts": {
+      "name": "premium_zoom_snap",
+      "cut_frames": [
+        60,
+        120,
+        240,
+        300,
+        360,
+        480,
+        540,
+        690,
+        750,
+        810
+      ],
+      "pre_frames": 2,
+      "post_frames": 3,
+      "zoom_extra": 0.038,
+      "directional_blur_px_max": 2,
+      "warm_flash_alpha_max": 0.075,
+      "chromatic_shift_px_max": 0,
+      "gold_light_sweep_alpha_max": 0.0,
+      "directions": "alternate_left_right"
+    },
+    "major_scene_cuts": {
+      "name": "golden_whip_flash",
+      "cut_frames": [
+        180,
+        420,
+        630
+      ],
+      "pre_frames": 4,
+      "post_frames": 5,
+      "zoom_extra": 0.082,
+      "directional_blur_px_max": 14,
+      "translation_px_max": 10,
+      "warm_flash_alpha_max": 0.3,
+      "chromatic_shift_px_max": 3,
+      "gold_light_sweep_alpha_max": 0.24,
+      "directions_by_cut": {
+        "180": "right",
+        "420": "left",
+        "630": "right"
+      }
+    },
+    "safety": {
+      "no_frame_drop": true,
+      "no_frame_duplication": true,
+      "no_freeze": true,
+      "no_crossfade": true,
+      "one_video_decoder": true,
+      "S3_lip_sync_preserved": true,
+      "final_cta_remains_crisp": true
+    },
+    "android_media3_mapping": {
+      "zoom_and_translation": "MatrixTransformation",
+      "directional_blur_flash_chromatic_sweep": "single custom GlEffect with uniforms driven by presentation time",
+      "temporal_overlap": "none",
+      "decoder_count": 1
+    }
+  },
+  "premium_transition_choreography": {
+    "enabled": true,
+    "principle": "effects evolve by narrative phase; no identical pulse repeated through the full film",
+    "source_time_map": "identity",
+    "audio_time_map": "identity",
+    "text_layer_affected": false,
+    "one_video_decoder": true,
+    "phases": [
+      {
+        "id": "appetite",
+        "frames": [
+          0,
+          180
+        ],
+        "intent": "optical focus and warm macro energy"
+      },
+      {
+        "id": "detail",
+        "frames": [
+          180,
+          420
+        ],
+        "intent": "silk slides, aperture bloom and rack focus"
+      },
+      {
+        "id": "human",
+        "frames": [
+          420,
+          630
+        ],
+        "intent": "face-safe luma bloom then clean editorial crop changes"
+      },
+      {
+        "id": "place_and_cta",
+        "frames": [
+          630,
+          900
+        ],
+        "intent": "architectural sweeps then stable luxury resolve"
+      }
+    ],
+    "events": [
+      {
+        "cut_f": 60,
+        "name": "focus_snap",
+        "phase": "appetite",
+        "pre_frames": 2,
+        "post_frames": 4,
+        "direction": 0,
+        "zoom_extra": 0.025,
+        "gaussian_softness_px_max": 1.4,
+        "highlight_bloom_alpha_max": 0.07,
+        "directional_blur_px_max": 0,
+        "translation_px_max": 0,
+        "warm_flash_alpha_max": 0.03,
+        "chromatic_shift_px_max": 0,
+        "gold_light_sweep_alpha_max": 0.0
+      },
+      {
+        "cut_f": 120,
+        "name": "amber_macro_push",
+        "phase": "appetite",
+        "pre_frames": 3,
+        "post_frames": 4,
+        "direction": 1,
+        "zoom_extra": 0.036,
+        "gaussian_softness_px_max": 0.8,
+        "highlight_bloom_alpha_max": 0.06,
+        "directional_blur_px_max": 3,
+        "translation_px_max": 3,
+        "warm_flash_alpha_max": 0.1,
+        "chromatic_shift_px_max": 0,
+        "gold_light_sweep_alpha_max": 0.08,
+        "sweep_orientation": "diagonal_forward"
+      },
+      {
+        "cut_f": 180,
+        "name": "golden_whip_reveal",
+        "phase": "detail",
+        "pre_frames": 4,
+        "post_frames": 5,
+        "direction": 1,
+        "zoom_extra": 0.082,
+        "gaussian_softness_px_max": 0.0,
+        "highlight_bloom_alpha_max": 0.08,
+        "directional_blur_px_max": 14,
+        "translation_px_max": 10,
+        "warm_flash_alpha_max": 0.28,
+        "chromatic_shift_px_max": 3,
+        "gold_light_sweep_alpha_max": 0.22,
+        "sweep_orientation": "diagonal_forward"
+      },
+      {
+        "cut_f": 240,
+        "name": "silk_slide_left",
+        "phase": "detail",
+        "pre_frames": 3,
+        "post_frames": 4,
+        "direction": -1,
+        "zoom_extra": 0.024,
+        "gaussian_softness_px_max": 0.0,
+        "highlight_bloom_alpha_max": 0.04,
+        "directional_blur_px_max": 6,
+        "translation_px_max": 6,
+        "warm_flash_alpha_max": 0.05,
+        "chromatic_shift_px_max": 1,
+        "gold_light_sweep_alpha_max": 0.07,
+        "sweep_orientation": "horizontal"
+      },
+      {
+        "cut_f": 300,
+        "name": "aperture_bloom",
+        "phase": "detail",
+        "pre_frames": 3,
+        "post_frames": 5,
+        "direction": 0,
+        "zoom_extra": 0.05,
+        "gaussian_softness_px_max": 2.5,
+        "highlight_bloom_alpha_max": 0.18,
+        "directional_blur_px_max": 0,
+        "translation_px_max": 0,
+        "warm_flash_alpha_max": 0.06,
+        "chromatic_shift_px_max": 0,
+        "gold_light_sweep_alpha_max": 0.0
+      },
+      {
+        "cut_f": 360,
+        "name": "gold_rack_focus",
+        "phase": "detail",
+        "pre_frames": 4,
+        "post_frames": 5,
+        "direction": -1,
+        "zoom_extra": 0.03,
+        "gaussian_softness_px_max": 3.0,
+        "highlight_bloom_alpha_max": 0.1,
+        "directional_blur_px_max": 2,
+        "translation_px_max": 2,
+        "warm_flash_alpha_max": 0.07,
+        "chromatic_shift_px_max": 0,
+        "gold_light_sweep_alpha_max": 0.15,
+        "sweep_orientation": "diagonal_reverse"
+      },
+      {
+        "cut_f": 420,
+        "name": "portrait_luma_bloom",
+        "phase": "human",
+        "pre_frames": 4,
+        "post_frames": 6,
+        "direction": 0,
+        "zoom_extra": 0.04,
+        "gaussian_softness_px_max": 2.2,
+        "highlight_bloom_alpha_max": 0.17,
+        "directional_blur_px_max": 0,
+        "translation_px_max": 0,
+        "warm_flash_alpha_max": 0.07,
+        "chromatic_shift_px_max": 0,
+        "gold_light_sweep_alpha_max": 0.0,
+        "face_safe": true
+      },
+      {
+        "cut_f": 480,
+        "name": "editorial_punch_in",
+        "phase": "human",
+        "pre_frames": 2,
+        "post_frames": 3,
+        "direction": 0,
+        "zoom_extra": 0.026,
+        "gaussian_softness_px_max": 0.0,
+        "highlight_bloom_alpha_max": 0.0,
+        "directional_blur_px_max": 0,
+        "translation_px_max": 0,
+        "warm_flash_alpha_max": 0.0,
+        "chromatic_shift_px_max": 0,
+        "gold_light_sweep_alpha_max": 0.0,
+        "face_safe": true
+      },
+      {
+        "cut_f": 540,
+        "name": "editorial_release",
+        "phase": "human",
+        "pre_frames": 2,
+        "post_frames": 4,
+        "direction": 0,
+        "zoom_extra": 0.018,
+        "gaussian_softness_px_max": 0.7,
+        "highlight_bloom_alpha_max": 0.03,
+        "directional_blur_px_max": 0,
+        "translation_px_max": 0,
+        "warm_flash_alpha_max": 0.0,
+        "chromatic_shift_px_max": 0,
+        "gold_light_sweep_alpha_max": 0.0,
+        "face_safe": true
+      },
+      {
+        "cut_f": 630,
+        "name": "architectural_light_sweep",
+        "phase": "place_and_cta",
+        "pre_frames": 5,
+        "post_frames": 6,
+        "direction": 1,
+        "zoom_extra": 0.055,
+        "gaussian_softness_px_max": 0.8,
+        "highlight_bloom_alpha_max": 0.1,
+        "directional_blur_px_max": 10,
+        "translation_px_max": 8,
+        "warm_flash_alpha_max": 0.16,
+        "chromatic_shift_px_max": 1,
+        "gold_light_sweep_alpha_max": 0.28,
+        "sweep_orientation": "vertical"
+      },
+      {
+        "cut_f": 690,
+        "name": "gallery_glide_left",
+        "phase": "place_and_cta",
+        "pre_frames": 3,
+        "post_frames": 4,
+        "direction": -1,
+        "zoom_extra": 0.02,
+        "gaussian_softness_px_max": 0.0,
+        "highlight_bloom_alpha_max": 0.02,
+        "directional_blur_px_max": 4,
+        "translation_px_max": 5,
+        "warm_flash_alpha_max": 0.03,
+        "chromatic_shift_px_max": 0,
+        "gold_light_sweep_alpha_max": 0.06,
+        "sweep_orientation": "horizontal"
+      },
+      {
+        "cut_f": 750,
+        "name": "gallery_glide_right",
+        "phase": "place_and_cta",
+        "pre_frames": 3,
+        "post_frames": 4,
+        "direction": 1,
+        "zoom_extra": 0.022,
+        "gaussian_softness_px_max": 0.0,
+        "highlight_bloom_alpha_max": 0.03,
+        "directional_blur_px_max": 4,
+        "translation_px_max": 5,
+        "warm_flash_alpha_max": 0.04,
+        "chromatic_shift_px_max": 0,
+        "gold_light_sweep_alpha_max": 0.07,
+        "sweep_orientation": "horizontal"
+      },
+      {
+        "cut_f": 810,
+        "name": "luxury_hero_resolve",
+        "phase": "place_and_cta",
+        "pre_frames": 4,
+        "post_frames": 8,
+        "direction": 0,
+        "zoom_extra": 0.028,
+        "gaussian_softness_px_max": 1.8,
+        "highlight_bloom_alpha_max": 0.1,
+        "directional_blur_px_max": 0,
+        "translation_px_max": 0,
+        "warm_flash_alpha_max": 0.04,
+        "chromatic_shift_px_max": 0,
+        "gold_light_sweep_alpha_max": 0.06,
+        "sweep_orientation": "diagonal_forward",
+        "stable_after_f": 817
+      }
+    ],
+    "safety": {
+      "no_frame_drop": true,
+      "no_frame_duplication": true,
+      "no_freeze": true,
+      "no_crossfade": true,
+      "S3_lip_sync_preserved": true,
+      "CTA_stable_after_f": 817
+    },
+    "android_media3_mapping": {
+      "zoom_translation": "MatrixTransformation",
+      "all_optical_effects": "one custom GlEffect selected by event name and presentation-time uniforms",
+      "temporal_overlap": "none",
+      "decoder_count": 1
+    }
+  },
+  "end_lockup_consistency": {
+    "mode": "mirror_opening",
+    "primary_field": "produit",
+    "primary_font": "display_serif",
+    "primary_size_px": 84,
+    "primary_min_px": 52,
+    "secondary_fixed_text": "COMMANDER MAINTENANT",
+    "secondary_font": "light_sans",
+    "secondary_size_px": 35,
+    "secondary_tracking_em": 0.15,
+    "reveal": "left_to_right_linear_mask",
+    "reveal_frames": 20,
+    "same_color_as_opening": "#FBF7EE",
+    "supporting_rows": [
+      "price",
+      "whatsapp",
+      "nom"
+    ],
+    "hard_card": false,
+    "border": false
+  },
+  "implementation_handoff": {
+    "contract_type": "runtime_template_integration_contract",
+    "not_a_mockup": true,
+    "purpose": "single JSON handoff for merchant data, the 12 capture screens, four media slots and the deterministic renderer",
+    "binding_syntax": "RFC 6901 pointer for files; runtime.* for values produced by the application",
+    "sources": {
+      "visual_template": {
+        "path": "config/T1_special_menu_reference_v3.json",
+        "role": "locked rendering behavior"
+      },
+      "capture_copy": {
+        "path": "capture-guide/consignes_T1.json",
+        "sha256": "93a807f88e0e0f909cb589e8539419a4d1c387c12bc1b9966ba7dbe1a936075c",
+        "must_remain_byte_identical": true
+      },
+      "visual_proof_only": {
+        "path": "ui-screens/planche_12_etats.png",
+        "runtime_source": false,
+        "note": "The PNG verifies the contract visually; production code consumes this JSON, not the PNG or HTML simulation."
+      }
+    },
+    "counts": {
+      "merchant_fields": 6,
+      "required_merchant_fields": 5,
+      "optional_merchant_fields": 1,
+      "capture_scenes": 4,
+      "stable_capture_screens": 12,
+      "stable_states_per_scene": 3,
+      "captured_video_files": 4,
+      "output_video_files": 1
+    },
+    "runtime_order": [
+      {
+        "step": 1,
+        "id": "MERCHANT_INPUT",
+        "consumes": "merchant form",
+        "produces": "merchant_payload",
+        "next": "T1_CAPTURE_S1_A_GUIDE"
+      },
+      {
+        "step": 2,
+        "id": "GUIDED_CAPTURE",
+        "consumes": "camera + microphone",
+        "produces": [
+          "captures.S1",
+          "captures.S2",
+          "captures.S3",
+          "captures.S4"
+        ],
+        "stable_screens": 12,
+        "next": "T1_MONTAGE_STATUS"
+      },
+      {
+        "step": 3,
+        "id": "DETERMINISTIC_RENDER",
+        "consumes": [
+          "merchant_payload",
+          "captures.S1",
+          "captures.S2",
+          "captures.S3",
+          "captures.S4",
+          "this template JSON"
+        ],
+        "produces": "output.publicity_uri",
+        "next": "T1_AD_REVIEW"
+      }
+    ],
+    "merchant_payload_schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nom",
+        "produit",
+        "prix",
+        "whatsapp",
+        "quartier"
+      ],
+      "optional": [
+        "accroche"
+      ],
+      "properties": {
+        "nom": {
+          "type": "string",
+          "maxLength": 40,
+          "render_targets": [
+            "G01_MICRO",
+            "G04_LOCATION",
+            "G05_CTA"
+          ]
+        },
+        "produit": {
+          "type": "string",
+          "maxLength": 32,
+          "render_targets": [
+            "G01_HERO",
+            "G05_CTA"
+          ]
+        },
+        "prix": {
+          "type": "string",
+          "maxLength": 7,
+          "render_targets": [
+            "G02_PRICE",
+            "G05_CTA"
+          ],
+          "normalization": "format as grouped integer and append FCFA only when absent"
+        },
+        "whatsapp": {
+          "type": "string",
+          "maxLength": 20,
+          "render_targets": [
+            "G05_CTA"
+          ]
+        },
+        "quartier": {
+          "type": "string",
+          "maxLength": 40,
+          "render_targets": [
+            "G04_LOCATION"
+          ]
+        },
+        "accroche": {
+          "type": "string",
+          "maxLength": 48,
+          "render_targets": [
+            "G03_HOOK"
+          ],
+          "empty_behavior": "omit G03_HOOK; never invent copy"
+        }
+      }
+    },
+    "capture_payload_schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "properties": {
+        "S1": {
+          "type": "object",
+          "required": [
+            "uri",
+            "duration_ms",
+            "has_audio"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "uri",
+              "must_be_app_readable": true
+            },
+            "duration_ms": {
+              "const": 6000
+            },
+            "has_audio": {
+              "const": true
+            },
+            "rotation_metadata_applied": {
+              "const": true
+            }
+          }
+        },
+        "S2": {
+          "type": "object",
+          "required": [
+            "uri",
+            "duration_ms",
+            "has_audio"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "uri",
+              "must_be_app_readable": true
+            },
+            "duration_ms": {
+              "const": 8000
+            },
+            "has_audio": {
+              "const": true
+            },
+            "rotation_metadata_applied": {
+              "const": true
+            }
+          }
+        },
+        "S3": {
+          "type": "object",
+          "required": [
+            "uri",
+            "duration_ms",
+            "has_audio"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "uri",
+              "must_be_app_readable": true
+            },
+            "duration_ms": {
+              "const": 7000
+            },
+            "has_audio": {
+              "const": true
+            },
+            "rotation_metadata_applied": {
+              "const": true
+            }
+          }
+        },
+        "S4": {
+          "type": "object",
+          "required": [
+            "uri",
+            "duration_ms",
+            "has_audio"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "uri",
+              "must_be_app_readable": true
+            },
+            "duration_ms": {
+              "const": 9000
+            },
+            "has_audio": {
+              "const": true
+            },
+            "rotation_metadata_applied": {
+              "const": true
+            }
+          }
+        }
+      }
+    },
+    "state_definitions": {
+      "A_GUIDE": {
+        "owns_camera": false,
+        "preview_camera": true,
+        "shows_scene_copy": true,
+        "records_media": false
+      },
+      "B_RECORDING": {
+        "owns_camera": true,
+        "preview_camera": true,
+        "shows_scene_copy": false,
+        "records_media": true,
+        "instruction_sheet_must_be_absent_from_first_recorded_frame": true
+      },
+      "C_REVIEW": {
+        "owns_camera": false,
+        "preview_captured_media": true,
+        "playback_audio": true,
+        "records_media": false
+      }
+    },
+    "transient_states": [
+      {
+        "id": "COUNTDOWN_3_2_1",
+        "counted_in_12_stable_screens": false,
+        "sequence": [
+          3,
+          2,
+          1
+        ],
+        "trigger": "START_RECORDING",
+        "then": "B_RECORDING",
+        "must_not_be_written_into_capture": true
+      }
+    ],
+    "screens": [
+      {
+        "scene_id": "S1",
+        "scene_index": 1,
+        "scene_total": 4,
+        "capture_duration_ms": 6000,
+        "capture_slot": "captures.S1.uri",
+        "ordinal": 1,
+        "screen_id": "T1_CAPTURE_S1_A_GUIDE",
+        "route_key": "t1.capture.s1.guide",
+        "state": "A_GUIDE",
+        "purpose": "expliquer la prise avant d'ouvrir l'enregistrement",
+        "bindings": {
+          "scene_counter": "literal:SCÈNE 1/4",
+          "duration": "capture-guide/consignes_T1.json#/scenes/0/secondes",
+          "title": "capture-guide/consignes_T1.json#/scenes/0/titre",
+          "instruction": "capture-guide/consignes_T1.json#/scenes/0/consigne",
+          "film_list": "capture-guide/consignes_T1.json#/scenes/0/a_filmer",
+          "avoid_list": "capture-guide/consignes_T1.json#/scenes/0/a_eviter",
+          "voice_note": "capture-guide/consignes_T1.json#/mention_voix_commune",
+          "example": "capture-guide/consignes_T1.json#/scenes/0/exemple",
+          "primary_action_label": "capture-guide/consignes_T1.json#/bouton_principal"
+        },
+        "resolved_text": {
+          "scene_counter": "SCÈNE 1/4",
+          "duration": "6 secondes",
+          "title": "LE PLAT",
+          "instruction": "Approche ton téléphone tout près du plat bien chaud pour montrer tous les détails. Commence un peu loin puis rapproche-toi doucement.",
+          "film_section_label": "À FILMER",
+          "film_list": [
+            "L'assiette entière.",
+            "La fumée ou le brillant de la sauce.",
+            "Ta main qui sert."
+          ],
+          "avoid_section_label": "À ÉVITER",
+          "avoid_list": [
+            "Filmer de trop loin.",
+            "Montrer le sol ou le plafond.",
+            "Bouger trop vite."
+          ],
+          "voice_section_label": "TU PEUX PARLER PENDANT QUE TU FILMES",
+          "voice_note": "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit.",
+          "example_section_label": "EXEMPLE DE PHRASE — FACULTATIF",
+          "example": "Voici notre riz au poulet braisé bien chaud avec alloco, prêt maintenant !",
+          "primary_action": "COMMENCER À FILMER"
+        },
+        "visible_components": [
+          "camera_preview_dimmed",
+          "scene_progress",
+          "instruction_sheet",
+          "film_list",
+          "avoid_list",
+          "voice_note",
+          "optional_example",
+          "start_recording_button"
+        ],
+        "forbidden_components": [
+          "recording_timer",
+          "recording_progress",
+          "review_actions",
+          "subtitles"
+        ],
+        "actions": [
+          {
+            "event": "START_RECORDING",
+            "label": "COMMENCER À FILMER",
+            "effects": [
+              "close_instruction_sheet",
+              "run_COUNTDOWN_3_2_1"
+            ],
+            "next_screen_id": "T1_CAPTURE_S1_B_RECORDING"
+          }
+        ],
+        "proof_png": "ui-screens/ecran_08_scene1_etatA_consigne.png"
+      },
+      {
+        "scene_id": "S1",
+        "scene_index": 1,
+        "scene_total": 4,
+        "capture_duration_ms": 6000,
+        "capture_slot": "captures.S1.uri",
+        "ordinal": 2,
+        "screen_id": "T1_CAPTURE_S1_B_RECORDING",
+        "route_key": "t1.capture.s1.recording",
+        "state": "B_RECORDING",
+        "purpose": "capturer exactement la durée de la scène, image et voix",
+        "bindings": {
+          "elapsed_ms": "runtime.capture.elapsed_ms",
+          "progress_0_to_1": "runtime.capture.progress",
+          "output_uri": "runtime.captures.S1.uri"
+        },
+        "resolved_text": {
+          "status": "ENREGISTREMENT",
+          "timer_initial": "0:00",
+          "timer_terminal": "0:06"
+        },
+        "visible_components": [
+          "camera_preview",
+          "recording_timer",
+          "recording_progress"
+        ],
+        "forbidden_components": [
+          "instruction_sheet",
+          "merchant_fields",
+          "example_text",
+          "manual_stop_button",
+          "review_actions",
+          "subtitles"
+        ],
+        "capture": {
+          "starts_after": "COUNTDOWN_3_2_1_COMPLETE",
+          "video": true,
+          "microphone_audio": true,
+          "source_speed": 1.0,
+          "duration_ms": 6000,
+          "auto_stop": true,
+          "manual_stop": false,
+          "last_three_seconds_feedback": [
+            "timer_accent",
+            "progress_accent",
+            "haptic_pulse"
+          ],
+          "write_to": "runtime.captures.S1.uri"
+        },
+        "actions": [
+          {
+            "event": "CAPTURE_DURATION_REACHED",
+            "effects": [
+              "stop_recorder",
+              "finalize_capture_file",
+              "open_audio_review"
+            ],
+            "next_screen_id": "T1_CAPTURE_S1_C_REVIEW"
+          }
+        ],
+        "proof_png": "ui-screens/ecran_08_scene1_etatB_enregistrement.png"
+      },
+      {
+        "scene_id": "S1",
+        "scene_index": 1,
+        "scene_total": 4,
+        "capture_duration_ms": 6000,
+        "capture_slot": "captures.S1.uri",
+        "ordinal": 3,
+        "screen_id": "T1_CAPTURE_S1_C_REVIEW",
+        "route_key": "t1.capture.s1.review",
+        "state": "C_REVIEW",
+        "purpose": "faire écouter et valider la prise avant de continuer",
+        "bindings": {
+          "preview_uri": "runtime.captures.S1.uri",
+          "audio_enabled": "literal:true",
+          "loop": "literal:true"
+        },
+        "resolved_text": {
+          "take_label": "PRISE 1 · 0:06",
+          "status": "PRISE ENREGISTRÉE",
+          "playback_note": "Lecture avec le son, en boucle",
+          "secondary_action": "REFAIRE",
+          "primary_action": "SCÈNE SUIVANTE"
+        },
+        "visible_components": [
+          "captured_video_preview",
+          "captured_audio_playback",
+          "take_label",
+          "redo_button",
+          "accept_button"
+        ],
+        "forbidden_components": [
+          "instruction_sheet",
+          "recording_timer",
+          "recording_progress",
+          "subtitles"
+        ],
+        "playback": {
+          "audio": true,
+          "loop": true,
+          "source_speed": 1.0
+        },
+        "actions": [
+          {
+            "event": "RETAKE",
+            "label": "REFAIRE",
+            "effects": [
+              "delete:runtime.captures.S1.uri",
+              "reset_scene_capture_state"
+            ],
+            "next_screen_id": "T1_CAPTURE_S1_A_GUIDE"
+          },
+          {
+            "event": "ACCEPT_CAPTURE",
+            "label": "SCÈNE SUIVANTE",
+            "effects": [
+              "persist:runtime.captures.S1.uri"
+            ],
+            "next_screen_id": "T1_CAPTURE_S2_A_GUIDE"
+          }
+        ],
+        "proof_png": "ui-screens/ecran_08_scene1_etatC_validation.png"
+      },
+      {
+        "scene_id": "S2",
+        "scene_index": 2,
+        "scene_total": 4,
+        "capture_duration_ms": 8000,
+        "capture_slot": "captures.S2.uri",
+        "ordinal": 4,
+        "screen_id": "T1_CAPTURE_S2_A_GUIDE",
+        "route_key": "t1.capture.s2.guide",
+        "state": "A_GUIDE",
+        "purpose": "expliquer la prise avant d'ouvrir l'enregistrement",
+        "bindings": {
+          "scene_counter": "literal:SCÈNE 2/4",
+          "duration": "capture-guide/consignes_T1.json#/scenes/1/secondes",
+          "title": "capture-guide/consignes_T1.json#/scenes/1/titre",
+          "instruction": "capture-guide/consignes_T1.json#/scenes/1/consigne",
+          "film_list": "capture-guide/consignes_T1.json#/scenes/1/a_filmer",
+          "avoid_list": "capture-guide/consignes_T1.json#/scenes/1/a_eviter",
+          "voice_note": "capture-guide/consignes_T1.json#/mention_voix_commune",
+          "example": "capture-guide/consignes_T1.json#/scenes/1/exemple",
+          "primary_action_label": "capture-guide/consignes_T1.json#/bouton_principal"
+        },
+        "resolved_text": {
+          "scene_counter": "SCÈNE 2/4",
+          "duration": "8 secondes",
+          "title": "LE DESSUS ET LES DÉTAILS",
+          "instruction": "Passe ton téléphone au-dessus du plat pour montrer tout ce qu'il y a dedans, puis approche-toi très près de la partie la plus appétissante.",
+          "film_section_label": "À FILMER",
+          "film_list": [
+            "Le plat rempli vu d'au-dessus.",
+            "La sauce ou la viande de très près."
+          ],
+          "avoid_section_label": "À ÉVITER",
+          "avoid_list": [
+            "Tes doigts devant la caméra.",
+            "Filmer vers la fenêtre, tout devient sombre."
+          ],
+          "voice_section_label": "TU PEUX PARLER PENDANT QUE TU FILMES",
+          "voice_note": "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit.",
+          "example_section_label": "EXEMPLE DE PHRASE — FACULTATIF",
+          "example": "Regardez la sauce : tout est préparé ce matin avec de l'huile propre.",
+          "primary_action": "COMMENCER À FILMER"
+        },
+        "visible_components": [
+          "camera_preview_dimmed",
+          "scene_progress",
+          "instruction_sheet",
+          "film_list",
+          "avoid_list",
+          "voice_note",
+          "optional_example",
+          "start_recording_button"
+        ],
+        "forbidden_components": [
+          "recording_timer",
+          "recording_progress",
+          "review_actions",
+          "subtitles"
+        ],
+        "actions": [
+          {
+            "event": "START_RECORDING",
+            "label": "COMMENCER À FILMER",
+            "effects": [
+              "close_instruction_sheet",
+              "run_COUNTDOWN_3_2_1"
+            ],
+            "next_screen_id": "T1_CAPTURE_S2_B_RECORDING"
+          }
+        ],
+        "proof_png": "ui-screens/ecran_08_scene2_etatA_consigne.png"
+      },
+      {
+        "scene_id": "S2",
+        "scene_index": 2,
+        "scene_total": 4,
+        "capture_duration_ms": 8000,
+        "capture_slot": "captures.S2.uri",
+        "ordinal": 5,
+        "screen_id": "T1_CAPTURE_S2_B_RECORDING",
+        "route_key": "t1.capture.s2.recording",
+        "state": "B_RECORDING",
+        "purpose": "capturer exactement la durée de la scène, image et voix",
+        "bindings": {
+          "elapsed_ms": "runtime.capture.elapsed_ms",
+          "progress_0_to_1": "runtime.capture.progress",
+          "output_uri": "runtime.captures.S2.uri"
+        },
+        "resolved_text": {
+          "status": "ENREGISTREMENT",
+          "timer_initial": "0:00",
+          "timer_terminal": "0:08"
+        },
+        "visible_components": [
+          "camera_preview",
+          "recording_timer",
+          "recording_progress"
+        ],
+        "forbidden_components": [
+          "instruction_sheet",
+          "merchant_fields",
+          "example_text",
+          "manual_stop_button",
+          "review_actions",
+          "subtitles"
+        ],
+        "capture": {
+          "starts_after": "COUNTDOWN_3_2_1_COMPLETE",
+          "video": true,
+          "microphone_audio": true,
+          "source_speed": 1.0,
+          "duration_ms": 8000,
+          "auto_stop": true,
+          "manual_stop": false,
+          "last_three_seconds_feedback": [
+            "timer_accent",
+            "progress_accent",
+            "haptic_pulse"
+          ],
+          "write_to": "runtime.captures.S2.uri"
+        },
+        "actions": [
+          {
+            "event": "CAPTURE_DURATION_REACHED",
+            "effects": [
+              "stop_recorder",
+              "finalize_capture_file",
+              "open_audio_review"
+            ],
+            "next_screen_id": "T1_CAPTURE_S2_C_REVIEW"
+          }
+        ],
+        "proof_png": "ui-screens/ecran_08_scene2_etatB_enregistrement.png"
+      },
+      {
+        "scene_id": "S2",
+        "scene_index": 2,
+        "scene_total": 4,
+        "capture_duration_ms": 8000,
+        "capture_slot": "captures.S2.uri",
+        "ordinal": 6,
+        "screen_id": "T1_CAPTURE_S2_C_REVIEW",
+        "route_key": "t1.capture.s2.review",
+        "state": "C_REVIEW",
+        "purpose": "faire écouter et valider la prise avant de continuer",
+        "bindings": {
+          "preview_uri": "runtime.captures.S2.uri",
+          "audio_enabled": "literal:true",
+          "loop": "literal:true"
+        },
+        "resolved_text": {
+          "take_label": "PRISE 2 · 0:08",
+          "status": "PRISE ENREGISTRÉE",
+          "playback_note": "Lecture avec le son, en boucle",
+          "secondary_action": "REFAIRE",
+          "primary_action": "SCÈNE SUIVANTE"
+        },
+        "visible_components": [
+          "captured_video_preview",
+          "captured_audio_playback",
+          "take_label",
+          "redo_button",
+          "accept_button"
+        ],
+        "forbidden_components": [
+          "instruction_sheet",
+          "recording_timer",
+          "recording_progress",
+          "subtitles"
+        ],
+        "playback": {
+          "audio": true,
+          "loop": true,
+          "source_speed": 1.0
+        },
+        "actions": [
+          {
+            "event": "RETAKE",
+            "label": "REFAIRE",
+            "effects": [
+              "delete:runtime.captures.S2.uri",
+              "reset_scene_capture_state"
+            ],
+            "next_screen_id": "T1_CAPTURE_S2_A_GUIDE"
+          },
+          {
+            "event": "ACCEPT_CAPTURE",
+            "label": "SCÈNE SUIVANTE",
+            "effects": [
+              "persist:runtime.captures.S2.uri"
+            ],
+            "next_screen_id": "T1_CAPTURE_S3_A_GUIDE"
+          }
+        ],
+        "proof_png": "ui-screens/ecran_08_scene2_etatC_validation.png"
+      },
+      {
+        "scene_id": "S3",
+        "scene_index": 3,
+        "scene_total": 4,
+        "capture_duration_ms": 7000,
+        "capture_slot": "captures.S3.uri",
+        "ordinal": 7,
+        "screen_id": "T1_CAPTURE_S3_A_GUIDE",
+        "route_key": "t1.capture.s3.guide",
+        "state": "A_GUIDE",
+        "purpose": "expliquer la prise avant d'ouvrir l'enregistrement",
+        "bindings": {
+          "scene_counter": "literal:SCÈNE 3/4",
+          "duration": "capture-guide/consignes_T1.json#/scenes/2/secondes",
+          "title": "capture-guide/consignes_T1.json#/scenes/2/titre",
+          "instruction": "capture-guide/consignes_T1.json#/scenes/2/consigne",
+          "film_list": "capture-guide/consignes_T1.json#/scenes/2/a_filmer",
+          "avoid_list": "capture-guide/consignes_T1.json#/scenes/2/a_eviter",
+          "voice_note": "capture-guide/consignes_T1.json#/mention_voix_commune",
+          "example": "capture-guide/consignes_T1.json#/scenes/2/exemple",
+          "primary_action_label": "capture-guide/consignes_T1.json#/bouton_principal"
+        },
+        "resolved_text": {
+          "scene_counter": "SCÈNE 3/4",
+          "duration": "7 secondes",
+          "title": "LA PERSONNE QUI SERT",
+          "instruction": "Filme la personne qui sert ou qui mange : sa main, son visage, son sourire. Mets-toi devant elle ou de côté, comme tu veux.",
+          "film_section_label": "À FILMER",
+          "film_list": [
+            "Une main qui sert.",
+            "Le visage de la personne.",
+            "Le comptoir propre derrière."
+          ],
+          "avoid_section_label": "À ÉVITER",
+          "avoid_list": [
+            "Filmer quelqu'un qui ne veut pas être filmé.",
+            "Filmer un coin sombre."
+          ],
+          "voice_section_label": "TU PEUX PARLER PENDANT QUE TU FILMES",
+          "voice_note": "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit.",
+          "example_section_label": "EXEMPLE DE PHRASE — FACULTATIF",
+          "example": "C'est moi qui prépare tous les jours. Venez goûter, on sert de midi jusqu'au soir.",
+          "primary_action": "COMMENCER À FILMER"
+        },
+        "visible_components": [
+          "camera_preview_dimmed",
+          "scene_progress",
+          "instruction_sheet",
+          "film_list",
+          "avoid_list",
+          "voice_note",
+          "optional_example",
+          "start_recording_button"
+        ],
+        "forbidden_components": [
+          "recording_timer",
+          "recording_progress",
+          "review_actions",
+          "subtitles"
+        ],
+        "actions": [
+          {
+            "event": "START_RECORDING",
+            "label": "COMMENCER À FILMER",
+            "effects": [
+              "close_instruction_sheet",
+              "run_COUNTDOWN_3_2_1"
+            ],
+            "next_screen_id": "T1_CAPTURE_S3_B_RECORDING"
+          }
+        ],
+        "proof_png": "ui-screens/ecran_08_scene3_etatA_consigne.png"
+      },
+      {
+        "scene_id": "S3",
+        "scene_index": 3,
+        "scene_total": 4,
+        "capture_duration_ms": 7000,
+        "capture_slot": "captures.S3.uri",
+        "ordinal": 8,
+        "screen_id": "T1_CAPTURE_S3_B_RECORDING",
+        "route_key": "t1.capture.s3.recording",
+        "state": "B_RECORDING",
+        "purpose": "capturer exactement la durée de la scène, image et voix",
+        "bindings": {
+          "elapsed_ms": "runtime.capture.elapsed_ms",
+          "progress_0_to_1": "runtime.capture.progress",
+          "output_uri": "runtime.captures.S3.uri"
+        },
+        "resolved_text": {
+          "status": "ENREGISTREMENT",
+          "timer_initial": "0:00",
+          "timer_terminal": "0:07"
+        },
+        "visible_components": [
+          "camera_preview",
+          "recording_timer",
+          "recording_progress"
+        ],
+        "forbidden_components": [
+          "instruction_sheet",
+          "merchant_fields",
+          "example_text",
+          "manual_stop_button",
+          "review_actions",
+          "subtitles"
+        ],
+        "capture": {
+          "starts_after": "COUNTDOWN_3_2_1_COMPLETE",
+          "video": true,
+          "microphone_audio": true,
+          "source_speed": 1.0,
+          "duration_ms": 7000,
+          "auto_stop": true,
+          "manual_stop": false,
+          "last_three_seconds_feedback": [
+            "timer_accent",
+            "progress_accent",
+            "haptic_pulse"
+          ],
+          "write_to": "runtime.captures.S3.uri"
+        },
+        "actions": [
+          {
+            "event": "CAPTURE_DURATION_REACHED",
+            "effects": [
+              "stop_recorder",
+              "finalize_capture_file",
+              "open_audio_review"
+            ],
+            "next_screen_id": "T1_CAPTURE_S3_C_REVIEW"
+          }
+        ],
+        "proof_png": "ui-screens/ecran_08_scene3_etatB_enregistrement.png"
+      },
+      {
+        "scene_id": "S3",
+        "scene_index": 3,
+        "scene_total": 4,
+        "capture_duration_ms": 7000,
+        "capture_slot": "captures.S3.uri",
+        "ordinal": 9,
+        "screen_id": "T1_CAPTURE_S3_C_REVIEW",
+        "route_key": "t1.capture.s3.review",
+        "state": "C_REVIEW",
+        "purpose": "faire écouter et valider la prise avant de continuer",
+        "bindings": {
+          "preview_uri": "runtime.captures.S3.uri",
+          "audio_enabled": "literal:true",
+          "loop": "literal:true"
+        },
+        "resolved_text": {
+          "take_label": "PRISE 3 · 0:07",
+          "status": "PRISE ENREGISTRÉE",
+          "playback_note": "Lecture avec le son, en boucle",
+          "secondary_action": "REFAIRE",
+          "primary_action": "SCÈNE SUIVANTE"
+        },
+        "visible_components": [
+          "captured_video_preview",
+          "captured_audio_playback",
+          "take_label",
+          "redo_button",
+          "accept_button"
+        ],
+        "forbidden_components": [
+          "instruction_sheet",
+          "recording_timer",
+          "recording_progress",
+          "subtitles"
+        ],
+        "playback": {
+          "audio": true,
+          "loop": true,
+          "source_speed": 1.0
+        },
+        "actions": [
+          {
+            "event": "RETAKE",
+            "label": "REFAIRE",
+            "effects": [
+              "delete:runtime.captures.S3.uri",
+              "reset_scene_capture_state"
+            ],
+            "next_screen_id": "T1_CAPTURE_S3_A_GUIDE"
+          },
+          {
+            "event": "ACCEPT_CAPTURE",
+            "label": "SCÈNE SUIVANTE",
+            "effects": [
+              "persist:runtime.captures.S3.uri"
+            ],
+            "next_screen_id": "T1_CAPTURE_S4_A_GUIDE"
+          }
+        ],
+        "proof_png": "ui-screens/ecran_08_scene3_etatC_validation.png"
+      },
+      {
+        "scene_id": "S4",
+        "scene_index": 4,
+        "scene_total": 4,
+        "capture_duration_ms": 9000,
+        "capture_slot": "captures.S4.uri",
+        "ordinal": 10,
+        "screen_id": "T1_CAPTURE_S4_A_GUIDE",
+        "route_key": "t1.capture.s4.guide",
+        "state": "A_GUIDE",
+        "purpose": "expliquer la prise avant d'ouvrir l'enregistrement",
+        "bindings": {
+          "scene_counter": "literal:SCÈNE 4/4",
+          "duration": "capture-guide/consignes_T1.json#/scenes/3/secondes",
+          "title": "capture-guide/consignes_T1.json#/scenes/3/titre",
+          "instruction": "capture-guide/consignes_T1.json#/scenes/3/consigne",
+          "film_list": "capture-guide/consignes_T1.json#/scenes/3/a_filmer",
+          "avoid_list": "capture-guide/consignes_T1.json#/scenes/3/a_eviter",
+          "voice_note": "capture-guide/consignes_T1.json#/mention_voix_commune",
+          "example": "capture-guide/consignes_T1.json#/scenes/3/exemple",
+          "primary_action_label": "capture-guide/consignes_T1.json#/bouton_principal"
+        },
+        "resolved_text": {
+          "scene_counter": "SCÈNE 4/4",
+          "duration": "9 secondes",
+          "title": "LE LIEU ET LE CONTACT",
+          "instruction": "Recule et filme l'entrée de ton local avec le nom écrit dessus, puis le comptoir. On doit reconnaître l'endroit.",
+          "film_section_label": "À FILMER",
+          "film_list": [
+            "Le nom ou l'enseigne de ton local.",
+            "La rue autour.",
+            "L'entrée de face."
+          ],
+          "avoid_section_label": "À ÉVITER",
+          "avoid_list": [
+            "Filmer les passants de trop près.",
+            "Filmer le ciel."
+          ],
+          "voice_section_label": "TU PEUX PARLER PENDANT QUE TU FILMES",
+          "voice_note": "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit.",
+          "example_section_label": "EXEMPLE DE PHRASE — FACULTATIF",
+          "example": "Nous sommes à Abomey-Calavi, Arconville, à côté de la station. Appelez-nous sur WhatsApp.",
+          "primary_action": "COMMENCER À FILMER"
+        },
+        "visible_components": [
+          "camera_preview_dimmed",
+          "scene_progress",
+          "instruction_sheet",
+          "film_list",
+          "avoid_list",
+          "voice_note",
+          "optional_example",
+          "start_recording_button"
+        ],
+        "forbidden_components": [
+          "recording_timer",
+          "recording_progress",
+          "review_actions",
+          "subtitles"
+        ],
+        "actions": [
+          {
+            "event": "START_RECORDING",
+            "label": "COMMENCER À FILMER",
+            "effects": [
+              "close_instruction_sheet",
+              "run_COUNTDOWN_3_2_1"
+            ],
+            "next_screen_id": "T1_CAPTURE_S4_B_RECORDING"
+          }
+        ],
+        "proof_png": "ui-screens/ecran_08_scene4_etatA_consigne.png"
+      },
+      {
+        "scene_id": "S4",
+        "scene_index": 4,
+        "scene_total": 4,
+        "capture_duration_ms": 9000,
+        "capture_slot": "captures.S4.uri",
+        "ordinal": 11,
+        "screen_id": "T1_CAPTURE_S4_B_RECORDING",
+        "route_key": "t1.capture.s4.recording",
+        "state": "B_RECORDING",
+        "purpose": "capturer exactement la durée de la scène, image et voix",
+        "bindings": {
+          "elapsed_ms": "runtime.capture.elapsed_ms",
+          "progress_0_to_1": "runtime.capture.progress",
+          "output_uri": "runtime.captures.S4.uri"
+        },
+        "resolved_text": {
+          "status": "ENREGISTREMENT",
+          "timer_initial": "0:00",
+          "timer_terminal": "0:09"
+        },
+        "visible_components": [
+          "camera_preview",
+          "recording_timer",
+          "recording_progress"
+        ],
+        "forbidden_components": [
+          "instruction_sheet",
+          "merchant_fields",
+          "example_text",
+          "manual_stop_button",
+          "review_actions",
+          "subtitles"
+        ],
+        "capture": {
+          "starts_after": "COUNTDOWN_3_2_1_COMPLETE",
+          "video": true,
+          "microphone_audio": true,
+          "source_speed": 1.0,
+          "duration_ms": 9000,
+          "auto_stop": true,
+          "manual_stop": false,
+          "last_three_seconds_feedback": [
+            "timer_accent",
+            "progress_accent",
+            "haptic_pulse"
+          ],
+          "write_to": "runtime.captures.S4.uri"
+        },
+        "actions": [
+          {
+            "event": "CAPTURE_DURATION_REACHED",
+            "effects": [
+              "stop_recorder",
+              "finalize_capture_file",
+              "open_audio_review"
+            ],
+            "next_screen_id": "T1_CAPTURE_S4_C_REVIEW"
+          }
+        ],
+        "proof_png": "ui-screens/ecran_08_scene4_etatB_enregistrement.png"
+      },
+      {
+        "scene_id": "S4",
+        "scene_index": 4,
+        "scene_total": 4,
+        "capture_duration_ms": 9000,
+        "capture_slot": "captures.S4.uri",
+        "ordinal": 12,
+        "screen_id": "T1_CAPTURE_S4_C_REVIEW",
+        "route_key": "t1.capture.s4.review",
+        "state": "C_REVIEW",
+        "purpose": "faire écouter et valider la prise avant de continuer",
+        "bindings": {
+          "preview_uri": "runtime.captures.S4.uri",
+          "audio_enabled": "literal:true",
+          "loop": "literal:true"
+        },
+        "resolved_text": {
+          "take_label": "PRISE 4 · 0:09",
+          "status": "PRISE ENREGISTRÉE",
+          "playback_note": "Lecture avec le son, en boucle",
+          "secondary_action": "REFAIRE",
+          "primary_action": "VOIR MON MONTAGE"
+        },
+        "visible_components": [
+          "captured_video_preview",
+          "captured_audio_playback",
+          "take_label",
+          "redo_button",
+          "accept_button"
+        ],
+        "forbidden_components": [
+          "instruction_sheet",
+          "recording_timer",
+          "recording_progress",
+          "subtitles"
+        ],
+        "playback": {
+          "audio": true,
+          "loop": true,
+          "source_speed": 1.0
+        },
+        "actions": [
+          {
+            "event": "RETAKE",
+            "label": "REFAIRE",
+            "effects": [
+              "delete:runtime.captures.S4.uri",
+              "reset_scene_capture_state"
+            ],
+            "next_screen_id": "T1_CAPTURE_S4_A_GUIDE"
+          },
+          {
+            "event": "ACCEPT_CAPTURE",
+            "label": "VOIR MON MONTAGE",
+            "effects": [
+              "persist:runtime.captures.S4.uri"
+            ],
+            "next_screen_id": "T1_MONTAGE_STATUS"
+          }
+        ],
+        "proof_png": "ui-screens/ecran_08_scene4_etatC_validation.png"
+      }
+    ],
+    "navigation_rules": {
+      "initial_screen_id": "T1_CAPTURE_S1_A_GUIDE",
+      "back_from_review": "return to A_GUIDE for the same scene; never enter B_RECORDING directly",
+      "retake": "delete only the current scene file and return to its A_GUIDE screen",
+      "accept_s1_to_s3": "persist current capture and open next scene A_GUIDE",
+      "accept_s4": "persist S4 and open T1_MONTAGE_STATUS",
+      "process_death_recovery": "restore the last accepted capture slots; any incomplete B_RECORDING file is discarded"
+    },
+    "renderer_handoff": {
+      "template_config": "config/T1_special_menu_template_v1_0_0.json",
+      "merchant_bindings": [
+        {
+          "source": "merchant_payload.nom",
+          "targets": [
+            "graphics.G01_MICRO",
+            "graphics.G04_LOCATION",
+            "graphics.G05_CTA"
+          ]
+        },
+        {
+          "source": "merchant_payload.produit",
+          "targets": [
+            "graphics.G01_HERO",
+            "graphics.G05_CTA"
+          ]
+        },
+        {
+          "source": "merchant_payload.prix",
+          "targets": [
+            "graphics.G02_PRICE",
+            "graphics.G05_CTA"
+          ]
+        },
+        {
+          "source": "merchant_payload.whatsapp",
+          "targets": [
+            "graphics.G05_CTA"
+          ]
+        },
+        {
+          "source": "merchant_payload.quartier",
+          "targets": [
+            "graphics.G04_LOCATION"
+          ]
+        },
+        {
+          "source": "merchant_payload.accroche",
+          "targets": [
+            "graphics.G03_HOOK"
+          ]
+        }
+      ],
+      "capture_bindings": [
+        {
+          "source": "captures.S1.uri",
+          "target": "scene_capture_contract.scenes[0]",
+          "duration_ms": 6000,
+          "source_time_map": "identity",
+          "audio_time_map": "identity"
+        },
+        {
+          "source": "captures.S2.uri",
+          "target": "scene_capture_contract.scenes[1]",
+          "duration_ms": 8000,
+          "source_time_map": "identity",
+          "audio_time_map": "identity"
+        },
+        {
+          "source": "captures.S3.uri",
+          "target": "scene_capture_contract.scenes[2]",
+          "duration_ms": 7000,
+          "source_time_map": "identity",
+          "audio_time_map": "identity"
+        },
+        {
+          "source": "captures.S4.uri",
+          "target": "scene_capture_contract.scenes[3]",
+          "duration_ms": 9000,
+          "source_time_map": "identity",
+          "audio_time_map": "identity"
+        }
+      ],
+      "job_example": {
+        "$ref": "fixtures/t1-special-menu/render_job.valid.json",
+        "schema": "schemas/T1_render_job.schema.json",
+        "authoritative": true
+      },
+      "runtime_invariants": [
+        "validate merchant_payload before opening screen 1",
+        "require all four accepted capture URIs before render",
+        "preserve scene audio at 1.0x",
+        "never generate subtitles",
+        "render exactly 900 frames at 30 fps",
+        "show CTA through frame 899"
+      ]
+    },
+    "android_mapping": {
+      "screen_model": "CaptureScreenModel(screenId, sceneId, state, resolvedText, visibleComponents, actions)",
+      "session_model": "T1Session(merchantPayload, captures: Map<SceneId, CaptureAsset>, currentScreenId)",
+      "events": [
+        "START_RECORDING",
+        "COUNTDOWN_COMPLETE",
+        "CAPTURE_DURATION_REACHED",
+        "RETAKE",
+        "ACCEPT_CAPTURE"
+      ],
+      "recommended_state_holder": "ViewModel + SavedStateHandle; persist accepted content URIs with takePersistableUriPermission when applicable",
+      "renderer_entry_point": "submit RenderJob built from implementation_handoff.renderer_handoff.job_example"
+    },
+    "acceptance_gates": [
+      "12 unique stable screen IDs in S1A,S1B,S1C ... S4A,S4B,S4C order",
+      "all A-screen copy resolves byte-for-byte from capture-guide/consignes_T1.json",
+      "all B screens hide the instruction sheet and stop automatically at the exact scene duration",
+      "all C screens replay with sound and expose RETAKE plus the correct accept action",
+      "only S4C routes to T1_MONTAGE_STATUS",
+      "merchant schema exposes exactly the six universal fields and introduces no new required field",
+      "visual render sections remain equal to V3"
+    ]
+  },
+  "template_version": "1.0.0",
+  "package_phase": "visual_capture_assembly_complete_audio_deferred",
+  "media_ingest_contract": {
+    "policy": "validate_then_normalize_without_retiming",
+    "accepted_container": [
+      "mp4"
+    ],
+    "accepted_video_mime": [
+      "video/avc"
+    ],
+    "accepted_video_codec": [
+      "H.264 Baseline",
+      "H.264 Main"
+    ],
+    "dimensions": {
+      "preferred": [
+        720,
+        1280
+      ],
+      "minimum": [
+        540,
+        960
+      ],
+      "maximum": [
+        1080,
+        1920
+      ],
+      "aspect_ratio": "portrait 9:16 after rotation normalization",
+      "fit": "cover crop around each shot anchor; never letterbox"
+    },
+    "fps": {
+      "required": 30,
+      "tolerance": 0,
+      "variable_frame_rate": false,
+      "conversion": "reject instead of silently dropping or duplicating speech frames"
+    },
+    "rotation": {
+      "accepted_metadata_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "normalization": "apply once before shot transforms"
+    },
+    "color": {
+      "accepted": [
+        "BT.709 limited",
+        "BT.709 full",
+        "sRGB-tagged AVC"
+      ],
+      "working_space": "sRGB float32 0..1",
+      "hdr": "reject"
+    },
+    "audio": {
+      "required_in_production_capture": true,
+      "accepted_codec": [
+        "AAC-LC"
+      ],
+      "sample_rates_hz": [
+        44100,
+        48000
+      ],
+      "channels": [
+        1,
+        2
+      ],
+      "time_map": "identity",
+      "music_mix_status": "deferred"
+    },
+    "scene_frame_contract": {
+      "S1": {
+        "required_frames": 180,
+        "accepted_input_frames": [
+          180,
+          181
+        ],
+        "required_duration_ms": 6000,
+        "maximum_duration_ms": 6034,
+        "tail_trim_frames_max": 1,
+        "head_trim_frames": 0
+      },
+      "S2": {
+        "required_frames": 240,
+        "accepted_input_frames": [
+          240,
+          241
+        ],
+        "required_duration_ms": 8000,
+        "maximum_duration_ms": 8034,
+        "tail_trim_frames_max": 1,
+        "head_trim_frames": 0
+      },
+      "S3": {
+        "required_frames": 210,
+        "accepted_input_frames": [
+          210,
+          211
+        ],
+        "required_duration_ms": 7000,
+        "maximum_duration_ms": 7034,
+        "tail_trim_frames_max": 1,
+        "head_trim_frames": 0
+      },
+      "S4": {
+        "required_frames": 270,
+        "accepted_input_frames": [
+          270,
+          271
+        ],
+        "required_duration_ms": 9000,
+        "maximum_duration_ms": 9034,
+        "tail_trim_frames_max": 1,
+        "head_trim_frames": 0
+      }
+    },
+    "normalization": {
+      "decode_order": "sequential",
+      "timeline": "use the first required N frames; trim at most one recorder tail frame",
+      "retiming": false,
+      "frame_interpolation": false,
+      "frame_blending": false,
+      "audio_resampling": "only sample-rate conversion between 44.1 and 48 kHz; never duration change"
+    },
+    "rejection_rules": [
+      "reject a missing or unreadable scene",
+      "reject fewer frames than required",
+      "reject more than one extra trailing frame",
+      "reject non-30-fps input",
+      "reject unsupported codec, HDR or dimensions outside the contract",
+      "reject production captures without merchant voice audio"
+    ]
+  },
+  "execution_contract": {
+    "mode": "offline_on_device",
+    "network_required": false,
+    "preferred_profile": "T1_ANDROID_OFFLINE_2GB",
+    "profile_path": "profiles/T1_android_offline_2gb.json",
+    "preferred_backend": "AndroidX Media3 Transformer + MediaCodec + custom GlEffect",
+    "ffmpeg_runtime_required": false
+  },
+  "render_protocol": {
+    "job_schema": "schemas/T1_render_job.schema.json",
+    "result_schema": "schemas/T1_render_result.schema.json",
+    "error_schema": "schemas/T1_render_error.schema.json",
+    "progress_states": [
+      "VALIDATING",
+      "ANALYZING",
+      "RENDERING",
+      "ENCODING",
+      "FINALIZING",
+      "COMPLETED"
+    ],
+    "idempotent": true,
+    "remote_server_required": false
+  },
+  "error_catalog": [
+    {
+      "code": "T1_INVALID_TEMPLATE_PACKAGE",
+      "retryable": false,
+      "meaning": "manifest, schema or template contract is invalid"
+    },
+    {
+      "code": "T1_INVALID_MERCHANT_PAYLOAD",
+      "retryable": false,
+      "meaning": "one of the six universal fields violates its contract"
+    },
+    {
+      "code": "T1_MISSING_CAPTURE",
+      "retryable": true,
+      "meaning": "one of S1 to S4 is absent"
+    },
+    {
+      "code": "T1_UNSUPPORTED_MEDIA",
+      "retryable": true,
+      "meaning": "container, codec, dimensions, frame rate or orientation is unsupported"
+    },
+    {
+      "code": "T1_CAPTURE_DURATION_OUT_OF_RANGE",
+      "retryable": true,
+      "meaning": "scene duration is shorter than required or exceeds the one-frame tail tolerance"
+    },
+    {
+      "code": "T1_CAPTURE_AUDIO_MISSING",
+      "retryable": true,
+      "meaning": "merchant voice track is missing from an accepted capture"
+    },
+    {
+      "code": "T1_CAPTURE_CORRUPT",
+      "retryable": true,
+      "meaning": "a capture cannot be decoded from first through required last frame"
+    },
+    {
+      "code": "T1_INSUFFICIENT_STORAGE",
+      "retryable": true,
+      "meaning": "less than the profile minimum free storage is available"
+    },
+    {
+      "code": "T1_UNSUPPORTED_DEVICE",
+      "retryable": false,
+      "meaning": "the device cannot provide hardware AVC decode, encode or GLES 3.0"
+    },
+    {
+      "code": "T1_ASSET_CHECKSUM_MISMATCH",
+      "retryable": false,
+      "meaning": "a bundled font, configuration or proof asset does not match the manifest"
+    },
+    {
+      "code": "T1_FONT_LOAD_FAILED",
+      "retryable": false,
+      "meaning": "one of the exact bundled fonts cannot be loaded"
+    },
+    {
+      "code": "T1_RENDER_CANCELLED",
+      "retryable": true,
+      "meaning": "the local user or host application cancelled the render"
+    },
+    {
+      "code": "T1_RENDER_FAILED",
+      "retryable": true,
+      "meaning": "the local render backend failed before producing a valid MP4"
+    },
+    {
+      "code": "T1_OUTPUT_VALIDATION_FAILED",
+      "retryable": true,
+      "meaning": "the output is not 720x1280, 30 fps, 900 frames, 30 seconds or visually conformant"
+    }
+  ],
+  "conformance_contract": {
+    "golden_manifest": "conformance/T1_special_menu_golden_v1.json",
+    "valid_job_fixture": "fixtures/t1-special-menu/render_job.valid.json",
+    "reference_output": "output/output_T1_special_menu_reference_v3.mp4",
+    "reference_output_sha256": "784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7",
+    "portable_visual_tolerance": {
+      "minimum_keyframe_ssim": 0.93,
+      "maximum_keyframe_mean_absolute_error_0_255": 9.0,
+      "maximum_dhash_hamming_distance": 8,
+      "timeline_and_text_geometry_tolerance_px_at_720": 2,
+      "reference_backend_requires_exact_hash": true,
+      "portable_backends_use_tolerance_not_binary_mp4_hash": true
+    }
+  },
+  "audio_policy": {
+    "phase": "deferred_after_silent_template_freeze",
+    "merchant_voice_timeline": "reserved_identity_1_0x",
+    "music": "deferred; future curated catalogue target 20 to 30 models",
+    "sfx": "none; approved reference contains no SFX grammar",
+    "automatic_subtitles": false
+  }
+}

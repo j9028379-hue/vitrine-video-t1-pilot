@@ -26,6 +26,19 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def report_path(path: Path) -> str:
+    """Use a repo-relative path when possible, otherwise keep the absolute URI/path.
+
+    The reference CLI is also shipped inside the standalone template bundle, so
+    caller-owned captures and outputs are allowed to live outside the checkout.
+    """
+    resolved = path.resolve()
+    try:
+        return str(resolved.relative_to(ROOT))
+    except ValueError:
+        return str(resolved)
+
+
 @dataclass(frozen=True)
 class GradeParameters:
     exposure_gain: float
@@ -876,7 +889,7 @@ def render_project(
                 {
                     "scene": scene_id,
                     "frames": scene["frames"],
-                    "source": str(source.relative_to(ROOT)),
+                    "source": report_path(source),
                     "source_fps": source_fps,
                     "grade": {
                         "exposure_gain": round(grade.exposure_gain, 6),
@@ -895,9 +908,9 @@ def render_project(
     digest = hashlib.sha256(output_path.read_bytes()).hexdigest()
     return {
         "renderer":"engine.special_menu_style.render_project",
-        "config":str(config_path.relative_to(ROOT)),
-        "input":str(input_path.relative_to(ROOT)),
-        "output":str(output_path.relative_to(ROOT)),
+        "config":report_path(config_path),
+        "input":report_path(input_path),
+        "output":report_path(output_path),
         "width":canvas["width"],
         "height":canvas["height"],
         "fps":canvas["fps"],

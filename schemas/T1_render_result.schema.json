@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vitrine.video/schemas/T1_render_result.schema.json",
+  "title": "T1 Special Menu — RenderResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "job_id",
+    "idempotency_key",
+    "template_id",
+    "template_version",
+    "profile_used",
+    "output",
+    "metrics",
+    "warnings"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "const": "COMPLETED"
+    },
+    "job_id": {
+      "type": "string"
+    },
+    "idempotency_key": {
+      "type": "string"
+    },
+    "template_id": {
+      "const": "restaurants_maquis_T1_special_menu_v1_0_0"
+    },
+    "template_version": {
+      "const": "1.0.0"
+    },
+    "profile_used": {
+      "enum": [
+        "T1_ANDROID_OFFLINE_2GB",
+        "T1_REFERENCE_PYTHON"
+      ]
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "uri",
+        "mime_type",
+        "width",
+        "height",
+        "fps",
+        "frames",
+        "duration_ms",
+        "bytes",
+        "sha256",
+        "audio_present"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mime_type": {
+          "const": "video/mp4"
+        },
+        "width": {
+          "const": 720
+        },
+        "height": {
+          "const": 1280
+        },
+        "fps": {
+          "const": 30
+        },
+        "frames": {
+          "const": 900
+        },
+        "duration_ms": {
+          "const": 30000
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "audio_present": {
+          "const": false
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "elapsed_ms",
+        "peak_memory_mb",
+        "decoder_count",
+        "encoder_count",
+        "static_frame_pairs"
+      ],
+      "properties": {
+        "elapsed_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "peak_memory_mb": {
+          "type": "number",
+          "minimum": 0
+        },
+        "decoder_count": {
+          "const": 1
+        },
+        "encoder_count": {
+          "const": 1
+        },
+        "static_frame_pairs": {
+          "const": 0
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

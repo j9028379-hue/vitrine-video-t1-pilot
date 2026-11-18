@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "status": "FAILED",
+  "job_id": "t1-invalid-0001",
+  "template_id": "restaurants_maquis_T1_special_menu_v1_0_0",
+  "code": "T1_UNSUPPORTED_MEDIA",
+  "message": "S2 must be H.264/AVC MP4 at 30 fps.",
+  "retryable": true,
+  "stage": "VALIDATING",
+  "scene_id": "S2",
+  "details": {
+    "observed_video_codec": "video/hevc",
+    "accepted_video_mime": [
+      "video/avc"
+    ]
+  }
+}
