@@ -1,0 +1,422 @@
+"""V2 motion-design renderer for the locked T1 template. Diagnostic imagery is never composited."""
+from __future__ import annotations
+
+import json
+import math
+import subprocess
+import tempfile
+from pathlib import Path
+from typing import Any
+
+import cv2
+import numpy as np
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
+
+ROOT = Path(__file__).resolve().parents[1]
+W, H, FPS, FRAMES = 720, 1280, 30, 900
+SOURCE_WINDOWS = {"S2": (0.0, 0.76)}  # discard the late take where a hand occludes the lens
+INK = (12, 19, 31)
+CREAM = (255, 248, 239)
+ORANGE = (245, 111, 49)
+GREEN = (31, 177, 111)
+WHITE = (255, 255, 255)
+SAFE = (44, 613, 160, 960)  # scaled from the locked V6.2 zones to 720x1280
+
+
+def ease(t: float) -> float:
+    t = max(0.0, min(1.0, float(t)))
+    return t * t * t * (t * (t * 6 - 15) + 10)
+
+
+def out_cubic(t: float) -> float:
+    t = max(0.0, min(1.0, float(t)))
+    return 1.0 - (1.0 - t) ** 3
+
+
+def source_progress(scene_id: str, progress: float) -> float:
+    progress = max(0.0, min(1.0, float(progress)))
+    # Gentle ease-speed-ease on the burger preparation beat; derivative stays positive.
+    if scene_id == "S2":
+        progress += 0.06 * math.sin(2 * math.pi * progress)
+    return max(0.0, min(1.0, progress))
+
+
+def font(path: Path, size: int, weight: str) -> ImageFont.FreeTypeFont:
+    f = ImageFont.truetype(str(path), size=size)
+    try:
+        f.set_variation_by_name(weight)
+    except (AttributeError, OSError):
+        pass
+    return f
+
+
+def box_text(draw: ImageDraw.ImageDraw, text: str, f: ImageFont.FreeTypeFont) -> tuple[int, int, int, int]:
+    return draw.textbbox((0, 0), text, font=f, stroke_width=0)
+
+
+def draw_center(draw: ImageDraw.ImageDraw, x: float, y: float, text: str,
+                f: ImageFont.FreeTypeFont, fill: tuple[int, ...], anchor: str = "mm") -> None:
+    draw.text((int(round(x)), int(round(y))), text, font=f, fill=fill, anchor=anchor)
+
+
+def draw_left(draw: ImageDraw.ImageDraw, x: float, y: float, text: str,
+              f: ImageFont.FreeTypeFont, fill: tuple[int, ...]) -> None:
+    draw.text((int(round(x)), int(round(y))), text, font=f, fill=fill, anchor="lt")
+
+
+def gradient_overlay(frame: np.ndarray) -> np.ndarray:
+    # Controlled top/bottom vignettes put every line of type on a deliberate contrast bed.
+    y = np.arange(H, dtype=np.float32)
+    top = np.clip(1.0 - y / 500.0, 0.0, 1.0) ** 1.7 * 0.56
+    bottom = np.clip((y - 700.0) / 580.0, 0.0, 1.0) ** 1.25 * 0.57
+    alpha = np.maximum(top, bottom)[:, None, None]
+    return np.clip(frame.astype(np.float32) * (1.0 - alpha), 0, 255).astype(np.uint8)
+
+
+def camera_move(frame: np.ndarray, local: int, duration: int, shot_index: int) -> np.ndarray:
+    p = ease(local / max(1, duration - 1))
+    # Deliberate varied Ken Burns moves; crop remains inside frame (no blank edges).
+    start = 1.015 + 0.006 * (shot_index % 3)
+    end = 1.085 if shot_index % 2 == 0 else 1.035
+    scale = start + (end - start) * p
+    h, w = frame.shape[:2]
+    cw, ch = int(w / scale), int(h / scale)
+    phase = math.sin(math.pi * p)
+    dx = ((shot_index % 4) - 1.5) * 0.018 * phase
+    dy = (((shot_index + 1) % 3) - 1) * 0.013 * phase
+    cx, cy = w * (0.5 + dx), h * (0.5 + dy)
+    x0 = max(0, min(w - cw, int(cx - cw / 2)))
+    y0 = max(0, min(h - ch, int(cy - ch / 2)))
+    crop = frame[y0:y0 + ch, x0:x0 + cw]
+    return cv2.resize(crop, (w, h), interpolation=cv2.INTER_LANCZOS4)
+
+
+def transition(old: np.ndarray, new: np.ndarray, kind: str, p: float) -> np.ndarray:
+    """12-frame scene transitions; all transforms are edge-filled, never black."""
+    p = ease(p)
+    if kind == "whip_pan":
+        mat_old = np.float32([[1, 0, -int(W * p)], [0, 1, 0]])
+        mat_new = np.float32([[1, 0, int(W * (1.0 - p))], [0, 1, 0]])
+        a = cv2.warpAffine(old, mat_old, (W, H), borderMode=cv2.BORDER_REFLECT_101)
+        b = cv2.warpAffine(new, mat_new, (W, H), borderMode=cv2.BORDER_REFLECT_101)
+        seam = int(W * (1.0 - p))
+        mask = np.tile((np.arange(W) >= seam).astype(np.float32), (H, 1))
+        feather = max(1, int(8 + 18 * math.sin(math.pi * p)))
+        mask = cv2.GaussianBlur(mask, (feather * 2 + 1, 1), 0)[:, :, None]
+        out = (a.astype(np.float32) * (1 - mask) + b.astype(np.float32) * mask).astype(np.uint8)
+        blur = max(0, int(28 * math.sin(math.pi * p)))
+        if blur >= 3:
+            out = cv2.GaussianBlur(out, (blur * 2 + 1, 1), 0)
+        return out
+    if kind == "directional_push":
+        a_scale = 1.0 + 0.035 * p
+        b_scale = 1.08 - 0.08 * p
+        def transformed(img: np.ndarray, scale: float, tx: float) -> np.ndarray:
+            mat = cv2.getRotationMatrix2D((W / 2, H / 2), 0, scale)
+            mat[0, 2] += tx
+            return cv2.warpAffine(img, mat, (W, H), borderMode=cv2.BORDER_REFLECT_101)
+        a = transformed(old, a_scale, -W * p)
+        b = transformed(new, b_scale, W * (1 - p))
+        seam = int(W * (1.0 - p))
+        mask = np.tile((np.arange(W) >= seam).astype(np.float32), (H, 1))
+        mask = cv2.GaussianBlur(mask, (25, 1), 0)[:, :, None]
+        return (a.astype(np.float32) * (1 - mask) + b.astype(np.float32) * mask).astype(np.uint8)
+    # Brand-signature diagonal reveal, with a narrow orange leading ribbon.
+    edge = int(-550 + 1300 * p)
+    yy, xx = np.mgrid[0:H, 0:W]
+    signed = xx - 0.42 * yy
+    mask = signed <= edge
+    out = old.copy()
+    out[mask] = new[mask]
+    ribbon = (np.abs(signed - edge) < 13) & ~mask
+    out[ribbon] = np.array(ORANGE[::-1], dtype=np.uint8)  # OpenCV frames are BGR; preserve the brand's warm orange.
+    return out
+
+
+def round_card(layer: Image.Image, box: tuple[int, int, int, int], radius: int,
+               fill: tuple[int, int, int, int], outline: tuple[int, int, int, int] | None = None,
+               width: int = 1) -> None:
+    d = ImageDraw.Draw(layer)
+    d.rounded_rectangle(box, radius=radius, fill=fill, outline=outline, width=width)
+
+
+def line_reveal(draw: ImageDraw.ImageDraw, x0: int, y: int, x1: int, p: float,
+                color: tuple[int, int, int, int], width: int = 5) -> None:
+    draw.rounded_rectangle((x0, y, int(x0 + (x1 - x0) * ease(p)), y + width), radius=width // 2, fill=color)
+
+
+def render_graphics(base: np.ndarray, fno: int, plan: dict[str, Any], mont: Path, jakarta: Path) -> np.ndarray:
+    data = plan["display"]
+    im = Image.fromarray(cv2.cvtColor(base, cv2.COLOR_BGR2RGB)).convert("RGBA")
+    layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    name = data["nom"].upper()
+    product = data["produit"].upper()
+    price = data["prix"].upper()
+    tagline = data["accroche"].replace("·", "•").upper()
+    location = data["quartier"].upper()
+    contact = data["whatsapp"].upper()
+
+    # Scene 1 (0–6 s): food first, then branded title builds word by word.
+    if 0 <= fno < 177:
+        t = fno
+        p_brand = out_cubic((t - 2) / 11)
+        if t >= 2:
+            bx = int(58 - 42 * (1 - p_brand))
+            by = int(174 + 10 * (1 - p_brand))
+            round_card(layer, (bx, by, bx + 237, by + 48), 22, (INK[0], INK[1], INK[2], 205))
+            d.ellipse((bx + 12, by + 11, bx + 38, by + 37), fill=(*ORANGE, 255))
+            draw_center(d, bx + 25, by + 24, "V", font(jakarta, 17, "ExtraBold"), WHITE)
+            draw_left(d, bx + 50, by + 10, name, font(mont, 18, "Bold"), (*CREAM, 255))
+        for i, word in enumerate(product.split()):
+            start = 13 + i * 6
+            q = out_cubic((t - start) / 11)
+            if q > 0:
+                y = 260 + i * 83 + int((1 - q) * 30)
+                size = 76 if len(word) < 11 else 66
+                d.text((58, y), word, font=font(mont, size, "ExtraBold"), fill=(*CREAM, int(255 * q)), stroke_width=1, stroke_fill=(INK[0], INK[1], INK[2], int(70 * q)))
+        line_reveal(d, 61, 444, 500, (t - 25) / 14, (*ORANGE, 255), 7)
+        if t >= 30:
+            q = min(out_cubic((t - 30) / 10), ease((176 - t) / 12))
+            draw_left(d, 61, 473 + int((1 - q) * 12), "PLAT DU JOUR", font(jakarta, 21, "Bold"), (*CREAM, int(230 * q)))
+        if t >= 116:
+            q = min(out_cubic((t - 116) / 9), ease((176 - t) / 10))
+            round_card(layer, (58, 850, 430, 908), 28, (*INK, int(218 * q)))
+            d.text((78, 865), tagline, font=font(jakarta, 19, "Bold"), fill=(*CREAM, int(255 * q)))
+
+    # Scene 2 (6–14 s): the existing accroche field becomes three paced kinetic words.
+    if 172 <= fno < 417:
+        local = fno - 180
+        words = [w.strip() for w in tagline.replace("•", "·").split("·") if w.strip()]
+        for i, word in enumerate(words[:3]):
+            start = 12 + i * 53
+            q = out_cubic((local - start) / 10)
+            q *= ease((239 - local) / 12)
+            if q > 0:
+                x = 58 + int((1 - q) * -32)
+                y = 210 + i * 83
+                f = font(mont, 51 if len(word) < 12 else 43, "ExtraBold")
+                d.text((x, y), word, font=f, fill=(*CREAM, int(255 * q)))
+                # Sequential amber underline makes the cadence readable without adding copy.
+                bb = box_text(d, word, f)
+                line_reveal(d, x, y + bb[3] - bb[1] + 11, x + min(300, bb[2] + 16), (local - start - 3) / 12, (*ORANGE, int(255 * q)), 5)
+
+    # Scene 3 (14–21 s): the service action resolves to a single, high-contrast price lockup.
+    if 410 <= fno < 627:
+        local = fno - 420
+        if local >= 42:
+            q = out_cubic((local - 42) / 12) * ease((163 - local) / 12)
+            # Controlled anticipation: slight overshoot only, no spring/bounce.
+            scale = 0.92 + 0.10 * out_cubic((local - 42) / 9) - 0.02 * ease((local - 51) / 8)
+            cx, cy = 332, 600
+            w, h = int(418 * scale), int(138 * scale)
+            x0, y0 = cx - w // 2, cy - h // 2
+            # Soft shadow on its own commercial layer; there is no debug/annotation layer.
+            shadow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+            sd = ImageDraw.Draw(shadow)
+            sd.rounded_rectangle((x0 + 4, y0 + 12, x0 + w + 4, y0 + h + 12), radius=36, fill=(0, 0, 0, int(110 * q)))
+            shadow = shadow.filter(ImageFilter.GaussianBlur(14))
+            layer = Image.alpha_composite(layer, shadow)
+            d = ImageDraw.Draw(layer)
+            round_card(layer, (x0, y0, x0 + w, y0 + h), 32, (*ORANGE, int(248 * q)), (*CREAM, int(255 * q)), 2)
+            d = ImageDraw.Draw(layer)
+            label_f = font(jakarta, 18, "Bold")
+            draw_center(d, cx, y0 + 28, product, label_f, (*CREAM, int(255 * q)))
+            pf = font(mont, 54, "ExtraBold")
+            draw_center(d, cx, y0 + 88, price, pf, (*INK, int(255 * q)))
+            # A short highlight sweep completes the price reveal.
+            sweep = int(x0 + (w + 28) * ease((local - 50) / 13))
+            if local < 66:
+                d.line((sweep - 24, y0 + 14, sweep + 6, y0 + h - 14), fill=(255, 255, 255, int(90 * (1 - abs(58 - local) / 16))), width=5)
+
+    # Scene 4 (21–30 s): place information first, finish on a deliberate WhatsApp action.
+    if 620 <= fno < FRAMES:
+        local = fno - 630
+        if local >= 12:
+            q = out_cubic((local - 12) / 14)
+            bx, by = 58, 629 + int((1 - q) * 20)
+            round_card(layer, (bx, by, 610, by + 94), 23, (*INK, int(220 * q)))
+            d = ImageDraw.Draw(layer)
+            d.ellipse((bx + 18, by + 28, bx + 46, by + 56), outline=(*ORANGE, int(255 * q)), width=3)
+            d.ellipse((bx + 26, by + 36, bx + 38, by + 48), fill=(*ORANGE, int(255 * q)))
+            loc_f = font(jakarta, 20 if len(location) < 31 else 17, "Bold")
+            draw_left(d, bx + 61, by + 32, location, loc_f, (*CREAM, int(255 * q)))
+        if local >= 110:
+            q = out_cubic((local - 110) / 12)
+            # WhatsApp green is reserved exclusively for the final CTA.
+            bx, by, bw, bh = 58, 775, 552, 115
+            scale = 0.97 + 0.03 * out_cubic((local - 110) / 9)
+            bw2, bh2 = int(bw * scale), int(bh * scale)
+            x0, y0 = bx + (bw - bw2) // 2, by + (bh - bh2) // 2
+            round_card(layer, (x0, y0, x0 + bw2, y0 + bh2), 38, (*GREEN, int(245 * q)), (*CREAM, int(245 * q)), 2)
+            d = ImageDraw.Draw(layer)
+            # Simple vector WhatsApp glyph: handset arc inside a restrained white ring.
+            d.ellipse((x0 + 18, y0 + 27, x0 + 74, y0 + 83), outline=(*WHITE, int(255 * q)), width=3)
+            d.arc((x0 + 31, y0 + 38, x0 + 61, y0 + 69), 205, 330, fill=(*WHITE, int(255 * q)), width=5)
+            draw_left(d, x0 + 87, y0 + 19, "COMMANDER SUR", font(jakarta, 17, "Bold"), (*WHITE, int(240 * q)))
+            draw_left(d, x0 + 87, y0 + 45, "WHATSAPP", font(mont, 28, "ExtraBold"), (*WHITE, int(255 * q)))
+            if contact:
+                draw_left(d, x0 + 87, y0 + 80, contact, font(jakarta, 16, "Bold"), (*WHITE, int(235 * q)))
+        if local >= 145:
+            q = out_cubic((local - 145) / 12)
+            draw_center(ImageDraw.Draw(layer), 334, 925, name + " · DÉMO FICTIVE", font(jakarta, 16, "Bold"), (*CREAM, int(230 * q)))
+
+    # Crossfade only commercial layers around scene changes, not diagnostic graphics.
+    if 168 <= fno < 177:
+        fade = ease((177 - fno) / 9.0)
+        alpha = layer.getchannel("A").point(lambda value: int(value * fade))
+        layer.putalpha(alpha)
+    if layer.getchannel("A").getbbox():
+        im = Image.alpha_composite(im, layer)
+    return cv2.cvtColor(np.asarray(im.convert("RGB")), cv2.COLOR_RGB2BGR)
+
+
+def get_scene_frame(scene_i: int, scene_local: int, plan: dict[str, Any], caps: dict[str, cv2.VideoCapture],
+                    source_counts: dict[str, int]) -> np.ndarray:
+    scene = plan["scenes"][scene_i]
+    sid = scene["id"]
+    scene_shots = [s for s in plan["shots"] if s["scene"] == sid]
+    start = min(s["out_start_f"] for s in scene_shots)
+    local = max(0, min(int(scene["frames"]) - 1, int(scene_local)))
+    global_frame = start + local
+    shot = next((s for s in scene_shots if s["out_start_f"] <= global_frame < s["out_end_f"]), scene_shots[-1])
+    shot_idx = int(shot["id"].replace("P", "")) - 1
+    win0, win1 = SOURCE_WINDOWS.get(sid, (0.0, 1.0))
+    first = int(round(max(0, source_counts[sid] - 1) * win0))
+    last = int(round(max(0, source_counts[sid] - 1) * win1))
+    progress = local / max(1, int(scene["frames"]) - 1)
+    eased_progress = source_progress(sid, progress)
+    idx = first + int(round(eased_progress * max(0, last - first)))
+    cap = caps[sid]
+    cap.set(cv2.CAP_PROP_POS_FRAMES, idx)
+    ok, raw = cap.read()
+    if not ok:
+        raise RuntimeError(f"Could not decode {sid} frame {idx}")
+    return camera_move(raw, global_frame - int(shot["out_start_f"]), int(shot["out_frames"]), shot_idx)
+
+
+def scene_boundaries(plan: dict[str, Any]) -> list[int]:
+    cumulative = 0
+    result = []
+    for s in plan["scenes"][:-1]:
+        cumulative += int(s["frames"])
+        result.append(cumulative)
+    return result
+
+
+def create_sheet(video: Path, plan: dict[str, Any], dest: Path) -> None:
+    cap = cv2.VideoCapture(str(video))
+    moments = [0, 30, 75, 150, 174, 180, 186, 240, 360, 414, 420, 426, 510, 624, 630, 636, 720, 780, 840, 899]
+    thumbs = []
+    for n in moments:
+        cap.set(cv2.CAP_PROP_POS_FRAMES, n)
+        ok, fr = cap.read()
+        if ok:
+            im = Image.fromarray(cv2.cvtColor(fr, cv2.COLOR_BGR2RGB)).resize((160, 284), Image.Resampling.LANCZOS)
+            tile = Image.new("RGB", (176, 310), (12, 17, 29))
+            tile.paste(im, (8, 6))
+            ImageDraw.Draw(tile).text((8, 292), f"{n:03d}f · {n/FPS:05.2f}s", fill=WHITE)
+            thumbs.append(tile)
+    cap.release()
+    cols = 5
+    sheet = Image.new("RGB", (cols * 176 + (cols + 1) * 10, math.ceil(len(thumbs) / cols) * 310 + (math.ceil(len(thumbs) / cols) + 1) * 10), (5, 9, 17))
+    for i, tile in enumerate(thumbs):
+        sheet.paste(tile, (10 + (i % cols) * 176, 10 + (i // cols) * 310))
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    sheet.save(dest, optimize=True)
+
+
+def render(plan_path: Path, output: Path, sheet: Path | None = None) -> dict[str, Any]:
+    plan = json.loads(plan_path.read_text(encoding="utf-8"))
+    expected = {"width": 720, "height": 1280, "fps": 30, "frames": 900, "duration_s": 30.0, "audio": False}
+    if plan.get("output") != expected or [int(s["frames"]) for s in plan["scenes"]] != [180, 240, 210, 270]:
+        raise ValueError("V2 renderer accepts only the locked four-scene, silent 900-frame T1 contract")
+    if len(plan["shots"]) != 12 or list(plan["fields"].keys()) != ["nom", "produit", "prix", "whatsapp", "quartier", "accroche"]:
+        raise ValueError("T1 field/shot contract changed")
+    from engine.fetch_rushes import ensure_rushes
+    ensure_rushes()
+    tmp = Path(tempfile.mkdtemp(prefix="t1-v2-"))
+    caps: dict[str, cv2.VideoCapture] = {}
+    counts: dict[str, int] = {}
+    try:
+        normalized_by_source: dict[str, Path] = {}
+        for scene in plan["scenes"]:
+            shot = next(s for s in plan["shots"] if s["scene"] == scene["id"])
+            source = ROOT / shot["source"]["file"]
+            source_key = str(shot["source"]["sha256"])
+            if source_key not in normalized_by_source:
+                normalized = tmp / f"{scene['id']}.mp4"
+                filt = "minterpolate=fps=30:mi_mode=mci:mc_mode=aobmc:me_mode=bidir,scale=720:1280:force_original_aspect_ratio=increase,crop=720:1280,setsar=1,eq=saturation=1.12:contrast=1.06:brightness=0.006"
+                subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", str(source), "-an", "-vf", filt, "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18", "-pix_fmt", "yuv420p", str(normalized)], check=True)
+                normalized_by_source[source_key] = normalized
+            normalized = normalized_by_source[source_key]
+            cap = cv2.VideoCapture(str(normalized))
+            if not cap.isOpened():
+                raise RuntimeError(f"Normalized clip unavailable: {scene['id']}")
+            caps[scene["id"]] = cap
+            counts[scene["id"]] = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        mont = ROOT / "assets/fonts/Montserrat-Variable.ttf"
+        jakarta = ROOT / "assets/fonts/PlusJakartaSans-Variable.ttf"
+        cuts = scene_boundaries(plan)
+        transition_kinds = {cuts[0]: "whip_pan", cuts[1]: "directional_push", cuts[2]: "mask_reveal"}
+        kinds = list(transition_kinds.items())
+        output.parent.mkdir(parents=True, exist_ok=True)
+        proc = subprocess.Popen(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-f", "rawvideo", "-pixel_format", "bgr24", "-video_size", f"{W}x{H}", "-framerate", str(FPS), "-i", "-", "-an", "-frames:v", str(FRAMES), "-c:v", "libx264", "-preset", "medium", "-crf", "19", "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(output)], stdin=subprocess.PIPE)
+        if proc.stdin is None:
+            raise RuntimeError("FFmpeg pipe not opened")
+        for fno in range(FRAMES):
+            # Scene boundaries use 12-frame designed transitions; internal shot changes are clean, fast cuts.
+            trans = next(((cut, kind) for cut, kind in kinds if cut - 4 <= fno < cut + 8), None)
+            if trans:
+                cut, kind = trans
+                i = cuts.index(cut)
+                prev_scene, next_scene = i, i + 1
+                k = fno - (cut - 4)
+                old_local = min(int(plan["scenes"][prev_scene]["frames"]) - 1,
+                                int(plan["scenes"][prev_scene]["frames"]) - 4 + k)
+                new_local = max(0, k - 4)
+                old = get_scene_frame(prev_scene, old_local, plan, caps, counts)
+                new = get_scene_frame(next_scene, new_local, plan, caps, counts)
+                bg = transition(old, new, kind, k / 11.0)
+            else:
+                cumulative = 0
+                scene_i = 0
+                while scene_i < len(plan["scenes"]) - 1 and fno >= cumulative + int(plan["scenes"][scene_i]["frames"]):
+                    cumulative += int(plan["scenes"][scene_i]["frames"])
+                    scene_i += 1
+                bg = get_scene_frame(scene_i, fno - cumulative, plan, caps, counts)
+            bg = gradient_overlay(bg)
+            # The final frame path composes only authored commercial graphics. Diagnostic layers are not an input.
+            final = render_graphics(bg, fno, plan, mont, jakarta)
+            if final.shape != (H, W, 3):
+                raise RuntimeError(f"Bad rendered frame shape at {fno}: {final.shape}")
+            proc.stdin.write(final.tobytes())
+        proc.stdin.close()
+        if proc.wait(timeout=900) != 0:
+            raise RuntimeError("FFmpeg v2 encode failed")
+        for c in caps.values():
+            c.release()
+        if sheet:
+            create_sheet(output, plan, sheet)
+        from engine.review_sheets import create_review_sheets
+        timeline_sheet, transition_sheet = create_review_sheets(output, output.parent, cuts)
+        return {"frames": FRAMES, "duration_s": 30.0, "fps": FPS, "width": W, "height": H, "audio": False, "video": str(output), "scene_transitions": {str(c): k for c, k in transition_kinds.items()}, "full_timeline_sheet": str(timeline_sheet), "transition_frames_sheet": str(transition_sheet)}
+    finally:
+        for c in caps.values():
+            c.release()
+        import shutil
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def main() -> None:
+    import argparse
+    p = argparse.ArgumentParser(description="Render the V2 T1 motion-design pilot without altering canonical specs")
+    p.add_argument("--plan", type=Path, default=ROOT / "render_plan.json")
+    p.add_argument("--output", type=Path, default=ROOT / "output/output_T1_sans_voix_v2.mp4")
+    p.add_argument("--sheet", type=Path, default=ROOT / "output/planche_controle_v2.png")
+    a = p.parse_args()
+    print(json.dumps(render(a.plan, a.output, a.sheet), ensure_ascii=False, indent=2))
+
+
+if __name__ == "__main__":
+    main()

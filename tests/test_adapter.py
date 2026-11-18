@@ -94,6 +94,7 @@ def test_plan_uses_read_only_specs_and_silent_audio() -> None:
     raw = json.loads(INPUT_PATH.read_text(encoding="utf-8"))
     plan = build_render_plan(V12, V62, raw)
     assert plan["spec_sources"]["write_back"] is False
+    assert plan["spec_sources"]["v62"] == str(V62_PATH.relative_to(ROOT))
     assert plan["output"]["audio"] is False
     assert len(plan["shots"]) == 12
 

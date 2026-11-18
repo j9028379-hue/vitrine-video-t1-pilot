@@ -1,0 +1,275 @@
+{
+  "fichier": "output/output_T1_audio_final.mp4",
+  "duree_audio_decodee_s": 30.0,
+  "loudness_lufs": -16.77,
+  "true_peak_dbtp": -2.46,
+  "crete_db": -2.47,
+  "echantillons_ecrases": 0,
+  "reperes": [
+    {
+      "temps_v62_s": 5.9,
+      "evenement": "transition vers la scène 2",
+      "placement_mesure_ms": 0.167,
+      "statut_placement": "A VERIFIER",
+      "sfx": [
+        "sfx_05_shekere_roulement"
+      ],
+      "hausse_energie_large_bande_db": -1.4,
+      "hausse_indicative": true,
+      "niveau_effet_relatif_db": [
+        [
+          "sfx_05_shekere_roulement.wav",
+          -5.6,
+          true
+        ]
+      ],
+      "perceptible": true
+    },
+    {
+      "temps_v62_s": 6.5,
+      "evenement": "bandeau commercial",
+      "placement_mesure_ms": 0.0,
+      "statut_placement": "OK",
+      "sfx": [
+        "sfx_01_assiette_posee",
+        "sfx_12_impact_grave"
+      ],
+      "hausse_energie_large_bande_db": 2.6,
+      "hausse_indicative": true,
+      "niveau_effet_relatif_db": [
+        [
+          "sfx_01_assiette_posee.wav",
+          -3.6,
+          true
+        ],
+        [
+          "sfx_12_impact_grave.wav",
+          3.9,
+          true
+        ]
+      ],
+      "perceptible": true
+    },
+    {
+      "temps_v62_s": 7.34,
+      "evenement": "mise en valeur du prix",
+      "placement_mesure_ms": 0.0,
+      "statut_placement": "OK",
+      "sfx": [
+        "sfx_08_balafon_prix"
+      ],
+      "hausse_energie_large_bande_db": 7.7,
+      "hausse_indicative": true,
+      "niveau_effet_relatif_db": [
+        [
+          "sfx_08_balafon_prix.wav",
+          3.6,
+          true
+        ]
+      ],
+      "perceptible": true
+    },
+    {
+      "temps_v62_s": 8.9,
+      "evenement": "préparation du zoom punch",
+      "placement_mesure_ms": 0.25,
+      "statut_placement": "A VERIFIER",
+      "sfx": [
+        "sfx_03_couverts_glisse_montee"
+      ],
+      "hausse_energie_large_bande_db": -0.8,
+      "hausse_indicative": true,
+      "niveau_effet_relatif_db": [
+        [
+          "sfx_03_couverts_glisse_montee.wav",
+          3.0,
+          true
+        ]
+      ],
+      "perceptible": true
+    },
+    {
+      "temps_v62_s": 13.9,
+      "evenement": "transition vers la scène 3",
+      "placement_mesure_ms": 0.167,
+      "statut_placement": "A VERIFIER",
+      "sfx": [
+        "sfx_05_shekere_roulement"
+      ],
+      "hausse_energie_large_bande_db": 3.1,
+      "hausse_indicative": true,
+      "niveau_effet_relatif_db": [
+        [
+          "sfx_05_shekere_roulement.wav",
+          -4.4,
+          true
+        ]
+      ],
+      "perceptible": true
+    },
+    {
+      "temps_v62_s": 16.9,
+      "evenement": "accent avant la coupe",
+      "placement_mesure_ms": 0.0,
+      "statut_placement": "OK",
+      "sfx": [
+        "sfx_07_cloche_agogo"
+      ],
+      "hausse_energie_large_bande_db": 3.0,
+      "hausse_indicative": true,
+      "niveau_effet_relatif_db": [
+        [
+          "sfx_07_cloche_agogo.wav",
+          4.1,
+          true
+        ]
+      ],
+      "perceptible": true
+    },
+    {
+      "temps_v62_s": 18.34,
+      "evenement": "prix seul",
+      "placement_mesure_ms": 0.0,
+      "statut_placement": "OK",
+      "sfx": [
+        "sfx_09_balafon_prix_variante"
+      ],
+      "hausse_energie_large_bande_db": 11.6,
+      "hausse_indicative": true,
+      "niveau_effet_relatif_db": [
+        [
+          "sfx_09_balafon_prix_variante.wav",
+          4.9,
+          true
+        ]
+      ],
+      "perceptible": true
+    },
+    {
+      "temps_v62_s": 20.9,
+      "evenement": "transition vers la scène 4",
+      "placement_mesure_ms": 2.083,
+      "statut_placement": "A VERIFIER",
+      "sfx": [
+        "sfx_06_porcelaine_montee"
+      ],
+      "hausse_energie_large_bande_db": 0.6,
+      "hausse_indicative": true,
+      "niveau_effet_relatif_db": [
+        [
+          "sfx_06_porcelaine_montee.wav",
+          -12.7,
+          true
+        ]
+      ],
+      "perceptible": true
+    },
+    {
+      "temps_v62_s": 21.5,
+      "evenement": "localisation",
+      "placement_mesure_ms": 0.0,
+      "statut_placement": "OK",
+      "sfx": [
+        "sfx_01_assiette_posee",
+        "sfx_12_impact_grave"
+      ],
+      "hausse_energie_large_bande_db": -2.0,
+      "hausse_indicative": true,
+      "niveau_effet_relatif_db": [
+        [
+          "sfx_01_assiette_posee.wav",
+          -3.4,
+          true
+        ],
+        [
+          "sfx_12_impact_grave.wav",
+          4.1,
+          true
+        ]
+      ],
+      "perceptible": true
+    },
+    {
+      "temps_v62_s": 23.9,
+      "evenement": "préparation du cut vers le CTA",
+      "placement_mesure_ms": 0.146,
+      "statut_placement": "A VERIFIER",
+      "sfx": [
+        "sfx_04_couverts_glisse_descente"
+      ],
+      "hausse_energie_large_bande_db": 0.4,
+      "hausse_indicative": true,
+      "niveau_effet_relatif_db": [
+        [
+          "sfx_04_couverts_glisse_descente.wav",
+          0.3,
+          true
+        ]
+      ],
+      "perceptible": true
+    },
+    {
+      "temps_v62_s": 26.5,
+      "evenement": "appel à commander WhatsApp",
+      "placement_mesure_ms": 0.0,
+      "statut_placement": "OK",
+      "sfx": [
+        "sfx_11_kalimba_cta"
+      ],
+      "hausse_energie_large_bande_db": 5.1,
+      "hausse_indicative": true,
+      "niveau_effet_relatif_db": [
+        [
+          "sfx_11_kalimba_cta.wav",
+          4.1,
+          true
+        ]
+      ],
+      "perceptible": true
+    }
+  ],
+  "clics": {
+    "ratio_max_derive_sur_rms": 19.0,
+    "depassements": 0
+  },
+  "spectre_pct": {
+    "20-80 Hz": 21.2,
+    "80-250 Hz": 24.5,
+    "250-2000 Hz": 30.3,
+    "2000-8000 Hz": 19.2,
+    "8000-20000 Hz": 4.7
+  },
+  "sections": {
+    "S1": {
+      "rms_db": -20.61,
+      "lufs": -20.35
+    },
+    "S2": {
+      "rms_db": -19.27,
+      "lufs": -19.14
+    },
+    "S3": {
+      "rms_db": -21.49,
+      "lufs": -21.58
+    },
+    "S4": {
+      "rms_db": -19.04,
+      "lufs": -18.98
+    },
+    "fade": {
+      "rms_db": -23.71,
+      "lufs": -24.21
+    }
+  },
+  "fin": {
+    "dernier_echantillon_db": -116.7,
+    "derniers_50ms_rms_db": -74.7
+  },
+  "ecart_avec_le_wav": {
+    "lufs_wav": -16.69,
+    "ecart_lufs": -0.08,
+    "ecart_true_peak_db": 0.19
+  },
+  "latence_mp4_vs_wav_echantillons": 0,
+  "latence_mp4_vs_wav_ms": 0.0
+}

@@ -1,0 +1,208 @@
+[
+  {
+    "piste": "A",
+    "musique": "music_A_adjapiano_maquis_30s.wav",
+    "duree_s": 30.0,
+    "grille_bpm": 120,
+    "gains_v62": {
+      "musique_db": -6.0,
+      "musique_sous_voix_db": -16.0,
+      "effets_db": -5.0,
+      "effets_sous_voix_db": -8.0,
+      "ambiance_db": -32.0
+    },
+    "voix": [
+      {
+        "scene": 1,
+        "debut_s": 1.2,
+        "duree_s": 30.0
+      },
+      {
+        "scene": 2,
+        "debut_s": 6.8,
+        "duree_s": 30.0
+      },
+      {
+        "scene": 3,
+        "debut_s": 14.7,
+        "duree_s": 30.0
+      },
+      {
+        "scene": 4,
+        "debut_s": 21.8,
+        "duree_s": 30.0
+      }
+    ],
+    "effets": [
+      {
+        "fichier": "sfx/sfx_01_assiette_posee.wav",
+        "a_s": 2.1,
+        "gain_db": -5.0,
+        "justification": "l'assiette est posée sur la table (S1)"
+      },
+      {
+        "fichier": "sfx/sfx_01_assiette_posee.wav",
+        "a_s": 28.3,
+        "gain_db": -9.0,
+        "justification": "la tasse est posée sur le comptoir (fin S4)"
+      }
+    ],
+    "ambiance": {
+      "fichier": "ambience/ambiance_maquis_salle_30s.wav",
+      "gain_db": -32.0
+    },
+    "ducking": {
+      "seuil_db": -26.0,
+      "fenetre_enveloppe_ms": 10.0,
+      "lookahead_ms": 80.0,
+      "attaque_ms": 60.0,
+      "hold_ms": 200.0,
+      "relachement_ms": 400.0,
+      "profondeur_db": -10.0,
+      "scene_parlee": true,
+      "voix_cumulee_s": 7.3,
+      "voix_ratio": 0.243,
+      "gain_min_db": -10.0,
+      "gain_max_db": 0.0,
+      "duree_ducking_s": 14.85,
+      "duree_pleine_profondeur_s": 12.47
+    },
+    "master": {
+      "lufs_integrated": -16.02,
+      "true_peak_db": -2.72,
+      "crete_db": -3.6,
+      "plafond_db": -3.6,
+      "compression": "une seule fois, seuil -20 dB / ratio 2,6 avant la boucle de gain"
+    },
+    "sections": {
+      "0-6 s": {
+        "lufs": -16.11,
+        "crete_db": -3.6,
+        "voix_lufs": -20.44
+      },
+      "6-14 s": {
+        "lufs": -15.82,
+        "crete_db": -3.6,
+        "voix_lufs": -20.8
+      },
+      "14-21 s": {
+        "lufs": -16.28,
+        "crete_db": -3.6,
+        "voix_lufs": -20.97
+      },
+      "21-28.5 s": {
+        "lufs": -15.34,
+        "crete_db": -3.6,
+        "voix_lufs": -20.58
+      },
+      "28.5-30 s": {
+        "lufs": -25.13,
+        "crete_db": -7.05,
+        "voix_lufs": null
+      }
+    }
+  },
+  {
+    "piste": "B",
+    "musique": "music_B_gangan_acoustique_30s.wav",
+    "duree_s": 30.0,
+    "grille_bpm": 120,
+    "gains_v62": {
+      "musique_db": -6.0,
+      "musique_sous_voix_db": -16.0,
+      "effets_db": -5.0,
+      "effets_sous_voix_db": -8.0,
+      "ambiance_db": -32.0
+    },
+    "voix": [
+      {
+        "scene": 1,
+        "debut_s": 1.2,
+        "duree_s": 30.0
+      },
+      {
+        "scene": 2,
+        "debut_s": 6.8,
+        "duree_s": 30.0
+      },
+      {
+        "scene": 3,
+        "debut_s": 14.7,
+        "duree_s": 30.0
+      },
+      {
+        "scene": 4,
+        "debut_s": 21.8,
+        "duree_s": 30.0
+      }
+    ],
+    "effets": [
+      {
+        "fichier": "sfx/sfx_01_assiette_posee.wav",
+        "a_s": 2.1,
+        "gain_db": -5.0,
+        "justification": "l'assiette est posée sur la table (S1)"
+      },
+      {
+        "fichier": "sfx/sfx_01_assiette_posee.wav",
+        "a_s": 28.3,
+        "gain_db": -9.0,
+        "justification": "la tasse est posée sur le comptoir (fin S4)"
+      }
+    ],
+    "ambiance": {
+      "fichier": "ambience/ambiance_maquis_salle_30s.wav",
+      "gain_db": -32.0
+    },
+    "ducking": {
+      "seuil_db": -26.0,
+      "fenetre_enveloppe_ms": 10.0,
+      "lookahead_ms": 80.0,
+      "attaque_ms": 60.0,
+      "hold_ms": 200.0,
+      "relachement_ms": 400.0,
+      "profondeur_db": -10.0,
+      "scene_parlee": true,
+      "voix_cumulee_s": 7.3,
+      "voix_ratio": 0.243,
+      "gain_min_db": -10.0,
+      "gain_max_db": 0.0,
+      "duree_ducking_s": 14.85,
+      "duree_pleine_profondeur_s": 12.47
+    },
+    "master": {
+      "lufs_integrated": -16.01,
+      "true_peak_db": -2.72,
+      "crete_db": -3.6,
+      "plafond_db": -3.6,
+      "compression": "une seule fois, seuil -20 dB / ratio 2,6 avant la boucle de gain"
+    },
+    "sections": {
+      "0-6 s": {
+        "lufs": -16.26,
+        "crete_db": -3.6,
+        "voix_lufs": -20.44
+      },
+      "6-14 s": {
+        "lufs": -15.79,
+        "crete_db": -3.6,
+        "voix_lufs": -20.8
+      },
+      "14-21 s": {
+        "lufs": -16.34,
+        "crete_db": -3.6,
+        "voix_lufs": -20.97
+      },
+      "21-28.5 s": {
+        "lufs": -15.34,
+        "crete_db": -3.6,
+        "voix_lufs": -20.58
+      },
+      "28.5-30 s": {
+        "lufs": -27.12,
+        "crete_db": -11.57,
+        "voix_lufs": null
+      }
+    }
+  }
+]

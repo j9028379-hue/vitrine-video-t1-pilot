@@ -1,0 +1,1719 @@
+{
+  "plan_version": 1,
+  "project": "VITRINE VIDÉO — Restaurants et Maquis / T1 — Plat du jour",
+  "reconstruction_note": "Sources du projet moteur précédent absentes de l'espace local et de Drive; adapter reconstitué depuis les documents de référence immuables.",
+  "demo_only": true,
+  "spec_sources": {
+    "v12": "specs/T1_ENGINEERING_SPEC_V1_2.json",
+    "v62": "specs/restaurants_maquis_T1.spec_v6_2.json",
+    "write_back": false
+  },
+  "output": {
+    "width": 720,
+    "height": 1280,
+    "fps": 30,
+    "frames": 900,
+    "duration_s": 30.0,
+    "audio": false
+  },
+  "fields": {
+    "nom": "MAQUIS DÉMO",
+    "produit": "BURGER MAISON",
+    "prix": "2 500",
+    "whatsapp": "NUMÉRO FICTIF",
+    "quartier": "ARCONVILLE — ADRESSE FICTIVE",
+    "accroche": "CHAUD · SERVI · AUJOURD’HUI"
+  },
+  "display": {
+    "nom": "MAQUIS DÉMO",
+    "produit": "BURGER MAISON",
+    "prix": "2 500 FCFA",
+    "whatsapp": "NUMÉRO FICTIF",
+    "quartier": "ARCONVILLE — ADRESSE FICTIVE",
+    "accroche": "CHAUD · SERVI · AUJOURD’HUI"
+  },
+  "scenes": [
+    {
+      "id": "S1",
+      "frames": 180,
+      "name": "Le plat"
+    },
+    {
+      "id": "S2",
+      "frames": 240,
+      "name": "Le dessus et les details"
+    },
+    {
+      "id": "S3",
+      "frames": 210,
+      "name": "La personne qui sert"
+    },
+    {
+      "id": "S4",
+      "frames": 270,
+      "name": "Le lieu et le contact"
+    }
+  ],
+  "shots": [
+    {
+      "id": "P01",
+      "scene": "S1",
+      "out_start_f": 0,
+      "out_end_f": 60,
+      "out_frames": 60,
+      "source": {
+        "asset_id": "S1",
+        "file": "rushes/source/demo_v4/S1.mp4",
+        "sha256": "90ae7021d24a7e768ece31366b30f033c4ad4463827f4acdc327c752c550b647",
+        "in_frame": 9,
+        "out_frame": 62,
+        "source_frames": 53,
+        "freeze_tail_f": 7
+      },
+      "zoom_curve": {
+        "base": 1.0,
+        "movement_id": "MV01",
+        "movement": "zoom_in_lent",
+        "parameters": {
+          "k_ratio": [
+            1.0,
+            1.05
+          ],
+          "easing": "easeInOutQuad"
+        }
+      },
+      "transition_out": "TR01",
+      "color_grade": "resto_chaud_2026 / scene 1"
+    },
+    {
+      "id": "P02",
+      "scene": "S1",
+      "out_start_f": 60,
+      "out_end_f": 105,
+      "out_frames": 45,
+      "source": {
+        "asset_id": "S1",
+        "file": "rushes/source/demo_v4/S1.mp4",
+        "sha256": "90ae7021d24a7e768ece31366b30f033c4ad4463827f4acdc327c752c550b647",
+        "in_frame": 65,
+        "out_frame": 104,
+        "source_frames": 39,
+        "freeze_tail_f": 6
+      },
+      "zoom_curve": {
+        "base": 1.35,
+        "movement_id": "MV03",
+        "movement": "push_in_rapide",
+        "parameters": {
+          "k_ratio": [
+            1.0,
+            1.08
+          ],
+          "dur_f": 6,
+          "easing": "easeOutQuint"
+        }
+      },
+      "transition_out": "TR02",
+      "color_grade": "resto_chaud_2026 / scene 1"
+    },
+    {
+      "id": "P03",
+      "scene": "S1",
+      "out_start_f": 105,
+      "out_end_f": 180,
+      "out_frames": 75,
+      "source": {
+        "asset_id": "S1",
+        "file": "rushes/source/demo_v4/S1.mp4",
+        "sha256": "90ae7021d24a7e768ece31366b30f033c4ad4463827f4acdc327c752c550b647",
+        "in_frame": 107,
+        "out_frame": 170,
+        "source_frames": 63,
+        "freeze_tail_f": 12
+      },
+      "zoom_curve": {
+        "base": 1.7,
+        "movement_id": "MV05",
+        "movement": "pan_h",
+        "parameters": {
+          "pan_px": [
+            -14,
+            14
+          ],
+          "easing": "easeInOutQuad"
+        }
+      },
+      "transition_out": "TR03",
+      "color_grade": "resto_chaud_2026 / scene 1"
+    },
+    {
+      "id": "P04",
+      "scene": "S2",
+      "out_start_f": 180,
+      "out_end_f": 255,
+      "out_frames": 75,
+      "source": {
+        "asset_id": "S2",
+        "file": "rushes/source/demo_v4/S2.mp4",
+        "sha256": "37e4d8bd9580baa7a8902b70d399fc1bc08e7446bac77a9d3b7515b15d7f6f0d",
+        "in_frame": 9,
+        "out_frame": 77,
+        "source_frames": 68,
+        "freeze_tail_f": 7
+      },
+      "zoom_curve": {
+        "base": 1.0,
+        "movement_id": "MV01",
+        "movement": "zoom_in_lent",
+        "parameters": {
+          "k_ratio": [
+            1.0,
+            1.05
+          ],
+          "easing": "easeInOutQuad"
+        }
+      },
+      "transition_out": "TR01",
+      "color_grade": "resto_chaud_2026 / scene 2"
+    },
+    {
+      "id": "P05",
+      "scene": "S2",
+      "out_start_f": 255,
+      "out_end_f": 330,
+      "out_frames": 75,
+      "source": {
+        "asset_id": "S2",
+        "file": "rushes/source/demo_v4/S2.mp4",
+        "sha256": "37e4d8bd9580baa7a8902b70d399fc1bc08e7446bac77a9d3b7515b15d7f6f0d",
+        "in_frame": 80,
+        "out_frame": 148,
+        "source_frames": 68,
+        "freeze_tail_f": 7
+      },
+      "zoom_curve": {
+        "base": 1.4,
+        "movement_id": "MV05",
+        "movement": "pan_h",
+        "parameters": {
+          "pan_px": [
+            -14,
+            14
+          ],
+          "easing": "easeInOutQuad"
+        }
+      },
+      "transition_out": "TR01",
+      "color_grade": "resto_chaud_2026 / scene 2"
+    },
+    {
+      "id": "P06",
+      "scene": "S2",
+      "out_start_f": 330,
+      "out_end_f": 420,
+      "out_frames": 90,
+      "source": {
+        "asset_id": "S2",
+        "file": "rushes/source/demo_v4/S2.mp4",
+        "sha256": "37e4d8bd9580baa7a8902b70d399fc1bc08e7446bac77a9d3b7515b15d7f6f0d",
+        "in_frame": 151,
+        "out_frame": 230,
+        "source_frames": 79,
+        "freeze_tail_f": 11
+      },
+      "zoom_curve": {
+        "base": 1.1,
+        "movement_id": "MV02",
+        "movement": "zoom_out_lent",
+        "parameters": {
+          "k_ratio": [
+            1.0,
+            0.96
+          ],
+          "easing": "easeInOutQuad"
+        }
+      },
+      "transition_out": "TR05",
+      "color_grade": "resto_chaud_2026 / scene 2"
+    },
+    {
+      "id": "P07",
+      "scene": "S3",
+      "out_start_f": 420,
+      "out_end_f": 495,
+      "out_frames": 75,
+      "source": {
+        "asset_id": "S3",
+        "file": "rushes/source/demo_v4/S3.mp4",
+        "sha256": "4f056a872af6160e9c5199a6b5ff17e0b37476f1bc5e7c77145988877d459973",
+        "in_frame": 9,
+        "out_frame": 77,
+        "source_frames": 68,
+        "freeze_tail_f": 7
+      },
+      "zoom_curve": {
+        "base": 1.25,
+        "movement_id": "MV06",
+        "movement": "pan_v",
+        "parameters": {
+          "pan_px": [
+            10,
+            -10
+          ],
+          "easing": "easeInOutQuad"
+        }
+      },
+      "transition_out": "TR01",
+      "color_grade": "resto_chaud_2026 / scene 3"
+    },
+    {
+      "id": "P08",
+      "scene": "S3",
+      "out_start_f": 495,
+      "out_end_f": 555,
+      "out_frames": 60,
+      "source": {
+        "asset_id": "S3",
+        "file": "rushes/source/demo_v4/S3.mp4",
+        "sha256": "4f056a872af6160e9c5199a6b5ff17e0b37476f1bc5e7c77145988877d459973",
+        "in_frame": 80,
+        "out_frame": 133,
+        "source_frames": 53,
+        "freeze_tail_f": 7
+      },
+      "zoom_curve": {
+        "base": 1.55,
+        "movement_id": "MV03",
+        "movement": "push_in_rapide",
+        "parameters": {
+          "k_ratio": [
+            1.0,
+            1.08
+          ],
+          "dur_f": 6,
+          "easing": "easeOutQuint"
+        }
+      },
+      "transition_out": "TR01",
+      "color_grade": "resto_chaud_2026 / scene 3"
+    },
+    {
+      "id": "P09",
+      "scene": "S3",
+      "out_start_f": 555,
+      "out_end_f": 630,
+      "out_frames": 75,
+      "source": {
+        "asset_id": "S3",
+        "file": "rushes/source/demo_v4/S3.mp4",
+        "sha256": "4f056a872af6160e9c5199a6b5ff17e0b37476f1bc5e7c77145988877d459973",
+        "in_frame": 136,
+        "out_frame": 200,
+        "source_frames": 64,
+        "freeze_tail_f": 11
+      },
+      "zoom_curve": {
+        "base": 1.0,
+        "movement_id": "MV05",
+        "movement": "pan_h",
+        "parameters": {
+          "pan_px": [
+            -14,
+            14
+          ],
+          "easing": "easeInOutQuad"
+        }
+      },
+      "transition_out": "TR04",
+      "color_grade": "resto_chaud_2026 / scene 3"
+    },
+    {
+      "id": "P10",
+      "scene": "S4",
+      "out_start_f": 630,
+      "out_end_f": 705,
+      "out_frames": 75,
+      "source": {
+        "asset_id": "S4",
+        "file": "rushes/source/demo_v4/S4.mp4",
+        "sha256": "b35380ff1d3dfdc442b9043c1d7ddf418b51bf86d882cdb02e62c4726586be64",
+        "in_frame": 9,
+        "out_frame": 79,
+        "source_frames": 70,
+        "freeze_tail_f": 5
+      },
+      "zoom_curve": {
+        "base": 1.4,
+        "movement_id": "MV01",
+        "movement": "zoom_in_lent",
+        "parameters": {
+          "k_ratio": [
+            1.0,
+            1.05
+          ],
+          "easing": "easeInOutQuad"
+        }
+      },
+      "transition_out": "TR01",
+      "color_grade": "resto_chaud_2026 / scene 4"
+    },
+    {
+      "id": "P11",
+      "scene": "S4",
+      "out_start_f": 705,
+      "out_end_f": 795,
+      "out_frames": 90,
+      "source": {
+        "asset_id": "S4",
+        "file": "rushes/source/demo_v4/S4.mp4",
+        "sha256": "b35380ff1d3dfdc442b9043c1d7ddf418b51bf86d882cdb02e62c4726586be64",
+        "in_frame": 82,
+        "out_frame": 167,
+        "source_frames": 85,
+        "freeze_tail_f": 5
+      },
+      "zoom_curve": {
+        "base": 1.05,
+        "movement_id": "MV02",
+        "movement": "zoom_out_lent",
+        "parameters": {
+          "k_ratio": [
+            1.0,
+            0.96
+          ],
+          "easing": "easeInOutQuad"
+        }
+      },
+      "transition_out": "TR01",
+      "color_grade": "resto_chaud_2026 / scene 4"
+    },
+    {
+      "id": "P12",
+      "scene": "S4",
+      "out_start_f": 795,
+      "out_end_f": 900,
+      "out_frames": 105,
+      "source": {
+        "asset_id": "S4",
+        "file": "rushes/source/demo_v4/S4.mp4",
+        "sha256": "b35380ff1d3dfdc442b9043c1d7ddf418b51bf86d882cdb02e62c4726586be64",
+        "in_frame": 170,
+        "out_frame": 245,
+        "source_frames": 75,
+        "freeze_tail_f": 30
+      },
+      "zoom_curve": {
+        "base": 1.35,
+        "movement_id": "MV11",
+        "movement": "drift",
+        "parameters": {
+          "k_ratio": [
+            1.0,
+            1.02
+          ],
+          "easing": "linear",
+          "dur_min_f": 75
+        }
+      },
+      "transition_out": "TR01",
+      "color_grade": "resto_chaud_2026 / scene 4"
+    }
+  ],
+  "cuts": [
+    {
+      "at_f": 60,
+      "at_s": 2.0,
+      "transition": "TR01"
+    },
+    {
+      "at_f": 105,
+      "at_s": 3.5,
+      "transition": "TR02"
+    },
+    {
+      "at_f": 180,
+      "at_s": 6.0,
+      "transition": "TR03"
+    },
+    {
+      "at_f": 255,
+      "at_s": 8.5,
+      "transition": "TR01"
+    },
+    {
+      "at_f": 330,
+      "at_s": 11.0,
+      "transition": "TR01"
+    },
+    {
+      "at_f": 420,
+      "at_s": 14.0,
+      "transition": "TR05"
+    },
+    {
+      "at_f": 495,
+      "at_s": 16.5,
+      "transition": "TR01"
+    },
+    {
+      "at_f": 555,
+      "at_s": 18.5,
+      "transition": "TR01"
+    },
+    {
+      "at_f": 630,
+      "at_s": 21.0,
+      "transition": "TR04"
+    },
+    {
+      "at_f": 705,
+      "at_s": 23.5,
+      "transition": "TR01"
+    },
+    {
+      "at_f": 795,
+      "at_s": 26.5,
+      "transition": "TR01"
+    }
+  ],
+  "overlays": [
+    {
+      "id": "TXT01",
+      "graphic_block": "GB01",
+      "composition": "enseigne_mot_a_mot",
+      "field": "nom",
+      "start_f": 15,
+      "end_f": 90,
+      "text_preset": "MD-T1-01"
+    },
+    {
+      "id": "TXT02",
+      "graphic_block": "GB02",
+      "composition": "bandeau_produit",
+      "field": "produit",
+      "start_f": 120,
+      "end_f": 165,
+      "text_preset": "MD-T1-03"
+    },
+    {
+      "id": "TXT03",
+      "graphic_block": "GB03",
+      "composition": "hero_lockup",
+      "field": "produit+prix",
+      "start_f": 195,
+      "end_f": 285,
+      "text_preset": "MD-T1-04"
+    },
+    {
+      "id": "TXT04",
+      "graphic_block": "GB04",
+      "composition": "accroche_segments",
+      "field": "accroche",
+      "start_f": 300,
+      "end_f": 405,
+      "text_preset": "MD-T1-06"
+    },
+    {
+      "id": "TXT05",
+      "graphic_block": "GB05",
+      "composition": "enseigne_rappel",
+      "field": "nom",
+      "start_f": 450,
+      "end_f": 525,
+      "text_preset": "MD-T1-07"
+    },
+    {
+      "id": "TXT06",
+      "graphic_block": "GB06",
+      "composition": "prix_plein",
+      "field": "prix",
+      "start_f": 540,
+      "end_f": 615,
+      "text_preset": "MD-T1-08"
+    },
+    {
+      "id": "TXT07",
+      "graphic_block": "GB07",
+      "composition": "adresse",
+      "field": "quartier",
+      "start_f": 645,
+      "end_f": 765,
+      "text_preset": "MD-T1-09"
+    },
+    {
+      "id": "TXT08",
+      "graphic_block": "GB08",
+      "composition": "cta_whatsapp",
+      "field": "whatsapp",
+      "start_f": 795,
+      "end_f": 900,
+      "text_preset": "MD-T1-10"
+    }
+  ],
+  "graphic_blocks": [
+    {
+      "id": "GB01",
+      "compo": "enseigne_mot_a_mot",
+      "champ": [
+        "nom"
+      ],
+      "text_px_base": 76,
+      "text_px_720": 51,
+      "nominal": {
+        "x_min": 66,
+        "x_max": 918,
+        "y_min": 372,
+        "y_max": 468,
+        "w": 852,
+        "h": 96
+      },
+      "anchor": "centre",
+      "radius_px": 0,
+      "shadow_px": [
+        0,
+        3,
+        10
+      ],
+      "stroke_px": 2,
+      "rotation_deg": 0,
+      "pad_px": 24,
+      "box_shape": {
+        "x_min": 65,
+        "x_max": 919,
+        "y_min": 371,
+        "y_max": 469,
+        "w": 854,
+        "h": 98
+      },
+      "box_full": {
+        "x_min": 60,
+        "x_max": 924,
+        "y_min": 366,
+        "y_max": 477,
+        "w": 864,
+        "h": 111
+      },
+      "text_box": {
+        "x_min": 89,
+        "x_max": 895,
+        "y_min": 395,
+        "y_max": 445
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 4,
+        "x_max": 4,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB02",
+      "compo": "bandeau_produit",
+      "champ": [
+        "produit"
+      ],
+      "text_px_base": 84,
+      "text_px_720": 56,
+      "nominal": {
+        "x_min": 66,
+        "x_max": 918,
+        "y_min": 826,
+        "y_max": 974,
+        "w": 852,
+        "h": 148
+      },
+      "anchor": "centre",
+      "radius_px": 18,
+      "shadow_px": [
+        0,
+        4,
+        12
+      ],
+      "stroke_px": 2,
+      "rotation_deg": 0,
+      "pad_px": 24,
+      "box_shape": {
+        "x_min": 65,
+        "x_max": 919,
+        "y_min": 825,
+        "y_max": 975,
+        "w": 854,
+        "h": 150
+      },
+      "box_full": {
+        "x_min": 59,
+        "x_max": 925,
+        "y_min": 819,
+        "y_max": 985,
+        "w": 866,
+        "h": 166
+      },
+      "text_box": {
+        "x_min": 89,
+        "x_max": 895,
+        "y_min": 849,
+        "y_max": 951
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 5,
+        "x_max": 5,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB03",
+      "compo": "hero_lockup",
+      "champ": [
+        "produit",
+        "prix"
+      ],
+      "text_px_base": 84,
+      "text_px_720": 56,
+      "nominal": {
+        "x_min": 594,
+        "x_max": 900,
+        "y_min": 786,
+        "y_max": 1022,
+        "w": 306,
+        "h": 236
+      },
+      "anchor": "bas_droite_bandeau",
+      "radius_px": 18,
+      "shadow_px": [
+        0,
+        6,
+        16
+      ],
+      "stroke_px": 2,
+      "rotation_deg": -3,
+      "pad_px": 16,
+      "badge": {
+        "w": 306,
+        "h": 136,
+        "overlap_px": 40
+      },
+      "box_shape": {
+        "x_min": 587,
+        "x_max": 907,
+        "y_min": 777,
+        "y_max": 1031,
+        "w": 320,
+        "h": 254
+      },
+      "box_full": {
+        "x_min": 579,
+        "x_max": 915,
+        "y_min": 769,
+        "y_max": 1045,
+        "w": 336,
+        "h": 276
+      },
+      "text_box": {
+        "x_min": 603,
+        "x_max": 891,
+        "y_min": 793,
+        "y_max": 1015
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 0,
+        "x_max": 0,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB04",
+      "compo": "accroche_segments",
+      "champ": [
+        "accroche"
+      ],
+      "text_px_base": 52,
+      "text_px_720": 35,
+      "nominal": {
+        "x_min": 66,
+        "x_max": 918,
+        "y_min": 574,
+        "y_max": 666,
+        "w": 852,
+        "h": 92
+      },
+      "anchor": "centre",
+      "radius_px": 999,
+      "shadow_px": [
+        0,
+        4,
+        12
+      ],
+      "stroke_px": 2,
+      "rotation_deg": 0,
+      "pad_px": 24,
+      "box_shape": {
+        "x_min": 65,
+        "x_max": 919,
+        "y_min": 573,
+        "y_max": 667,
+        "w": 854,
+        "h": 94
+      },
+      "box_full": {
+        "x_min": 59,
+        "x_max": 925,
+        "y_min": 567,
+        "y_max": 677,
+        "w": 866,
+        "h": 110
+      },
+      "text_box": {
+        "x_min": 89,
+        "x_max": 895,
+        "y_min": 597,
+        "y_max": 643
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 5,
+        "x_max": 5,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB05",
+      "compo": "enseigne_rappel",
+      "champ": [
+        "nom"
+      ],
+      "text_px_base": 76,
+      "text_px_720": 51,
+      "nominal": {
+        "x_min": 66,
+        "x_max": 918,
+        "y_min": 372,
+        "y_max": 468,
+        "w": 852,
+        "h": 96
+      },
+      "anchor": "centre",
+      "radius_px": 0,
+      "shadow_px": [
+        0,
+        3,
+        10
+      ],
+      "stroke_px": 2,
+      "rotation_deg": 0,
+      "pad_px": 24,
+      "box_shape": {
+        "x_min": 65,
+        "x_max": 919,
+        "y_min": 371,
+        "y_max": 469,
+        "w": 854,
+        "h": 98
+      },
+      "box_full": {
+        "x_min": 60,
+        "x_max": 924,
+        "y_min": 366,
+        "y_max": 477,
+        "w": 864,
+        "h": 111
+      },
+      "text_box": {
+        "x_min": 89,
+        "x_max": 895,
+        "y_min": 395,
+        "y_max": 445
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 4,
+        "x_max": 4,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB06",
+      "compo": "prix_plein",
+      "champ": [
+        "prix"
+      ],
+      "text_px_base": 116,
+      "text_px_720": 77,
+      "nominal": {
+        "x_min": 182,
+        "x_max": 898,
+        "y_min": 780,
+        "y_max": 940,
+        "w": 716,
+        "h": 160
+      },
+      "anchor": "centre",
+      "radius_px": 20,
+      "shadow_px": [
+        0,
+        6,
+        16
+      ],
+      "stroke_px": 2,
+      "rotation_deg": -3,
+      "pad_px": 20,
+      "box_shape": {
+        "x_min": 177,
+        "x_max": 903,
+        "y_min": 760,
+        "y_max": 960,
+        "w": 726,
+        "h": 200
+      },
+      "box_full": {
+        "x_min": 169,
+        "x_max": 911,
+        "y_min": 752,
+        "y_max": 974,
+        "w": 742,
+        "h": 222
+      },
+      "text_box": {
+        "x_min": 197,
+        "x_max": 883,
+        "y_min": 780,
+        "y_max": 940
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 0,
+        "x_max": 0,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB07",
+      "compo": "adresse",
+      "champ": [
+        "quartier"
+      ],
+      "text_px_base": 54,
+      "text_px_720": 36,
+      "nominal": {
+        "x_min": 66,
+        "x_max": 918,
+        "y_min": 1114,
+        "y_max": 1246,
+        "w": 852,
+        "h": 132
+      },
+      "anchor": "centre",
+      "radius_px": 18,
+      "shadow_px": [
+        0,
+        4,
+        12
+      ],
+      "stroke_px": 2,
+      "rotation_deg": 0,
+      "pad_px": 24,
+      "box_shape": {
+        "x_min": 65,
+        "x_max": 919,
+        "y_min": 1113,
+        "y_max": 1247,
+        "w": 854,
+        "h": 134
+      },
+      "box_full": {
+        "x_min": 59,
+        "x_max": 925,
+        "y_min": 1107,
+        "y_max": 1257,
+        "w": 866,
+        "h": 150
+      },
+      "text_box": {
+        "x_min": 89,
+        "x_max": 895,
+        "y_min": 1137,
+        "y_max": 1223
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 5,
+        "x_max": 5,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    },
+    {
+      "id": "GB08",
+      "compo": "cta_whatsapp",
+      "champ": [
+        "whatsapp"
+      ],
+      "text_px_base": 60,
+      "text_px_720": 40,
+      "nominal": {
+        "x_min": 66,
+        "x_max": 918,
+        "y_min": 1272,
+        "y_max": 1388,
+        "w": 852,
+        "h": 116
+      },
+      "anchor": "centre",
+      "radius_px": 999,
+      "shadow_px": [
+        0,
+        6,
+        16
+      ],
+      "stroke_px": 2,
+      "rotation_deg": 0,
+      "pad_px": 24,
+      "box_shape": {
+        "x_min": 65,
+        "x_max": 919,
+        "y_min": 1271,
+        "y_max": 1389,
+        "w": 854,
+        "h": 118
+      },
+      "box_full": {
+        "x_min": 57,
+        "x_max": 927,
+        "y_min": 1263,
+        "y_max": 1403,
+        "w": 870,
+        "h": 140
+      },
+      "text_box": {
+        "x_min": 89,
+        "x_max": 895,
+        "y_min": 1295,
+        "y_max": 1365
+      },
+      "safe_ok": true,
+      "shadow_overflow_px": {
+        "x_min": 7,
+        "x_max": 7,
+        "y_min": 0,
+        "y_max": 0
+      },
+      "regle_ombre": "l'ombre seule peut sortir de la safe zone (<= 8 px) ; aucun glyphe hors safe zone",
+      "safe_ok_split": "GB03/GB06 : rotation -3 deg + contour 1 px + ombre 8 px inclus dans box_full"
+    }
+  ],
+  "motion_presets": [
+    {
+      "id": "MD-T1-01",
+      "nom": "enseigne_mot_a_mot",
+      "bloc": "GB01",
+      "objets": [
+        "texte"
+      ],
+      "proprietes": [
+        "opacity",
+        "translate_y"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0
+        },
+        {
+          "f": 6,
+          "v": 1
+        }
+      ],
+      "dur_f": 6,
+      "easing": "easeOutExpo",
+      "entree_f": 6,
+      "maintien_f": 63,
+      "sortie_f": 6,
+      "sortie_easing": "easeOutCubic",
+      "interaction_image": "aucune (texte composé après transformation)",
+      "donnees": [
+        "nom"
+      ],
+      "refs_marche": [
+        "R1",
+        "R2",
+        "R4"
+      ],
+      "scene": "S1"
+    },
+    {
+      "id": "MD-T1-02",
+      "nom": "hook_cadre",
+      "bloc": "GB01",
+      "objets": [
+        "filets"
+      ],
+      "proprietes": [
+        "scale_x",
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0
+        },
+        {
+          "f": 5,
+          "v": 1
+        }
+      ],
+      "dur_f": 5,
+      "easing": "easeOutCubic",
+      "entree_f": 5,
+      "maintien_f": 65,
+      "sortie_f": 5,
+      "interaction_image": "filets fixes, 1re et derniere seconde",
+      "donnees": [],
+      "refs_marche": [
+        "R1",
+        "R2"
+      ],
+      "scene": "S1"
+    },
+    {
+      "id": "MD-T1-03",
+      "nom": "bandeau_produit",
+      "bloc": "GB02",
+      "objets": [
+        "carte",
+        "texte"
+      ],
+      "proprietes": [
+        "translate_y",
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 20
+        },
+        {
+          "f": 7,
+          "v": 0
+        }
+      ],
+      "dur_f": 7,
+      "easing": "easeOutExpo",
+      "entree_f": 7,
+      "maintien_f": 32,
+      "sortie_f": 6,
+      "interaction_image": "bandeau fixe pendant un pan horizontal",
+      "donnees": [
+        "produit"
+      ],
+      "refs_marche": [
+        "R1",
+        "R4"
+      ],
+      "scene": "S1"
+    },
+    {
+      "id": "MD-T1-04",
+      "nom": "hero_lockup",
+      "bloc": "GB03",
+      "objets": [
+        "carte",
+        "texte"
+      ],
+      "proprietes": [
+        "opacity",
+        "translate_y"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0
+        },
+        {
+          "f": 8,
+          "v": 1
+        }
+      ],
+      "dur_f": 8,
+      "easing": "easeOutExpo",
+      "entree_f": 8,
+      "maintien_f": 73,
+      "sortie_f": 9,
+      "interaction_image": "le bandeau reste fixe, l'image zoome dessous",
+      "donnees": [
+        "produit"
+      ],
+      "refs_marche": [
+        "R4",
+        "R6"
+      ],
+      "scene": "S2"
+    },
+    {
+      "id": "MD-T1-05",
+      "nom": "pastille_prix_pop",
+      "bloc": "GB03",
+      "objets": [
+        "badge"
+      ],
+      "proprietes": [
+        "scale",
+        "rotation"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0.6
+        },
+        {
+          "f": 3,
+          "v": 1.06
+        },
+        {
+          "f": 6,
+          "v": 1.0
+        },
+        {
+          "f": 10,
+          "v": 1.0
+        }
+      ],
+      "dur_f": 10,
+      "easing": "easeOutBack",
+      "entree_f": 10,
+      "maintien_f": 71,
+      "sortie_f": 9,
+      "interaction_image": "independant (overlay)",
+      "donnees": [
+        "prix"
+      ],
+      "rebond_f": 218,
+      "refs_marche": [
+        "R3",
+        "R5",
+        "R6"
+      ],
+      "scene": "S2"
+    },
+    {
+      "id": "MD-T1-06",
+      "nom": "accroche_segments",
+      "bloc": "GB04",
+      "objets": [
+        "pilule",
+        "texte"
+      ],
+      "proprietes": [
+        "scale",
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0.94
+        },
+        {
+          "f": 6,
+          "v": 1.0
+        }
+      ],
+      "segment_actif": {
+        "scale": 1.08,
+        "opacity_inactif": 0.65
+      },
+      "dur_f": 6,
+      "easing": "easeOutExpo",
+      "entree_f": 6,
+      "maintien_f": 93,
+      "sortie_f": 6,
+      "interaction_image": "aucun contre-mouvement : MV08 ecarte pour T1 (D-05)",
+      "donnees": [
+        "accroche"
+      ],
+      "refs_marche": [
+        "R1",
+        "R4"
+      ],
+      "scene": "S2"
+    },
+    {
+      "id": "MD-T1-07",
+      "nom": "enseigne_rappel",
+      "bloc": "GB05",
+      "objets": [
+        "texte"
+      ],
+      "proprietes": [
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0
+        },
+        {
+          "f": 6,
+          "v": 1
+        }
+      ],
+      "dur_f": 6,
+      "easing": "easeOutCubic",
+      "entree_f": 6,
+      "maintien_f": 63,
+      "sortie_f": 6,
+      "interaction_image": "aucune",
+      "donnees": [
+        "nom"
+      ],
+      "refs_marche": [
+        "R2",
+        "R4"
+      ],
+      "scene": "S3"
+    },
+    {
+      "id": "MD-T1-08",
+      "nom": "prix_plein_ecran",
+      "bloc": "GB06",
+      "objets": [
+        "badge",
+        "texte"
+      ],
+      "proprietes": [
+        "scale",
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0.6
+        },
+        {
+          "f": 3,
+          "v": 1.06
+        },
+        {
+          "f": 6,
+          "v": 1.0
+        },
+        {
+          "f": 8,
+          "v": 1.0
+        }
+      ],
+      "dur_f": 8,
+      "easing": "easeOutBack",
+      "entree_f": 8,
+      "maintien_f": 61,
+      "sortie_f": 6,
+      "interaction_image": "image calme obligatoire (P09 : pan 12 px max)",
+      "donnees": [
+        "prix"
+      ],
+      "rebond_f": 548,
+      "refs_marche": [
+        "R3",
+        "R6"
+      ],
+      "scene": "S3"
+    },
+    {
+      "id": "MD-T1-09",
+      "nom": "adresse_pin",
+      "bloc": "GB07",
+      "objets": [
+        "carte",
+        "icone",
+        "texte"
+      ],
+      "proprietes": [
+        "opacity",
+        "translate_x"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0
+        },
+        {
+          "f": 7,
+          "v": 1
+        }
+      ],
+      "dur_f": 7,
+      "easing": "easeOutExpo",
+      "entree_f": 7,
+      "maintien_f": 107,
+      "sortie_f": 6,
+      "interaction_image": "aucune",
+      "donnees": [
+        "quartier"
+      ],
+      "refs_marche": [
+        "R4",
+        "R7"
+      ],
+      "scene": "S4"
+    },
+    {
+      "id": "MD-T1-10",
+      "nom": "cta_whatsapp",
+      "bloc": "GB08",
+      "objets": [
+        "pilule",
+        "icone",
+        "texte"
+      ],
+      "proprietes": [
+        "scale",
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0.88
+        },
+        {
+          "f": 9,
+          "v": 1.0
+        }
+      ],
+      "dur_f": 9,
+      "easing": "easeOutBack",
+      "entree_f": 9,
+      "maintien_f": 96,
+      "sortie_f": 0,
+      "interaction_image": "aucune sortie : verrou jusqu'a la fin",
+      "donnees": [
+        "whatsapp"
+      ],
+      "refs_marche": [
+        "R5",
+        "R7"
+      ],
+      "scene": "S4"
+    },
+    {
+      "id": "MD-T1-11",
+      "nom": "verrou_final",
+      "bloc": "GB08",
+      "objets": [
+        "image",
+        "graphismes"
+      ],
+      "proprietes": [
+        "freeze"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0
+        }
+      ],
+      "dur_f": 30,
+      "easing": null,
+      "entree_f": 30,
+      "maintien_f": 0,
+      "sortie_f": 0,
+      "interaction_image": "gel de l'image a 29,000 s (frame 870)",
+      "donnees": [],
+      "refs_marche": [
+        "R3",
+        "R9"
+      ],
+      "scene": "S4"
+    },
+    {
+      "id": "MD-T1-12",
+      "nom": "filet_detail",
+      "bloc": "GB03",
+      "objets": [
+        "filets"
+      ],
+      "proprietes": [
+        "scale",
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 0.8
+        },
+        {
+          "f": 4,
+          "v": 1
+        }
+      ],
+      "dur_f": 4,
+      "easing": "easeOutCubic",
+      "entree_f": 4,
+      "maintien_f": 26,
+      "sortie_f": 4,
+      "interaction_image": "2 coins opposes, 90 px",
+      "donnees": [],
+      "refs_marche": [
+        "R6",
+        "R8",
+        "R9"
+      ],
+      "scene": "S2"
+    },
+    {
+      "id": "MD-T1-13",
+      "nom": "passation_lockup",
+      "bloc": "GB06",
+      "objets": [
+        "badge"
+      ],
+      "proprietes": [
+        "scale"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 1.0
+        },
+        {
+          "f": 6,
+          "v": 1.0
+        }
+      ],
+      "dur_f": 6,
+      "easing": "linear",
+      "entree_f": 6,
+      "maintien_f": 0,
+      "sortie_f": 0,
+      "interaction_image": "meme ancre y que GB03 : aucun saut visuel",
+      "donnees": [
+        "prix"
+      ],
+      "refs_marche": [
+        "R6",
+        "R8"
+      ],
+      "scene": "S3"
+    },
+    {
+      "id": "MD-T1-14",
+      "nom": "sortie_courte",
+      "bloc": "*",
+      "objets": [
+        "tous"
+      ],
+      "proprietes": [
+        "opacity"
+      ],
+      "keyframes": [
+        {
+          "f": 0,
+          "v": 1
+        },
+        {
+          "f": 6,
+          "v": 0
+        }
+      ],
+      "dur_f": 6,
+      "easing": "easeOutCubic",
+      "entree_f": 0,
+      "maintien_f": 0,
+      "sortie_f": 6,
+      "interaction_image": "aucune",
+      "donnees": [],
+      "refs_marche": [
+        "R3",
+        "R8"
+      ],
+      "scene": "les 4 scenes (sortie generique)"
+    }
+  ],
+  "design_system": {
+    "polices": {
+      "titres": {
+        "famille": "Montserrat",
+        "graisse": 800,
+        "style": "ExtraBold",
+        "licence": "SIL OFL 1.1",
+        "tracking_em": -0.02,
+        "interligne": 1.05,
+        "casse": "MAJUSCULES",
+        "auto_fit": "reduction par paliers de 10 pourcent jusqu'a tenir sur 1 ligne",
+        "pourquoi": "x-height large, apertures ouvertes, graisses 700+ recommandees pour le caption; le choix le plus sur en plein soleil"
+      },
+      "infos": {
+        "famille": "Plus Jakarta Sans",
+        "graisse_titres": 800,
+        "graisse_courant": 700,
+        "licence": "SIL OFL 1.1",
+        "chiffres": "tabulaires (tnum) obligatoires",
+        "pourquoi": "chiffres tabulaires natifs, accents francais complets, plus compact que Montserrat donc parfait pour prix et WhatsApp"
+      },
+      "regle_2_polices": "aucune troisieme police dans le gabarit"
+    },
+    "traitement_texte": {
+      "contour": {
+        "epaisseur_px": 2,
+        "couleur": "rgba(15,23,42,0.92)",
+        "usage": "obligatoire si luminance moyenne du plan > 60 pourcent"
+      },
+      "ombre": {
+        "opacite": 0.32,
+        "flou_px": 10,
+        "decalage_y_px": 3,
+        "rayon": 0
+      },
+      "lueur": {
+        "active": false,
+        "note": "pas de glow : floute les accents et coute un flou par image"
+      },
+      "contraste_min": "4.5:1 mesure sur la carte, pas sur la video"
+    },
+    "couleurs": {
+      "orange": "#F2621B",
+      "bleu_nuit": "#14225E",
+      "creme": "#FFF3EA",
+      "carte_sombre": "rgba(15,23,42,0.78)",
+      "blanc": "#FFFFFF",
+      "whatsapp_officiel": "#25D366",
+      "texte_sur_orange": "#FFFFFF"
+    },
+    "composants": {
+      "carte": {
+        "rayon_px": 18,
+        "padding_px": [
+          20,
+          28
+        ],
+        "fond": "rgba(15,23,42,0.78)"
+      },
+      "badge_prix": {
+        "rayon_px": 20,
+        "rotation_deg": -3,
+        "bordure_px": 2,
+        "bordure_couleur": "#FFFFFF",
+        "ombre": "0 6px 16px rgba(0,0,0,0.35)",
+        "chevauchement_px": 40,
+        "fond": "#F2621B"
+      },
+      "pilule_cta": {
+        "rayon_px": 999,
+        "fond": "#25D366",
+        "hauteur_px": 116,
+        "icone_px": 44
+      },
+      "micro_icones": {
+        "taille_px": 28,
+        "jeu": [
+          "assiette",
+          "flamme",
+          "pin"
+        ],
+        "style": "trait 2 px, monochrome blanc"
+      }
+    },
+    "zones_de_securite": {
+      "x_min": 64,
+      "x_max": 920,
+      "y_min": 240,
+      "y_max": 1440,
+      "source": "zone universelle 900x1400 centree en 1080x1920 (TikTok 900x1492 / Reels 996x1400) — durcie a droite (920) et en bas (1440)"
+    },
+    "courbes_animation": {
+      "easeOutExpo": {
+        "cubic_bezier": [
+          0.16,
+          1.0,
+          0.3,
+          1.0
+        ],
+        "usage": "entree de texte / apparition de bloc",
+        "evaluee_par": "Newton-Raphson 5 iterations par image, 0 allocation"
+      },
+      "easeOutBack_pop": {
+        "cubic_bezier": [
+          0.34,
+          1.56,
+          0.64,
+          1.0
+        ],
+        "usage": "pastille prix, badge, pop",
+        "depassement_max": "6 pourcent en echelle"
+      },
+      "easeOutQuint": {
+        "cubic_bezier": [
+          0.22,
+          1.0,
+          0.36,
+          1.0
+        ],
+        "usage": "zoom punch de coupe (6 images)"
+      },
+      "easeOutCubic": {
+        "cubic_bezier": [
+          0.33,
+          1.0,
+          0.68,
+          1.0
+        ],
+        "usage": "sortie douce de texte (fade)"
+      },
+      "easeInCubic": {
+        "cubic_bezier": [
+          0.32,
+          0.0,
+          0.67,
+          0.0
+        ],
+        "usage": "sortie rapide / element qui part"
+      },
+      "easeInOutQuad": {
+        "cubic_bezier": [
+          0.45,
+          0.0,
+          0.55,
+          1.0
+        ],
+        "usage": "mouvement continu de plan, wipe, pan"
+      },
+      "linear": {
+        "cubic_bezier": [
+          0.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "usage": "compteur, remplissage pur"
+      }
+    }
+  },
+  "safe_zones": {
+    "x_min": 64,
+    "x_max": 920,
+    "y_min": 240,
+    "y_max": 1440
+  },
+  "audio_track": {
+    "enabled": false,
+    "note": "Premier rendu T1 volontairement muet; musique, SFX, voix et sous-titres hors périmètre."
+  }
+}

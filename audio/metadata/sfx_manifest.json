@@ -1,0 +1,144 @@
+{
+  "elements": [
+    {
+      "fichier": "sfx/sfx_01_assiette_posee.wav",
+      "description": "assiette de porcelaine posée sur la table",
+      "matiere": "porcelaine + contact de table",
+      "usage_prevu": "ouverture S1 (assiettes sur table visibles à l'image) ; service S3",
+      "duree_s": 0.55,
+      "crete_db": -12.0,
+      "licence": "création originale VITRINE VÍDEO — aucun échantillon tiers",
+      "synthese": "numpy/scipy — build_sfx.py"
+    },
+    {
+      "fichier": "sfx/sfx_02_couverts_contact.wav",
+      "description": "couverts qui se touchent, très bas",
+      "matiere": "métal fin",
+      "usage_prevu": "plan avec couverts visibles (fourchette/couteau en S1-S2)",
+      "duree_s": 0.45,
+      "crete_db": -16.0,
+      "licence": "création originale VITRINE VÍDEO — aucun échantillon tiers",
+      "synthese": "numpy/scipy — build_sfx.py"
+    },
+    {
+      "fichier": "sfx/sfx_03_couverts_glisse_montee.wav",
+      "description": "glissement de couvert montant (transition)",
+      "matiere": "métal glissé + air",
+      "usage_prevu": "repère 8,90 s — préparation du zoom punch",
+      "duree_s": 0.4,
+      "crete_db": -10.0,
+      "licence": "création originale VITRINE VÍDEO — aucun échantillon tiers",
+      "synthese": "numpy/scipy — build_sfx.py"
+    },
+    {
+      "fichier": "sfx/sfx_04_couverts_glisse_descente.wav",
+      "description": "glissement de couvert descendant (transition)",
+      "matiere": "métal glissé + air",
+      "usage_prevu": "repère 23,90 s — préparation du punch cut",
+      "duree_s": 0.38,
+      "crete_db": -10.0,
+      "licence": "création originale VITRINE VÍDEO — aucun échantillon tiers",
+      "synthese": "numpy/scipy — build_sfx.py"
+    },
+    {
+      "fichier": "sfx/sfx_05_shekere_roulement.wav",
+      "description": "roulement de shekere qui amène une transition",
+      "matiere": "graines sur calebasse",
+      "usage_prevu": "repères 5,90 s et 13,90 s",
+      "duree_s": 0.55,
+      "crete_db": -10.0,
+      "licence": "création originale VITRINE VÍDEO — aucun échantillon tiers",
+      "synthese": "numpy/scipy — build_sfx.py"
+    },
+    {
+      "fichier": "sfx/sfx_06_porcelaine_montee.wav",
+      "description": "porcelaine qui monte (résonance + souffle de service)",
+      "matiere": "porcelaine frottée",
+      "usage_prevu": "repère 20,90 s — préparation de la transition vers la scène 4",
+      "duree_s": 0.6,
+      "crete_db": -11.0,
+      "licence": "création originale VITRINE VÍDEO — aucun échantillon tiers",
+      "synthese": "numpy/scipy — build_sfx.py"
+    },
+    {
+      "fichier": "sfx/sfx_07_cloche_agogo.wav",
+      "description": "accent de cloche agogo (double métal)",
+      "matiere": "cloche de maquis",
+      "usage_prevu": "repère 16,90 s — accent avant la coupe",
+      "duree_s": 0.35,
+      "crete_db": -11.0,
+      "licence": "création originale VITRINE VÍDEO — aucun échantillon tiers",
+      "synthese": "numpy/scipy — build_sfx.py"
+    },
+    {
+      "fichier": "sfx/sfx_08_balafon_prix.wav",
+      "description": "deux notes de balafon (accent de prix)",
+      "matiere": "lame de bois",
+      "usage_prevu": "repères 7,34 s et 18,34 s — apparition / rebond du prix",
+      "duree_s": 0.91,
+      "crete_db": -9.0,
+      "licence": "création originale VITRINE VÍDEO — aucun échantillon tiers",
+      "synthese": "numpy/scipy — build_sfx.py"
+    },
+    {
+      "fichier": "sfx/sfx_09_balafon_prix_variante.wav",
+      "description": "variante plus basse du double coup de balafon",
+      "matiere": "lame de bois",
+      "usage_prevu": "repère 18,34 s (prix seul) — évite la répétition à l'identique",
+      "duree_s": 0.91,
+      "crete_db": -9.5,
+      "licence": "création originale VITRINE VÍDEO — aucun échantillon tiers",
+      "synthese": "numpy/scipy — build_sfx.py"
+    },
+    {
+      "fichier": "sfx/sfx_10_service_tissu.wav",
+      "description": "mouvement de service : tissu et pas feutrés",
+      "matiere": "tissu + salle",
+      "usage_prevu": "scène 3 — arrivée du serveur, plan de service",
+      "duree_s": 0.55,
+      "crete_db": -20.0,
+      "licence": "création originale VITRINE VÍDEO — aucun échantillon tiers",
+      "synthese": "numpy/scipy — build_sfx.py"
+    },
+    {
+      "fichier": "sfx/sfx_11_kalimba_cta.wav",
+      "description": "motif chaleureux de trois notes pour l'appel à commander",
+      "matiere": "kalimba + cloche douce",
+      "usage_prevu": "repère 26,50 s — apparition du bouton WhatsApp (aucune notification imitée)",
+      "duree_s": 1.4,
+      "crete_db": -11.0,
+      "licence": "création originale VITRINE VÍDEO — aucun échantillon tiers",
+      "synthese": "numpy/scipy — build_sfx.py"
+    },
+    {
+      "fichier": "sfx/sfx_12_impact_grave.wav",
+      "description": "impact grave feutré sous un bloc visuel",
+      "matiere": "graves feutrés",
+      "usage_prevu": "repères 6,50 s et 21,50 s — apparition du bandeau puis du bloc localisation",
+      "duree_s": 0.8,
+      "crete_db": -10.0,
+      "licence": "création originale VITRINE VÍDEO — aucun échantillon tiers",
+      "synthese": "numpy/scipy — build_sfx.py"
+    },
+    {
+      "fichier": "sfx/sfx_13_gresillement_braise.wav",
+      "description": "grésillement de braise / plancha (réservé)",
+      "matiere": "huile et braise",
+      "usage_prevu": "RÉSERVÉ — volontairement non utilisé : aucun plan de cuisson à l'image dans V3.1",
+      "duree_s": 4.0,
+      "crete_db": -14.0,
+      "licence": "création originale VITRINE VÍDEO — aucun échantillon tiers",
+      "synthese": "numpy/scipy — build_sfx.py"
+    },
+    {
+      "fichier": "ambience/ambiance_maquis_salle_30s.wav",
+      "description": "rumeur de salle de maquis, vaisselle lointaine, aucune parole identifiable",
+      "matiere": "salle + vaisselle lointaine",
+      "usage_prevu": "scène 3 uniquement (salle et présence humaine visibles)",
+      "duree_s": 30.0,
+      "crete_db": -14.0,
+      "licence": "création originale VITRINE VÍDEO",
+      "synthese": "numpy/scipy — build_sfx.py"
+    }
+  ]
+}

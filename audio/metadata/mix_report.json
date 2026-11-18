@@ -1,0 +1,386 @@
+[
+  {
+    "piste_musique": "maquis_afro_A_braise",
+    "voix_reelle": false,
+    "gains_db": {
+      "musique_nominale": -6.0,
+      "musique_pendant_voix": -16.0,
+      "effets": -5.0,
+      "effets_pendant_voix": -8.0,
+      "ambiance": -20.0,
+      "fade_out": [
+        28.5,
+        30.0
+      ]
+    },
+    "evenements": [
+      {
+        "temps_s": 5.9,
+        "evenement": "transition vers la deuxième scène (wipe géométrique)",
+        "fichier": "sfx/sfx_05_shekere_roulement.wav",
+        "gain_relatif_db": 3.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": -5.6,
+        "perceptible": true
+      },
+      {
+        "temps_s": 6.5,
+        "evenement": "apparition du bandeau commercial (hero lockup)",
+        "fichier": "sfx/sfx_01_assiette_posee.wav",
+        "gain_relatif_db": 3.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": -3.6,
+        "perceptible": true
+      },
+      {
+        "temps_s": 6.5,
+        "evenement": "apparition du bandeau commercial (hero lockup)",
+        "fichier": "sfx/sfx_12_impact_grave.wav",
+        "gain_relatif_db": 3.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 3.9,
+        "perceptible": true
+      },
+      {
+        "temps_s": 7.34,
+        "evenement": "mise en valeur du prix (rebond de la pastille)",
+        "fichier": "sfx/sfx_08_balafon_prix.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 3.6,
+        "perceptible": true
+      },
+      {
+        "temps_s": 8.9,
+        "evenement": "préparation du changement de plan (zoom punch)",
+        "fichier": "sfx/sfx_03_couverts_glisse_montee.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 3.0,
+        "perceptible": true
+      },
+      {
+        "temps_s": 13.9,
+        "evenement": "préparation de la transition vers la scène 3 (fondu enchaîné)",
+        "fichier": "sfx/sfx_05_shekere_roulement.wav",
+        "gain_relatif_db": 2.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": -4.4,
+        "perceptible": true
+      },
+      {
+        "temps_s": 16.9,
+        "evenement": "accent avant la coupe suivante",
+        "fichier": "sfx/sfx_07_cloche_agogo.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 4.1,
+        "perceptible": true
+      },
+      {
+        "temps_s": 18.34,
+        "evenement": "apparition du prix seul (rebond)",
+        "fichier": "sfx/sfx_09_balafon_prix_variante.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 4.9,
+        "perceptible": true
+      },
+      {
+        "temps_s": 20.9,
+        "evenement": "préparation de la transition vers la scène 4 (wipe directionnel)",
+        "fichier": "sfx/sfx_06_porcelaine_montee.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": -12.7,
+        "perceptible": true
+      },
+      {
+        "temps_s": 21.5,
+        "evenement": "apparition de la localisation",
+        "fichier": "sfx/sfx_01_assiette_posee.wav",
+        "gain_relatif_db": 1.5,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": -3.4,
+        "perceptible": true
+      },
+      {
+        "temps_s": 21.5,
+        "evenement": "apparition de la localisation",
+        "fichier": "sfx/sfx_12_impact_grave.wav",
+        "gain_relatif_db": 1.5,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 4.1,
+        "perceptible": true
+      },
+      {
+        "temps_s": 23.9,
+        "evenement": "préparation du changement vers le CTA (punch cut)",
+        "fichier": "sfx/sfx_04_couverts_glisse_descente.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 0.3,
+        "perceptible": true
+      },
+      {
+        "temps_s": 26.5,
+        "evenement": "apparition de l'appel à commander sur WhatsApp",
+        "fichier": "sfx/sfx_11_kalimba_cta.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 4.1,
+        "perceptible": true
+      },
+      {
+        "temps_s": 0.15,
+        "evenement": "S1 — les assiettes sont sur la table (ouverture)",
+        "fichier": "sfx/sfx_01_assiette_posee.wav",
+        "gain_relatif_db": -7.0,
+        "type": "son_direct_image",
+        "niveau_effet_relatif_db": -2.7,
+        "perceptible": true
+      },
+      {
+        "temps_s": 14.45,
+        "evenement": "S3 — le serveur arrive avec le plateau (mouvement visible)",
+        "fichier": "sfx/sfx_10_service_tissu.wav",
+        "gain_relatif_db": -2.0,
+        "type": "son_direct_image",
+        "niveau_effet_relatif_db": -13.2,
+        "perceptible": true
+      },
+      {
+        "temps_s": 15.05,
+        "evenement": "S3 — l'assiette est posée devant le client (geste visible)",
+        "fichier": "sfx/sfx_01_assiette_posee.wav",
+        "gain_relatif_db": -5.0,
+        "type": "son_direct_image",
+        "niveau_effet_relatif_db": 4.3,
+        "perceptible": true
+      }
+    ],
+    "ducking": null,
+    "loudness": {
+      "avant_normalisation_lufs": -26.35,
+      "gain_total_db": 0.21,
+      "cible_lufs": -16.0,
+      "apres_lufs": -16.69,
+      "true_peak_dbtp": -2.65,
+      "crete_db": -3.29
+    },
+    "sections": {
+      "S1": {
+        "rms_db": -20.49,
+        "lufs": -17.16
+      },
+      "S2": {
+        "rms_db": -19.14,
+        "lufs": -15.94
+      },
+      "S3": {
+        "rms_db": -21.36,
+        "lufs": -18.37
+      },
+      "S4": {
+        "rms_db": -18.93,
+        "lufs": -15.8
+      },
+      "fade_out": {
+        "rms_db": -23.54,
+        "lufs": -20.92
+      }
+    }
+  },
+  {
+    "piste_musique": "maquis_afro_B_maquis_dore",
+    "voix_reelle": false,
+    "gains_db": {
+      "musique_nominale": -6.0,
+      "musique_pendant_voix": -16.0,
+      "effets": -5.0,
+      "effets_pendant_voix": -8.0,
+      "ambiance": -20.0,
+      "fade_out": [
+        28.5,
+        30.0
+      ]
+    },
+    "evenements": [
+      {
+        "temps_s": 5.9,
+        "evenement": "transition vers la deuxième scène (wipe géométrique)",
+        "fichier": "sfx/sfx_05_shekere_roulement.wav",
+        "gain_relatif_db": 3.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": -6.3,
+        "perceptible": true
+      },
+      {
+        "temps_s": 6.5,
+        "evenement": "apparition du bandeau commercial (hero lockup)",
+        "fichier": "sfx/sfx_01_assiette_posee.wav",
+        "gain_relatif_db": 3.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": -4.0,
+        "perceptible": true
+      },
+      {
+        "temps_s": 6.5,
+        "evenement": "apparition du bandeau commercial (hero lockup)",
+        "fichier": "sfx/sfx_12_impact_grave.wav",
+        "gain_relatif_db": 3.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 3.5,
+        "perceptible": true
+      },
+      {
+        "temps_s": 7.34,
+        "evenement": "mise en valeur du prix (rebond de la pastille)",
+        "fichier": "sfx/sfx_08_balafon_prix.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 4.2,
+        "perceptible": true
+      },
+      {
+        "temps_s": 8.9,
+        "evenement": "préparation du changement de plan (zoom punch)",
+        "fichier": "sfx/sfx_03_couverts_glisse_montee.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 0.9,
+        "perceptible": true
+      },
+      {
+        "temps_s": 13.9,
+        "evenement": "préparation de la transition vers la scène 3 (fondu enchaîné)",
+        "fichier": "sfx/sfx_05_shekere_roulement.wav",
+        "gain_relatif_db": 2.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": -5.6,
+        "perceptible": true
+      },
+      {
+        "temps_s": 16.9,
+        "evenement": "accent avant la coupe suivante",
+        "fichier": "sfx/sfx_07_cloche_agogo.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 3.2,
+        "perceptible": true
+      },
+      {
+        "temps_s": 18.34,
+        "evenement": "apparition du prix seul (rebond)",
+        "fichier": "sfx/sfx_09_balafon_prix_variante.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 4.7,
+        "perceptible": true
+      },
+      {
+        "temps_s": 20.9,
+        "evenement": "préparation de la transition vers la scène 4 (wipe directionnel)",
+        "fichier": "sfx/sfx_06_porcelaine_montee.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": -12.8,
+        "perceptible": true
+      },
+      {
+        "temps_s": 21.5,
+        "evenement": "apparition de la localisation",
+        "fichier": "sfx/sfx_01_assiette_posee.wav",
+        "gain_relatif_db": 1.5,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": -4.2,
+        "perceptible": true
+      },
+      {
+        "temps_s": 21.5,
+        "evenement": "apparition de la localisation",
+        "fichier": "sfx/sfx_12_impact_grave.wav",
+        "gain_relatif_db": 1.5,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 3.3,
+        "perceptible": true
+      },
+      {
+        "temps_s": 23.9,
+        "evenement": "préparation du changement vers le CTA (punch cut)",
+        "fichier": "sfx/sfx_04_couverts_glisse_descente.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": -0.3,
+        "perceptible": true
+      },
+      {
+        "temps_s": 26.5,
+        "evenement": "apparition de l'appel à commander sur WhatsApp",
+        "fichier": "sfx/sfx_11_kalimba_cta.wav",
+        "gain_relatif_db": 0.0,
+        "type": "repere_v6_2",
+        "niveau_effet_relatif_db": 2.4,
+        "perceptible": true
+      },
+      {
+        "temps_s": 0.15,
+        "evenement": "S1 — les assiettes sont sur la table (ouverture)",
+        "fichier": "sfx/sfx_01_assiette_posee.wav",
+        "gain_relatif_db": -7.0,
+        "type": "son_direct_image",
+        "niveau_effet_relatif_db": 1.4,
+        "perceptible": true
+      },
+      {
+        "temps_s": 14.45,
+        "evenement": "S3 — le serveur arrive avec le plateau (mouvement visible)",
+        "fichier": "sfx/sfx_10_service_tissu.wav",
+        "gain_relatif_db": -2.0,
+        "type": "son_direct_image",
+        "niveau_effet_relatif_db": -13.0,
+        "perceptible": true
+      },
+      {
+        "temps_s": 15.05,
+        "evenement": "S3 — l'assiette est posée devant le client (geste visible)",
+        "fichier": "sfx/sfx_01_assiette_posee.wav",
+        "gain_relatif_db": -5.0,
+        "type": "son_direct_image",
+        "niveau_effet_relatif_db": 4.0,
+        "perceptible": true
+      }
+    ],
+    "ducking": null,
+    "loudness": {
+      "avant_normalisation_lufs": -25.6,
+      "gain_total_db": 0.35,
+      "cible_lufs": -16.0,
+      "apres_lufs": -16.55,
+      "true_peak_dbtp": -2.65,
+      "crete_db": -3.15
+    },
+    "sections": {
+      "S1": {
+        "rms_db": -20.0,
+        "lufs": -17.13
+      },
+      "S2": {
+        "rms_db": -18.55,
+        "lufs": -15.65
+      },
+      "S3": {
+        "rms_db": -21.16,
+        "lufs": -18.37
+      },
+      "S4": {
+        "rms_db": -18.45,
+        "lufs": -15.63
+      },
+      "fade_out": {
+        "rms_db": -22.62,
+        "lufs": -19.87
+      }
+    }
+  }
+]

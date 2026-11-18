@@ -62,7 +62,7 @@ def validate_specs(v12: dict[str, Any], v62: dict[str, Any]) -> None:
     assert len(v12["text_blocks"]) == 8 and len(v12["events"]) == 28
 
 
-def build_render_plan(v12: dict[str, Any], v62: dict[str, Any], raw_input: dict[str, Any]) -> dict[str, Any]:
+def build_render_plan(v12: dict[str, Any], v62: dict[str, Any], raw_input: dict[str, Any], v62_source: str | None = None) -> dict[str, Any]:
     validate_specs(v12, v62)
     if raw_input.get("demo") is not True:
         raise ValueError("Le fichier d'entrée de ce pilote doit rester explicitement marqué demo=true.")
@@ -110,7 +110,7 @@ def build_render_plan(v12: dict[str, Any], v62: dict[str, Any], raw_input: dict[
         "demo_only": True,
         "spec_sources": {
             "v12": "specs/T1_ENGINEERING_SPEC_V1_2.json",
-            "v62": "specs/restaurants_maquis_T1.spec_v6_2.json",
+            "v62": v62_source or str(V62_PATH.relative_to(ROOT)),
             "write_back": False,
         },
         "output": {"width": 720, "height": 1280, "fps": 30, "frames": 900, "duration_s": 30.0, "audio": False},
@@ -135,7 +135,11 @@ def main() -> None:
     parser.add_argument("--input", type=Path, default=INPUT_PATH)
     parser.add_argument("--output", type=Path, default=OUTPUT_PATH)
     args = parser.parse_args()
-    plan = build_render_plan(load_json(args.v12), load_json(args.v62), load_json(args.input))
+    try:
+        v62_source = str(args.v62.resolve().relative_to(ROOT))
+    except ValueError:
+        v62_source = str(args.v62.resolve())
+    plan = build_render_plan(load_json(args.v12), load_json(args.v62), load_json(args.input), v62_source=v62_source)
     args.output.write_text(json.dumps(plan, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"render_plan.json écrit : {args.output} — {len(plan['shots'])} plans, {len(plan['overlays'])} blocs, {plan['output']['frames']} images.")
 

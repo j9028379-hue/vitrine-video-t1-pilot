@@ -1,0 +1,75 @@
+{
+  "sr": 48000,
+  "bpm": 120.0,
+  "bar_s": 2.0,
+  "bars": 15,
+  "duree_s": 30.0,
+  "pistes": [
+    {
+      "id": "maquis_afro_A_braise",
+      "nom": "Braise & service",
+      "bpm": 120.0,
+      "duree_s": 30.0,
+      "mesures": 15,
+      "instrumental": true,
+      "paroles": false,
+      "tonalite": "La mineur",
+      "grille": [
+        "Am7",
+        "Fmaj7",
+        "C",
+        "G",
+        "Am7",
+        "Fmaj7",
+        "C",
+        "G",
+        "Am7",
+        "Fmaj7",
+        "C",
+        "G",
+        "Fmaj7",
+        "G",
+        "Am9"
+      ],
+      "stems": [
+        "drums",
+        "bass",
+        "harmonie",
+        "melodie"
+      ]
+    },
+    {
+      "id": "maquis_afro_B_maquis_dore",
+      "nom": "Maquis doré",
+      "bpm": 120.0,
+      "duree_s": 30.0,
+      "mesures": 15,
+      "instrumental": true,
+      "paroles": false,
+      "tonalite": "Ré mineur",
+      "grille": [
+        "Dm7",
+        "Bb",
+        "F",
+        "C",
+        "Dm7",
+        "Bb",
+        "F",
+        "C",
+        "Dm7",
+        "Bb",
+        "F",
+        "C",
+        "Bb",
+        "C",
+        "Dm9"
+      ],
+      "stems": [
+        "drums",
+        "bass",
+        "harmonie",
+        "melodie"
+      ]
+    }
+  ]
+}

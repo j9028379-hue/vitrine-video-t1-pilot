@@ -1,0 +1,59 @@
+{
+  "nature_du_fichier_test": "signal de test parlé synthétique (formants) — PAS une voix, aucune voix artificielle n'est intégrée au master",
+  "parametres_v62": {
+    "seuil_db": -26.0,
+    "fenetre_enveloppe_ms": 10.0,
+    "lookahead_ms": 80.0,
+    "attaque_ms": 60.0,
+    "hold_ms": 200.0,
+    "relachement_ms": 400.0,
+    "profondeur_db": -10.0,
+    "scene_parlee": true,
+    "voix_cumulee_s": 5.84,
+    "voix_ratio": 0.195,
+    "gain_min_db": -10.0,
+    "gain_max_db": 0.0,
+    "duree_ducking_s": 12.16,
+    "duree_pleine_profondeur_s": 10.66
+  },
+  "mesures": {
+    "burst_test": {
+      "avance_de_la_descente_ms": 57.0,
+      "duree_de_la_descente_ms": 54.0,
+      "profondeur_atteinte_db": -10.0,
+      "relachement_jusqu_a_moins_1_db_ms": 394.4,
+      "retour_complet_a_0_db_ms": 540.0,
+      "commentaire": "avance = lookahead 80 ms ; descente = attaque 60 ms ; retour = hold 200 ms + relâchement easeOutCubic 400 ms"
+    },
+    "par_scene_signal_de_test": {
+      "S1": {
+        "gain_moyen_db": -7.91,
+        "gain_min_db": -10.0
+      },
+      "S2": {
+        "gain_moyen_db": -0.0,
+        "gain_min_db": -0.53
+      },
+      "S3": {
+        "gain_moyen_db": -7.83,
+        "gain_min_db": -10.0
+      },
+      "S4": {
+        "gain_moyen_db": -1.14,
+        "gain_min_db": -10.0
+      }
+    }
+  },
+  "controle_sans_voix": {
+    "ducking_applique": false,
+    "note": "music bus constant à -6 dB : la musique ne baisse pas sans voix détectée"
+  },
+  "controle_avec_signal": {
+    "musique_nominale_db": -6.0,
+    "musique_pendant_parole_db": -16.0,
+    "effets_nominal_db": -5.0,
+    "effets_pendant_parole_db": -8.0,
+    "lufs_du_mixage_de_test": -16.69,
+    "true_peak_test": -1.05
+  }
+}

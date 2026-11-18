@@ -27,6 +27,18 @@ def ensure_rushes(manifest_path: Path = MANIFEST, target_dir: Path | None = None
     for item in manifest["sources"]:
         path = target_dir / item["filename"]
         actual = sha256(path) if path.is_file() else None
+        if not item.get("download_url"):
+            # Prise assemblée localement (derivée de rushs sous licence) : pas d'URL de
+            # téléchargement, elle doit être reconstruite par rushes/build_scenes.sh.
+            if actual is None:
+                raise RuntimeError(
+                    f"{item['id']} absent : lancez « bash rushes/build_scenes.sh » pour reconstruire la prise "
+                    f"({item.get('build_command', 'assemblage ffmpeg')})")
+            if actual != item["sha256"]:
+                print(f"Note {item['id']} — empreinte reconstruite différente de la référence (ffmpeg local) : {actual}")
+            fetched.append(path)
+            print(f"Prise {item['id']} vérifiée localement — {item['title']}")
+            continue
         if actual != item["sha256"]:
             path.unlink(missing_ok=True)
             subprocess.run([

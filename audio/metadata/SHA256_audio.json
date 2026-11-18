@@ -1,0 +1,187 @@
+[
+  {
+    "fichier": "audio/ambience/ambiance_maquis_salle_30s.wav",
+    "taille_octets": 2880044,
+    "sha256": "92be7631e494cb66f7d78c55afa5885cf800cf04a02472fa9750904ac4d4ea76"
+  },
+  {
+    "fichier": "audio/metadata/ducking_test.json",
+    "taille_octets": 1717,
+    "sha256": "4418eb2819e774a975c369c7d554a74721bbba1fd6163bfec0c916793c25898f"
+  },
+  {
+    "fichier": "audio/metadata/ducking_test_courbe.png",
+    "taille_octets": 102432,
+    "sha256": "a5324fce5b0690771f3eb3e60620690c7c6c397783c19bbc61ea2dcedbd0df53"
+  },
+  {
+    "fichier": "audio/metadata/mix_report.json",
+    "taille_octets": 11527,
+    "sha256": "a089d8e7ffd81256f2885af7a6f8c6bb077cd70d04e77303388ea372630bfa09"
+  },
+  {
+    "fichier": "audio/metadata/music_build.json",
+    "taille_octets": 1231,
+    "sha256": "0f57860afad80eb183a490191e5f8700cf60ee849cdf62fe638aea364e28cfe3"
+  },
+  {
+    "fichier": "audio/metadata/planche_synchronisation_audio.png",
+    "taille_octets": 1517845,
+    "sha256": "db4a2e8fd7a7cb2145ab9d1f1454c1263a513b6dff9a8393279660ac08c031df"
+  },
+  {
+    "fichier": "audio/metadata/qc_audio.json",
+    "taille_octets": 6270,
+    "sha256": "908e81c082f345c961e1c3719a5f2e92590387cdb933cf2ee27bf8dc3aa0d376"
+  },
+  {
+    "fichier": "audio/metadata/sfx_manifest.json",
+    "taille_octets": 6153,
+    "sha256": "91e73358dea67281d0620bb4895445128f35f32bbeb1efaa590a6b88a33bceee"
+  },
+  {
+    "fichier": "audio/music/maquis_afro_A_braise_mix_30s.wav",
+    "taille_octets": 5760044,
+    "sha256": "2159230ced8a42eddf2e093fecea9571c809e10ce448c799846386759307a5c0"
+  },
+  {
+    "fichier": "audio/music/maquis_afro_B_maquis_dore_mix_30s.wav",
+    "taille_octets": 5760044,
+    "sha256": "93c941ff05fa0c51ba2e393a9073f0d1e4250cbafe97ee72319bed7f043c02ab"
+  },
+  {
+    "fichier": "audio/sfx/sfx_01_assiette_posee.wav",
+    "taille_octets": 52844,
+    "sha256": "3aeca5fb89a84a48a33d4566857a339901f3463f43f10465c455d58eac087a91"
+  },
+  {
+    "fichier": "audio/sfx/sfx_02_couverts_contact.wav",
+    "taille_octets": 43244,
+    "sha256": "45942df2bb770e633f3677dd4d1f4c9df2ceeaa346ddaa0dc3ddf0ac0926fecf"
+  },
+  {
+    "fichier": "audio/sfx/sfx_03_couverts_glisse_montee.wav",
+    "taille_octets": 38444,
+    "sha256": "fcb84124c02e879c490455dcb566503122aae3863bee3983d58346709762d523"
+  },
+  {
+    "fichier": "audio/sfx/sfx_04_couverts_glisse_descente.wav",
+    "taille_octets": 36524,
+    "sha256": "3f895d4cbc263132ebf2eb826cf62ae375194d6a519de1c357e88a9354ed844f"
+  },
+  {
+    "fichier": "audio/sfx/sfx_05_shekere_roulement.wav",
+    "taille_octets": 52844,
+    "sha256": "fc2a2f2cd2185486636e57bb2f520408767cbc765a5b1a9a1cb63be3e59d3dcb"
+  },
+  {
+    "fichier": "audio/sfx/sfx_06_porcelaine_montee.wav",
+    "taille_octets": 57644,
+    "sha256": "4faea511e261739671e7027957625187105225002025ef6381f480061fa8c7a6"
+  },
+  {
+    "fichier": "audio/sfx/sfx_07_cloche_agogo.wav",
+    "taille_octets": 33644,
+    "sha256": "f6e6ead8e29cfe30803169a8188f665b410086dbf11ff41265d90645b2c1420d"
+  },
+  {
+    "fichier": "audio/sfx/sfx_08_balafon_prix.wav",
+    "taille_octets": 87404,
+    "sha256": "0f4efe3652403ae5552ac5b3b4edf14236ca44cb83607b72c2ac6c3560e988a5"
+  },
+  {
+    "fichier": "audio/sfx/sfx_09_balafon_prix_variante.wav",
+    "taille_octets": 87404,
+    "sha256": "3952036994aa99a4efda6e22f14ac5ec31ef0f559189950b44cf7485170eeadb"
+  },
+  {
+    "fichier": "audio/sfx/sfx_10_service_tissu.wav",
+    "taille_octets": 52844,
+    "sha256": "fb78883306a9bfcdaf531d10e175cc1125b32a41a575306ddf2737f8f3f6795d"
+  },
+  {
+    "fichier": "audio/sfx/sfx_11_kalimba_cta.wav",
+    "taille_octets": 134444,
+    "sha256": "bbf01dc0c13e32998c7ca38172c6277f13ca9f91c23e6443c397d6315ad65f9b"
+  },
+  {
+    "fichier": "audio/sfx/sfx_12_impact_grave.wav",
+    "taille_octets": 76844,
+    "sha256": "42dfe53dcc170c8a650a62397225c6ff08b981b8fa207069735212bf714baa25"
+  },
+  {
+    "fichier": "audio/sfx/sfx_13_gresillement_braise.wav",
+    "taille_octets": 384044,
+    "sha256": "e9789e61c8bf6765679259cba7e4bbed64a29c76b7768f517e1dac5037c842d8"
+  },
+  {
+    "fichier": "audio/stems/maquis_afro_A_braise_bass.wav",
+    "taille_octets": 5760044,
+    "sha256": "6b92eafeec4d924d8dcb59abc8e96d1403b01e061ee1efbfa51d55be8d4f0fcc"
+  },
+  {
+    "fichier": "audio/stems/maquis_afro_A_braise_drums.wav",
+    "taille_octets": 5760044,
+    "sha256": "34688e6cb524d841728d192fe7ec1dd58139a4f6951cf10b7cb5dcd932c3d391"
+  },
+  {
+    "fichier": "audio/stems/maquis_afro_A_braise_harmonie.wav",
+    "taille_octets": 5760044,
+    "sha256": "20994787c906b8ac1f4597a2a9a767af661821b3adf62b739a2118407d057ddb"
+  },
+  {
+    "fichier": "audio/stems/maquis_afro_A_braise_melodie.wav",
+    "taille_octets": 5760044,
+    "sha256": "882488381863dac540125176db7fe5a6292d03e0238720474e1a1f3926a87f4a"
+  },
+  {
+    "fichier": "audio/stems/maquis_afro_B_maquis_dore_bass.wav",
+    "taille_octets": 5760044,
+    "sha256": "944997359e58c1098d1dc26ab22610795c5dde6af8f526da1a7c2e10c9e85743"
+  },
+  {
+    "fichier": "audio/stems/maquis_afro_B_maquis_dore_drums.wav",
+    "taille_octets": 5760044,
+    "sha256": "1df57a588c387c6c35aec062090efe9cec2499599d9ae1735da9eb9572c5279e"
+  },
+  {
+    "fichier": "audio/stems/maquis_afro_B_maquis_dore_harmonie.wav",
+    "taille_octets": 5760044,
+    "sha256": "70680622e8b5ba0c36cb79f531f37c18b4177576f64dbaa6b661880198a7d206"
+  },
+  {
+    "fichier": "audio/stems/maquis_afro_B_maquis_dore_melodie.wav",
+    "taille_octets": 5760044,
+    "sha256": "ad84f8187df70b1a62df724d3f722ae12bf5e935040e40c82823954575fe2039"
+  },
+  {
+    "fichier": "audio/synced/ducking_test_T1_pisteA_avec_signal.wav",
+    "taille_octets": 11520044,
+    "sha256": "6054a0630c5e2abe0571e5101c98cb50fd6517fe1c87002fb1b7c76e4963a57a"
+  },
+  {
+    "fichier": "audio/synced/ducking_test_signal_de_test.wav",
+    "taille_octets": 5760044,
+    "sha256": "fd4181ff69ebbeca9802252f1f63715d65610b49bc56b687f5ed4ea76fa86121"
+  },
+  {
+    "fichier": "audio/synced/mix_T1_audio_final.wav",
+    "taille_octets": 5760044,
+    "sha256": "8260489376c94e522435b960c45107f77c25e89c662747910f73836f0f93107b"
+  },
+  {
+    "fichier": "audio/synced/mix_T1_audio_final_pisteB.wav",
+    "taille_octets": 5760044,
+    "sha256": "98d9c339ec2f0a1674bf9ab045d42255c40de8519cbc2cfff2e1777de32e926c"
+  },
+  {
+    "fichier": "output/output_T1_audio_final.mp4",
+    "taille_octets": 10117097,
+    "sha256": "8cdea99885b79ef0328edc31619243ac365066a9a699900d137e20bf61858ab3"
+  },
+  {
+    "fichier": "output/output_T1_audio_final_pisteB.mp4",
+    "taille_octets": 10132290,
+    "sha256": "96f020409dd3e82ba026db4b3ae1ca58180237ae2b9ba30c228f17d74eeea040"
+  }
+]

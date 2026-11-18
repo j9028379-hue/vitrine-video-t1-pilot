@@ -1,17 +1,35 @@
-# Downloaded source footage: download temporarily at render time; never commit originals
+# Rushs originaux Mixkit : téléchargés à la demande, jamais versionnés
 rushes/source/**
 !rushes/source/.gitkeep
 
-# Generated renders/artifacts
+# Rendus intermédiaires (les 4 livrables MP4 ci-dessous sont versionnés)
 output/*.mp4
-output/*.png
-output/verification.json
+!output/output_T1_sans_voix_v3_1.mp4
+!output/output_T1_sans_voix_v4_demo.mp4
+!output/output_T1_audio_demo_A.mp4
+!output/output_T1_audio_demo_B.mp4
+output/*.zip
+output/verification*.json
+output/visual_qc*.json
+output/SHA256SUMS*
+output/DELIVERABLES_README.txt
+# planches de contrôle publiées avec la démonstration
+output/planche_controle.png
+output/planche_controle_v2.png
+output/planche_controle_v3.png
+output/planche_temps_v2.png
+output/planche_temps_v3.png
+output/transitions_v2.png
+output/transitions_v3.png
+output/planche_controle_0_25s_v3_1.png
+output/planche_typographie_v3_1.png
+output/planche_etats_animation_v3_1.png
+
 render_plan.json
 
-# Keep the canonical, unmodified V6.2 reference local; publish only its redacted demo-text derivative.
+# Référence canonique locale : seule la version public-safe est publiée
 specs/restaurants_maquis_T1.spec_v6_2.json
 
-# Python/cache
 __pycache__/
 .pytest_cache/
 *.py[cod]

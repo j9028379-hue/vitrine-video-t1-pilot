@@ -1,54 +1,140 @@
-# VITRINE VIDÉO — pilote Restaurants & Maquis / T1 « Plat du jour »
+# VITRINE VIDÉO — T1 « Restaurants et Maquis »
 
-Ce dépôt porte uniquement sur T1 : quatre scènes, douze plans, huit blocs graphiques, quatorze presets, 30 secondes, 720 × 1280, 30 images/s. Le rendu initial est muet. Aucun son, aucune voix, transcription ou sous-titre n'est généré.
+Démonstration complète du gabarit **T1** : quatre prises vidéo (6 s · 8 s · 7 s · 9 s), un montage de 30 s,
+une maquette de parcours jouable dans le navigateur, et tout le son (voix, musique, effets) publié séparément.
 
-## État de reprise
+> **Ce dépôt est une démonstration.** Les valeurs commerciales sont fictives (« Maquis Démo », « Burger maison »,
+> « 2 500 FCFA », « ARCONVILLE — ADRESSE FICTIVE », « NUMÉRO FICTIF ») : aucun contact réel, aucune donnée personnelle.
+> Les rushs sont des extraits de stock sous licence libre, ce ne sont pas les images d'un vrai commerce.
+> La voix est une **voix de synthèse** déclarée comme telle. La maquette de parcours n'est **pas** une validation de
+> l'application Android (caméra, permissions, arrêt système) : c'est une maquette d'écrans et d'enchaînement.
 
-L'espace local remis à cette session ne contenait ni dépôt Git, ni commit `98fe258`, ni MP4. La recherche Drive n'a retrouvé, comme archive du pilote, que les documents de spécification V6.2 et non le moteur, le manifeste historique, le plan de rendu, les rushs, les tests ou le rendu. Les deux JSON de référence ont été téléchargés par leurs identifiants Drive exacts, validés et copiés ici sans modification. `adapter/t1_adapter.py` est donc une reconstitution limitée à ce qui manquait, dérivée des deux spécifications, et conserve celles-ci en lecture seule.
+---
 
-Le code, le plan de rendu, les médias téléchargés et le rendu créés dans ce dépôt ne sont pas présentés comme des fichiers restaurés depuis l'ancienne session. Le commit historique `98fe258` n'est pas disponible.
+## 1. Voir la démonstration en 30 secondes
 
-## Références immuables
+| Ce que vous cherchez | Fichier |
+|---|---|
+| La publicité finie, avec le son | `output/output_T1_audio_demo_A.mp4` (recommandée) · `output/output_T1_audio_demo_B.mp4` (alternative) |
+| La même vidéo sans son | `output/output_T1_sans_voix_v4_demo.mp4` |
+| La référence muette V3.1 (inchangée) | `output/output_T1_sans_voix_v3_1.mp4` |
+| Le parcours dans le navigateur | `simulation/index.html` |
+| Les écrans, en images | `ui-screens/` (19 captures) |
+| Les quatre consignes de tournage | `capture-guide/README.md` |
 
-- `specs/T1_ENGINEERING_SPEC_V1_2.json` — copie exacte du fichier Drive `19CDfmQsJdt0sI4_QhbKGn7aJ5p7gE3Dh`.
-- `specs/RAPPORT_V1_2_INGENIERIE_T1.md` — copie exacte du fichier Drive `1IeTbq0CPPwEYpKXjGXQmM8LPZfSLtGKC`.
-- `specs/restaurants_maquis_T1.spec_v6_2.json` — copie locale exacte et en lecture seule du JSON Drive V6.2; ce fichier est ignoré par Git et n'est pas publié.
-- `specs/restaurants_maquis_T1.spec_v6_2.public-safe.json` — copie dérivée publiée pour CI. Uniquement l'exemple CTA contenant une chaîne au format de numéro téléphonique béninois a été remplacé par `NUMÉRO DE DÉMO NON ATTRIBUÉ`; l'original Drive et la copie canonique locale restent inchangés.
+## 2. Lancer la maquette de parcours
 
-Cette précaution évite de publier une chaîne téléphonique au format valide dont l'absence d'attribution réelle ne peut pas être établie. Le rendu local et ses tests ont utilisé le V6.2 canonique exact; GitHub Actions utilise le JSON public-safe et vérifie les structures/montage. La durée de tournage V6.2 ne remplace pas le timing du montage V1.2.
+**En ligne (GitHub Pages)** : `Settings → Pages → Deploy from a branch → main / (root)`, puis ouvrir
+`https://j9028379-hue.github.io/vitrine-video-t1-pilot/simulation/`. Le fichier `.nojekyll` est déjà présent.
 
-## Données de démonstration
-
-`demo/T1_demo_input.json` utilise des valeurs fictives. Le commerce est nommé « Maquis Démo », le quartier porte une mention d'adresse fictive et le contact est `NUMÉRO FICTIF` ; ce ne sont pas les coordonnées d'un commerce réel. Les rushs illustrent des exemples de stock et ne sont pas des images du commerce.
-
-## Vidéos sources et licence
-
-`rushes/manifest.json` référence quatre clips Mixkit explicitement indiqués sur leurs pages comme utilisables à des fins commerciales sous la Mixkit Stock Video Free License. Les URL, pages, licences et empreintes SHA-256 y figurent. Les originaux sont téléchargés temporairement au rendu, leur empreinte est contrôlée, et `rushes/source/` est ignoré par Git. Aucun rush brut n'est inclus dans l'historique public ni dans les artefacts du workflow.
-
-## Exécution locale
-
-Prérequis : Python 3.11+, FFmpeg/FFprobe, `curl`.
+**En local** — un simple serveur statique suffit (les vidéos ne se chargent pas en `file://`) :
 
 ```bash
-python -m pip install -r requirements.txt
-python -m json.tool specs/T1_ENGINEERING_SPEC_V1_2.json >/dev/null
-python -m json.tool specs/restaurants_maquis_T1.spec_v6_2.json >/dev/null
-python -m engine.fetch_rushes
-python -m adapter.t1_adapter
-python -m pytest -q
-python -m engine.render
-python -m engine.verify
+python3 -m http.server 8000
+# puis ouvrir http://127.0.0.1:8000/simulation/
 ```
 
-Résultats locaux : `render_plan.json`, `output/output_T1_sans_voix.mp4`, `output/verification.json` et `output/planche_controle.png`.
+Ce qu'on voit, dans l'ordre :
 
-## GitHub Actions
+1. **Scène 1/4 — LE PLAT · 6 secondes.** La prise tourne déjà derrière la carte de consigne. Le bouton `GO · COMMENCER`
+   lance l'enregistrement.
+2. **Pendant l'enregistrement, la carte disparaît complètement** : il ne reste que l'aperçu caméra, le chrono et la barre
+   de progression. Toutes les durées sont imposées (6 / 8 / 7 / 9 s) et l'enregistrement s'arrête tout seul.
+3. **Après la prise** : elle est rejouée **avec le son**, avec deux boutons `REFAIRE` et `SCÈNE SUIVANTE`
+   (après la scène 4 : `VOIR MON MONTAGE`).
+4. **Montage en cours**, puis la **publicité finale**, puis l'écran de fin.
 
-Le workflow manuel est `.github/workflows/render_t1.yml` (`workflow_dispatch`). Il valide les deux JSON, retélécharge et contrôle les quatre rushs, génère `render_plan.json`, exécute les tests, rend le MP4 et vérifie les métadonnées avec FFprobe. Il publie le MP4, le plan, la vérification, la planche et le manifeste comme artefacts téléchargeables pour sept jours. Il n'ajoute pas les fichiers source Mixkit au dépôt.
+Les quatre consignes affichées sont celles de la spécification V6.2, **mot pour mot** (titre, durée, « À montrer »,
+« À éviter », mention vocale, exemple de phrase). ⚠️ La scène 1 dure **6 secondes** : l'ancienne capture qui affichait
+« 5 s » sur la scène 1 est une erreur, elle n'est pas reproduite ici.
 
-## Limites connues
+## 3. Contenu du dépôt
 
-- Les sources exactes de l'ancienne session, son historique Git local, le commit `98fe258`, son manifeste de rushs et son MP4 n'ont pas persisté dans les emplacements inspectés.
-- Les clips Mixkit référencés ici sont de nouveaux clips de remplacement, choisis et vérifiés sous une licence autorisant l'usage commercial ; ils ne sont pas prétendus identiques aux rushs initiaux.
-- C'est un pilote Python/FFmpeg de démonstration visuelle, pas le backend Android Media3.
-- L'adresse et le numéro sont volontairement fictifs. Ne pas les substituer à des coordonnées commerciales sans saisie et validation par leur propriétaire.
+```
+capture-guide/          les 4 consignes de tournage, les listes à montrer / à éviter, les limites des rushs
+ui-screens/             19 captures : 4 × (état A consigne, B enregistrement, C validation) + montage + fin
+simulation/             maquette de parcours (HTML autonome) + media/ (4 prises web + voix)
+rushes/                 manifest.json (URL, licence, SHA-256 des rushs) + build_scenes.sh (reconstruit les 4 prises)
+audio/voice/            4 voix de synthèse françaises, un fichier par scène
+audio/music/v2/         les 2 musiques originales, 120 BPM / 30 s
+audio/stems/v2/         les stems des 2 musiques (FLAC sans perte)
+audio/sfx/              13 matières sonores originales (3 seulement sont utilisées, voir plus bas)
+audio/ambience/         ambiance de salle synthétisée
+audio/synced/v2/        mix_A.wav, mix_B.wav et les 3 tiges du mixage par piste
+audio/sync/             document de synchronisation (repères, départs de voix, ducking)
+audio/scripts/          build_music_v2.py, mix_v2.py, qc_v2.py, loudness.py, ducking.py, synth_lib.py
+audio/metadata/         LICENCES.md, VOIX_SYNTHETIQUES.md, mesures JSON (mix_v2_report, qc_v2, music_v2_build)
+audio/video_edit_analysis_T1.md     analyse du fichier vidéo exporté (coupes mesurées, textes, rythme)
+audio/note_tendances_musicales_afrique_ouest_2026.md   note sourcée et datée
+output/                 MP4 livrés + planches de contrôle
+reports/                rapport de mixage, plan de rendu V3.1 archivé
+engine/, adapter/       moteur de rendu 720 × 1280 et adaptateur V1.2 → plan de rendu
+specs/, tests/          spécifications de référence et tests
+tools/capture_ui.py     régénère les captures d'écran (Playwright + Chromium)
+```
+
+## 4. Les quatre prises vidéo
+
+Les quatre scènes sont des **séquences vidéo `.mp4`**, jamais des photographies — même avec un zoom ou un mouvement
+artificiel. Chacune correspond à ce que le commerçant doit filmer :
+
+| Scène | Durée | Consigne (résumé) | Rush réel utilisé |
+|---|---|---|---|
+| 1/4 | 6 s | le plat, la main qui sert, l'assiette entière | un serveur porte puis pose un hamburger |
+| 2/4 | 8 s | le dessus du plat, puis un détail très proche | plat vu d'au-dessus (4 s) + gros plan sauce/œuf/frites (4 s) |
+| 3/4 | 7 s | la personne qui sert ou qui mange | un homme mange son hamburger, mains et visage visibles |
+| 4/4 | 9 s | le lieu, l'enseigne, la rue, puis le comptoir | terrasse et entrée vues de la rue (4,6 s) + comptoir avec clients (4,4 s) |
+
+**Limite assumée sur la scène 4** : dans les rushs libres d'usage commercial disponibles, **aucune enseigne lisible**
+n'apparaissait. Le nom du commerce n'est donc affiché que par les textes du gabarit. Une vraie campagne doit tourner
+cette scène devant l'enseigne réelle du commerçant (voir `capture-guide/README.md`).
+
+Reconstruire les prises (télécharge les 6 clips Mixkit, vérifie leurs empreintes, assemble les 4 fichiers) :
+
+```bash
+bash rushes/build_scenes.sh
+```
+
+## 5. Le son
+
+- **Voix** : 4 fichiers séparés, même identité vocale, textes exacts, aucun sous-titre ni traduction.
+  Voir `audio/metadata/VOIX_SYNTHETIQUES.md`. Ce sont des voix de **synthèse**, pas l'enregistrement d'un commerçant.
+- **Musique** : 2 propositions seulement, 120 BPM / 30 s, compositions originales.
+  - **A — « afro-maquis 120 »** (recommandée) : basse ronde, kick 4/4, shakers, kalimba/marimba, nappe discrète.
+  - **B — « gangan acoustique »** (alternative) : tambours parlants simulés, balafon, djembé, très peu d'électronique.
+  - ⚠️ Aucun outil de génération musicale par IA n'était disponible : les pistes sont **composées et synthétisées en
+    code**, pas générées par un modèle de musique. C'est dit aussi dans `audio/metadata/LICENCES.md`.
+- **Effets** : 3 matières seulement, toutes justifiées par une action visible — l'assiette posée à 2,10 s, la tasse posée
+  à 28,30 s, l'ambiance de salle à −32 dB. **Aucun whoosh, pop ou ding systématique**, aucun bruit de grillade (la vidéo
+  ne montre aucune cuisson), aucune ambiance de rue dense.
+- **Réglages V6.2 conservés** : musique −6 dB (−16 dB sous la voix), effets −5 dB (−8 dB sous la voix), ducking seuil
+  −26 dBFS, lookahead 80 ms, hold 200 ms, attaque 60 ms, relâchement 400 ms, profondeur −10 dB, fondu 28,5 → 30 s.
+- **Mesures** : −16,0 LUFS, true peak −2,7 dBTP, 0 écrêtage, audio du MP4 fidèle au WAV (−0,03 dB) et **0,0 ms de
+  décalage** audio/vidéo. Détail : `reports/rapport_mixage_T1_demo.md`.
+- **Honnêteté** : je n'ai pas pu écouter le mixage (aucune sortie audio ici). Le contrôle est objectif ; la liste
+  d'écoute à faire avant diffusion est au §5 du rapport de mixage.
+
+## 6. Reconstruire de bout en bout
+
+```bash
+python3 -m pip install -r requirements.txt      # numpy, scipy, pillow, opencv, pytest
+bash rushes/build_scenes.sh                     # 4 prises vidéo (6/8/7/9 s)
+PYTHONPATH=. python3 engine/motion_v3_1.py \
+    --plan render_plan_v4_demo.json \
+    --output output/output_T1_sans_voix_v4_demo.mp4 \
+    --sheet output/planche_controle_v4_demo.png
+cd audio/scripts && python3 build_music_v2.py && python3 mix_v2.py && python3 qc_v2.py && cd ../..
+for t in A B; do
+  ffmpeg -y -i output/output_T1_sans_voix_v4_demo.mp4 -i audio/synced/v2/mix_$t.wav \
+    -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -movflags +faststart output/output_T1_audio_demo_$t.mp4
+done
+python3 tools/capture_ui.py                     # régénère ui-screens/
+python3 -m pytest -q                            # tests de l'adaptateur et du moteur
+```
+
+## 7. Ce qui n'est pas fait, et pourquoi
+
+- **Pas de nouvelle spécification** V1/V2/V3 : la direction artistique visuelle et le montage V3.1 ne sont pas refaits.
+  Seule la correspondance entre scènes et rushs a été corrigée, plus les valeurs de démonstration (adresse fictive).
+- **Pas de test Android** : aucun code Android n'est disponible ; la maquette le dit explicitement.
+- **Pas de validation subjective du mixage** : voir §5 du rapport.

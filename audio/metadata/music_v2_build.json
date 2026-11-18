@@ -1,0 +1,70 @@
+{
+  "sr": 48000,
+  "bpm": 120.0,
+  "bar_s": 2.0,
+  "bars": 15,
+  "duree_s": 30.0,
+  "outil": "composition et synthèse originales en code (aucun outil de génération musicale par IA disponible)",
+  "pistes": [
+    {
+      "id": "A",
+      "nom": "adjapiano maquis",
+      "bpm": 120.0,
+      "duree_s": 30.0,
+      "mesures": 15,
+      "tonalite": "La mineur",
+      "instrumental": true,
+      "paroles": false,
+      "grille": [
+        "Am",
+        "F",
+        "C",
+        "G"
+      ],
+      "structure": {
+        "intro": "0–6 s",
+        "groove": "6–14 s",
+        "sombre": "14–21 s",
+        "montee": "21–30 s"
+      },
+      "recommandation": "A est la proposition recommandée, B l'alternative",
+      "stems": [
+        "drums",
+        "bass",
+        "harm",
+        "lead"
+      ],
+      "originalite": "composition originale synthétisée ; aucune mélodie, aucun sample ni extrait d'œuvre existante"
+    },
+    {
+      "id": "B",
+      "nom": "gangan acoustique",
+      "bpm": 120.0,
+      "duree_s": 30.0,
+      "mesures": 15,
+      "tonalite": "La mineur",
+      "instrumental": true,
+      "paroles": false,
+      "grille": [
+        "Am",
+        "F",
+        "C",
+        "G"
+      ],
+      "structure": {
+        "intro": "0–6 s",
+        "groove": "6–14 s",
+        "sombre": "14–21 s",
+        "montee": "21–30 s"
+      },
+      "recommandation": "alternative",
+      "stems": [
+        "drums",
+        "bass",
+        "harm",
+        "lead"
+      ],
+      "originalite": "composition originale synthétisée ; aucune mélodie, aucun sample ni extrait d'œuvre existante"
+    }
+  ]
+}

@@ -1,0 +1,288 @@
+{
+  "SR": 48000,
+  "note": "contrôle objectif — aucune écoute subjective n'est possible depuis cet environnement",
+  "pistes": [
+    {
+      "piste": "A",
+      "ecrêtage": 0,
+      "crete_db": -3.6,
+      "dc_offset": 0.000101,
+      "transitoires_forts_tige_voix": 338,
+      "transitoires_percussifs": 1350,
+      "lufs": -16.02,
+      "true_peak_db": -2.72,
+      "voix_detectees": [
+        [
+          1.4,
+          1.63
+        ],
+        [
+          1.65,
+          1.79
+        ],
+        [
+          1.94,
+          2.12
+        ],
+        [
+          2.23,
+          2.45
+        ],
+        [
+          2.48,
+          2.6
+        ],
+        [
+          2.82,
+          2.96
+        ],
+        [
+          7.06,
+          7.65
+        ],
+        [
+          8.23,
+          8.36
+        ],
+        [
+          8.38,
+          8.72
+        ],
+        [
+          9.13,
+          9.5
+        ],
+        [
+          9.64,
+          9.85
+        ],
+        [
+          10.51,
+          10.79
+        ],
+        [
+          10.87,
+          11.0
+        ],
+        [
+          14.98,
+          15.15
+        ],
+        [
+          15.28,
+          15.43
+        ],
+        [
+          15.82,
+          16.07
+        ],
+        [
+          16.48,
+          16.65
+        ],
+        [
+          17.17,
+          17.47
+        ],
+        [
+          22.2,
+          22.47
+        ],
+        [
+          22.56,
+          22.92
+        ],
+        [
+          23.03,
+          23.2
+        ],
+        [
+          24.15,
+          24.34
+        ],
+        [
+          24.4,
+          24.55
+        ],
+        [
+          25.19,
+          25.35
+        ],
+        [
+          25.49,
+          25.68
+        ]
+      ],
+      "ducking": {
+        "musique_pendant_voix_db": -41.0,
+        "musique_hors_voix_db": -33.7,
+        "profondeur_mesuree_db": -7.4
+      },
+      "effets": [
+        {
+          "a_s": 2.1,
+          "evenement": "assiette posée (S1)",
+          "crete_db": -30.2,
+          "avant_db": -47.4,
+          "audible": true
+        },
+        {
+          "a_s": 28.3,
+          "evenement": "tasse posée (S4)",
+          "crete_db": -25.8,
+          "avant_db": -40.0,
+          "audible": true
+        }
+      ],
+      "mp4": {
+        "fichier": "output/output_T1_audio_demo_A.mp4",
+        "duree_s": 30.016,
+        "lufs": -19.07,
+        "true_peak_db": -2.64,
+        "ecart_wav_mp4_lufs": -0.03,
+        "decalage_audio_video_ms": 0.0
+      }
+    },
+    {
+      "piste": "B",
+      "ecrêtage": 0,
+      "crete_db": -3.6,
+      "dc_offset": 0.000114,
+      "transitoires_forts_tige_voix": 338,
+      "transitoires_percussifs": 1311,
+      "lufs": -16.01,
+      "true_peak_db": -2.72,
+      "voix_detectees": [
+        [
+          1.4,
+          1.63
+        ],
+        [
+          1.65,
+          1.79
+        ],
+        [
+          1.94,
+          2.12
+        ],
+        [
+          2.23,
+          2.45
+        ],
+        [
+          2.48,
+          2.6
+        ],
+        [
+          2.82,
+          2.96
+        ],
+        [
+          7.06,
+          7.65
+        ],
+        [
+          8.23,
+          8.36
+        ],
+        [
+          8.38,
+          8.72
+        ],
+        [
+          9.13,
+          9.5
+        ],
+        [
+          9.64,
+          9.85
+        ],
+        [
+          10.51,
+          10.79
+        ],
+        [
+          10.87,
+          11.0
+        ],
+        [
+          14.98,
+          15.15
+        ],
+        [
+          15.28,
+          15.43
+        ],
+        [
+          15.82,
+          16.07
+        ],
+        [
+          16.48,
+          16.65
+        ],
+        [
+          17.17,
+          17.47
+        ],
+        [
+          22.2,
+          22.47
+        ],
+        [
+          22.56,
+          22.92
+        ],
+        [
+          23.03,
+          23.2
+        ],
+        [
+          24.15,
+          24.34
+        ],
+        [
+          24.4,
+          24.55
+        ],
+        [
+          25.19,
+          25.35
+        ],
+        [
+          25.49,
+          25.68
+        ]
+      ],
+      "ducking": {
+        "musique_pendant_voix_db": -41.2,
+        "musique_hors_voix_db": -34.6,
+        "profondeur_mesuree_db": -6.7
+      },
+      "effets": [
+        {
+          "a_s": 2.1,
+          "evenement": "assiette posée (S1)",
+          "crete_db": -30.2,
+          "avant_db": -47.4,
+          "audible": true
+        },
+        {
+          "a_s": 28.3,
+          "evenement": "tasse posée (S4)",
+          "crete_db": -25.8,
+          "avant_db": -40.0,
+          "audible": true
+        }
+      ],
+      "mp4": {
+        "fichier": "output/output_T1_audio_demo_B.mp4",
+        "duree_s": 30.016,
+        "lufs": -19.05,
+        "true_peak_db": -2.62,
+        "ecart_wav_mp4_lufs": -0.03,
+        "decalage_audio_video_ms": 0.0
+      }
+    }
+  ]
+}
