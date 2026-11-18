@@ -13,6 +13,8 @@ output/verification*.json
 output/visual_qc*.json
 output/SHA256SUMS*
 output/DELIVERABLES_README.txt
+# Aperçus voix/musique lourds : reconstruits localement par le script dédié
+output/t1-voice-music-v1/
 # planches de contrôle publiées avec la démonstration
 output/planche_controle.png
 output/planche_controle_v2.png

@@ -41,18 +41,42 @@ Le mode `auto` utilise `sha256(render_job_id) mod 4`, ce qui rend la sélection 
 
 Utiliser AndroidX Media3 avec l'asset local indiqué par `audio_track.file`. Préparer le lecteur avant l'image 0, lancer à l'image 0 et arrêter à l'image 900. La grille cible est 120 BPM : un temps vaut environ 0,5 seconde / 15 images, et les scènes restent `[0, 180, 420, 630, 900]`.
 
-## Préparation de la phase voix off
+## Référence voix off et ducking validée
 
-Cette livraison n'ajoute encore aucune voix ni aucun SFX. Elle réserve toutefois le comportement à tester pendant la phase suivante :
+Le paquet musical publié reste inchangé. Un sidecar non destructif ajoute maintenant une même voix française masculine aux quatre scènes et permet de comparer le comportement réel des quatre musiques sans modifier le montage visuel :
 
+- départs voix : `1,20 / 6,80 / 14,70 / 21,80 s` ;
 - musique sans parole : `−3 dB` ;
 - musique sous voix : `−10 dB` ;
 - attaque du ducking : `120 ms` ;
 - relâchement : `450 ms` ;
-- voix et audio capturé : durée identité `1,0×` ;
-- éventuel creux dynamique futur entre `1,5 et 4 kHz`, uniquement pendant la parole.
+- aucun SFX ;
+- master WAV : cible `−16 LUFS`, plafond `−2 dBTP` ;
+- voix et musique : durée identité `1,0×`.
 
-La génération des voix off pourra donc tester successivement le même moteur contre les quatre variantes sans modifier le montage visuel.
+Le contrat est dans `config/T1_special_menu_voice_mix_v1_0_0.json`, la tige voix de 30 secondes dans `audio/voice/t1-voice-v1/t1_voice_stem_30s.wav`, et le rapport objectif dans `reports/T1_voice_music_v1_validation.json`.
+
+Reconstruction des quatre WAV/MP3/MP4 :
+
+```bash
+python3 audio/scripts/mix_t1_voice_music_v1.py \
+  --preview-dir output/t1-voice-music-v1
+python3 audio/scripts/build_t1_voice_listening_board.py \
+  --preview-dir output/t1-voice-music-v1
+```
+
+Attachement au plan de rendu (exemple avec Match Out) :
+
+```bash
+python3 -m adapter.t1_adapter \
+  --enable-music \
+  --music-variant t1_music_178406 \
+  --enable-voice \
+  --render-job-id t1-voice-demo-0001 \
+  --output /tmp/render_plan_voice.json
+```
+
+Le QC automatique mesure la durée, les LUFS, le true peak WAV/AAC, l'absence d'écrêtage et le rapport voix/musique sur chaque variante. La validation créative et la prononciation restent volontairement soumises à une écoute humaine des quatre aperçus.
 
 ## Licence et preuves
 

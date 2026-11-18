@@ -1,0 +1,55 @@
+{
+  "audit_date": "2026-11-18",
+  "artifact": "packages/t1-special-menu-music-v1/t1-special-menu-afrobeat-amapiano-music-v1.zip",
+  "artifact_sha256": "4fba896ebee2181927edb07a92e182c7da72835430ce95a77945df7e07f4edf5",
+  "status": "PASS_RUNTIME_WITH_DOCUMENTED_HISTORICAL_TEXT_REFERENCES",
+  "searched_literal": "573944",
+  "scan_method": "Complete ZIP extraction followed by recursive grep over every text-decodable file and a separate filename scan.",
+  "text_match_count": 11,
+  "matching_file_count": 7,
+  "filename_or_media_match_count": 0,
+  "bundled_selectable_track_ids": [
+    239426,
+    464383,
+    406552,
+    178406
+  ],
+  "matching_files": [
+    {
+      "path": "tools/validate_t1_music_pack.py",
+      "match_count": 2,
+      "classification": "negative validation guard"
+    },
+    {
+      "path": "tools/refresh_t1_music_manifest.py",
+      "match_count": 1,
+      "classification": "negative manifest evidence"
+    },
+    {
+      "path": "schemas/T1_music_pack.schema.json",
+      "match_count": 2,
+      "classification": "negative schema constraints"
+    },
+    {
+      "path": "packages/t1-special-menu-music-v1/manifest.json",
+      "match_count": 1,
+      "classification": "not-bundled declaration"
+    },
+    {
+      "path": "docs/T1_MUSIC_INTEGRATION.md",
+      "match_count": 1,
+      "classification": "historical replacement note"
+    },
+    {
+      "path": "config/T1_special_menu_music_pack_v1_0_0.json",
+      "match_count": 2,
+      "classification": "historical replacement and forbidden-ID declarations"
+    },
+    {
+      "path": "audio/music/t1-afrobeat-amapiano-v1/BUILD_PROVENANCE.json",
+      "match_count": 2,
+      "classification": "historical exclusion provenance"
+    }
+  ],
+  "conclusion": "No media, filename, selectable track, or runtime audio path uses the rejected candidate. Every occurrence is historical documentation or a negative guard. A future zero-literal corrective release would need to remove these declarations and rebuild the ZIP, which would intentionally change the published checksum."
+}

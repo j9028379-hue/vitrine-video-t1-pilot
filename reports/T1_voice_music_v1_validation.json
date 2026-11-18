@@ -1,0 +1,593 @@
+{
+  "schema_version": "1.0.0",
+  "status": "PASS",
+  "generated_on": "2026-11-18",
+  "configuration": "config/T1_special_menu_voice_mix_v1_0_0.json",
+  "music_pack": "config/T1_special_menu_music_pack_v1_0_0.json",
+  "visual_source": "output/output_T1_sans_voix_v4_demo.mp4",
+  "visual_source_video_bitstream_sha256": "07db529e01c6c2c0ff59399556b1723758b3c727abde9999796b1a96b972526e",
+  "sample_rate_hz": 48000,
+  "duration_s": 30.0,
+  "voice": {
+    "provider": "Arena.ai Agent Mode",
+    "voice_id": "voice-00",
+    "language": "fr",
+    "identity": "masculine advertising",
+    "clips": [
+      {
+        "scene": 1,
+        "start_s": 1.2,
+        "text": "Voici notre burger maison, préparé pour vous.",
+        "source": "audio/voice/t1-voice-v1/voix_fr_scene1.wav",
+        "processed": "audio/voice/t1-voice-v1/processed/voix_fr_scene1_norm.wav",
+        "end_s": 4.07,
+        "duration_s": 2.87,
+        "decoded_samples": 137760,
+        "source_sha256": "3460fb09be9dfabf114d43bf3a8f03a067f09d4a9ae9a9583dc482e27477de24",
+        "processed_sha256": "be21b7ad6952e9333a9fb409c6066eed00c52af993f52207174d3dc6e3e579b7",
+        "normalization": {
+          "applied_gain_db": -0.99,
+          "integrated_lufs": -20.02,
+          "true_peak_dbtp": -3.09,
+          "loudness_range_lu": 0.0
+        }
+      },
+      {
+        "scene": 2,
+        "start_s": 6.8,
+        "text": "Regardez le pain doré, la garniture et tous les détails.",
+        "source": "audio/voice/t1-voice-v1/voix_fr_scene2.wav",
+        "processed": "audio/voice/t1-voice-v1/processed/voix_fr_scene2_norm.wav",
+        "end_s": 10.31,
+        "duration_s": 3.51,
+        "decoded_samples": 168480,
+        "source_sha256": "4d4cff3f18f5d196e97746d74b07130583893e20716ff62b1200d238eccfe748",
+        "processed_sha256": "9fc2fac2a81938b4758d0b5568fd953df5d65a69149253632700893402028591",
+        "normalization": {
+          "applied_gain_db": -0.03,
+          "integrated_lufs": -20.18,
+          "true_peak_dbtp": -3.04,
+          "loudness_range_lu": 3.0
+        }
+      },
+      {
+        "scene": 3,
+        "start_s": 14.7,
+        "text": "On vous le sert tout juste préparé. Venez le découvrir !",
+        "source": "audio/voice/t1-voice-v1/voix_fr_scene3.wav",
+        "processed": "audio/voice/t1-voice-v1/processed/voix_fr_scene3_norm.wav",
+        "end_s": 17.89,
+        "duration_s": 3.19,
+        "decoded_samples": 153120,
+        "source_sha256": "4cfedc753d199d513d515cf27b09e1dcaefce192c755cbb78882eed6bc8a3f34",
+        "processed_sha256": "8223c1651c3c9958515e510191fb5b15ff51cfd8f1b06de729e7f5b286610ca1",
+        "normalization": {
+          "applied_gain_db": -0.78,
+          "integrated_lufs": -19.99,
+          "true_peak_dbtp": -3.79,
+          "loudness_range_lu": 1.1
+        }
+      },
+      {
+        "scene": 4,
+        "start_s": 21.8,
+        "text": "Retrouvez Maquis Démo à Arconville. Pour commander, contactez-nous sur WhatsApp.",
+        "source": "audio/voice/t1-voice-v1/voix_fr_scene4.wav",
+        "processed": "audio/voice/t1-voice-v1/processed/voix_fr_scene4_norm.wav",
+        "end_s": 26.27,
+        "duration_s": 4.47,
+        "decoded_samples": 214560,
+        "source_sha256": "6ed19661b9b772627342648e77cefaabdf5548813ac74d2b136ca0290ab090b8",
+        "processed_sha256": "d3db45c6eab105c541d04c7ff62379352ab0d1f7fac95767fdcbb82667880d75",
+        "normalization": {
+          "applied_gain_db": 0.1,
+          "integrated_lufs": -20.09,
+          "true_peak_dbtp": -3.08,
+          "loudness_range_lu": 4.9
+        }
+      }
+    ],
+    "stem": {
+      "file": "audio/voice/t1-voice-v1/t1_voice_stem_30s.wav",
+      "sha256": "e38bf082391d542042f9ba64ee8ae8e1bd2748a391456373ed418d2744a6eb70",
+      "bytes": 4320102,
+      "decoded_samples": 1440000,
+      "duration_s": 30.0,
+      "integrated_lufs": -19.44,
+      "true_peak_dbtp": -3.04,
+      "sample_peak_dbfs": -3.038,
+      "clipped_sample_count": 0,
+      "nan_count": 0,
+      "inf_count": 0,
+      "dc_offset_max_abs": 6.43e-05
+    }
+  },
+  "ducking": {
+    "music_open_gain_db": -3.0,
+    "music_under_voice_gain_db": -10.0,
+    "duck_depth_db": -7.0,
+    "duck_attack_ms": 120,
+    "duck_release_ms": 450,
+    "duck_attack_curve": "linear_db",
+    "duck_release_curve": "linear_db",
+    "voice_gain_db": 0.0,
+    "sfx": "none",
+    "master_target_lufs": -16.0,
+    "master_true_peak_dbtp_max": -2.0,
+    "delivery_audio": "stereo 48 kHz",
+    "minimum_music_gain_db": -10.0,
+    "maximum_music_gain_db": -3.0,
+    "duration_at_full_duck_s": 14.04,
+    "duration_in_attack_or_release_s": 2.28,
+    "automation_csv": "output/t1-voice-music-v1/T1_ducking_automation_10ms.csv",
+    "timeline_plot": "output/t1-voice-music-v1/T1_ducking_voice_timeline.png"
+  },
+  "quality_gates": {
+    "exact_music_variant_count": 4,
+    "approved_variant_ids": [
+      "t1_music_239426",
+      "t1_music_464383",
+      "t1_music_406552",
+      "t1_music_178406"
+    ],
+    "duration_tolerance_s": 0.001,
+    "integrated_lufs_min": -16.5,
+    "integrated_lufs_max": -15.5,
+    "wav_true_peak_dbtp_max": -1.9,
+    "aac_true_peak_dbtp_max": -1.0,
+    "minimum_active_speech_to_music_db": 4.0,
+    "clipped_sample_count_max": 0,
+    "human_listening_required_for_creative_approval": true
+  },
+  "variants": [
+    {
+      "status": "PASS",
+      "variant_id": "t1_music_239426",
+      "pixabay_id": 239426,
+      "title": "Go Down — T1 120 BPM edit",
+      "artist": "WizzykeyzBeat",
+      "music_file": "audio/music/t1-afrobeat-amapiano-v1/t1_239426_120bpm_30s.mp3",
+      "pre_master": {
+        "integrated_lufs": -18.51,
+        "true_peak_dbtp": -1.35
+      },
+      "master_wav": {
+        "file": "output/t1-voice-music-v1/T1_voice_music_239426.wav",
+        "sha256": "d478e00f83e5349ffe7bda075973a36de3b88f668cfc60922f7664723f872f5d",
+        "bytes": 8640102,
+        "decoded_samples": 1440000,
+        "duration_s": 30.0,
+        "integrated_lufs": -16.31,
+        "true_peak_dbtp": -1.98,
+        "sample_peak_dbfs": -1.985,
+        "clipped_sample_count": 0,
+        "nan_count": 0,
+        "inf_count": 0,
+        "dc_offset_max_abs": 0.0004265
+      },
+      "preview_mp3": {
+        "file": "output/t1-voice-music-v1/T1_voice_music_239426.mp3",
+        "sha256": "bc043ea86207f2cb0d4892fc0529e49cad8a6c60ceba1c51d6b97c9f9d8b51a0",
+        "bytes": 721196,
+        "decoded_samples": 1440000,
+        "duration_s": 30.0,
+        "integrated_lufs": -16.56,
+        "true_peak_dbtp": -2.16,
+        "sample_peak_dbfs": -2.204,
+        "clipped_sample_count": 0,
+        "nan_count": 0,
+        "inf_count": 0,
+        "dc_offset_max_abs": 0.0004072
+      },
+      "preview_mp4": {
+        "file": "output/t1-voice-music-v1/T1_voice_music_239426.mp4",
+        "sha256": "4e07d4417684a3f3a362eb6b6f981505ed975834144e8152027be07af728c1e8",
+        "bytes": 10250355,
+        "decoded_audio_samples": 1440768,
+        "decoded_audio_duration_s": 30.016,
+        "integrated_lufs": -16.34,
+        "true_peak_dbtp": -1.71,
+        "sample_peak_dbfs": -1.781,
+        "clipped_sample_count": 0,
+        "nan_count": 0,
+        "inf_count": 0,
+        "dc_offset_max_abs": 0.0004268,
+        "video_bitstream_sha256": "07db529e01c6c2c0ff59399556b1723758b3c727abde9999796b1a96b972526e",
+        "visual_source_bitstream_identical": true,
+        "probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "codec_type": "video",
+              "nb_frames": "900"
+            },
+            {
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "nb_frames": "1408"
+            }
+          ],
+          "format": {
+            "duration": "30.000000",
+            "size": "10250355"
+          }
+        }
+      },
+      "intelligibility_proxy": {
+        "method": "20 ms frames; voice RMS above -38 dBFS; pre-master stems",
+        "active_speech_s": 9.46,
+        "aggregate_speech_to_music_db": 10.92,
+        "median_speech_to_music_db": 10.82,
+        "p10_speech_to_music_db": -1.42,
+        "scenes": [
+          {
+            "scene": 1,
+            "active_speech_s": 1.88,
+            "median_speech_to_music_db": 10.41,
+            "p10_speech_to_music_db": -2.32
+          },
+          {
+            "scene": 2,
+            "active_speech_s": 2.52,
+            "median_speech_to_music_db": 9.02,
+            "p10_speech_to_music_db": -0.79
+          },
+          {
+            "scene": 3,
+            "active_speech_s": 2.02,
+            "median_speech_to_music_db": 11.08,
+            "p10_speech_to_music_db": -5.17
+          },
+          {
+            "scene": 4,
+            "active_speech_s": 3.04,
+            "median_speech_to_music_db": 13.39,
+            "p10_speech_to_music_db": 0.64
+          }
+        ]
+      }
+    },
+    {
+      "status": "PASS",
+      "variant_id": "t1_music_464383",
+      "pixabay_id": 464383,
+      "title": "ALONE — T1 120 BPM edit",
+      "artist": "DMSOUNDWORKS",
+      "music_file": "audio/music/t1-afrobeat-amapiano-v1/t1_464383_120bpm_30s.mp3",
+      "pre_master": {
+        "integrated_lufs": -18.56,
+        "true_peak_dbtp": -2.06
+      },
+      "master_wav": {
+        "file": "output/t1-voice-music-v1/T1_voice_music_464383.wav",
+        "sha256": "7aabd030c9f0a7eba7d117fdcf311b82237520ebb8a759a3114ce61ee634dc3d",
+        "bytes": 8640102,
+        "decoded_samples": 1440000,
+        "duration_s": 30.0,
+        "integrated_lufs": -16.21,
+        "true_peak_dbtp": -1.99,
+        "sample_peak_dbfs": -1.998,
+        "clipped_sample_count": 0,
+        "nan_count": 0,
+        "inf_count": 0,
+        "dc_offset_max_abs": 9.81e-05
+      },
+      "preview_mp3": {
+        "file": "output/t1-voice-music-v1/T1_voice_music_464383.mp3",
+        "sha256": "d9d1fb3b00df7f39d4ad25cc451d846303f62e5aa7de3f66fdae145792942176",
+        "bytes": 721196,
+        "decoded_samples": 1440000,
+        "duration_s": 30.0,
+        "integrated_lufs": -16.47,
+        "true_peak_dbtp": -2.21,
+        "sample_peak_dbfs": -2.223,
+        "clipped_sample_count": 0,
+        "nan_count": 0,
+        "inf_count": 0,
+        "dc_offset_max_abs": 0.0001055
+      },
+      "preview_mp4": {
+        "file": "output/t1-voice-music-v1/T1_voice_music_464383.mp4",
+        "sha256": "ac76a604c9cb0d9ebbdcf42db340b9a3cf2714e32b9b13da084e92631c9580bf",
+        "bytes": 10282310,
+        "decoded_audio_samples": 1440768,
+        "decoded_audio_duration_s": 30.016,
+        "integrated_lufs": -16.24,
+        "true_peak_dbtp": -1.89,
+        "sample_peak_dbfs": -1.938,
+        "clipped_sample_count": 0,
+        "nan_count": 0,
+        "inf_count": 0,
+        "dc_offset_max_abs": 9.65e-05,
+        "video_bitstream_sha256": "07db529e01c6c2c0ff59399556b1723758b3c727abde9999796b1a96b972526e",
+        "visual_source_bitstream_identical": true,
+        "probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "codec_type": "video",
+              "nb_frames": "900"
+            },
+            {
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "nb_frames": "1408"
+            }
+          ],
+          "format": {
+            "duration": "30.000000",
+            "size": "10282310"
+          }
+        }
+      },
+      "intelligibility_proxy": {
+        "method": "20 ms frames; voice RMS above -38 dBFS; pre-master stems",
+        "active_speech_s": 9.46,
+        "aggregate_speech_to_music_db": 10.45,
+        "median_speech_to_music_db": 10.03,
+        "p10_speech_to_music_db": -3.25,
+        "scenes": [
+          {
+            "scene": 1,
+            "active_speech_s": 1.88,
+            "median_speech_to_music_db": 9.75,
+            "p10_speech_to_music_db": -3.17
+          },
+          {
+            "scene": 2,
+            "active_speech_s": 2.52,
+            "median_speech_to_music_db": 10.7,
+            "p10_speech_to_music_db": -1.77
+          },
+          {
+            "scene": 3,
+            "active_speech_s": 2.02,
+            "median_speech_to_music_db": 10.69,
+            "p10_speech_to_music_db": -4.92
+          },
+          {
+            "scene": 4,
+            "active_speech_s": 3.04,
+            "median_speech_to_music_db": 8.95,
+            "p10_speech_to_music_db": -1.32
+          }
+        ]
+      }
+    },
+    {
+      "status": "PASS",
+      "variant_id": "t1_music_406552",
+      "pixabay_id": 406552,
+      "title": "PAUSE — T1 120 BPM edit",
+      "artist": "audiolibraryinfinite",
+      "music_file": "audio/music/t1-afrobeat-amapiano-v1/t1_406552_120bpm_30s.mp3",
+      "pre_master": {
+        "integrated_lufs": -18.53,
+        "true_peak_dbtp": -1.01
+      },
+      "master_wav": {
+        "file": "output/t1-voice-music-v1/T1_voice_music_406552.wav",
+        "sha256": "2e7d4bc541688df9b2a585b3431fbca5b2c335e1228450c1c971b01b464465b7",
+        "bytes": 8640102,
+        "decoded_samples": 1440000,
+        "duration_s": 30.0,
+        "integrated_lufs": -16.33,
+        "true_peak_dbtp": -1.99,
+        "sample_peak_dbfs": -1.994,
+        "clipped_sample_count": 0,
+        "nan_count": 0,
+        "inf_count": 0,
+        "dc_offset_max_abs": 0.0004427
+      },
+      "preview_mp3": {
+        "file": "output/t1-voice-music-v1/T1_voice_music_406552.mp3",
+        "sha256": "2ad16b621e3ffd77384adb8c83a8fdf597b8e73639c12fa5fcbcb248f6632e9a",
+        "bytes": 721196,
+        "decoded_samples": 1440000,
+        "duration_s": 30.0,
+        "integrated_lufs": -16.58,
+        "true_peak_dbtp": -2.08,
+        "sample_peak_dbfs": -2.08,
+        "clipped_sample_count": 0,
+        "nan_count": 0,
+        "inf_count": 0,
+        "dc_offset_max_abs": 0.0004339
+      },
+      "preview_mp4": {
+        "file": "output/t1-voice-music-v1/T1_voice_music_406552.mp4",
+        "sha256": "0c732ef82e2e1313d1fc3e79657fb51088db2c69d51624027cd4479fdb197562",
+        "bytes": 10274633,
+        "decoded_audio_samples": 1440768,
+        "decoded_audio_duration_s": 30.016,
+        "integrated_lufs": -16.35,
+        "true_peak_dbtp": -1.58,
+        "sample_peak_dbfs": -1.94,
+        "clipped_sample_count": 0,
+        "nan_count": 0,
+        "inf_count": 0,
+        "dc_offset_max_abs": 0.0004447,
+        "video_bitstream_sha256": "07db529e01c6c2c0ff59399556b1723758b3c727abde9999796b1a96b972526e",
+        "visual_source_bitstream_identical": true,
+        "probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "codec_type": "video",
+              "nb_frames": "900"
+            },
+            {
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "nb_frames": "1408"
+            }
+          ],
+          "format": {
+            "duration": "30.000000",
+            "size": "10274633"
+          }
+        }
+      },
+      "intelligibility_proxy": {
+        "method": "20 ms frames; voice RMS above -38 dBFS; pre-master stems",
+        "active_speech_s": 9.46,
+        "aggregate_speech_to_music_db": 8.81,
+        "median_speech_to_music_db": 11.81,
+        "p10_speech_to_music_db": -1.62,
+        "scenes": [
+          {
+            "scene": 1,
+            "active_speech_s": 1.88,
+            "median_speech_to_music_db": 12.26,
+            "p10_speech_to_music_db": -2.15
+          },
+          {
+            "scene": 2,
+            "active_speech_s": 2.52,
+            "median_speech_to_music_db": 11.52,
+            "p10_speech_to_music_db": 0.66
+          },
+          {
+            "scene": 3,
+            "active_speech_s": 2.02,
+            "median_speech_to_music_db": 12.61,
+            "p10_speech_to_music_db": -4.81
+          },
+          {
+            "scene": 4,
+            "active_speech_s": 3.04,
+            "median_speech_to_music_db": 11.6,
+            "p10_speech_to_music_db": -0.5
+          }
+        ]
+      }
+    },
+    {
+      "status": "PASS",
+      "variant_id": "t1_music_178406",
+      "pixabay_id": 178406,
+      "title": "Match Out — T1 120 BPM edit",
+      "artist": "artbybigvee",
+      "music_file": "audio/music/t1-afrobeat-amapiano-v1/t1_178406_120bpm_30s.mp3",
+      "pre_master": {
+        "integrated_lufs": -18.45,
+        "true_peak_dbtp": -2.01
+      },
+      "master_wav": {
+        "file": "output/t1-voice-music-v1/T1_voice_music_178406.wav",
+        "sha256": "694fc50e42f38c2df81df006f7920825c3f3dbc37c5cc70439e7b6f3ddfb1cbd",
+        "bytes": 8640102,
+        "decoded_samples": 1440000,
+        "duration_s": 30.0,
+        "integrated_lufs": -16.17,
+        "true_peak_dbtp": -1.99,
+        "sample_peak_dbfs": -1.997,
+        "clipped_sample_count": 0,
+        "nan_count": 0,
+        "inf_count": 0,
+        "dc_offset_max_abs": 0.0001695
+      },
+      "preview_mp3": {
+        "file": "output/t1-voice-music-v1/T1_voice_music_178406.mp3",
+        "sha256": "e53707b958d4758ac4ecbc2cf5c7a60c0aabd707b97cce6cc342f2a3bdda99f9",
+        "bytes": 721196,
+        "decoded_samples": 1440000,
+        "duration_s": 30.0,
+        "integrated_lufs": -16.44,
+        "true_peak_dbtp": -2.18,
+        "sample_peak_dbfs": -2.196,
+        "clipped_sample_count": 0,
+        "nan_count": 0,
+        "inf_count": 0,
+        "dc_offset_max_abs": 0.0001686
+      },
+      "preview_mp4": {
+        "file": "output/t1-voice-music-v1/T1_voice_music_178406.mp4",
+        "sha256": "67141189ca7c666130a713341c9237d752bfdbef29bd166ac064561ef5efce16",
+        "bytes": 10255488,
+        "decoded_audio_samples": 1440768,
+        "decoded_audio_duration_s": 30.016,
+        "integrated_lufs": -16.21,
+        "true_peak_dbtp": -1.83,
+        "sample_peak_dbfs": -1.837,
+        "clipped_sample_count": 0,
+        "nan_count": 0,
+        "inf_count": 0,
+        "dc_offset_max_abs": 0.0001915,
+        "video_bitstream_sha256": "07db529e01c6c2c0ff59399556b1723758b3c727abde9999796b1a96b972526e",
+        "visual_source_bitstream_identical": true,
+        "probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "codec_type": "video",
+              "nb_frames": "900"
+            },
+            {
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "nb_frames": "1408"
+            }
+          ],
+          "format": {
+            "duration": "30.000000",
+            "size": "10255488"
+          }
+        }
+      },
+      "intelligibility_proxy": {
+        "method": "20 ms frames; voice RMS above -38 dBFS; pre-master stems",
+        "active_speech_s": 9.46,
+        "aggregate_speech_to_music_db": 11.15,
+        "median_speech_to_music_db": 11.27,
+        "p10_speech_to_music_db": -3.71,
+        "scenes": [
+          {
+            "scene": 1,
+            "active_speech_s": 1.88,
+            "median_speech_to_music_db": 20.05,
+            "p10_speech_to_music_db": 8.35
+          },
+          {
+            "scene": 2,
+            "active_speech_s": 2.52,
+            "median_speech_to_music_db": 11.1,
+            "p10_speech_to_music_db": -2.97
+          },
+          {
+            "scene": 3,
+            "active_speech_s": 2.02,
+            "median_speech_to_music_db": 10.12,
+            "p10_speech_to_music_db": -7.05
+          },
+          {
+            "scene": 4,
+            "active_speech_s": 3.04,
+            "median_speech_to_music_db": 7.64,
+            "p10_speech_to_music_db": -4.64
+          }
+        ]
+      }
+    }
+  ],
+  "human_review": {
+    "status": "PENDING",
+    "required": true,
+    "note": "Objective QC is complete; creative choice and pronunciation must be approved by listening to the four previews."
+  }
+}

@@ -16,6 +16,7 @@ DEFAULT_V62_PATH = V62_PATH if V62_PATH.exists() else V62_PUBLIC_PATH
 INPUT_PATH = ROOT / "demo" / "T1_demo_input.json"
 OUTPUT_PATH = ROOT / "render_plan.json"
 MUSIC_PACK_PATH = ROOT / "config" / "T1_special_menu_music_pack_v1_0_0.json"
+VOICE_MIX_PATH = ROOT / "config" / "T1_special_menu_voice_mix_v1_0_0.json"
 
 
 def load_json(path: Path) -> Any:
@@ -198,6 +199,63 @@ def attach_music_track(
     return plan
 
 
+def attach_voice_track(plan: dict[str, Any], voice_mix: dict[str, Any]) -> dict[str, Any]:
+    """Attach the validated 30 s French voice stem and its ducking contract."""
+    audio_track = plan.get("audio_track", {})
+    if not audio_track.get("enabled"):
+        raise ValueError("La voix T1 exige qu'une des quatre musiques approuvées soit déjà attachée.")
+    clips = voice_mix.get("voice", {}).get("clips", [])
+    if len(clips) != 4 or [clip.get("scene") for clip in clips] != [1, 2, 3, 4]:
+        raise ValueError("Le sidecar voix doit contenir exactement une prise pour chacune des quatre scènes.")
+    mix = voice_mix["mix_contract"]
+    stem_rel = voice_mix["voice"]["stem_file"]
+    stem = ROOT / stem_rel
+    if not stem.is_file():
+        raise ValueError(f"Tige voix locale absente : {stem_rel}")
+    plan["voice_track"] = {
+        "enabled": True,
+        "mode": "offline_voice_stem_v1",
+        "file": stem_rel,
+        "sha256": hashlib.sha256(stem.read_bytes()).hexdigest(),
+        "voice_id": voice_mix["voice"]["voice_id"],
+        "language": voice_mix["voice"]["language"],
+        "start_f": 0,
+        "end_f_exclusive": 900,
+        "time_map": "identity_1_0x",
+        "gain_db": mix["voice_gain_db"],
+        "network_required": False,
+        "placements": [
+            {
+                "scene": clip["scene"],
+                "start_s": clip["start_s"],
+                "start_f": int(round(float(clip["start_s"]) * 30)),
+                "text": clip["text"],
+            }
+            for clip in clips
+        ],
+    }
+    audio_track.update({
+        "runtime_no_speech_gain_db": mix["music_open_gain_db"],
+        "runtime_speech_gain_db": mix["music_under_voice_gain_db"],
+        "duck_attack_ms": mix["duck_attack_ms"],
+        "duck_release_ms": mix["duck_release_ms"],
+        "final_ducking_status": "validated_offline_reference_mix_v1",
+        "sfx": False,
+    })
+    plan["audio_mix"] = {
+        "mode": "music_plus_voice_ducking_v1",
+        "music_variant_count": 4,
+        "duck_depth_db": mix["duck_depth_db"],
+        "attack_curve": mix["duck_attack_curve"],
+        "release_curve": mix["duck_release_curve"],
+        "master_target_lufs": mix["master_target_lufs"],
+        "master_true_peak_dbtp_max": mix["master_true_peak_dbtp_max"],
+        "sfx": False,
+        "validation_report": "reports/T1_voice_music_v1_validation.json",
+    }
+    return plan
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--v12", type=Path, default=V12_PATH)
@@ -208,6 +266,8 @@ def main() -> None:
     parser.add_argument("--music-pack", type=Path, default=MUSIC_PACK_PATH)
     parser.add_argument("--music-variant", default="auto", help="Variant ID, or 'auto' for deterministic selection.")
     parser.add_argument("--render-job-id", default="t1-demo-0001", help="Stable key used by automatic music selection.")
+    parser.add_argument("--enable-voice", action="store_true", help="Attach the validated French 30 s voice stem and ducking contract.")
+    parser.add_argument("--voice-mix", type=Path, default=VOICE_MIX_PATH)
     args = parser.parse_args()
     try:
         v62_source = str(args.v62.resolve().relative_to(ROOT))
@@ -221,9 +281,14 @@ def main() -> None:
             render_job_id=args.render_job_id,
             requested_variant_id=args.music_variant,
         )
+    if args.enable_voice:
+        if not args.enable_music:
+            raise ValueError("--enable-voice exige --enable-music.")
+        plan = attach_voice_track(plan, load_json(args.voice_mix))
     args.output.write_text(json.dumps(plan, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     music_note = f", musique {plan['audio_track']['variant_id']}" if plan["audio_track"]["enabled"] else ", silencieux"
-    print(f"render_plan.json écrit : {args.output} — {len(plan['shots'])} plans, {len(plan['overlays'])} blocs, {plan['output']['frames']} images{music_note}.")
+    voice_note = ", voix française + ducking validé" if plan.get("voice_track", {}).get("enabled") else ""
+    print(f"render_plan.json écrit : {args.output} — {len(plan['shots'])} plans, {len(plan['overlays'])} blocs, {plan['output']['frames']} images{music_note}{voice_note}.")
 
 
 if __name__ == "__main__":
