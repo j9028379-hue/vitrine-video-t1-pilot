@@ -1,0 +1,291 @@
+{
+  "report_schema_version": "1.0.0",
+  "status": "PASS",
+  "date": "2026-11-18",
+  "scope": {
+    "purpose": "prepare T1 catalogue metadata and enforce non-repeating local music rotation",
+    "ota_implemented": false,
+    "network_or_cloudflare_code_added": false,
+    "stable_release_overwritten": false
+  },
+  "release_audit": {
+    "stable_silent": {
+      "tag": "t1-special-menu-template-v1.0.0-silent",
+      "release_id": 450153222,
+      "target_commit": "cab2aa2a4a841341c9e84aeb08e243ea9baec0f4",
+      "published_at": "2026-11-18T15:08:14Z",
+      "canonical_asset": {
+        "name": "T1_special_menu_template_v1_0_0.json",
+        "bytes": 84151,
+        "sha256": "5a742abf8307b6347d28e6eb7d540b8d17e88482c3548422affa8e54c38d7b1b"
+      },
+      "schema_asset": {
+        "name": "T1_template_package.schema.json",
+        "bytes": 17067,
+        "sha256": "bfc7c9a781ce7071817aeed67938ec46aa6c1779840407446300a882a6395493"
+      },
+      "manifest_asset": {
+        "name": "manifest.json",
+        "bytes": 10057,
+        "sha256": "e1148f3d3fea0259072632b3a5e3d5db12340f3eb176b19cd8512329b2bd29c0"
+      }
+    },
+    "music_successor": {
+      "tag": "t1-special-menu-music-v1.0.0",
+      "release_id": 450299746,
+      "target_commitish": "feat/t1-special-menu-reference-v1",
+      "published_at": "2026-11-18T17:05:44Z",
+      "catalog_asset": {
+        "name": "T1_special_menu_music_pack_v1_0_0.json",
+        "bytes": 11337,
+        "sha256": "2ddb781df3934a770bf3312a8a6c3f005d8bbf2ebe6beb08ca48164c68d18c81"
+      },
+      "bundle_asset": {
+        "name": "t1-special-menu-afrobeat-amapiano-music-v1.zip",
+        "bytes": 2428834,
+        "sha256": "4fba896ebee2181927edb07a92e182c7da72835430ce95a77945df7e07f4edf5"
+      }
+    },
+    "existing_audio_profile_identifier_found": false
+  },
+  "canonical_candidate": {
+    "path": "config/T1_special_menu_template_v1_0_0.json",
+    "before": {
+      "bytes": 84151,
+      "sha256": "5a742abf8307b6347d28e6eb7d540b8d17e88482c3548422affa8e54c38d7b1b",
+      "schema_version": "2.0.0",
+      "legacy_template_version": "1.0.0"
+    },
+    "after": {
+      "bytes": 84205,
+      "sha256": "ba4ef9a1fc15f9b023dec618bbcbd69ad9bb365476e71949f982b42f456cf876",
+      "schema_version": "2.1.0",
+      "template_id": "T1",
+      "version": "1.0.0",
+      "audio_profile": "afrobeat_amapiano",
+      "internal_package_id_preserved": "restaurants_maquis_T1_special_menu_v1_0_0"
+    },
+    "legacy_template_version_removed": true,
+    "audio_profile_rationale": "No formal profile ID existed; afrobeat_amapiano is the stable semantic ambience shared by the delivered four-track catalogue and contains neither a track filename nor a catalogue version.",
+    "contains_track_filename_or_variant_id": false
+  },
+  "music_catalogue_candidate": {
+    "path": "config/T1_special_menu_music_pack_v1_0_0.json",
+    "catalogue_identity_preserved": true,
+    "schema_version_preserved": true,
+    "allowed_variant_ids": [
+      "t1_music_239426",
+      "t1_music_464383",
+      "t1_music_406552",
+      "t1_music_178406"
+    ],
+    "tracks_exact_json_equal_before_after": true,
+    "quality_gate_exact_json_equal_before_after": true,
+    "forbidden_pixabay_ids": [
+      573944
+    ],
+    "track_files": [
+      {
+        "variant_id": "t1_music_239426",
+        "pixabay_id": 239426,
+        "bytes": 603335,
+        "sha256": "bc4caf2d2e34cd099801c54af24cfe6426a117b5d3e4fe9dd61679a133858d8a",
+        "matches_declared_sha256": true,
+        "calibration": {
+          "target_bpm": 120,
+          "duration_s": 30.0,
+          "master_integrated_lufs_target": -17,
+          "master_true_peak_dbtp_max": -1.0,
+          "runtime_no_speech_gain_db": -3,
+          "runtime_speech_gain_db": -10
+        }
+      },
+      {
+        "variant_id": "t1_music_464383",
+        "pixabay_id": 464383,
+        "bytes": 603332,
+        "sha256": "05b196f07598a9d7b26231930019b353914661fb7408536b45690377c099fbd6",
+        "matches_declared_sha256": true,
+        "calibration": {
+          "target_bpm": 120,
+          "duration_s": 30.0,
+          "master_integrated_lufs_target": -17,
+          "master_true_peak_dbtp_max": -1.0,
+          "runtime_no_speech_gain_db": -3,
+          "runtime_speech_gain_db": -10
+        }
+      },
+      {
+        "variant_id": "t1_music_406552",
+        "pixabay_id": 406552,
+        "bytes": 603340,
+        "sha256": "156c7cc2927425cb407f71652579ea59af3e0212f50114d92bac97568ff9a056",
+        "matches_declared_sha256": true,
+        "calibration": {
+          "target_bpm": 120,
+          "duration_s": 30.0,
+          "master_integrated_lufs_target": -17,
+          "master_true_peak_dbtp_max": -1.0,
+          "runtime_no_speech_gain_db": -3,
+          "runtime_speech_gain_db": -10
+        }
+      },
+      {
+        "variant_id": "t1_music_178406",
+        "pixabay_id": 178406,
+        "bytes": 601666,
+        "sha256": "08a9816f7f130919f1ac610dba9ce7fe8acc6b2e8a2acbb0b4f3b463f7eaf99b",
+        "matches_declared_sha256": true,
+        "calibration": {
+          "target_bpm": 120,
+          "duration_s": 30.0,
+          "master_integrated_lufs_target": -17,
+          "master_true_peak_dbtp_max": -1.0,
+          "runtime_no_speech_gain_db": -3,
+          "runtime_speech_gain_db": -10
+        }
+      }
+    ],
+    "before": {
+      "bytes": 11337,
+      "sha256": "2ddb781df3934a770bf3312a8a6c3f005d8bbf2ebe6beb08ca48164c68d18c81"
+    },
+    "after": {
+      "bytes": 11680,
+      "sha256": "37a5dc2f785362959605bb1bbeafefa6f47a67a2af34246e0603105de1a1e72a",
+      "audio_profile": "afrobeat_amapiano"
+    },
+    "audio_profile_matches_canonical": true
+  },
+  "rotation_contract": {
+    "first_render": "sha256(render_job_id) over all four approved tracks; previous_variant_id is null",
+    "following_render": "exclude previous_variant_id, then sha256(render_job_id) over the three remaining approved tracks",
+    "explicit_repeat": "rejected",
+    "state": "variant_id from the last successful render, owned by the local render orchestrator",
+    "immediate_repeat_allowed": false,
+    "later_return_allowed": true,
+    "network_required": false
+  },
+  "invariants": {
+    "protected_template_sections_compared": [
+      "canvas",
+      "cadence",
+      "scene_capture_contract",
+      "merchant_input_contract",
+      "fonts",
+      "look_pipeline",
+      "edit_timeline",
+      "speech_continuity",
+      "graphics",
+      "fallbacks",
+      "android_media3_contract",
+      "quality_gates",
+      "price_format",
+      "impact_transition_system",
+      "premium_transition_choreography",
+      "end_lockup_consistency",
+      "implementation_handoff",
+      "media_ingest_contract",
+      "execution_contract",
+      "render_protocol",
+      "error_catalog",
+      "conformance_contract",
+      "audio_policy"
+    ],
+    "changed_protected_template_sections": [],
+    "all_protected_template_sections_identical": true,
+    "scene_shape": [
+      [
+        "S1",
+        180,
+        6.0
+      ],
+      [
+        "S2",
+        240,
+        8.0
+      ],
+      [
+        "S3",
+        210,
+        7.0
+      ],
+      [
+        "S4",
+        270,
+        9.0
+      ]
+    ],
+    "screen_count": 12,
+    "media_ingest_contract_identical": true,
+    "visual_contract_identical": true,
+    "audio_calibrations_and_tracks_identical": true
+  },
+  "validation": {
+    "baseline_pytest": {
+      "status": "PASS",
+      "passed": 101
+    },
+    "candidate_pytest": {
+      "status": "PASS",
+      "passed": 104
+    },
+    "template_validator": {
+      "status": "PASS",
+      "checks_passed": 15,
+      "checks_total": 15
+    },
+    "music_validator": {
+      "status": "PASS"
+    },
+    "engine_acceptance": {
+      "status": "PASS",
+      "renderer": "engine.special_menu_style.render_project",
+      "frames": 900,
+      "fps": 30,
+      "duration_s": 30.0
+    },
+    "golden_render_binary_identity": {
+      "status": "PASS",
+      "candidate_sha256": "784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7",
+      "golden_sha256": "784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7",
+      "bytes": 20276905
+    },
+    "casino_stress_test": {
+      "status": "PASS",
+      "renders": 10000,
+      "adjacent_repeats": 0,
+      "variant_counts": {
+        "t1_music_239426": 2480,
+        "t1_music_464383": 2486,
+        "t1_music_406552": 2515,
+        "t1_music_178406": 2519
+      }
+    },
+    "music_bundle_reproducibility": {
+      "status": "PASS",
+      "two_consecutive_builds_byte_identical": true,
+      "sha256": "e06ca8b690e2bc6d3684ac92784567041d30cfa375308be117f2f1e1210daa8e",
+      "bytes": 2431804
+    }
+  },
+  "files_changed": [
+    "adapter/t1_adapter.py",
+    "config/T1_special_menu_music_pack_v1_0_0.json",
+    "config/T1_special_menu_template_v1_0_0.json",
+    "docs/T1_MUSIC_INTEGRATION.md",
+    "packages/t1-special-menu-music-v1/manifest.json",
+    "packages/t1-special-menu-music-v1/t1-special-menu-afrobeat-amapiano-music-v1.zip",
+    "packages/t1-special-menu-v1/manifest.json",
+    "reports/T1_OTA_PREPARATION_NO_NETWORK_V1.md",
+    "reports/T1_ota_preparation_no_network_v1_validation.json",
+    "reports/T1_template_package_v1_validation.json",
+    "schemas/T1_music_pack.schema.json",
+    "schemas/T1_template_package.schema.json",
+    "tests/test_t1_music_pack.py",
+    "tests/test_t1_template_package_v1.py",
+    "tools/build_t1_template_package_v1.py",
+    "tools/validate_t1_music_pack.py",
+    "tools/validate_t1_template_package.py"
+  ]
+}

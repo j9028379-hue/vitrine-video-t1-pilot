@@ -2,6 +2,7 @@
   "$schema": "../schemas/T1_music_pack.schema.json",
   "schema_version": "1.0.0",
   "id": "restaurants_maquis_T1_afrobeat_amapiano_music_v1_0_0",
+  "audio_profile": "afrobeat_amapiano",
   "display_name": "T1 — Afrobeat/Amapiano — 4 variantes hors ligne",
   "status": "release_ready_all_four_tracks",
   "approved_on": "2026-11-18",
@@ -28,7 +29,11 @@
       "t1_music_178406"
     ],
     "default_variant_id": "t1_music_239426",
-    "runtime_mode": "explicit preview choice; production fallback sha256(render_job_id) mod 4",
+    "runtime_mode": "explicit preview choice; production auto hashes render_job_id across approved candidates excluding previous_variant_id",
+    "no_immediate_repeat": true,
+    "previous_variant_id_contract": "null for first render; otherwise variant_id from last successful render",
+    "automatic_candidate_count_after_first_render": 3,
+    "selection_state_scope": "local render orchestrator",
     "all_tracks_production_eligible": true,
     "network_required": false
   },

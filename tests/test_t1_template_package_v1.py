@@ -6,7 +6,7 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-from engine.special_menu_style import report_path
+from engine.special_menu_style import report_path, validate_config
 from tools.build_t1_template_package_v1 import (
     GOLDEN_PATH,
     MANIFEST_PATH,
@@ -48,6 +48,18 @@ def test_all_four_formal_schemas_accept_canonical_documents() -> None:
     validate("fixtures/t1-special-menu/render_job.valid.json", "schemas/T1_render_job.schema.json")
     validate("fixtures/t1-special-menu/render_result.valid.json", "schemas/T1_render_result.schema.json")
     validate("fixtures/t1-special-menu/render_error.unsupported_media.json", "schemas/T1_render_error.schema.json")
+
+
+def test_catalogue_identity_is_unambiguous_and_contains_no_track_filename() -> None:
+    template = load(OUT_CONFIG)
+    assert template["schema_version"] == "2.1.0"
+    assert template["template_id"] == "T1"
+    assert template["version"] == "1.0.0"
+    assert template["audio_profile"] == "afrobeat_amapiano"
+    assert "template_version" not in template
+    assert not template["audio_profile"].lower().endswith(".mp3")
+    assert not template["audio_profile"].startswith("t1_music_")
+    validate_config(template)
 
 
 def test_visual_recipe_is_byte_semantically_equal_to_approved_v31() -> None:
@@ -211,4 +223,8 @@ def test_reference_cli_accepts_caller_owned_paths_outside_the_repository(tmp_pat
 def test_complete_package_validator_passes() -> None:
     report = validate_package(require_golden=True)
     assert report["status"] == "PASS"
-    assert report["checks_passed"] == report["checks_total"] == 14
+    assert report["template_id"] == "T1"
+    assert report["version"] == "1.0.0"
+    assert report["audio_profile"] == "afrobeat_amapiano"
+    assert "template_version" not in report
+    assert report["checks_passed"] == report["checks_total"] == 15

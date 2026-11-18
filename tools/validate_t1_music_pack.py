@@ -9,10 +9,10 @@ CFG=ROOT/'config/T1_special_menu_music_pack_v1_0_0.json'
 SCHEMA=ROOT/'schemas/T1_music_pack.schema.json'
 MANIFEST=ROOT/'packages/t1-special-menu-music-v1/manifest.json'
 EXPECTED_IDS=[239426,464383,406552,178406]
-BASE={
- 'config/T1_special_menu_template_v1_0_0.json':'5a742abf8307b6347d28e6eb7d540b8d17e88482c3548422affa8e54c38d7b1b',
- 'packages/t1-special-menu-v1/manifest.json':'e1148f3d3fea0259072632b3a5e3d5db12340f3eb176b19cd8512329b2bd29c0',
- 'capture-guide/consignes_T1.json':'93a807f88e0e0f909cb589e8539419a4d1c387c12bc1b9966ba7dbe1a936075c',
+PUBLISHED_BASE={
+ 'canonical_silent_template_sha256':'5a742abf8307b6347d28e6eb7d540b8d17e88482c3548422affa8e54c38d7b1b',
+ 'silent_package_manifest_sha256':'e1148f3d3fea0259072632b3a5e3d5db12340f3eb176b19cd8512329b2bd29c0',
+ 'capture_guide_sha256':'93a807f88e0e0f909cb589e8539419a4d1c387c12bc1b9966ba7dbe1a936075c',
 }
 def digest(path:Path)->str:
  return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -27,11 +27,19 @@ def validate()->bool:
  errors=sorted(Draft202012Validator(schema,format_checker=FormatChecker()).iter_errors(cfg),key=lambda e:list(e.path))
  for error in errors: ok=fail(f'schema {list(error.path)}: {error.message}') and ok
  ids=[track['pixabay_id'] for track in cfg['tracks']]
+ if cfg.get('audio_profile')!='afrobeat_amapiano': ok=fail('audio profile does not match the delivered Afrobeat/Amapiano catalogue') and ok
  if ids!=EXPECTED_IDS: ok=fail(f'approved IDs/order mismatch: {ids}') and ok
  if any(track['pixabay_id']==573944 for track in cfg['tracks']): ok=fail('rejected track 573944 is still selectable') and ok
- for rel,expected in BASE.items():
-  path=ROOT/rel
-  if not path.is_file() or digest(path)!=expected: ok=fail(f'published silent base changed: {rel}') and ok
+ base=cfg.get('non_destructive_base',{})
+ for field,expected in PUBLISHED_BASE.items():
+  if base.get(field)!=expected: ok=fail(f'published silent Release fingerprint changed: {field}') and ok
+ if base.get('commit')!='cab2aa2a4a841341c9e84aeb08e243ea9baec0f4' or base.get('base_files_must_remain_unchanged') is not True: ok=fail('published silent Release provenance changed') and ok
+ capture=ROOT/'capture-guide/consignes_T1.json'
+ if not capture.is_file() or digest(capture)!=PUBLISHED_BASE['capture_guide_sha256']: ok=fail('capture guide changed') and ok
+ selection=cfg.get('selection_contract',{})
+ if not selection.get('no_immediate_repeat'): ok=fail('immediate music repetition is not forbidden') and ok
+ if selection.get('automatic_candidate_count_after_first_render')!=3: ok=fail('automatic rotation must choose among the three tracks other than the previous one') and ok
+ if selection.get('selection_state_scope')!='local render orchestrator' or selection.get('network_required') is not False: ok=fail('music rotation must remain local and offline') and ok
  for track in cfg['tracks']:
   path=ROOT/track['file']; evidence=ROOT/track['evidence_file']
   if not path.is_file(): ok=fail(f'missing audio {path}') and ok; continue

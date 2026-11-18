@@ -8,7 +8,9 @@
   "required": [
     "$schema",
     "schema_version",
-    "template_version",
+    "template_id",
+    "version",
+    "audio_profile",
     "package_phase",
     "id",
     "display_name",
@@ -45,10 +47,17 @@
       "const": "../schemas/T1_template_package.schema.json"
     },
     "schema_version": {
-      "const": "2.0.0"
+      "const": "2.1.0"
     },
-    "template_version": {
+    "template_id": {
+      "const": "T1"
+    },
+    "version": {
       "const": "1.0.0"
+    },
+    "audio_profile": {
+      "const": "afrobeat_amapiano",
+      "description": "Identifiant sémantique d’ambiance; ce n’est ni un nom de fichier ni une version de catalogue musical."
     },
     "package_phase": {
       "const": "visual_capture_assembly_complete_audio_deferred"

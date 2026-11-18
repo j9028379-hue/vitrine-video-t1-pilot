@@ -1,6 +1,9 @@
 {
   "$schema": "../schemas/T1_template_package.schema.json",
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
+  "template_id": "T1",
+  "version": "1.0.0",
+  "audio_profile": "afrobeat_amapiano",
   "id": "restaurants_maquis_T1_special_menu_v1_0_0",
   "display_name": "T1 — Special Menu — paquet de gabarit hors ligne v1.0.0",
   "status": "stable_silent_template_contract",
@@ -2593,7 +2596,6 @@
       "visual render sections remain equal to V3"
     ]
   },
-  "template_version": "1.0.0",
   "package_phase": "visual_capture_assembly_complete_audio_deferred",
   "media_ingest_contract": {
     "policy": "validate_then_normalize_without_retiming",

@@ -31,8 +31,8 @@
       "role": "canonical_template",
       "required": true,
       "bundle": true,
-      "bytes": 84151,
-      "sha256": "5a742abf8307b6347d28e6eb7d540b8d17e88482c3548422affa8e54c38d7b1b"
+      "bytes": 84205,
+      "sha256": "ba4ef9a1fc15f9b023dec618bbcbd69ad9bb365476e71949f982b42f456cf876"
     },
     {
       "path": "config/T1_special_menu_reference_v3_1.json",
@@ -47,8 +47,8 @@
       "role": "template_schema",
       "required": true,
       "bundle": true,
-      "bytes": 17067,
-      "sha256": "bfc7c9a781ce7071817aeed67938ec46aa6c1779840407446300a882a6395493"
+      "bytes": 17333,
+      "sha256": "1629f7940928748f6d7e407d3ceb800af7a0955036a1cf5f0ff8577a1fb0ba72"
     },
     {
       "path": "schemas/T1_render_job.schema.json",
@@ -271,16 +271,16 @@
       "role": "package_builder",
       "required": true,
       "bundle": true,
-      "bytes": 26039,
-      "sha256": "1afbe179b3d8eac090a91426cfc2c17d088139989dc4ef9d0d8f667985398260"
+      "bytes": 26280,
+      "sha256": "1867aba8263b1f62a779a4f8e0a40a8ea368b67d2b37e83d0fa8bae5099d1317"
     },
     {
       "path": "tools/validate_t1_template_package.py",
       "role": "package_validator",
       "required": true,
       "bundle": true,
-      "bytes": 9345,
-      "sha256": "fbf14a5e5dc725bd00d3cf4c3a5f64c11a9d4324883197cda9a5e5a6aa0c9bed"
+      "bytes": 10317,
+      "sha256": "5825ecff143ef9e2dc649480b2f5bf69088621388dcc5dece271d5ca80882c84"
     },
     {
       "path": "reports/T1_TEMPLATE_PACKAGE_V1_SILENT.md",

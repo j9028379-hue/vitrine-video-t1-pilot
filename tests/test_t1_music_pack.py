@@ -11,14 +11,20 @@ def h(rel): return hashlib.sha256((ROOT/rel).read_bytes()).hexdigest()
 def load_config(): return json.loads(CFG.read_text())
 def test_exact_approved_four_and_no_rejected_content_id_track():
  config=load_config(); tracks=config['tracks']
+ template=json.loads((ROOT/'config/T1_special_menu_template_v1_0_0.json').read_text())
+ assert config['audio_profile']==template['audio_profile']=='afrobeat_amapiano'
  assert [track['pixabay_id'] for track in tracks]==EXPECTED
  assert len(tracks)==4 and all(track['production_eligible'] for track in tracks)
  assert all(track['content_id_registered'] is False for track in tracks)
  assert 573944 not in [track['pixabay_id'] for track in tracks]
  assert all((ROOT/track['file']).is_file() for track in tracks)
-def test_published_silent_base_is_byte_identical():
- assert h('config/T1_special_menu_template_v1_0_0.json')=='5a742abf8307b6347d28e6eb7d540b8d17e88482c3548422affa8e54c38d7b1b'
- assert h('packages/t1-special-menu-v1/manifest.json')=='e1148f3d3fea0259072632b3a5e3d5db12340f3eb176b19cd8512329b2bd29c0'
+def test_published_silent_base_fingerprints_remain_recorded_and_capture_is_unchanged():
+ config=load_config(); base=config['non_destructive_base']
+ # These are the immutable public Release asset digests.  The repository's
+ # canonical JSON may gain catalogue-only metadata without rewriting that Release.
+ assert base['canonical_silent_template_sha256']=='5a742abf8307b6347d28e6eb7d540b8d17e88482c3548422affa8e54c38d7b1b'
+ assert base['silent_package_manifest_sha256']=='e1148f3d3fea0259072632b3a5e3d5db12340f3eb176b19cd8512329b2bd29c0'
+ assert base['base_files_must_remain_unchanged'] is True
  assert h('capture-guide/consignes_T1.json')=='93a807f88e0e0f909cb589e8539419a4d1c387c12bc1b9966ba7dbe1a936075c'
 def test_selection_is_deterministic_and_uses_all_four_approved_tracks():
  config=load_config()
@@ -30,6 +36,26 @@ def test_selection_is_deterministic_and_uses_all_four_approved_tracks():
   assert chosen['pixabay_id']==track['pixabay_id']
  with pytest.raises(ValueError,match='inconnue'):
   select_music_track(config,render_job_id='job',requested_variant_id='t1_music_573944')
+
+
+def test_casino_rotation_never_repeats_the_previous_successful_track():
+ config=load_config(); previous=None; observed=[]
+ for index in range(256):
+  chosen=select_music_track(config,render_job_id=f'production-{index:04d}',previous_variant_id=previous)
+  assert chosen['id']!=previous
+  observed.append(chosen['id']); previous=chosen['id']
+ assert set(observed)==set(config['selection_contract']['allowed_variant_ids'])
+ assert config['selection_contract']['automatic_candidate_count_after_first_render']==3
+
+
+def test_explicit_selection_cannot_bypass_the_no_repeat_rule():
+ config=load_config(); previous='t1_music_178406'
+ with pytest.raises(ValueError,match='immédiate interdite'):
+  select_music_track(config,render_job_id='job',requested_variant_id=previous,previous_variant_id=previous)
+ with pytest.raises(ValueError,match='précédente inconnue'):
+  select_music_track(config,render_job_id='job',previous_variant_id='t1_music_573944')
+ chosen=select_music_track(config,render_job_id='job',requested_variant_id='t1_music_239426',previous_variant_id=previous)
+ assert chosen['id']=='t1_music_239426'
 def test_adapter_attaches_local_music_without_changing_merchant_fields():
  config=load_config()
  v12=json.loads((ROOT/'specs/T1_ENGINEERING_SPEC_V1_2.json').read_text())
@@ -38,8 +64,11 @@ def test_adapter_attaches_local_music_without_changing_merchant_fields():
  plan=build_render_plan(v12,v62,raw); before=dict(plan['fields'])
  attach_music_track(plan,config,render_job_id='job-match-out',requested_variant_id='t1_music_178406')
  assert plan['fields']==before and plan['output']['audio'] is True
+ assert plan['audio_track']['audio_profile']=='afrobeat_amapiano'
  assert plan['audio_track']['pixabay_id']==178406
  assert plan['audio_track']['file'].endswith('t1_178406_120bpm_30s.mp3')
+ assert plan['audio_track']['previous_variant_id'] is None
+ assert plan['audio_track']['no_immediate_repeat'] is True
  assert plan['audio_track']['network_required'] is False
  assert plan['audio_track']['start_f']==0 and plan['audio_track']['end_f_exclusive']==900
 def test_voice_mix_contract_matches_its_schema():

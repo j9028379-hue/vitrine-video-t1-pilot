@@ -126,12 +126,19 @@ def extract_keyframe_metrics(path: Path, indices: list[int]) -> list[dict[str, A
 
 
 def build_template() -> dict[str, Any]:
-    base = load_json(BASE_CONFIG)
-    result = copy.deepcopy(base)
-    # JSON Schema annotation must be the first serialized key for easy discovery.
-    result = {"$schema": "../schemas/T1_template_package.schema.json", **result}
-    result["schema_version"] = "2.0.0"
-    result["template_version"] = "1.0.0"
+    base = copy.deepcopy(load_json(BASE_CONFIG))
+    # Keep schema, catalogue identity and template identity distinct.  These four
+    # keys are deliberately serialized first so an offline catalogue can inspect
+    # them without knowing the rest of the renderer contract.
+    base.pop("schema_version", None)
+    result = {
+        "$schema": "../schemas/T1_template_package.schema.json",
+        "schema_version": "2.1.0",
+        "template_id": "T1",
+        "version": "1.0.0",
+        "audio_profile": "afrobeat_amapiano",
+        **base,
+    }
     result["package_phase"] = "visual_capture_assembly_complete_audio_deferred"
     result["id"] = "restaurants_maquis_T1_special_menu_v1_0_0"
     result["display_name"] = "T1 — Special Menu — paquet de gabarit hors ligne v1.0.0"

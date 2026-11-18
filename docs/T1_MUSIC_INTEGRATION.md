@@ -14,7 +14,7 @@ Il contient **exactement quatre** éditions de 30 secondes validées par l'utili
 
 `Match Out` remplace définitivement la piste `573944`, rejetée à cause de sa dépendance à un certificat Content ID. La piste `573944` n'est ni embarquée, ni sélectionnable, ni référencée comme variante.
 
-Les quatre fichiers sont locaux, MP3 stéréo 44,1 kHz / 160 kbit/s, décodent exactement en 30,000 secondes et ont été préparés autour de 120 BPM et −17,4 LUFS. Le rendu Android n'effectue aucun téléchargement.
+Les quatre fichiers sont locaux, MP3 stéréo 44,1 kHz / 160 kbit/s, décodent exactement en 30,000 secondes et ont été préparés autour de 120 BPM et −17,4 LUFS. Le catalogue et le JSON canonique T1 partagent l'identifiant sémantique `audio_profile: afrobeat_amapiano`; ce champ n'est ni une piste ni une version. Le rendu Android n'effectue aucun téléchargement.
 
 ## Intégration réelle dans le plan de rendu
 
@@ -35,7 +35,20 @@ La sélection peut être explicite avec l'un des identifiants suivants :
 - `t1_music_406552`
 - `t1_music_178406`
 
-Le mode `auto` utilise `sha256(render_job_id) mod 4`, ce qui rend la sélection stable et reproductible. Aucun champ n'est ajouté au commerçant. Le plan produit référence le fichier local, son SHA-256, les images 0–900 et les paramètres de mixage.
+Le mode `auto` conserve une sélection stable et reproductible, mais interdit désormais la répétition immédiate. Au premier rendu, il applique le hash du `render_job_id` aux quatre variantes. Pour chaque rendu suivant, l'orchestrateur local fournit le `variant_id` du dernier rendu **réussi** via `previous_variant_id`; l'adaptateur exclut cette piste puis applique le hash aux trois candidates restantes. Une piste peut donc revenir après une autre, jamais deux fois de suite. La règle s'applique aussi à un choix explicite, qui est rejeté s'il répète la piste précédente.
+
+Exemple pour un rendu suivant :
+
+```bash
+python3 -m adapter.t1_adapter \
+  --enable-music \
+  --render-job-id t1-production-0002 \
+  --previous-music-variant t1_music_178406 \
+  --music-variant auto \
+  --output /tmp/render_plan_music_0002.json
+```
+
+L'état se limite à cet identifiant local et n'est validé qu'après la réussite d'un rendu. Aucun champ n'est ajouté au commerçant, aucun réseau n'est requis et aucun code OTA/Cloudflare n'est introduit. Le plan produit référence le fichier local, son SHA-256, les images 0–900 et les paramètres de mixage.
 
 ## Lecture Android hors ligne
 

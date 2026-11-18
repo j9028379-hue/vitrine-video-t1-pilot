@@ -1,12 +1,19 @@
 {
   "status": "PASS",
   "package_id": "restaurants_maquis_T1_special_menu_template",
-  "template_id": "restaurants_maquis_T1_special_menu_v1_0_0",
-  "template_version": "1.0.0",
+  "template_id": "T1",
+  "version": "1.0.0",
+  "audio_profile": "afrobeat_amapiano",
+  "template_schema_version": "2.1.0",
+  "published_package_contract": {
+    "template_id": "restaurants_maquis_T1_special_menu_v1_0_0",
+    "template_version": "1.0.0",
+    "release_tag": "t1-special-menu-template-v1.0.0-silent"
+  },
   "offline": true,
   "target_ram_mb": 2048,
-  "checks_passed": 14,
-  "checks_total": 14,
+  "checks_passed": 15,
+  "checks_total": 15,
   "checks": [
     {
       "name": "manifest_artifacts_present",
@@ -37,6 +44,17 @@
       "name": "schema:fixtures/t1-special-menu/render_error.unsupported_media.json",
       "status": "PASS",
       "detail": []
+    },
+    {
+      "name": "catalogue_identity",
+      "status": "PASS",
+      "detail": {
+        "schema_version": "2.1.0",
+        "template_id": "T1",
+        "version": "1.0.0",
+        "audio_profile": "afrobeat_amapiano",
+        "legacy_template_version_present": false
+      }
     },
     {
       "name": "twelve_screen_order",

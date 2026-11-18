@@ -140,26 +140,45 @@ def select_music_track(
     *,
     render_job_id: str,
     requested_variant_id: str = "auto",
+    previous_variant_id: str | None = None,
 ) -> dict[str, Any]:
-    """Select one of the four approved, production-ready local tracks."""
+    """Select one approved local track without immediately repeating the last one.
+
+    ``previous_variant_id`` is ``None`` only for the first render.  Afterwards the
+    local orchestrator passes the variant ID from the last *successful* render.
+    Selection stays deterministic for idempotent retries of the same job and does
+    not need a server, network call or catalogue download.
+    """
     tracks = music_pack.get("tracks", [])
-    approved_ids = music_pack.get("selection_contract", {}).get("allowed_variant_ids", [])
+    selection = music_pack.get("selection_contract", {})
+    approved_ids = selection.get("allowed_variant_ids", [])
     expected_pixabay_ids = [239426, 464383, 406552, 178406]
+    if music_pack.get("audio_profile") != "afrobeat_amapiano":
+        raise ValueError("Le profil audio ne correspond pas au catalogue Afrobeat/Amapiano approuvé.")
     if len(tracks) != 4 or [track.get("id") for track in tracks] != approved_ids:
         raise ValueError("Le pack musical doit contenir exactement les quatre variantes approuvées.")
     if [track.get("pixabay_id") for track in tracks] != expected_pixabay_ids:
         raise ValueError("Le pack musical ne correspond pas au lot approuvé.")
     if any(track.get("content_id_registered") or not track.get("production_eligible") for track in tracks):
         raise ValueError("Toutes les variantes doivent être sans Content ID et prêtes pour la production.")
+    if selection.get("no_immediate_repeat") is not True:
+        raise ValueError("Le contrat musical doit interdire toute répétition immédiate.")
+
     by_id = {track["id"]: track for track in tracks}
+    if previous_variant_id is not None and previous_variant_id not in by_id:
+        raise ValueError(f"Variante musicale précédente inconnue : {previous_variant_id}")
     if requested_variant_id != "auto":
         if requested_variant_id not in by_id:
             raise ValueError(f"Variante musicale inconnue : {requested_variant_id}")
+        if requested_variant_id == previous_variant_id:
+            raise ValueError("Répétition musicale immédiate interdite.")
         return by_id[requested_variant_id]
     if not render_job_id:
         raise ValueError("render_job_id est obligatoire pour une sélection automatique reproductible.")
+
+    candidates = [track for track in tracks if track["id"] != previous_variant_id]
     digest = hashlib.sha256(render_job_id.encode("utf-8")).digest()
-    return tracks[int.from_bytes(digest[:8], "big") % 4]
+    return candidates[int.from_bytes(digest[:8], "big") % len(candidates)]
 
 
 def attach_music_track(
@@ -168,19 +187,24 @@ def attach_music_track(
     *,
     render_job_id: str,
     requested_variant_id: str = "auto",
+    previous_variant_id: str | None = None,
 ) -> dict[str, Any]:
     """Attach the selected local MP3 without changing merchant data or visual timing."""
     selected = select_music_track(
         music_pack,
         render_job_id=render_job_id,
         requested_variant_id=requested_variant_id,
+        previous_variant_id=previous_variant_id,
     )
     plan["output"]["audio"] = True
     plan["audio_track"] = {
         "enabled": True,
         "mode": "offline_music_sidecar_v1",
         "pack_id": music_pack["id"],
+        "audio_profile": music_pack["audio_profile"],
         "variant_id": selected["id"],
+        "previous_variant_id": previous_variant_id,
+        "no_immediate_repeat": True,
         "pixabay_id": selected["pixabay_id"],
         "file": selected["file"],
         "sha256": selected["sha256"],
@@ -265,6 +289,11 @@ def main() -> None:
     parser.add_argument("--enable-music", action="store_true", help="Attach the approved T1 four-track offline music sidecar.")
     parser.add_argument("--music-pack", type=Path, default=MUSIC_PACK_PATH)
     parser.add_argument("--music-variant", default="auto", help="Variant ID, or 'auto' for deterministic selection.")
+    parser.add_argument(
+        "--previous-music-variant",
+        default=None,
+        help="Variant ID used by the last successful render; omit only for the first render.",
+    )
     parser.add_argument("--render-job-id", default="t1-demo-0001", help="Stable key used by automatic music selection.")
     parser.add_argument("--enable-voice", action="store_true", help="Attach the validated French 30 s voice stem and ducking contract.")
     parser.add_argument("--voice-mix", type=Path, default=VOICE_MIX_PATH)
@@ -280,6 +309,7 @@ def main() -> None:
             load_json(args.music_pack),
             render_job_id=args.render_job_id,
             requested_variant_id=args.music_variant,
+            previous_variant_id=args.previous_music_variant,
         )
     if args.enable_voice:
         if not args.enable_music:

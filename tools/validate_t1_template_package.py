@@ -78,6 +78,25 @@ def validate_package(require_golden: bool) -> dict[str, Any]:
     golden = load(GOLDEN_PATH)
 
     # 3. Template semantic invariants.
+    catalogue_identity = {
+        "schema_version": template.get("schema_version"),
+        "template_id": template.get("template_id"),
+        "version": template.get("version"),
+        "audio_profile": template.get("audio_profile"),
+        "legacy_template_version_present": "template_version" in template,
+    }
+    add(
+        checks,
+        "catalogue_identity",
+        catalogue_identity == {
+            "schema_version": "2.1.0",
+            "template_id": "T1",
+            "version": "1.0.0",
+            "audio_profile": "afrobeat_amapiano",
+            "legacy_template_version_present": False,
+        },
+        catalogue_identity,
+    )
     screens = template["implementation_handoff"]["screens"]
     expected_ids = [
         f"T1_CAPTURE_S{scene}_{state}_{label}"
@@ -162,8 +181,15 @@ def validate_package(require_golden: bool) -> dict[str, Any]:
     return {
         "status": status,
         "package_id": manifest["package_id"],
-        "template_id": manifest["template_id"],
-        "template_version": manifest["template_version"],
+        "template_id": template["template_id"],
+        "version": template["version"],
+        "audio_profile": template["audio_profile"],
+        "template_schema_version": template["schema_version"],
+        "published_package_contract": {
+            "template_id": manifest["template_id"],
+            "template_version": manifest["template_version"],
+            "release_tag": manifest["release_tag"],
+        },
         "offline": True,
         "target_ram_mb": 2048,
         "checks_passed": sum(check["status"] == "PASS" for check in checks),
