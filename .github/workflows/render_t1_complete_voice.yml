@@ -31,7 +31,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --yes ffmpeg
-          python -m pip install -r requirements.txt jsonschema==4.23.0
+          python -m pip install -r requirements.txt jsonschema==4.23.0 scipy==1.15.2
           ffmpeg -version | head -n 1
           ffprobe -version | head -n 1
 
