@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VITRINE VIDÉO — T1 Restaurants et Maquis — démonstration</title>
+<style>
+  :root{--bg:#080c16;--accent:#F2621B;--cream:#FFF3EA;--line:rgba(255,255,255,.14)}
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1000px 600px at 50% -10%,#16233a 0%,var(--bg) 60%);color:#fff;
+       font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+  main{max-width:960px;margin:0 auto;padding:48px 22px 70px}
+  .kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  h1{font-size:clamp(26px,5vw,40px);line-height:1.1;margin:10px 0 12px;letter-spacing:-.02em}
+  p.lead{color:#c3d0e2;font-size:16px;margin:0 0 26px;max-width:70ch}
+  .warn{border:1px solid rgba(242,98,27,.45);background:rgba(242,98,27,.10);border-radius:14px;padding:14px 16px;
+        font-size:14px;color:#ffdcc9;margin:0 0 30px}
+  h2{font-size:15px;letter-spacing:.10em;text-transform:uppercase;color:#8ea1bb;margin:34px 0 12px}
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+  a.card{display:block;text-decoration:none;color:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;
+         background:rgba(255,255,255,.035);transition:border-color .15s ease,transform .15s ease}
+  a.card:hover{border-color:rgba(242,98,27,.65);transform:translateY(-2px)}
+  a.card strong{display:block;font-size:15px;margin-bottom:4px}
+  a.card span{font-size:12.5px;color:#93a4bd}
+  a.card.hot{border-color:rgba(242,98,27,.55);background:rgba(242,98,27,.10)}
+  ul.plain{padding-left:18px;color:#a9b8cc;font-size:13.5px}
+  footer{margin-top:44px;border-top:1px solid var(--line);padding-top:18px;font-size:12.5px;color:#7e8fa8}
+  code{background:rgba(255,255,255,.08);border-radius:5px;padding:1px 5px;font-size:12.5px}
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">VITRINE VIDÉO · gabarit T1</div>
+  <h1>Restaurants et Maquis — démonstration complète</h1>
+  <p class="lead">Quatre prises vidéo (6 · 8 · 7 · 9 s), un montage de 30 s, la maquette de parcours jouable dans le
+    navigateur, et tout le son : voix de synthèse, deux musiques originales, effets.</p>
+
+  <div class="warn"><strong>Démonstration.</strong> « Maquis Démo », « Burger maison », « 2 500 FCFA »,
+    « ARCONVILLE — ADRESSE FICTIVE », « NUMÉRO FICTIF » : valeurs fictives, aucun contact réel. Les rushs sont des extraits
+    de stock sous licence libre. La voix est une voix de synthèse. La maquette n'est pas une validation de l'application Android.</div>
+
+  <h2>Commencer ici</h2>
+  <div class="grid">
+    <a class="card hot" href="simulation/"><strong>▶ Maquette de parcours</strong><span>Les 4 consignes, GO · COMMENCER, caméra + chrono + barre, validation avec le son, montage</span></a>
+    <a class="card" href="output/output_T1_audio_demo_A.mp4"><strong>Publicité finale — piste A (recommandée)</strong><span>30 s · 720 × 1280 · son complet · MP4</span></a>
+    <a class="card" href="output/output_T1_audio_demo_B.mp4"><strong>Publicité finale — piste B</strong><span>30 s · variante musicale « gangan acoustique »</span></a>
+    <a class="card" href="output/output_T1_sans_voix_v4_demo.mp4"><strong>Montage sans son</strong><span>Les 4 prises avec les textes du gabarit</span></a>
+  </div>
+
+  <h2>Documents</h2>
+  <div class="grid">
+    <a class="card" href="README.md"><strong>README</strong><span>Lire, lancer, reconstruire</span></a>
+    <a class="card" href="capture-guide/README.md"><strong>Guide de tournage</strong><span>Les 4 consignes mot pour mot</span></a>
+    <a class="card" href="reports/rapport_mixage_T1_demo.md"><strong>Rapport de mixage</strong><span>Mesures, réglages, liste d'écoute</span></a>
+    <a class="card" href="audio/video_edit_analysis_T1.md"><strong>Analyse du fichier vidéo</strong><span>Coupes mesurées, textes, rythme</span></a>
+    <a class="card" href="audio/note_tendances_musicales_afrique_ouest_2026.md"><strong>Note de tendances musicales</strong><span>Sourcée et datée</span></a>
+    <a class="card" href="audio/sync/synchro_T1_demo.md"><strong>Synchronisation</strong><span>Repères, départs de voix, ducking</span></a>
+    <a class="card" href="audio/metadata/LICENCES.md"><strong>Licences</strong><span>Rushs, voix, musiques, polices</span></a>
+    <a class="card" href="reports/INDEX_LIVRAISON.md"><strong>Index de livraison</strong><span>Les 12 éléments publiés</span></a>
+  </div>
+
+  <h2>Écrans</h2>
+  <div class="grid">
+    <a class="card" href="ui-screens/ecran_08_scene1_etatA_consigne.png"><strong>Scène 1 — consigne</strong><span>6 secondes</span></a>
+    <a class="card" href="ui-screens/ecran_08_scene2_etatA_consigne.png"><strong>Scène 2 — consigne</strong><span>8 secondes</span></a>
+    <a class="card" href="ui-screens/ecran_08_scene3_etatA_consigne.png"><strong>Scène 3 — consigne</strong><span>7 secondes</span></a>
+    <a class="card" href="ui-screens/ecran_08_scene4_etatA_consigne.png"><strong>Scène 4 — consigne</strong><span>9 secondes</span></a>
+    <a class="card" href="ui-screens/ecran_08_scene2_etatB_enregistrement.png"><strong>Pendant l'enregistrement</strong><span>Caméra + chrono + barre, sans carte</span></a>
+    <a class="card" href="ui-screens/ecran_08_scene4_etatC_voir_mon_montage.png"><strong>Après la prise</strong><span>REFAIRE / VOIR MON MONTAGE</span></a>
+  </div>
+
+  <footer>
+    Maquette de parcours et montage de démonstration — aucune donnée personnelle. Les quatre prises sont de véritables
+    séquences vidéo : aucune photographie fixe n'est utilisée comme prise.
+    Dépôt : <a href="https://github.com/j9028379-hue/vitrine-video-t1-pilot">github.com/j9028379-hue/vitrine-video-t1-pilot</a>
+  </footer>
+</main>
+</body>
+</html>
