@@ -78,6 +78,12 @@ python3 -m adapter.t1_adapter \
 
 Le QC automatique mesure la durée, les LUFS, le true peak WAV/AAC, l'absence d'écrêtage et le rapport voix/musique sur chaque variante. La validation créative et la prononciation restent volontairement soumises à une écoute humaine des quatre aperçus.
 
+## Rendu final sur GitHub Actions
+
+Le workflow `.github/workflows/render_t1_complete_voice.yml` exécute sur `ubuntu-latest` le moteur canonique `engine.special_menu_style.render_project`, vérifie les trois polices enregistrées, reconstruit le master visuel, génère les quatre mixes, exécute les tests, puis publie la variante Match Out `178406` dans la Release publique `t1-complete-voice-video-v1.0.0`.
+
+Le fichier principal publié est `VIDEO_T1_MONTAGE_COMPLET_A_VALIDER.mp4`. Le rendu local n'est qu'un contrôle préalable ; le livrable de validation doit provenir de cette exécution serveur.
+
 ## Licence et preuves
 
 Chaque piste dispose d'une page officielle, de son URL CDN officielle, du nom de fichier d'origine, de l'empreinte SHA-256 et d'une preuve JSON-LD. Les pages officielles rendues ne présentent ni le label ni la propriété `Content ID Registered` pour ces quatre pistes. La licence est la Pixabay Content License ; les originaux complets ne sont pas inclus dans le dépôt, seulement les adaptations de 30 secondes intégrées au gabarit.

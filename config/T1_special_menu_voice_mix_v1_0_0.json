@@ -7,7 +7,7 @@
   "approved_on": "2026-11-18",
   "duration_s": 30.0,
   "sample_rate_hz": 48000,
-  "visual_source": "output/output_T1_sans_voix_v4_demo.mp4",
+  "visual_source": "output/output_T1_special_menu_reference_v3.mp4",
   "music_pack": "config/T1_special_menu_music_pack_v1_0_0.json",
   "voice": {
     "provider": "Arena.ai Agent Mode",

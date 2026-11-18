@@ -1,0 +1,155 @@
+name: Render T1 complet — polices canoniques + voix
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: render-t1-complet-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  render-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout the selected integration branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install FFmpeg and Python dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes ffmpeg
+          python -m pip install -r requirements.txt jsonschema==4.23.0
+          ffmpeg -version | head -n 1
+          ffprobe -version | head -n 1
+
+      - name: Verify the three registered font files
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          expected = {
+              'assets/fonts/DMSerifDisplay-Regular.ttf': '8cc3643535edf039aa5d95440a8542735e9197e4f4b8d9303e980fefbf5ab616',
+              'assets/fonts/Montserrat-Variable.ttf': '0f7b311b2f3279e4eef9b2f968bcdbab6e28f4daeb1f049f4f278a902bcd82f7',
+              'assets/fonts/PlusJakartaSans-Variable.ttf': '89b3fb38aa0d275d7a731d0d817a4f1622b316b4d7fbdedcf02ee9099ff68bc8',
+          }
+          for name, wanted in expected.items():
+              actual = hashlib.sha256(Path(name).read_bytes()).hexdigest()
+              assert actual == wanted, (name, actual)
+              print('FONT_OK', name, actual)
+          PY
+
+      - name: Execute the canonical configured template engine
+        run: |
+          PYTHONPATH=. python tools/render_t1_special_menu_v3.py \
+            --config config/T1_special_menu_reference_v3.json \
+            --input demo/T1_demo_input.json \
+            --media-dir simulation/media \
+            --output output/output_T1_special_menu_reference_v3.mp4 \
+            --contact-sheet output/T1_CONTROLE_POLICES_ENREGISTREES.jpg \
+            --manifest reports/T1_GITHUB_RENDER_MANIFEST.json
+          echo '784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7  output/output_T1_special_menu_reference_v3.mp4' | sha256sum --check --strict
+
+      - name: Build all four voice and music mixes on the GitHub runner
+        run: |
+          python audio/scripts/mix_t1_voice_music_v1.py \
+            --preview-dir output/t1-voice-music-v1
+          python audio/scripts/build_t1_voice_listening_board.py \
+            --preview-dir output/t1-voice-music-v1
+
+      - name: Run the complete automated test suite after rendering
+        run: python -m pytest -q
+
+      - name: Assemble the single downloadable validation master
+        run: |
+          mkdir -p release
+          cp output/t1-voice-music-v1/T1_voice_music_178406.mp4 \
+            release/VIDEO_T1_MONTAGE_COMPLET_A_VALIDER.mp4
+          cp reports/T1_voice_music_v1_validation.json release/
+          cp reports/T1_GITHUB_RENDER_MANIFEST.json release/
+          cp output/T1_CONTROLE_POLICES_ENREGISTREES.jpg release/
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json, os, subprocess
+          root = Path('release')
+          video = root / 'VIDEO_T1_MONTAGE_COMPLET_A_VALIDER.mp4'
+          def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+          manifest = {
+              'status': 'PASS',
+              'render_location': 'GitHub Actions ubuntu-latest',
+              'repository': os.environ['GITHUB_REPOSITORY'],
+              'workflow_run_id': os.environ['GITHUB_RUN_ID'],
+              'workflow_run_attempt': os.environ['GITHUB_RUN_ATTEMPT'],
+              'commit': os.environ['GITHUB_SHA'],
+              'branch': os.environ['GITHUB_REF_NAME'],
+              'engine': 'engine.special_menu_style.render_project',
+              'config': 'config/T1_special_menu_reference_v3.json',
+              'canonical_silent_sha256': '784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7',
+              'music_pixabay_id': 178406,
+              'video': {'file': video.name, 'sha256': sha(video), 'bytes': video.stat().st_size},
+              'fonts': ['DM Serif Display', 'Montserrat', 'Plus Jakarta Sans'],
+              'frames': 900,
+              'fps': 30,
+              'duration_s': 30.0,
+          }
+          (root / 'T1_GITHUB_SERVER_VALIDATION.json').write_text(
+              json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          PY
+          (cd release && sha256sum * > SHA256SUMS.txt)
+          ffprobe -v error -show_entries format=duration \
+            -show_entries stream=codec_name,codec_type,width,height,sample_rate,channels,nb_frames \
+            -of json release/VIDEO_T1_MONTAGE_COMPLET_A_VALIDER.mp4
+
+      - name: Upload the GitHub Actions artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: T1-montage-complet-${{ github.run_id }}
+          path: release/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Write public release notes
+        run: |
+          cat > release-notes.md <<'EOF'
+          # T1 — montage complet avec voix française
+
+          Rendu exécuté sur un runner **GitHub Actions** avec le moteur canonique du gabarit.
+
+          - 30 secondes, 720 × 1280, 30 i/s, 900 images
+          - DM Serif Display, Montserrat et Plus Jakarta Sans
+          - musique Match Out 178406
+          - quatre annonces françaises et ducking −3/−10 dB
+          - master visuel conforme au golden SHA-256 `784bd775…50c7`
+          - contrôles automatiques et suite de tests exécutés sur le serveur
+
+          Le fichier principal est `VIDEO_T1_MONTAGE_COMPLET_A_VALIDER.mp4`.
+          EOF
+
+      - name: Publish the public GitHub Release and direct-download asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG='t1-complete-voice-video-v1.0.0'
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release delete "$TAG" --cleanup-tag --yes
+          fi
+          gh release create "$TAG" \
+            release/VIDEO_T1_MONTAGE_COMPLET_A_VALIDER.mp4 \
+            release/T1_voice_music_v1_validation.json \
+            release/T1_GITHUB_RENDER_MANIFEST.json \
+            release/T1_GITHUB_SERVER_VALIDATION.json \
+            release/T1_CONTROLE_POLICES_ENREGISTREES.jpg \
+            release/SHA256SUMS.txt \
+            --target "$GITHUB_SHA" \
+            --title 'T1 — montage complet voix française v1.0.0' \
+            --notes-file release-notes.md
+          gh release view "$TAG" --json url,tagName,name
