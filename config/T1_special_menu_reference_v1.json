@@ -846,7 +846,7 @@
       },
       "style": {
         "headline_font": "display_serif",
-        "headline_size_px": 64,
+        "headline_size_px": 72,
         "secondary_font": "light_sans",
         "secondary_size_px": 24,
         "secondary_tracking_em": 0.13,

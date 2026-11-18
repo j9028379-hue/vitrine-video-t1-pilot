@@ -1,0 +1,32 @@
+# Référence approuvée — T1 « Plat du jour »
+
+Référence publique : [TikTok — Special Menu | Food Template](https://www.tiktok.com/@ctemplate99/video/7525857155178712376)
+
+## Sources de vérité
+
+1. `reference_decompilation_v1.json` — mesures observées sur les 570 images de la référence ;
+2. `../../config/T1_special_menu_reference_v1.json` — adaptation 4 scènes / 900 images ;
+3. `../../reports/T1_SPECIAL_MENU_REFERENCE_ENGINEERING.md` — explication d’ingénierie en français ;
+4. `../../engine/special_menu_style.py` — moteur de prévisualisation ;
+5. `../../output/output_T1_special_menu_reference_v1.mp4` — preuve visuelle muette avec les rushes publics de démonstration.
+
+## Reproduire le rendu
+
+```bash
+PYTHONPATH=. python3 tools/render_t1_special_menu.py
+PYTHONPATH=. python3 tools/validate_t1_special_menu.py
+PYTHONPATH=. pytest -q tests/test_t1_special_menu_reference.py tests/test_special_menu_renderer.py
+```
+
+## Règles de sécurité produit
+
+- ne pas modifier le guide des quatre captures ;
+- ne pas modifier `main` ni les releases déjà livrées ;
+- ne pas ajouter de champ marchand obligatoire ;
+- ne pas retimer la parole ;
+- ne pas poser de sous-titre sur la parole ;
+- ne pas remplacer les coupes franches par des wipes, glitchs ou fondus ;
+- ne pas substituer les polices embarquées ;
+- maintenir le CTA jusqu’à l’image 899.
+
+Le MP4 tiers n’est pas commité. Son URL, ses dimensions, son hash et sa décompilation sont suffisants pour rendre l’analyse reproductible sans redistribuer le contenu du créateur.
