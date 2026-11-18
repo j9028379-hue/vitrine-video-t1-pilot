@@ -18,6 +18,7 @@ une maquette de parcours jouable dans le navigateur, et tout le son (voix, musiq
 | La publicité finie, avec le son | `output/output_T1_audio_demo_A.mp4` (recommandée) · `output/output_T1_audio_demo_B.mp4` (alternative) |
 | La même vidéo sans son | `output/output_T1_sans_voix_v4_demo.mp4` |
 | La référence muette V3.1 (inchangée) | `output/output_T1_sans_voix_v3_1.mp4` |
+| **Le master V5 « Worldclass » (moteur actuel)** | `output/output_T1_master_v5.mp4` |
 | Le parcours dans le navigateur | `simulation/index.html` |
 | Les écrans, en images | `ui-screens/` (19 captures) |
 | Les quatre consignes de tournage | `capture-guide/README.md` |
@@ -114,12 +115,82 @@ bash rushes/build_scenes.sh
 - **Honnêteté** : je n'ai pas pu écouter le mixage (aucune sortie audio ici). Le contrôle est objectif ; la liste
   d'écoute à faire avant diffusion est au §5 du rapport de mixage.
 
-## 6. Reconstruire de bout en bout
+## 6. Le moteur actuel (V5 « Worldclass »)
+
+Trois moteurs cohabitent dans le dépôt, et c'est volontaire :
+
+| Moteur | Fichier | Statut |
+|---|---|---|
+| **V5 — actuel** | `engine/motion_v5.py` | moteur de référence : analyse des prises, plan construit, caméra sous-pixel, 6 transitions, graphismes adaptatifs |
+| V4 — clôture | `engine/motion_v4.py` | conservé, reproductible, publication `t1-cloture` |
+| V3.1 — historique | `engine/motion_v3_1.py` | conservé comme référence visuelle approuvée |
+
+### Dépendances
+
+```bash
+python3 -m pip install -r requirements.txt        # numpy, opencv, pillow, pytest
+python3 -m pip install imageio-ffmpeg             # fournit le binaire ffmpeg
+mkdir -p ~/.local/bin && ln -sf "$(python3 -c 'import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())')" ~/.local/bin/ffmpeg
+export PATH=$HOME/.local/bin:$PATH
+```
+
+### Chaîne complète, depuis un clone neuf
+
+```bash
+bash rushes/build_scenes.sh                       # 1. les 4 prises (6/8/7/9 s), téléchargées et vérifiées
+PYTHONPATH=. python3 engine/scene_analyzer.py \
+    --out reports/scene_analysis_T1.json          # 2. analyse : stabilité, netteté, pivots, ancres, couleurs
+PYTHONPATH=. python3 engine/montage_plan_builder.py \
+    --profile demo_nominal \
+    --out reports/montage_plan_v5_demo.json       # 3. plan de montage (aucune image lue)
+PYTHONPATH=. python3 engine/motion_v5.py \
+    --plan reports/montage_plan_v5_demo.json \
+    --output output/output_T1_master_v5.mp4 \
+    --manifest reports/execution_manifest_v5.json # 4. rendu : 900 images, un seul encodage
+PYTHONPATH=. python3 tools/verify_worldclass.py   # 5. contrôle sur le MP4 réel
+PYTHONPATH=. python3 tools/build_profiles_v5.py   # 6. les cinq profils commerçants
+PYTHONPATH=. python3 tools/comparison_v3_v4_v5.py # 7. comparaison V3.1 / V4 / V5
+python3 -m pytest -q                              # 8. 64 tests
+```
+
+Les cinq profils commerciaux sont dans `engine/montage_plan_builder.py` (`PROFILS_COMMERCIAUX`) :
+`demo_nominal`, `champs_longs`, `accroche_vide`, `accroche_un_mot`, `fond_blanc`.
+
+### Fichiers de configuration
+
+| Fichier | Rôle |
+|---|---|
+| `config/T1_worldclass_v5.json` | configuration V5 : slots, cartes, typographie, animations, transitions, vitesses, qualité |
+| `config/T1_presentation_v3_1.json` | configuration historique V3.1, lue par `engine/presentation.py` (moteur V4) |
+| `reports/montage_plan_v5_demo.json` | plan de montage V5 (contrat JSON Python ↔ Android) |
+
+### Résultats produits
+
+| Chemin | Contenu |
+|---|---|
+| `output/output_T1_master_v5.mp4` | master V5, 900 images, 30 s, 720×1280, muet |
+| `reports/scene_analysis_T1.json` | analyse des quatre prises |
+| `reports/execution_manifest_v5.json` | journal d'exécution du rendu V5 |
+| `reports/worldclass_validation_T1.json` | 22 contrôles mesurés sur le MP4 |
+| `reports/profils_v5/` | cinq profils : plans, masters, validations, planches, contrastes |
+| `reports/comparison_V3_1_V4_V5.md` | comparaison mesurée + analyse artistique |
+| `reports/PORTABILITY_ANDROID_T1.md` | architecture et limites du portage Android |
+
+### Limitations connues du V5
+
+- La netteté d'ouverture est bornée par la prise 1 (606×1080, première seconde douce).
+- La scène 3 reste en 404×720 : aucun upscale ne restitue des détails absents.
+- Le ralentissement du cœur de plan réutilise quelques images (jamais plus de deux consécutives) ;
+  ce sont des répétitions de rythme, pas des gels.
+- Aucun test sur appareil Android : le portage est préparé, pas réalisé.
+- Le profil `fond_blanc` utilise une fixture synthétique : il valide le graphisme, pas la fluidité.
+
+## 7. Reconstruire de bout en bout (chaîne historique V4)
 
 ```bash
 python3 -m pip install -r requirements.txt      # numpy, scipy, pillow, opencv, pytest
 bash rushes/build_scenes.sh                     # 4 prises vidéo (6/8/7/9 s)
-PYTHONPATH=. python3 engine/motion_v3_1.py \
+PYTHONPATH=. python3 engine/motion_v4.py \
     --plan render_plan_v4_demo.json \
     --output output/output_T1_sans_voix_v4_demo.mp4 \
     --sheet output/planche_controle_v4_demo.png
@@ -132,7 +203,7 @@ python3 tools/capture_ui.py                     # régénère ui-screens/
 python3 -m pytest -q                            # tests de l'adaptateur et du moteur
 ```
 
-## 7. Ce qui n'est pas fait, et pourquoi
+## 8. Ce qui n'est pas fait, et pourquoi
 
 - **Pas de nouvelle spécification** V1/V2/V3 : la direction artistique visuelle et le montage V3.1 ne sont pas refaits.
   Seule la correspondance entre scènes et rushs a été corrigée, plus les valeurs de démonstration (adresse fictive).

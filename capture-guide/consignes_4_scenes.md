@@ -25,7 +25,7 @@
 - Montrer le sol ou le plafond.
 - Bouger trop vite.
 
-**Enregistrer sa voix** : « Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit. »
+**TU PEUX PARLER PENDANT QUE TU FILMES** : « Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit. »
 
 **Exemple de phrase (facultatif)** : « Voici notre riz au poulet braisé bien chaud avec alloco, prêt maintenant ! »
 
@@ -45,7 +45,7 @@ Bouton de l'écran : `COMMENCER À FILMER`
 - Tes doigts devant la caméra.
 - Filmer vers la fenêtre, tout devient sombre.
 
-**Enregistrer sa voix** : « Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit. »
+**TU PEUX PARLER PENDANT QUE TU FILMES** : « Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit. »
 
 **Exemple de phrase (facultatif)** : « Regardez la sauce : tout est préparé ce matin avec de l'huile propre. »
 
@@ -66,7 +66,7 @@ Bouton de l'écran : `COMMENCER À FILMER`
 - Filmer quelqu'un qui ne veut pas être filmé.
 - Filmer un coin sombre.
 
-**Enregistrer sa voix** : « Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit. »
+**TU PEUX PARLER PENDANT QUE TU FILMES** : « Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit. »
 
 **Exemple de phrase (facultatif)** : « C'est moi qui prépare tous les jours. Venez goûter, on sert de midi jusqu'au soir. »
 
@@ -87,7 +87,7 @@ Bouton de l'écran : `COMMENCER À FILMER`
 - Filmer les passants de trop près.
 - Filmer le ciel.
 
-**Enregistrer sa voix** : « Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit. »
+**TU PEUX PARLER PENDANT QUE TU FILMES** : « Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit. »
 
 **Exemple de phrase (facultatif)** : « Nous sommes à Abomey-Calavi, Arconville, à côté de la station. Appelez-nous sur WhatsApp. »
 

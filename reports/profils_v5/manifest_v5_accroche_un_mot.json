@@ -1,0 +1,823 @@
+{
+  "moteur": "engine/motion_v5.py",
+  "plan": "plan_v5_accroche_un_mot.json",
+  "config": "config/T1_worldclass_v5.json",
+  "version_plan": "T1-V5-montage-plan-1",
+  "profil": "accroche_un_mot",
+  "qualite": "standard",
+  "frames": 900,
+  "fps": 30,
+  "resolution": "720x1280",
+  "transitions": [
+    {
+      "transition": "TR_FLASH_PUNCH",
+      "coupe_f": 105,
+      "debut_f": 104,
+      "fin_f": 110,
+      "images": 6,
+      "flux_sortant_de_vers": [
+        99,
+        128
+      ],
+      "flux_entrant_de_vers": [
+        0,
+        5
+      ],
+      "sortant_avance": true,
+      "entrant_avance": true
+    },
+    {
+      "transition": "TR_WHIP_BLUR",
+      "coupe_f": 180,
+      "debut_f": 179,
+      "fin_f": 187,
+      "images": 8,
+      "flux_sortant_de_vers": [
+        67,
+        96
+      ],
+      "flux_entrant_de_vers": [
+        0,
+        7
+      ],
+      "sortant_avance": true,
+      "entrant_avance": true
+    },
+    {
+      "transition": "TR_SPLIT_DIPTYCH",
+      "coupe_f": 300,
+      "debut_f": 299,
+      "fin_f": 311,
+      "images": 12,
+      "flux_sortant_de_vers": [
+        62,
+        118
+      ],
+      "flux_entrant_de_vers": [
+        0,
+        11
+      ],
+      "sortant_avance": true,
+      "entrant_avance": true
+    },
+    {
+      "transition": "TR_WARM_BURN",
+      "coupe_f": 420,
+      "debut_f": 419,
+      "fin_f": 427,
+      "images": 8,
+      "flux_sortant_de_vers": [
+        111,
+        118
+      ],
+      "flux_entrant_de_vers": [
+        0,
+        7
+      ],
+      "sortant_avance": true,
+      "entrant_avance": true
+    },
+    {
+      "transition": "TR_PORTAL_EXPAND",
+      "coupe_f": 630,
+      "debut_f": 629,
+      "fin_f": 639,
+      "images": 10,
+      "flux_sortant_de_vers": [
+        109,
+        208
+      ],
+      "flux_entrant_de_vers": [
+        0,
+        9
+      ],
+      "sortant_avance": true,
+      "entrant_avance": true
+    }
+  ],
+  "plans": [
+    {
+      "id": "A1",
+      "scene": "S1",
+      "intention": "hook : le plat déjà à l'image, punch-in qui donne du rythme dès la première image",
+      "sortie_f": [
+        0,
+        105
+      ],
+      "source_f": [
+        0,
+        104
+      ],
+      "vitesse": {
+        "vitesse_min": 0.9135,
+        "vitesse_max": 1.4118,
+        "vitesse_moyenne_reelle": 1.0,
+        "images_repetees": 6,
+        "repetition_max_consecutive": 2,
+        "gel_de_fin": 0
+      },
+      "camera": {
+        "profil": "punch_hook",
+        "axe_pan": "horizontal",
+        "zoom": {
+          "debut": 1.14,
+          "fin": 1.02,
+          "plafond_respecte": true
+        },
+        "pan_rel": {
+          "debut": 0.0,
+          "fin": 0.0,
+          "deplacement_px": 0.0
+        },
+        "sous_pixel": true,
+        "interpolation": "INTER_CUBIC",
+        "ancre_source": {
+          "x": 0.4801,
+          "y": 0.4944
+        },
+        "courbe": "easeInOutQuad"
+      },
+      "lip_sync_safe": false
+    },
+    {
+      "id": "A2",
+      "scene": "S1",
+      "intention": "geste de service, coupe dynamique sur le mouvement",
+      "sortie_f": [
+        105,
+        180
+      ],
+      "source_f": [
+        105,
+        179
+      ],
+      "vitesse": {
+        "vitesse_min": 0.9121,
+        "vitesse_max": 1.4096,
+        "vitesse_moyenne_reelle": 1.0,
+        "images_repetees": 5,
+        "repetition_max_consecutive": 2,
+        "gel_de_fin": 0
+      },
+      "camera": {
+        "profil": "travelling_droite",
+        "axe_pan": "horizontal",
+        "zoom": {
+          "debut": 1.12,
+          "fin": 1.12,
+          "plafond_respecte": true
+        },
+        "pan_rel": {
+          "debut": -0.055,
+          "fin": 0.055,
+          "deplacement_px": 79.2
+        },
+        "sous_pixel": true,
+        "interpolation": "INTER_CUBIC",
+        "ancre_source": {
+          "x": 0.4801,
+          "y": 0.4944
+        },
+        "courbe": "easeInOutQuad"
+      },
+      "lip_sync_safe": false
+    },
+    {
+      "id": "B1",
+      "scene": "S2",
+      "intention": "vue générale du dessus",
+      "sortie_f": [
+        180,
+        300
+      ],
+      "source_f": [
+        0,
+        119
+      ],
+      "vitesse": {
+        "vitesse_min": 0.9139,
+        "vitesse_max": 1.4125,
+        "vitesse_moyenne_reelle": 1.0,
+        "images_repetees": 7,
+        "repetition_max_consecutive": 2,
+        "gel_de_fin": 0
+      },
+      "camera": {
+        "profil": "descente",
+        "axe_pan": "vertical",
+        "zoom": {
+          "debut": 1.07,
+          "fin": 1.1,
+          "plafond_respecte": true
+        },
+        "pan_rel": {
+          "debut": 0.03,
+          "fin": -0.02,
+          "deplacement_px": 36.0
+        },
+        "sous_pixel": true,
+        "interpolation": "INTER_CUBIC",
+        "ancre_source": {
+          "x": 0.4919,
+          "y": 0.5219
+        },
+        "courbe": "easeInOutQuad"
+      },
+      "lip_sync_safe": false
+    },
+    {
+      "id": "B2",
+      "scene": "S2",
+      "intention": "détail rapproché, prix mis en avant",
+      "sortie_f": [
+        300,
+        420
+      ],
+      "source_f": [
+        120,
+        239
+      ],
+      "vitesse": {
+        "vitesse_min": 0.9139,
+        "vitesse_max": 1.4125,
+        "vitesse_moyenne_reelle": 1.0,
+        "images_repetees": 7,
+        "repetition_max_consecutive": 2,
+        "gel_de_fin": 0
+      },
+      "camera": {
+        "profil": "push_subtil",
+        "axe_pan": "horizontal",
+        "zoom": {
+          "debut": 1.01,
+          "fin": 1.06,
+          "plafond_respecte": true
+        },
+        "pan_rel": {
+          "debut": 0,
+          "fin": 0,
+          "deplacement_px": 0
+        },
+        "sous_pixel": true,
+        "interpolation": "INTER_CUBIC",
+        "ancre_source": {
+          "x": 0.4919,
+          "y": 0.5219
+        },
+        "courbe": "easeInOutQuad"
+      },
+      "lip_sync_safe": false
+    },
+    {
+      "id": "C1",
+      "scene": "S3",
+      "intention": "personne qui sert : visage stable, compatible synchronisation labiale",
+      "sortie_f": [
+        420,
+        630
+      ],
+      "source_f": [
+        0,
+        209
+      ],
+      "vitesse": {
+        "vitesse_min": 0.9868,
+        "vitesse_max": 1.0673,
+        "vitesse_moyenne_reelle": 1.0,
+        "images_repetees": 2,
+        "repetition_max_consecutive": 2,
+        "gel_de_fin": 0
+      },
+      "camera": {
+        "profil": "fixe_ancre",
+        "axe_pan": "horizontal",
+        "zoom": {
+          "debut": 1.01,
+          "fin": 1.03,
+          "plafond_respecte": true
+        },
+        "pan_rel": {
+          "debut": 0,
+          "fin": 0,
+          "deplacement_px": 0
+        },
+        "sous_pixel": true,
+        "interpolation": "INTER_CUBIC",
+        "ancre_source": {
+          "x": 0.4254,
+          "y": 0.4042
+        },
+        "courbe": "easeInOutQuad"
+      },
+      "lip_sync_safe": true
+    },
+    {
+      "id": "D1",
+      "scene": "S4",
+      "intention": "entrée et lieu reconnaissables",
+      "sortie_f": [
+        630,
+        765
+      ],
+      "source_f": [
+        0,
+        135
+      ],
+      "vitesse": {
+        "vitesse_min": 0.9211,
+        "vitesse_max": 1.4235,
+        "vitesse_moyenne_reelle": 1.0074,
+        "images_repetees": 7,
+        "repetition_max_consecutive": 2,
+        "gel_de_fin": 0
+      },
+      "camera": {
+        "profil": "travelling_haut",
+        "axe_pan": "vertical",
+        "zoom": {
+          "debut": 1.1,
+          "fin": 1.1,
+          "plafond_respecte": true
+        },
+        "pan_rel": {
+          "debut": 0.045,
+          "fin": -0.045,
+          "deplacement_px": 64.8
+        },
+        "sous_pixel": true,
+        "interpolation": "INTER_CUBIC",
+        "ancre_source": {
+          "x": 0.4729,
+          "y": 0.4782
+        },
+        "courbe": "easeInOutQuad"
+      },
+      "lip_sync_safe": false
+    },
+    {
+      "id": "D2",
+      "scene": "S4",
+      "intention": "comptoir puis packshot commercial",
+      "sortie_f": [
+        765,
+        900
+      ],
+      "source_f": [
+        136,
+        270
+      ],
+      "vitesse": {
+        "vitesse_min": 0.9143,
+        "vitesse_max": 1.413,
+        "vitesse_moyenne_reelle": 1.0,
+        "images_repetees": 8,
+        "repetition_max_consecutive": 2,
+        "gel_de_fin": 0
+      },
+      "camera": {
+        "profil": "push_subtil",
+        "axe_pan": "horizontal",
+        "zoom": {
+          "debut": 1.01,
+          "fin": 1.06,
+          "plafond_respecte": true
+        },
+        "pan_rel": {
+          "debut": 0,
+          "fin": 0,
+          "deplacement_px": 0
+        },
+        "sous_pixel": true,
+        "interpolation": "INTER_CUBIC",
+        "ancre_source": {
+          "x": 0.4729,
+          "y": 0.4782
+        },
+        "courbe": "easeInOutQuad"
+      },
+      "lip_sync_safe": false
+    }
+  ],
+  "graphismes": {
+    "version": "T1-V5-worldclass-1",
+    "qualite": "standard",
+    "blocs": {
+      "GB01": {
+        "nom": "Enseigne",
+        "carte": [
+          103.7,
+          172.8,
+          213.8,
+          66.3
+        ],
+        "fenetre_f": [
+          2,
+          104
+        ],
+        "elements": [
+          {
+            "type": "accent",
+            "boite": [
+              115.2,
+              193.3,
+              31.7,
+              31.7
+            ],
+            "lignes": [],
+            "taille_px": null,
+            "animation": "fondu"
+          },
+          {
+            "type": "texte",
+            "boite": [
+              119.7,
+              174.2,
+              173.5,
+              26.0
+            ],
+            "lignes": [
+              "MAQUIS DÉMO"
+            ],
+            "taille_px": 22,
+            "animation": "mot_a_mot"
+          }
+        ]
+      },
+      "GB02": {
+        "nom": "Produit",
+        "carte": null,
+        "fenetre_f": [
+          52,
+          179
+        ],
+        "elements": [
+          {
+            "type": "texte",
+            "boite": [
+              103.7,
+              1124.4,
+              197.0,
+              51.9
+            ],
+            "lignes": [
+              "BURGER"
+            ],
+            "taille_px": 44,
+            "animation": "masque_revelation"
+          },
+          {
+            "type": "filet",
+            "boite": [
+              103.7,
+              1171.3,
+              216.0,
+              5.0
+            ],
+            "lignes": [],
+            "taille_px": null,
+            "animation": "croissance_horizontale"
+          }
+        ]
+      },
+      "GB03": {
+        "nom": "Prix",
+        "carte": [
+          103.7,
+          1012.6,
+          312.9,
+          94.6
+        ],
+        "fenetre_f": [
+          196,
+          412
+        ],
+        "elements": [
+          {
+            "type": "texte",
+            "boite": [
+              117.8,
+              1033.4,
+              272.5,
+              54.3
+            ],
+            "lignes": [
+              "2 500 FCFA"
+            ],
+            "taille_px": 46,
+            "animation": "rebond_prix"
+          },
+          {
+            "type": "accent",
+            "boite": [
+              108.7,
+              1029.6,
+              2.5,
+              60.5
+            ],
+            "lignes": [],
+            "taille_px": null,
+            "animation": "fondu"
+          }
+        ]
+      },
+      "GB04": {
+        "nom": "Accroche",
+        "carte": null,
+        "fenetre_f": [
+          236,
+          406
+        ],
+        "elements": [
+          {
+            "type": "texte",
+            "boite": [
+              103.7,
+              108.8,
+              83.5,
+              30.7
+            ],
+            "lignes": [
+              "Chaud"
+            ],
+            "taille_px": 26,
+            "animation": "masque_revelation"
+          }
+        ]
+      },
+      "GB05": {
+        "nom": "Rappel enseigne (scène humaine)",
+        "carte": [
+          103.7,
+          172.8,
+          165.8,
+          60.4
+        ],
+        "fenetre_f": [
+          452,
+          618
+        ],
+        "elements": [
+          {
+            "type": "texte",
+            "boite": [
+              112.0,
+              184.9,
+              125.5,
+              20.1
+            ],
+            "lignes": [
+              "MAQUIS DÉMO"
+            ],
+            "taille_px": 17,
+            "animation": "fondu"
+          }
+        ]
+      },
+      "GB06": {
+        "nom": "Quartier",
+        "carte": null,
+        "fenetre_f": [
+          646,
+          852
+        ],
+        "elements": [
+          {
+            "type": "texte",
+            "boite": [
+              103.7,
+              1077.7,
+              160.6,
+              29.5
+            ],
+            "lignes": [
+              "ARCONVILLE"
+            ],
+            "taille_px": 25,
+            "animation": "masque_revelation"
+          }
+        ]
+      },
+      "GB07": {
+        "nom": "Contact WhatsApp (CTA)",
+        "carte": [
+          103.7,
+          1106.4,
+          251.3,
+          68.6
+        ],
+        "fenetre_f": [
+          796,
+          900
+        ],
+        "elements": [
+          {
+            "type": "texte",
+            "boite": [
+              118.8,
+              1121.5,
+              211.0,
+              28.3
+            ],
+            "lignes": [
+              "+229 00 00 00 00"
+            ],
+            "taille_px": 24,
+            "animation": "fondu"
+          }
+        ]
+      },
+      "GB08": {
+        "nom": "Packshot final",
+        "carte": [
+          103.7,
+          899.2,
+          278.4,
+          171.3
+        ],
+        "fenetre_f": [
+          812,
+          900
+        ],
+        "elements": [
+          {
+            "type": "texte",
+            "boite": [
+              116.2,
+              914.6,
+              238.1,
+              35.4
+            ],
+            "lignes": [
+              "MAQUIS DÉMO"
+            ],
+            "taille_px": 30,
+            "animation": "masque_revelation"
+          },
+          {
+            "type": "texte",
+            "boite": [
+              116.2,
+              955.8,
+              86.8,
+              24.8
+            ],
+            "lignes": [
+              "BURGER"
+            ],
+            "taille_px": 21,
+            "animation": "fondu"
+          },
+          {
+            "type": "texte",
+            "boite": [
+              116.2,
+              990.0,
+              201.4,
+              40.1
+            ],
+            "lignes": [
+              "2 500 FCFA"
+            ],
+            "taille_px": 34,
+            "animation": "rebond_prix"
+          },
+          {
+            "type": "filet",
+            "boite": [
+              123.8,
+              1040.4,
+              129.6,
+              4.0
+            ],
+            "lignes": [],
+            "taille_px": null,
+            "animation": "croissance_horizontale"
+          }
+        ]
+      }
+    },
+    "decisions": [
+      {
+        "bloc": "GB01",
+        "decision": "scrim contextuel",
+        "contraste_mesure": 4.51,
+        "alpha": 0.074
+      },
+      {
+        "bloc": "GB02",
+        "decision": "scrim contextuel",
+        "contraste_mesure": 4.56,
+        "alpha": 0.067
+      },
+      {
+        "bloc": "GB04",
+        "decision": "scrim contextuel",
+        "contraste_mesure": 4.4,
+        "alpha": 0.087
+      },
+      {
+        "bloc": "GB03",
+        "decision": "scrim contextuel",
+        "contraste_mesure": 2.92,
+        "alpha": 0.282
+      },
+      {
+        "bloc": "GB05",
+        "decision": "scrim contextuel",
+        "contraste_mesure": 4.71,
+        "alpha": 0.048
+      },
+      {
+        "bloc": "GB06",
+        "decision": "scrim contextuel",
+        "contraste_mesure": 4.5,
+        "alpha": 0.075
+      },
+      {
+        "bloc": "GB07",
+        "decision": "scrim contextuel",
+        "contraste_mesure": 4.08,
+        "alpha": 0.03
+      }
+    ],
+    "zones_protegees": {
+      "S1": [
+        {
+          "nom": "sujet",
+          "type": "cercle",
+          "x": 0.4801,
+          "y": 0.4944,
+          "rayon": 0.2,
+          "priorite": 1
+        },
+        {
+          "nom": "mains",
+          "type": "rect",
+          "x": 0.34,
+          "y": 0.64,
+          "largeur": 0.32,
+          "hauteur": 0.22,
+          "priorite": 2
+        }
+      ],
+      "S2": [
+        {
+          "nom": "sujet",
+          "type": "cercle",
+          "x": 0.4919,
+          "y": 0.5219,
+          "rayon": 0.2,
+          "priorite": 1
+        }
+      ],
+      "S3": [
+        {
+          "nom": "visage",
+          "type": "rect",
+          "x": 0.0597,
+          "y": 0.2,
+          "largeur": 0.7313,
+          "hauteur": 0.4083,
+          "priorite": 0
+        },
+        {
+          "nom": "yeux_bouche",
+          "type": "rect",
+          "x": 0.118204,
+          "y": 0.28982600000000003,
+          "largeur": 0.614292,
+          "hauteur": 0.269478,
+          "priorite": 0
+        },
+        {
+          "nom": "sujet",
+          "type": "cercle",
+          "x": 0.4254,
+          "y": 0.4042,
+          "rayon": 0.2,
+          "priorite": 1
+        }
+      ],
+      "S4": [
+        {
+          "nom": "sujet",
+          "type": "cercle",
+          "x": 0.4729,
+          "y": 0.4782,
+          "rayon": 0.2,
+          "priorite": 1
+        }
+      ]
+    }
+  },
+  "render_s": 90.87,
+  "encodeur": {
+    "codec": "libx264",
+    "preset": "slow",
+    "crf": 18,
+    "pix_fmt": "yuv420p",
+    "encodages_avec_perte": 1,
+    "movflags": "+faststart"
+  },
+  "sha256_plan": "b87fd795a66a00c77c8d16c2ce6e381622813f433d6d713ba3ed7a486c2d32dc"
+}

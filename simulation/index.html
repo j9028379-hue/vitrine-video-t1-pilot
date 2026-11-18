@@ -96,6 +96,37 @@
   /* ---------- état B : enregistrement ---------- */
   .rec{position:absolute;inset:0;z-index:22;pointer-events:none;opacity:0;transition:opacity .12s linear}
   .rec.on{opacity:1}
+  /* Décompte 3·2·1 sur l'aperçu dégagé, avant le départ du chronomètre */
+  .countdown{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+    background:rgba(6,10,18,.28);z-index:6;}
+  .countdown.on{display:flex;}
+  .countdown b{font-family:var(--display);font-weight:800;font-size:132px;line-height:1;
+    color:#fff;text-shadow:0 8px 40px rgba(0,0,0,.55);transform:scale(.86);opacity:0;
+    animation:cd .5s ease-out forwards;}
+  @keyframes cd{from{transform:scale(.86);opacity:0}to{transform:scale(1);opacity:1}}
+
+  /* Repères d'angle discrets : quatre coins, aucun cadre central, aucun texte */
+  .marks{position:absolute;inset:0;display:none;pointer-events:none;z-index:4;}
+  .marks.on{display:block;}
+  .marks i{position:absolute;width:26px;height:26px;border:2px solid rgba(255,255,255,.78);
+    border-radius:3px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5));}
+  .marks i:nth-child(1){top:26px;left:22px;border-right:0;border-bottom:0;}
+  .marks i:nth-child(2){top:26px;right:22px;border-left:0;border-bottom:0;}
+  .marks i:nth-child(3){bottom:120px;left:22px;border-right:0;border-top:0;}
+  .marks i:nth-child(4){bottom:120px;right:22px;border-left:0;border-top:0;}
+
+  /* Alerte qualité : proposition, jamais un blocage */
+  .quality{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);width:min(360px,88vw);
+    background:rgba(12,19,31,.96);border:1px solid rgba(255,248,239,.18);border-radius:16px;
+    padding:14px 16px;color:#fff8ef;font-family:var(--ui);font-size:14px;display:none;z-index:9;
+    box-shadow:0 18px 50px rgba(0,0,0,.5);}
+  .quality.on{display:block;}
+  .quality p{margin:0 0 10px;}
+  .quality .btns{display:flex;gap:8px;}
+  .quality .btn{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,248,239,.22);
+    background:transparent;color:#fff8ef;font-family:var(--ui);font-weight:700;font-size:13px;}
+  .quality .btn.primary{background:var(--accent);border-color:var(--accent);color:#0c131f;}
+
   .chrono{position:absolute;top:calc(18px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);
           display:flex;align-items:center;gap:9px;padding:9px 16px;border-radius:999px;
           background:rgba(6,10,20,.6);border:1px solid rgba(255,255,255,.18);
@@ -218,6 +249,12 @@
     </div>
   </section>
 
+  <!-- Décompte 3 · 2 · 1 : aperçu caméra dégagé, avant le départ du chronomètre -->
+  <div class="countdown" id="countdown" aria-live="polite"><b id="countdownVal">3</b></div>
+
+  <!-- Repères d'angle (état B uniquement) : quatre coins discrets, aucun texte -->
+  <div class="marks" id="marks" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
   <!-- ÉTAT B — enregistrement : aperçu, chrono, barre -->
   <div class="rec" id="rec" aria-hidden="true">
     <div class="chrono" id="chrono"><span class="dot"></span><span id="chronoVal">0:00</span></div>
@@ -235,6 +272,15 @@
     <div class="btns">
       <button class="btn" id="redo">REFAIRE</button>
       <button class="btn primary" id="next">SCÈNE SUIVANTE</button>
+    </div>
+  </div>
+
+  <!-- Alerte qualité après la prise : le commerçant décide -->
+  <div class="quality" id="quality" role="status">
+    <p id="qualityText">Cette prise est très sombre ou très floue. Tu peux la refaire, ou la garder.</p>
+    <div class="btns">
+      <button class="btn" id="qualityKeep">GARDER</button>
+      <button class="btn primary" id="qualityRedo">REFAIRE</button>
     </div>
   </div>
 
@@ -299,6 +345,12 @@ const SCENES = DATA.scenes.map((s) => ({
 const $ = (id) => document.getElementById(id);
 const cam = $("cam"), replay = $("replay"), ad = $("ad"), audioVoix = new Audio();
 let idx = 0, rafId = null, recStart = 0, recording = false, state = "A";
+/* Marge technique invisible : la capture dure 0,4 s de plus que la durée montrée au commerçant.
+   Elle protège le démarrage et la fin du mouvement et ne change JAMAIS la durée du montage
+   (6 / 8 / 7 / 9 secondes restent les durées affichées et montées). */
+const MARGE_TECHNIQUE_S = 0.4;
+const DECOMPTE_PAS_MS = 500;          /* 3 · 2 · 1 en 1,5 s */
+let decompteEnCours = false;
 
 const fmt = (sec) => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, "0")}`;
 
@@ -351,6 +403,7 @@ function showCard(i) {
 /* ---------------- état B ---------------- */
 function startRecording() {
   const s = SCENES[idx];
+  if (decompteEnCours) return;
   stopRecording();
   hideAll();
   state = "B";
@@ -358,7 +411,30 @@ function startRecording() {
   if (!cam.src.endsWith(s.video)) cam.src = s.video;
   cam.currentTime = 0; cam.play().catch(() => {});
   $("scrim").classList.add("off");
+  /* Décompte sur l'aperçu dégagé : ni chrono, ni barre, ni repères pendant le 3·2·1 */
+  decompteEnCours = true;
+  $("countdown").classList.add("on");
+  let valeur = 3;
+  const afficher = () => {
+    const b = $("countdownVal");
+    b.textContent = String(valeur);
+    b.style.animation = "none"; void b.offsetWidth; b.style.animation = "";
+  };
+  afficher();
+  const suivant = () => {
+    valeur -= 1;
+    if (valeur >= 1) { afficher(); setTimeout(suivant, DECOMPTE_PAS_MS); return; }
+    $("countdown").classList.remove("on");
+    decompteEnCours = false;
+    demarrerChrono(s);
+  };
+  setTimeout(suivant, DECOMPTE_PAS_MS);
+}
+
+function demarrerChrono(s) {
   $("rec").classList.add("on");
+  $("marks").classList.add("on");          /* repères d'angle : état B uniquement */
+  $("quality").classList.remove("on");
   $("chrono").classList.remove("hot"); $("bar").classList.remove("hot");
   $("chronoVal").textContent = "0:00"; $("barFill").style.width = "0%";
   recStart = performance.now(); recording = true;
@@ -370,10 +446,56 @@ function startRecording() {
     const hot = s.secondes - t <= 3;
     $("chrono").classList.toggle("hot", hot);
     $("bar").classList.toggle("hot", hot);
-    if (t >= s.secondes) { finishRecording(); return; }
+    if (t >= s.secondes) {
+      /* marge technique : la capture continue 0,4 s en interne, le commerçant ne la voit pas */
+      recording = false;
+      setTimeout(() => verifierQualite(() => finishRecording()), MARGE_TECHNIQUE_S * 1000);
+      return;
+    }
     rafId = requestAnimationFrame(tick);
   };
   rafId = requestAnimationFrame(tick);
+}
+
+/* Contrôle qualité après la prise : quasi-noir ou très flou → alerte simple, choix laissé au
+   commerçant. En cas d'incertitude on ne bloque jamais. */
+function mesurerQualite() {
+  try {
+    const c = document.createElement("canvas");
+    c.width = 90; c.height = 160;
+    const ctx = c.getContext("2d");
+    ctx.drawImage(cam, 0, 0, c.width, c.height);
+    const d = ctx.getImageData(0, 0, c.width, c.height).data;
+    let somme = 0, n = 0, lapl = 0;
+    const gris = new Float32Array(c.width * c.height);
+    for (let i = 0, p = 0; i < d.length; i += 4, p += 1) {
+      const g = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+      gris[p] = g; somme += g; n += 1;
+    }
+    for (let y = 1; y < c.height - 1; y += 1) {
+      for (let x = 1; x < c.width - 1; x += 1) {
+        const p = y * c.width + x;
+        lapl += 4 * gris[p] - gris[p - 1] - gris[p + 1] - gris[p - c.width] - gris[p + c.width];
+      }
+    }
+    return { moyenne: somme / Math.max(1, n), contraste: Math.abs(lapl) / Math.max(1, n) };
+  } catch (e) {
+    return null;                       /* mesure impossible : aucune alerte */
+  }
+}
+
+function verifierQualite(suite) {
+  const q = mesurerQualite();
+  const douteux = q && (q.moyenne < 18 || q.contraste < 4.0);
+  if (!douteux) { suite(); return; }
+  $("qualityText").textContent = q.moyenne < 18
+    ? "Cette prise est très sombre. Tu peux la refaire, ou la garder."
+    : "Cette prise est très floue. Tu peux la refaire, ou la garder.";
+  $("quality").classList.add("on");
+  const garder = () => { $("quality").classList.remove("on"); suite(); };
+  const refaire = () => { $("quality").classList.remove("on"); startRecording(); };
+  $("qualityKeep").onclick = garder;
+  $("qualityRedo").onclick = refaire;
 }
 
 function stopRecording() {
@@ -385,6 +507,8 @@ function stopRecording() {
 /* ---------------- état C ---------------- */
 function finishRecording() {
   stopRecording();
+  $("marks").classList.remove("on");
+  $("countdown").classList.remove("on");
   const s = SCENES[idx];
   state = "C";
   $("sheet").classList.add("hidden");

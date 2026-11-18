@@ -106,12 +106,17 @@ def main() -> None:
                 page.wait_for_timeout(800)
                 page.screenshot(path=str(OUT / f"ecran_08_scene{n + 1}_etatA_consigne.png"))
 
+                # décompte 3 · 2 · 1 : capturé séparément, avant le départ du chronomètre
                 page.evaluate("window.__demo.startRecording()")
-                page.wait_for_timeout(320)
+                page.wait_for_timeout(620)
+                page.screenshot(path=str(OUT / f"ecran_08_scene{n + 1}_etatB_decompte.png"))
+                # le décompte dure 1,5 s : on attend le départ réel avant de figer la barre
+                page.wait_for_timeout(1100)
                 page.evaluate("window.__demo.freezeAt(46)")
                 page.wait_for_timeout(260)
                 page.screenshot(path=str(OUT / f"ecran_08_scene{n + 1}_etatB_enregistrement.png"))
                 page.evaluate("document.getElementById('rec').classList.remove('on')")
+                page.evaluate("document.getElementById('marks').classList.remove('on')")
 
                 page.evaluate("window.__demo.finishRecording()")
                 page.wait_for_timeout(700)

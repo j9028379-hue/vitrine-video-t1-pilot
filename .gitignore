@@ -8,6 +8,11 @@ output/*.mp4
 !output/output_T1_sans_voix_v4_demo.mp4
 !output/output_T1_audio_demo_A.mp4
 !output/output_T1_audio_demo_B.mp4
+# Master V5 : versionné (reproductible depuis un clone neuf, comparé au rendu local)
+!output/output_T1_master_v5.mp4
+# Profils commerçants : masters de validation régénérables, non versionnés (50 Mo)
+reports/profils_v5/*.mp4
+rushes/source/fixture_blanc/
 output/*.zip
 output/verification*.json
 output/visual_qc*.json
