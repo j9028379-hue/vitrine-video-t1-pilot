@@ -1,0 +1,889 @@
+{
+  "version": "T1-V5-worldclass-1",
+  "nom": "VITRINE VIDÉO T1 — gabarit Worldclass V5",
+  "role": "Source unique de la couche présentation : slots, cartes, typographie, animations, transitions, profils de vitesse et profils de qualité. Aucune valeur de bloc n'est écrite en Python.",
+  "canevas": {
+    "largeur": 720,
+    "hauteur": 1280,
+    "fps": 30,
+    "images": 900,
+    "duree_s": 30.0,
+    "unite": "normalisée 0..1 sur la largeur et la hauteur"
+  },
+  "palette": {
+    "ink": [
+      12,
+      19,
+      31
+    ],
+    "cream": [
+      255,
+      248,
+      239
+    ],
+    "orange": [
+      245,
+      111,
+      49
+    ],
+    "green": [
+      31,
+      177,
+      111
+    ],
+    "amber": [
+      255,
+      196,
+      120
+    ],
+    "blanc": [
+      255,
+      255,
+      255
+    ]
+  },
+  "polices": {
+    "display": {
+      "fichier": "assets/fonts/Montserrat-Variable.ttf",
+      "graisse_defaut": "ExtraBold"
+    },
+    "ui": {
+      "fichier": "assets/fonts/PlusJakartaSans-Variable.ttf",
+      "graisse_defaut": "Bold"
+    },
+    "chiffres_tabulaires": {
+      "police": "display",
+      "variant": "tabular",
+      "actif": true
+    }
+  },
+  "regles_globales": {
+    "marge_safe": 0.081,
+    "contraste_cible": 4.5,
+    "contraste_plancher": 3.2,
+    "courbe_defaut": "easeOutCubic",
+    "reduction_police_px": 1,
+    "flou_carte": {
+      "rayon_px": 26,
+      "reduction_calcul": 4,
+      "actif": true
+    },
+    "vignettage_global": {
+      "actif": false,
+      "motif": "remplacé par des scrims contextuels (V5)"
+    },
+    "scrim": {
+      "alpha_max": 0.82,
+      "hauteur_marge": 0.1,
+      "flou_px": 42,
+      "mode": "local_derriere_texte",
+      "motif_plafond": "0,82 : nécessaire sur fond très clair (rue mouillée) pour tenir 4,5:1"
+    },
+    "tenue_finale_f": 900,
+    "tenue_finale_motif": "un bloc dont la fenêtre va jusqu'au dernier plan reste à pleine opacité : le packshot ne s'efface pas",
+    "contraste_marge": 0.35,
+    "contraste_motif": "le scrim vise 4,5:1 + 0,35 de marge : la mesure en tout point de la fenêtre du bloc reste au-dessus de la cible"
+  },
+  "slots": {
+    "top_left": {
+      "x": 0.081,
+      "y": 0.135,
+      "largeur_max": 0.72,
+      "hauteur_max": 0.11,
+      "ancrage": "haut_gauche"
+    },
+    "top_editorial": {
+      "x": 0.081,
+      "y": 0.085,
+      "largeur_max": 0.83,
+      "hauteur_max": 0.12,
+      "ancrage": "haut_gauche"
+    },
+    "lower_third": {
+      "x": 0.081,
+      "y": 0.705,
+      "largeur_max": 0.838,
+      "hauteur_max": 0.16,
+      "ancrage": "bas_gauche"
+    },
+    "end_packshot": {
+      "x": 0.081,
+      "y": 0.618,
+      "largeur_max": 0.838,
+      "hauteur_max": 0.3,
+      "ancrage": "bas_gauche",
+      "pile": {
+        "ordre": [
+          "GB07",
+          "GB08"
+        ],
+        "espace": 0.014,
+        "motif": "le bouton WhatsApp est empilé sous la carte packshot : aucun recouvrement"
+      }
+    }
+  },
+  "zones_protegees": {
+    "sujet": {
+      "rayon_defaut": 0.2,
+      "priorite": 1,
+      "regle": "aucun panneau opaque sur le produit"
+    },
+    "visage": {
+      "actif": true,
+      "marge": 0.03,
+      "priorite": 0
+    },
+    "mains": {
+      "actif": true,
+      "zone": {
+        "x": 0.34,
+        "y": 0.64,
+        "largeur": 0.32,
+        "hauteur": 0.22
+      },
+      "priorite": 2,
+      "motif": "mains qui servent : zone resserrée, jamais un panneau sur la main"
+    },
+    "cta": {
+      "interdit_sortie": true,
+      "opacite_min_frame_899": 1.0
+    },
+    "tolerance_recouvrement": 0.1,
+    "note_tolerance": "en dessous de 10 % de la surface du bloc, le recouvrement d'une zone protégée est accepté (sinon le texte serait repoussé sans raison)"
+  },
+  "animations": {
+    "courbes": [
+      "linear",
+      "easeOutCubic",
+      "easeOutQuint",
+      "easeOutExpo",
+      "easeInOutQuad",
+      "easeSmooth",
+      "easeOutBack"
+    ],
+    "types": {
+      "masque_revelation": {
+        "usage": "titre révélé par un masque vertical, ligne par ligne"
+      },
+      "mot_a_mot": {
+        "usage": "enseigne"
+      },
+      "rebond_prix": {
+        "courbe": "easeOutBack",
+        "amplitude": 0.12,
+        "duree_f": 14
+      },
+      "glissement": {
+        "usage": "cartes"
+      },
+      "fondu": {
+        "usage": "sorties"
+      }
+    }
+  },
+  "blocs": {
+    "GB01": {
+      "nom": "Enseigne",
+      "champ": "nom",
+      "slot": "top_left",
+      "voile": "aucun",
+      "carte": {
+        "forme": "pastille_carte",
+        "rayon": 0.042,
+        "remplissage": "ink",
+        "alpha": 0.78,
+        "contour": {
+          "couleur": "cream",
+          "alpha": 0.16,
+          "epaisseur": 1
+        },
+        "flou_verre": true,
+        "ombre": {
+          "alpha": 0.28,
+          "decalage": 0.006,
+          "flou": 18
+        }
+      },
+      "elements": [
+        {
+          "type": "accent",
+          "forme": "pastille",
+          "boite": {
+            "x": 0.016,
+            "y": 0.016,
+            "taille": 0.044
+          },
+          "couleur": "orange",
+          "animation": "fondu"
+        },
+        {
+          "type": "texte",
+          "champ": "nom",
+          "majuscules": true,
+          "boite_rel": {
+            "x": 0.075,
+            "y": 0.021,
+            "largeur": 0.86,
+            "hauteur": 0.058
+          },
+          "police": "display",
+          "graisse": "Bold",
+          "taille_px": 22,
+          "taille_min_px": 15,
+          "lignes_max": 2,
+          "couleur": "cream",
+          "alignement": "gauche",
+          "animation": "mot_a_mot",
+          "decalage_f": 4
+        }
+      ]
+    },
+    "GB02": {
+      "nom": "Produit",
+      "champ": "produit",
+      "slot": "lower_third",
+      "voile": "scrim",
+      "carte": {
+        "forme": "aucune"
+      },
+      "elements": [
+        {
+          "type": "texte",
+          "champ": "produit",
+          "majuscules": true,
+          "boite_rel": {
+            "x": 0.0,
+            "y": 0.0,
+            "largeur": 1.0,
+            "hauteur": 0.075
+          },
+          "police": "display",
+          "graisse": "ExtraBold",
+          "taille_px": 44,
+          "taille_min_px": 24,
+          "lignes_max": 2,
+          "couleur": "cream",
+          "alignement": "gauche",
+          "animation": "masque_revelation",
+          "ligne_par_ligne": true
+        },
+        {
+          "type": "filet",
+          "couleur": "orange",
+          "hauteur_px": 5,
+          "largeur": 0.3,
+          "sous_texte": true,
+          "animation": "croissance_horizontale"
+        }
+      ]
+    },
+    "GB03": {
+      "nom": "Prix",
+      "champ": "prix",
+      "slot": "lower_third",
+      "voile": "scrim",
+      "carte": {
+        "forme": "carte_verre",
+        "rayon": 0.03,
+        "remplissage": "ink",
+        "alpha": 0.72,
+        "contour": {
+          "couleur": "cream",
+          "alpha": 0.18,
+          "epaisseur": 1
+        },
+        "flou_verre": true,
+        "ombre": {
+          "alpha": 0.26,
+          "decalage": 0.005,
+          "flou": 16
+        }
+      },
+      "elements": [
+        {
+          "type": "texte",
+          "champ": "prix",
+          "suffixe": "",
+          "majuscules": true,
+          "boite_rel": {
+            "x": 0.045,
+            "y": 0.22,
+            "largeur": 0.91,
+            "hauteur": 0.56
+          },
+          "police": "display",
+          "graisse": "ExtraBold",
+          "taille_px": 46,
+          "taille_min_px": 26,
+          "lignes_max": 1,
+          "couleur": "cream",
+          "alignement": "gauche",
+          "animation": "rebond_prix",
+          "chiffres_tabulaires": true
+        },
+        {
+          "type": "accent",
+          "forme": "barre_verticale",
+          "boite": {
+            "x": 0.016,
+            "y": 0.18,
+            "largeur": 0.008,
+            "hauteur": 0.64
+          },
+          "couleur": "orange",
+          "animation": "fondu",
+          "unite": "rel_carte"
+        }
+      ]
+    },
+    "GB04": {
+      "nom": "Accroche",
+      "champ": "accroche",
+      "slot": "top_editorial",
+      "voile": "scrim",
+      "facultatif": true,
+      "repli_v1_2": "accroche vide : bloc non affiché, aucun mot inventé",
+      "carte": {
+        "forme": "aucune"
+      },
+      "elements": [
+        {
+          "type": "texte",
+          "champ": "accroche",
+          "majuscules": false,
+          "boite_rel": {
+            "x": 0.0,
+            "y": 0.0,
+            "largeur": 1.0,
+            "hauteur": 0.09
+          },
+          "police": "ui",
+          "graisse": "Bold",
+          "taille_px": 26,
+          "taille_min_px": 17,
+          "lignes_max": 2,
+          "couleur": "cream",
+          "alignement": "gauche",
+          "animation": "masque_revelation"
+        }
+      ]
+    },
+    "GB05": {
+      "nom": "Rappel enseigne (scène humaine)",
+      "champ": "nom",
+      "slot": "top_left",
+      "voile": "aucun",
+      "carte": {
+        "forme": "pastille_carte",
+        "rayon": 0.038,
+        "remplissage": "ink",
+        "alpha": 0.62,
+        "contour": {
+          "couleur": "cream",
+          "alpha": 0.12,
+          "epaisseur": 1
+        },
+        "flou_verre": true,
+        "ombre": {
+          "alpha": 0.2,
+          "decalage": 0.004,
+          "flou": 12
+        }
+      },
+      "elements": [
+        {
+          "type": "texte",
+          "champ": "nom",
+          "majuscules": true,
+          "boite_rel": {
+            "x": 0.05,
+            "y": 0.2,
+            "largeur": 0.9,
+            "hauteur": 0.6
+          },
+          "police": "ui",
+          "graisse": "Bold",
+          "taille_px": 17,
+          "taille_min_px": 12,
+          "lignes_max": 1,
+          "couleur": "cream",
+          "alignement": "gauche",
+          "animation": "fondu"
+        }
+      ]
+    },
+    "GB06": {
+      "nom": "Quartier",
+      "champ": "quartier",
+      "slot": "lower_third",
+      "voile": "scrim",
+      "carte": {
+        "forme": "aucune"
+      },
+      "elements": [
+        {
+          "type": "texte",
+          "champ": "quartier",
+          "majuscules": true,
+          "boite_rel": {
+            "x": 0.0,
+            "y": 0.0,
+            "largeur": 1.0,
+            "hauteur": 0.08
+          },
+          "police": "ui",
+          "graisse": "Bold",
+          "taille_px": 25,
+          "taille_min_px": 16,
+          "lignes_max": 2,
+          "couleur": "cream",
+          "alignement": "gauche",
+          "animation": "masque_revelation"
+        }
+      ]
+    },
+    "GB07": {
+      "nom": "Contact WhatsApp (CTA)",
+      "champ": "whatsapp",
+      "slot": "end_packshot",
+      "voile": "aucun",
+      "carte": {
+        "forme": "bouton",
+        "rayon": 0.055,
+        "remplissage": "green",
+        "alpha": 1.0,
+        "contour": {
+          "couleur": "ink",
+          "alpha": 0.18,
+          "epaisseur": 1
+        },
+        "flou_verre": false,
+        "ombre": {
+          "alpha": 0.3,
+          "decalage": 0.008,
+          "flou": 20
+        }
+      },
+      "elements": [
+        {
+          "type": "texte",
+          "champ": "whatsapp",
+          "majuscules": true,
+          "boite_rel": {
+            "x": 0.06,
+            "y": 0.22,
+            "largeur": 0.88,
+            "hauteur": 0.56
+          },
+          "police": "ui",
+          "graisse": "ExtraBold",
+          "taille_px": 24,
+          "taille_min_px": 15,
+          "lignes_max": 1,
+          "couleur": "ink",
+          "alignement": "centre",
+          "animation": "fondu",
+          "chiffres_tabulaires": true,
+          "sortie": "aucune"
+        }
+      ],
+      "contraste_motif": "texte encre sur vert de marque : 6,7:1 ; le crème sur vert ne donnait que 2,66:1"
+    },
+    "GB08": {
+      "nom": "Packshot final",
+      "champ": "nom",
+      "slot": "end_packshot",
+      "voile": "scrim",
+      "carte": {
+        "forme": "carte_verre",
+        "rayon": 0.035,
+        "remplissage": "ink",
+        "alpha": 0.8,
+        "contour": {
+          "couleur": "cream",
+          "alpha": 0.2,
+          "epaisseur": 1
+        },
+        "flou_verre": true,
+        "ombre": {
+          "alpha": 0.32,
+          "decalage": 0.008,
+          "flou": 22
+        }
+      },
+      "elements": [
+        {
+          "type": "texte",
+          "champ": "nom",
+          "majuscules": true,
+          "boite_rel": {
+            "x": 0.045,
+            "y": 0.09,
+            "largeur": 0.91,
+            "hauteur": 0.22
+          },
+          "police": "display",
+          "graisse": "ExtraBold",
+          "taille_px": 30,
+          "taille_min_px": 17,
+          "lignes_max": 2,
+          "couleur": "cream",
+          "alignement": "gauche",
+          "animation": "masque_revelation"
+        },
+        {
+          "type": "texte",
+          "champ": "produit",
+          "majuscules": true,
+          "boite_rel": {
+            "x": 0.045,
+            "y": 0.33,
+            "largeur": 0.91,
+            "hauteur": 0.18
+          },
+          "police": "ui",
+          "graisse": "Bold",
+          "taille_px": 21,
+          "taille_min_px": 13,
+          "lignes_max": 2,
+          "couleur": "cream",
+          "alignement": "gauche",
+          "animation": "fondu",
+          "opacite": 0.9
+        },
+        {
+          "type": "texte",
+          "champ": "prix",
+          "majuscules": true,
+          "boite_rel": {
+            "x": 0.045,
+            "y": 0.53,
+            "largeur": 0.91,
+            "hauteur": 0.22
+          },
+          "police": "display",
+          "graisse": "ExtraBold",
+          "taille_px": 34,
+          "taille_min_px": 20,
+          "lignes_max": 1,
+          "couleur": "orange",
+          "alignement": "gauche",
+          "animation": "rebond_prix",
+          "chiffres_tabulaires": true
+        },
+        {
+          "type": "filet",
+          "couleur": "orange",
+          "hauteur_px": 4,
+          "largeur": 0.18,
+          "sous_texte": false,
+          "position": "sous_nom",
+          "animation": "croissance_horizontale"
+        }
+      ]
+    }
+  },
+  "fenetres_blocs": {
+    "GB01": {
+      "debut_f": 2,
+      "fin_f": 104
+    },
+    "GB02": {
+      "debut_f": 52,
+      "fin_f": 179
+    },
+    "GB03": {
+      "debut_f": 196,
+      "fin_f": 412
+    },
+    "GB04": {
+      "debut_f": 236,
+      "fin_f": 406
+    },
+    "GB05": {
+      "debut_f": 452,
+      "fin_f": 618
+    },
+    "GB06": {
+      "debut_f": 646,
+      "fin_f": 852
+    },
+    "GB07": {
+      "debut_f": 796,
+      "fin_f": 900
+    },
+    "GB08": {
+      "debut_f": 812,
+      "fin_f": 900
+    }
+  },
+  "transitions": {
+    "duree_defaut_f": 8,
+    "catalogue": {
+      "TR_CUT": {
+        "nom": "Coupe franche professionnelle",
+        "duree_f": 0,
+        "shader": "aucun",
+        "usage": "changement d'axe net, sans effet"
+      },
+      "TR_FLASH_PUNCH": {
+        "nom": "Flash punch",
+        "duree_f": 6,
+        "shader": "flash_punch",
+        "parametres": {
+          "zoom_depart": 1.14,
+          "courbe": "easeOutExpo",
+          "voile_max": 0.1,
+          "flou_radial_max": 3.0
+        },
+        "usage": "geste de service, entrée de produit"
+      },
+      "TR_WARM_BURN": {
+        "nom": "Warm burn",
+        "duree_f": 8,
+        "shader": "warm_burn",
+        "parametres": {
+          "rampe_sortante": 1.35,
+          "rampe_entrante": 1.3,
+          "bloom_seuil": 0.72,
+          "voile": "screen",
+          "voile_alpha_max": 0.16,
+          "teinte": [
+            255,
+            196,
+            120
+          ],
+          "teinte_creme": [
+            255,
+            248,
+            239
+          ]
+        },
+        "usage": "passage vers l'humain"
+      },
+      "TR_WHIP_BLUR": {
+        "nom": "Whip blur",
+        "duree_f": 8,
+        "shader": "whip_blur",
+        "parametres": {
+          "axe": "horizontal",
+          "flou_max_px": 42,
+          "courbe": "easeInOutQuad"
+        },
+        "usage": "accélération entre deux mouvements"
+      },
+      "TR_PORTAL_EXPAND": {
+        "nom": "Portal expand",
+        "duree_f": 10,
+        "shader": "portal_expand",
+        "parametres": {
+          "rayon_rel": 0.11,
+          "hauteur_rel_depart": 0.34,
+          "largeur_rel_depart": 0.42,
+          "ombre_alpha": 0.35,
+          "courbe": "easeInOutQuad"
+        },
+        "usage": "entrée dans un nouveau lieu"
+      },
+      "TR_SPLIT_DIPTYCH": {
+        "nom": "Split diptych",
+        "duree_f": 12,
+        "shader": "split_diptych",
+        "parametres": {
+          "bandes": 2,
+          "mouvement_oppose": 0.06,
+          "ouverture_fin_f": 6,
+          "courbe": "easeInOutQuad"
+        },
+        "usage": "deux sous-moments réellement disponibles (S2)"
+      }
+    },
+    "selection": {
+      "regles": [
+        {
+          "coupe_f": 105,
+          "transition": "TR_FLASH_PUNCH",
+          "justification": "geste de service : punchcourt qui accompagne le mouvement"
+        },
+        {
+          "coupe_f": 180,
+          "transition": "TR_WHIP_BLUR",
+          "justification": "fin de plan en mouvement, entrée latérale du dessus"
+        },
+        {
+          "coupe_f": 300,
+          "transition": "TR_SPLIT_DIPTYCH",
+          "justification": "pivot S2 détecté : vue générale haut, détail bas, puis plein écran"
+        },
+        {
+          "coupe_f": 420,
+          "transition": "TR_WARM_BURN",
+          "justification": "passage du produit à l'humain : chaleur sans surexposition"
+        },
+        {
+          "coupe_f": 630,
+          "transition": "TR_PORTAL_EXPAND",
+          "justification": "entrée dans le lieu par une fenêtre qui s'ouvre"
+        },
+        {
+          "coupe_f": 765,
+          "transition": "TR_CUT",
+          "justification": "coupe franche sur le comptoir : la scène respire"
+        }
+      ]
+    }
+  },
+  "vitesse": {
+    "profil": {
+      "attaque": 1.36,
+      "coeur": 0.88,
+      "sortie": 1.34,
+      "part_attaque": 0.14,
+      "part_sortie": 0.2
+    },
+    "normalisation": "la courbe est divisée par sa moyenne pour consommer exactement la fenêtre source disponible",
+    "bornes": {
+      "min": 0.8,
+      "max": 1.55
+    },
+    "lip_sync_safe": {
+      "scenes": [
+        "S3"
+      ],
+      "coeur": 0.98,
+      "attaque": 1.06,
+      "sortie": 1.06,
+      "motif": "aucune accélération susceptible de rendre les lèvres artificielles"
+    },
+    "interdit_gel": {
+      "freeze_tail_f": 0,
+      "repetition_max_images_consecutives": 2
+    }
+  },
+  "camera": {
+    "plafond_zoom_numerique": 1.32,
+    "interpolation": "INTER_CUBIC",
+    "sous_pixel": true,
+    "overscan_rel": 0.06,
+    "travelling_min_px": 6,
+    "profils": {
+      "push_subtil": {
+        "k": [
+          1.0,
+          1.06
+        ],
+        "pan": [
+          0,
+          0
+        ]
+      },
+      "travelling_gauche": {
+        "k": [
+          1.09,
+          1.09
+        ],
+        "pan": [
+          0.055,
+          -0.055
+        ]
+      },
+      "travelling_droite": {
+        "k": [
+          1.09,
+          1.09
+        ],
+        "pan": [
+          -0.055,
+          0.055
+        ]
+      },
+      "travelling_haut": {
+        "k": [
+          1.07,
+          1.07
+        ],
+        "pan": [
+          0.045,
+          -0.045
+        ],
+        "axe": "vertical"
+      },
+      "descente": {
+        "k": [
+          1.06,
+          1.1
+        ],
+        "pan": [
+          0.03,
+          -0.02
+        ],
+        "axe": "vertical"
+      },
+      "fixe_ancre": {
+        "k": [
+          1.0,
+          1.03
+        ],
+        "pan": [
+          0,
+          0
+        ]
+      },
+      "punch_hook": {
+        "k": [
+          1.14,
+          1.02
+        ],
+        "pan": [
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "colorimetrie": {
+    "application": "contextuelle par scène, depuis reports/scene_analysis_T1.json",
+    "plafond_gamma": [
+      0.94,
+      1.12
+    ],
+    "plafond_balance": 0.03,
+    "saturation": 1.0
+  },
+  "qualite": {
+    "standard": {
+      "flou_verre": true,
+      "bloom": true,
+      "scrims": true,
+      "transitions": "toutes",
+      "interpolation": "INTER_CUBIC"
+    },
+    "android_leger": {
+      "flou_verre": false,
+      "bloom": false,
+      "scrims": "aplats",
+      "transitions": "toutes",
+      "interpolation": "INTER_LINEAR",
+      "note": "même géométrie, même progression commerciale, aucun bloc supprimé"
+    }
+  },
+  "rendu": {
+    "encodeur": {
+      "codec": "libx264",
+      "preset": "slow",
+      "crf": 18,
+      "pix_fmt": "yuv420p",
+      "encodages_avec_perte": 1,
+      "movflags": "+faststart"
+    },
+    "resolution_contractuelle": [
+      720,
+      1280
+    ],
+    "resolution_master": {
+      "actif": false,
+      "motif": "les sources les plus définies sont 606×1080 : un master 1080×1920 inventerait des pixels"
+    },
+    "audio": false
+  }
+}

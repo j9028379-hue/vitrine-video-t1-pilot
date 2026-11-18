@@ -1,0 +1,107 @@
+{
+  "versions": [
+    {
+      "nom": "V3.1",
+      "fichier": "output/output_T1_sans_voix_v3_1.mp4",
+      "role": "moteur historique approuvé (engine/motion_v3_1.py)",
+      "existe": true,
+      "images": 900,
+      "duree_s": 30.0,
+      "fps": 30.0,
+      "resolution": "720×1280",
+      "sha256": "33abc850265242b91fb61284e7e7649cc92b7750414212fa8f05ed4e455c2039",
+      "octets": 9291554,
+      "images_identiques": 0,
+      "suite_max_identique": 0,
+      "images_quasi_identiques": 16,
+      "suite_max_quasi_identique": 1,
+      "suite_max_par_scene": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "diff_moyenne": 3.557,
+      "derniere_seconde_diff": [
+        4.131,
+        4.197,
+        1.342,
+        1.459
+      ],
+      "mouvement_moyen_px": 0.718,
+      "lumiere_moyenne": 94.1
+    },
+    {
+      "nom": "Clôture V4",
+      "fichier": "output/output_T1_master_final.mp4",
+      "role": "moteur de clôture (engine/motion_v4.py)",
+      "existe": true,
+      "images": 900,
+      "duree_s": 30.0,
+      "fps": 30.0,
+      "resolution": "720×1280",
+      "sha256": "b202514af94fa204d8ddda769682f870d336154c36b06c3a9264ab5d6625a632",
+      "octets": 9801769,
+      "images_identiques": 0,
+      "suite_max_identique": 0,
+      "images_quasi_identiques": 161,
+      "suite_max_quasi_identique": 10,
+      "suite_max_par_scene": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "diff_moyenne": 4.761,
+      "derniere_seconde_diff": [
+        3.962,
+        4.562,
+        5.156,
+        0.358
+      ],
+      "mouvement_moyen_px": 1.5,
+      "lumiere_moyenne": 76.5
+    },
+    {
+      "nom": "V5",
+      "fichier": "output/output_T1_master_v5.mp4",
+      "role": "moteur Worldclass (engine/motion_v5.py)",
+      "existe": true,
+      "images": 900,
+      "duree_s": 30.0,
+      "fps": 30.0,
+      "resolution": "720×1280",
+      "sha256": "35d0e9f50bc2275ee2536431b23bf27e36a1804098f3aa3438da78dead79ac6e",
+      "octets": 11924150,
+      "images_identiques": 0,
+      "suite_max_identique": 0,
+      "images_quasi_identiques": 84,
+      "suite_max_quasi_identique": 3,
+      "suite_max_par_scene": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "diff_moyenne": 6.034,
+      "derniere_seconde_diff": [
+        4.726,
+        8.382,
+        8.871,
+        4.557
+      ],
+      "mouvement_moyen_px": 0.93,
+      "lumiere_moyenne": 103.2
+    }
+  ],
+  "planches": [
+    "planche_ouverture.png",
+    "planche_première_transition.png",
+    "planche_produit.png",
+    "planche_prix.png",
+    "planche_scène_humaine.png",
+    "planche_dernière_transition.png",
+    "planche_packshot_final.png"
+  ],
+  "note": "sources différentes entre versions : comparaison aux mêmes instants"
+}

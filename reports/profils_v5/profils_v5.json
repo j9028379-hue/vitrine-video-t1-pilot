@@ -1,0 +1,985 @@
+{
+  "version": "T1-V5-profils-1",
+  "profils": [
+    {
+      "profil": "demo_nominal",
+      "champs": {
+        "nom": "MAQUIS DÉMO",
+        "produit": "BURGER MAISON",
+        "prix": "2 500 FCFA",
+        "whatsapp": "+229 00 00 00 00",
+        "quartier": "ARCONVILLE — ADRESSE FICTIVE",
+        "accroche": "Préparé minute, servi chaud"
+      },
+      "video": "reports/profils_v5/master_v5_demo_nominal.mp4",
+      "plan": "reports/profils_v5/plan_v5_demo_nominal.json",
+      "sha256_video": "35d0e9f50bc2275ee2536431b23bf27e36a1804098f3aa3438da78dead79ac6e",
+      "resume_validation": {
+        "PASS": 22,
+        "FAIL": 0,
+        "PARTIAL": 0,
+        "NOT TESTED": 0
+      },
+      "contraste": {
+        "mesures": [
+          {
+            "bloc": "GB01",
+            "texte": "MAQUIS DÉMO",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.77,
+              17.77,
+              17.77
+            ],
+            "minimum": 17.77
+          },
+          {
+            "bloc": "GB02",
+            "texte": "BURGER MAISON",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              5.17,
+              5.21,
+              5.2
+            ],
+            "minimum": 5.17
+          },
+          {
+            "bloc": "GB03",
+            "texte": "2 500 FCFA",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.94,
+              17.94,
+              17.94
+            ],
+            "minimum": 17.94
+          },
+          {
+            "bloc": "GB04",
+            "texte": "Préparé minute",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              5.58,
+              6.0,
+              5.23
+            ],
+            "minimum": 5.23
+          },
+          {
+            "bloc": "GB05",
+            "texte": "MAQUIS DÉMO",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.81,
+              17.81,
+              17.81
+            ],
+            "minimum": 17.81
+          },
+          {
+            "bloc": "GB06",
+            "texte": "ARCONVILLE",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              4.91,
+              6.5,
+              6.7
+            ],
+            "minimum": 4.91
+          },
+          {
+            "bloc": "GB07",
+            "texte": "+229 00 00 00 00",
+            "couleur": [
+              12,
+              19,
+              31
+            ],
+            "contrastes": [
+              6.56,
+              6.56,
+              6.56
+            ],
+            "minimum": 6.56
+          },
+          {
+            "bloc": "GB08",
+            "texte": "MAQUIS DÉMO",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.94,
+              17.94,
+              17.94
+            ],
+            "minimum": 17.94
+          },
+          {
+            "bloc": "GB08",
+            "texte": "BURGER MAISON",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.89,
+              17.89,
+              17.89
+            ],
+            "minimum": 17.89
+          },
+          {
+            "bloc": "GB08",
+            "texte": "2 500 FCFA",
+            "couleur": [
+              245,
+              111,
+              49
+            ],
+            "contrastes": [
+              6.48,
+              6.48,
+              6.48
+            ],
+            "minimum": 6.48
+          }
+        ],
+        "minimum_essentiels": 4.91,
+        "cible": 4.5,
+        "conforme": true,
+        "sous_cible": []
+      },
+      "blocs_affiches": [
+        "GB01",
+        "GB02",
+        "GB03",
+        "GB04",
+        "GB05",
+        "GB06",
+        "GB07",
+        "GB08"
+      ],
+      "decisions_layout": [
+        {
+          "bloc": "GB08",
+          "decision": "décalé verticalement",
+          "pour": "éviter le bloc GB06",
+          "decalage_px": -128.0
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "profil": "champs_longs",
+      "champs": {
+        "nom": "CHEZ MAMAN CLARISSE",
+        "produit": "RIZ AU POULET BRAISÉ ET ALLOCO",
+        "prix": "12 500 FCFA",
+        "whatsapp": "+229 01 23 45 67 89",
+        "quartier": "Abomey-Calavi, Arconville carrefour",
+        "accroche": "Préparé chaud chaque matin avec amour"
+      },
+      "video": "reports/profils_v5/master_v5_champs_longs.mp4",
+      "plan": "reports/profils_v5/plan_v5_champs_longs.json",
+      "sha256_video": "41be8591d11871d2634b742be7c32b839bf78bf3bc2435b6e3561cabeb33e9fd",
+      "resume_validation": {
+        "PASS": 22,
+        "FAIL": 0,
+        "PARTIAL": 0,
+        "NOT TESTED": 0
+      },
+      "contraste": {
+        "mesures": [
+          {
+            "bloc": "GB01",
+            "texte": "CHEZ MAMAN CLARISSE",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.89,
+              17.89,
+              17.89
+            ],
+            "minimum": 17.89
+          },
+          {
+            "bloc": "GB02",
+            "texte": "RIZ AU POULET BRAISÉ",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              4.77,
+              4.8,
+              11.87
+            ],
+            "minimum": 4.77
+          },
+          {
+            "bloc": "GB03",
+            "texte": "12 500 FCFA",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.94,
+              17.94,
+              17.94
+            ],
+            "minimum": 17.94
+          },
+          {
+            "bloc": "GB04",
+            "texte": "Préparé chaud chaque matin avec amour",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              6.99,
+              5.8,
+              5.96
+            ],
+            "minimum": 5.8
+          },
+          {
+            "bloc": "GB05",
+            "texte": "CHEZ MAMAN CLARISSE",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.79,
+              17.89,
+              17.79
+            ],
+            "minimum": 17.79
+          },
+          {
+            "bloc": "GB06",
+            "texte": "Abomey-Calavi",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              4.45,
+              6.11,
+              6.6
+            ],
+            "minimum": 4.45
+          },
+          {
+            "bloc": "GB07",
+            "texte": "+229 01 23 45 67 89",
+            "couleur": [
+              12,
+              19,
+              31
+            ],
+            "contrastes": [
+              6.56,
+              6.56,
+              6.56
+            ],
+            "minimum": 6.56
+          },
+          {
+            "bloc": "GB08",
+            "texte": "CHEZ MAMAN CLARISSE",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.94,
+              17.94,
+              17.94
+            ],
+            "minimum": 17.94
+          },
+          {
+            "bloc": "GB08",
+            "texte": "RIZ AU POULET BRAISÉ ET ALLOCO",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.89,
+              17.89,
+              17.89
+            ],
+            "minimum": 17.89
+          },
+          {
+            "bloc": "GB08",
+            "texte": "12 500 FCFA",
+            "couleur": [
+              245,
+              111,
+              49
+            ],
+            "contrastes": [
+              6.48,
+              6.48,
+              6.48
+            ],
+            "minimum": 6.48
+          }
+        ],
+        "minimum_essentiels": 4.45,
+        "cible": 4.5,
+        "conforme": false,
+        "sous_cible": [
+          {
+            "bloc": "GB06",
+            "texte": "Abomey-Calavi",
+            "minimum": 4.45
+          }
+        ]
+      },
+      "blocs_affiches": [
+        "GB01",
+        "GB02",
+        "GB03",
+        "GB04",
+        "GB05",
+        "GB06",
+        "GB07",
+        "GB08"
+      ],
+      "decisions_layout": [
+        {
+          "bloc": "GB02",
+          "decision": "décalé verticalement",
+          "pour": "éviter le bloc GB01",
+          "decalage_px": 243.2
+        },
+        {
+          "bloc": "GB08",
+          "decision": "décalé verticalement",
+          "pour": "éviter le bloc GB06",
+          "decalage_px": -128.0
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "profil": "accroche_vide",
+      "champs": {
+        "nom": "MAQUIS DÉMO",
+        "produit": "BURGER MAISON",
+        "prix": "2 500 FCFA",
+        "whatsapp": "+229 00 00 00 00",
+        "quartier": "ARCONVILLE — ADRESSE FICTIVE",
+        "accroche": ""
+      },
+      "video": "reports/profils_v5/master_v5_accroche_vide.mp4",
+      "plan": "reports/profils_v5/plan_v5_accroche_vide.json",
+      "sha256_video": "2595e95f3d74dc414b3c86cd056fede5b4ffb420ef14fabced5a828aa9e87473",
+      "resume_validation": {
+        "PASS": 22,
+        "FAIL": 0,
+        "PARTIAL": 0,
+        "NOT TESTED": 0
+      },
+      "contraste": {
+        "mesures": [
+          {
+            "bloc": "GB01",
+            "texte": "MAQUIS DÉMO",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.77,
+              17.77,
+              17.77
+            ],
+            "minimum": 17.77
+          },
+          {
+            "bloc": "GB02",
+            "texte": "BURGER MAISON",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              5.17,
+              5.21,
+              5.2
+            ],
+            "minimum": 5.17
+          },
+          {
+            "bloc": "GB03",
+            "texte": "2 500 FCFA",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.94,
+              17.94,
+              17.94
+            ],
+            "minimum": 17.94
+          },
+          {
+            "bloc": "GB05",
+            "texte": "MAQUIS DÉMO",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.81,
+              17.81,
+              17.81
+            ],
+            "minimum": 17.81
+          },
+          {
+            "bloc": "GB06",
+            "texte": "ARCONVILLE",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              4.91,
+              6.5,
+              6.7
+            ],
+            "minimum": 4.91
+          },
+          {
+            "bloc": "GB07",
+            "texte": "+229 00 00 00 00",
+            "couleur": [
+              12,
+              19,
+              31
+            ],
+            "contrastes": [
+              6.56,
+              6.56,
+              6.56
+            ],
+            "minimum": 6.56
+          },
+          {
+            "bloc": "GB08",
+            "texte": "MAQUIS DÉMO",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.94,
+              17.94,
+              17.94
+            ],
+            "minimum": 17.94
+          },
+          {
+            "bloc": "GB08",
+            "texte": "BURGER MAISON",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.89,
+              17.89,
+              17.89
+            ],
+            "minimum": 17.89
+          },
+          {
+            "bloc": "GB08",
+            "texte": "2 500 FCFA",
+            "couleur": [
+              245,
+              111,
+              49
+            ],
+            "contrastes": [
+              6.48,
+              6.48,
+              6.48
+            ],
+            "minimum": 6.48
+          }
+        ],
+        "minimum_essentiels": 4.91,
+        "cible": 4.5,
+        "conforme": true,
+        "sous_cible": []
+      },
+      "blocs_affiches": [
+        "GB01",
+        "GB02",
+        "GB03",
+        "GB05",
+        "GB06",
+        "GB07",
+        "GB08"
+      ],
+      "decisions_layout": [
+        {
+          "bloc": "GB04",
+          "decision": "non affiché",
+          "motif": "accroche vide : bloc non affiché, aucun mot inventé"
+        },
+        {
+          "bloc": "GB08",
+          "decision": "décalé verticalement",
+          "pour": "éviter le bloc GB06",
+          "decalage_px": -128.0
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "profil": "accroche_un_mot",
+      "champs": {
+        "nom": "MAQUIS DÉMO",
+        "produit": "BURGER",
+        "prix": "2 500 FCFA",
+        "whatsapp": "+229 00 00 00 00",
+        "quartier": "ARCONVILLE",
+        "accroche": "Chaud"
+      },
+      "video": "reports/profils_v5/master_v5_accroche_un_mot.mp4",
+      "plan": "reports/profils_v5/plan_v5_accroche_un_mot.json",
+      "sha256_video": "43b1d3659e35d7203339c5da7581874ad348d4414004331160f6d444f892925e",
+      "resume_validation": {
+        "PASS": 22,
+        "FAIL": 0,
+        "PARTIAL": 0,
+        "NOT TESTED": 0
+      },
+      "contraste": {
+        "mesures": [
+          {
+            "bloc": "GB01",
+            "texte": "MAQUIS DÉMO",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.77,
+              17.77,
+              17.77
+            ],
+            "minimum": 17.77
+          },
+          {
+            "bloc": "GB02",
+            "texte": "BURGER",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              5.3,
+              5.18,
+              4.52
+            ],
+            "minimum": 4.52
+          },
+          {
+            "bloc": "GB03",
+            "texte": "2 500 FCFA",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.94,
+              17.94,
+              17.94
+            ],
+            "minimum": 17.94
+          },
+          {
+            "bloc": "GB04",
+            "texte": "Chaud",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              5.86,
+              5.35,
+              5.47
+            ],
+            "minimum": 5.35
+          },
+          {
+            "bloc": "GB05",
+            "texte": "MAQUIS DÉMO",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.81,
+              17.81,
+              17.81
+            ],
+            "minimum": 17.81
+          },
+          {
+            "bloc": "GB06",
+            "texte": "ARCONVILLE",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              4.99,
+              5.87,
+              5.16
+            ],
+            "minimum": 4.99
+          },
+          {
+            "bloc": "GB07",
+            "texte": "+229 00 00 00 00",
+            "couleur": [
+              12,
+              19,
+              31
+            ],
+            "contrastes": [
+              6.49,
+              6.49,
+              6.49
+            ],
+            "minimum": 6.49
+          },
+          {
+            "bloc": "GB08",
+            "texte": "MAQUIS DÉMO",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.92,
+              17.92,
+              17.92
+            ],
+            "minimum": 17.92
+          },
+          {
+            "bloc": "GB08",
+            "texte": "BURGER",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.87,
+              17.87,
+              17.87
+            ],
+            "minimum": 17.87
+          },
+          {
+            "bloc": "GB08",
+            "texte": "2 500 FCFA",
+            "couleur": [
+              245,
+              111,
+              49
+            ],
+            "contrastes": [
+              6.48,
+              6.48,
+              6.48
+            ],
+            "minimum": 6.48
+          }
+        ],
+        "minimum_essentiels": 4.52,
+        "cible": 4.5,
+        "conforme": true,
+        "sous_cible": []
+      },
+      "blocs_affiches": [
+        "GB01",
+        "GB02",
+        "GB03",
+        "GB04",
+        "GB05",
+        "GB06",
+        "GB07",
+        "GB08"
+      ],
+      "decisions_layout": [],
+      "fixture": null
+    },
+    {
+      "profil": "fond_blanc",
+      "champs": {
+        "nom": "MAQUIS DÉMO",
+        "produit": "BURGER MAISON",
+        "prix": "2 500 FCFA",
+        "whatsapp": "+229 00 00 00 00",
+        "quartier": "ARCONVILLE — ADRESSE FICTIVE",
+        "accroche": "Préparé minute, servi chaud"
+      },
+      "video": "reports/profils_v5/master_v5_fond_blanc.mp4",
+      "plan": "reports/profils_v5/plan_v5_fond_blanc.json",
+      "sha256_video": "331cfe83b632a16f760dfed7a52ccfe973aefc13e2b905fa77e679058b1a408f",
+      "resume_validation": {
+        "PASS": 17,
+        "FAIL": 0,
+        "PARTIAL": 0,
+        "NOT TESTED": 5
+      },
+      "contraste": {
+        "mesures": [
+          {
+            "bloc": "GB01",
+            "texte": "MAQUIS DÉMO",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.77,
+              17.77,
+              17.77
+            ],
+            "minimum": 17.77
+          },
+          {
+            "bloc": "GB02",
+            "texte": "BURGER MAISON",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              5.62,
+              5.62,
+              5.62
+            ],
+            "minimum": 5.62
+          },
+          {
+            "bloc": "GB03",
+            "texte": "2 500 FCFA",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.94,
+              17.94,
+              17.94
+            ],
+            "minimum": 17.94
+          },
+          {
+            "bloc": "GB04",
+            "texte": "Préparé minute",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              5.62,
+              5.62,
+              5.62
+            ],
+            "minimum": 5.62
+          },
+          {
+            "bloc": "GB05",
+            "texte": "MAQUIS DÉMO",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.89,
+              17.89,
+              17.89
+            ],
+            "minimum": 17.89
+          },
+          {
+            "bloc": "GB06",
+            "texte": "ARCONVILLE",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              5.62,
+              5.62,
+              5.62
+            ],
+            "minimum": 5.62
+          },
+          {
+            "bloc": "GB07",
+            "texte": "+229 00 00 00 00",
+            "couleur": [
+              12,
+              19,
+              31
+            ],
+            "contrastes": [
+              6.56,
+              6.56,
+              6.56
+            ],
+            "minimum": 6.56
+          },
+          {
+            "bloc": "GB08",
+            "texte": "MAQUIS DÉMO",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.92,
+              17.92,
+              17.92
+            ],
+            "minimum": 17.92
+          },
+          {
+            "bloc": "GB08",
+            "texte": "BURGER MAISON",
+            "couleur": [
+              255,
+              248,
+              239
+            ],
+            "contrastes": [
+              17.87,
+              17.89,
+              17.89
+            ],
+            "minimum": 17.87
+          },
+          {
+            "bloc": "GB08",
+            "texte": "2 500 FCFA",
+            "couleur": [
+              245,
+              111,
+              49
+            ],
+            "contrastes": [
+              6.48,
+              6.48,
+              6.48
+            ],
+            "minimum": 6.48
+          }
+        ],
+        "minimum_essentiels": 5.62,
+        "cible": 4.5,
+        "conforme": true,
+        "sous_cible": []
+      },
+      "blocs_affiches": [
+        "GB01",
+        "GB02",
+        "GB03",
+        "GB04",
+        "GB05",
+        "GB06",
+        "GB07",
+        "GB08"
+      ],
+      "decisions_layout": [
+        {
+          "bloc": "GB08",
+          "decision": "décalé verticalement",
+          "pour": "éviter le bloc GB06",
+          "decalage_px": -128.0
+        }
+      ],
+      "fixture": "fond entièrement blanc synthétique (ffmpeg color=white) : fixture de validation graphique, jamais présentée comme un rush commerçant"
+    }
+  ],
+  "note": "trois premiers profils sur rushs réels ; le profil 5 sur fixture blanche déclarée"
+}

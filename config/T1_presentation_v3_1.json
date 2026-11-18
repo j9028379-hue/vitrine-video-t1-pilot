@@ -1,0 +1,807 @@
+{
+  "version": "1.0",
+  "nom": "Configuration de présentation T1 — gabarit « Plat du jour »",
+  "role": "Source unique de la géométrie, de la typographie et des règles d'animation des 8 blocs graphiques. Consommée par engine/presentation.py ; aucune coordonnée de bloc n'est écrite dans le code Python.",
+  "source_da": "V3.1 approuvée (output/output_T1_sans_voix_v3_1.mp4) — reprise à l'identique",
+  "canevas": {
+    "largeur": 720,
+    "hauteur": 1280
+  },
+  "palette": {
+    "ink": [
+      12,
+      19,
+      31
+    ],
+    "cream": [
+      255,
+      248,
+      239
+    ],
+    "orange": [
+      245,
+      111,
+      49
+    ],
+    "green": [
+      31,
+      177,
+      111
+    ]
+  },
+  "polices": {
+    "display": {
+      "fichier": "assets/fonts/Montserrat-Variable.ttf",
+      "graisse_defaut": "ExtraBold"
+    },
+    "ui": {
+      "fichier": "assets/fonts/PlusJakartaSans-Variable.ttf",
+      "graisse_defaut": "Bold"
+    }
+  },
+  "regles_globales": {
+    "marge_safe_px": 58,
+    "fondu_sortie_defaut_f": 8,
+    "courbe_defaut": "easeOutCubic",
+    "reduction_police_px": 1,
+    "interdiction_sortie_safe": true
+  },
+  "blocs": {
+    "GB01": {
+      "nom": "Enseigne, mot à mot",
+      "composition": "enseigne_mot_a_mot",
+      "champ": "nom",
+      "elements": [
+        {
+          "type": "carte",
+          "boite": {
+            "x": 58,
+            "y": 172,
+            "largeur": 264,
+            "hauteur": 54
+          },
+          "forme": {
+            "rayon": 24,
+            "remplissage": "ink",
+            "alpha": 212,
+            "contour": null
+          },
+          "entree": {
+            "type": "glissement_horizontal",
+            "depuis_px": -38,
+            "duree_f": 8,
+            "courbe": "easeOutCubic"
+          },
+          "sortie": {
+            "type": "fondu",
+            "duree_f": 8,
+            "courbe": "easeSmooth"
+          }
+        },
+        {
+          "type": "accent",
+          "forme": "pastille",
+          "boite": {
+            "x": 11,
+            "y": 10,
+            "largeur": 32,
+            "hauteur": 32
+          },
+          "couleur": "orange",
+          "entree": {
+            "type": "fondu",
+            "duree_f": 8,
+            "courbe": "easeOutCubic"
+          }
+        },
+        {
+          "type": "texte",
+          "source": "champ",
+          "majuscules": true,
+          "boite": {
+            "x": 55,
+            "y": 14,
+            "largeur": 204,
+            "hauteur": 26
+          },
+          "typographie": {
+            "police": "display",
+            "graisse": "Bold",
+            "taille": 21,
+            "taille_min": 18
+          },
+          "couleur": "cream",
+          "alignement": "gauche",
+          "entree": {
+            "type": "mot_a_mot",
+            "decalage_f": 5,
+            "duree_f": 8,
+            "courbe": "easeOutExpo",
+            "montee_px": 8
+          }
+        }
+      ]
+    },
+    "GB02": {
+      "nom": "Bandeau produit (titre empilé de la DA V3.1)",
+      "composition": "bandeau_produit",
+      "champ": "produit",
+      "elements": [
+        {
+          "type": "texte_empile",
+          "source": "champ",
+          "decoupage": "mots",
+          "majuscules": true,
+          "x": 58,
+          "y": 260,
+          "interligne_px": 82,
+          "typographie": {
+            "police": "display",
+            "graisse": "ExtraBold",
+            "taille": 78,
+            "taille_min": 67
+          },
+          "regle_taille": {
+            "si_longueur_superieure_ou_egale": 11,
+            "taille_min_px": 67
+          },
+          "couleur": "cream",
+          "contour": {
+            "couleur": "ink",
+            "alpha": 90,
+            "px": 1
+          },
+          "entree": {
+            "type": "mot_a_mot",
+            "decalage_f": 7,
+            "duree_f": 12,
+            "courbe": "easeOutCubic",
+            "montee_px": 26
+          }
+        },
+        {
+          "type": "filet",
+          "x": 61,
+          "y": 443,
+          "longueur": 424,
+          "epaisseur": 6,
+          "rayon": 3,
+          "couleur": "orange",
+          "entree": {
+            "type": "revelation_ligne",
+            "debut_f": 13,
+            "duree_f": 14,
+            "courbe": "easeOutCubic"
+          }
+        },
+        {
+          "type": "texte",
+          "texte_fixe": "PLAT DU JOUR",
+          "boite": {
+            "x": 61,
+            "y": 472,
+            "largeur": 424,
+            "hauteur": 30
+          },
+          "typographie": {
+            "police": "ui",
+            "graisse": "Bold",
+            "taille": 23,
+            "taille_min": 20
+          },
+          "couleur": "cream",
+          "alignement": "gauche",
+          "entree": {
+            "type": "fondu",
+            "debut_f": 18,
+            "duree_f": 10,
+            "courbe": "easeOutCubic",
+            "montee_px": 10
+          },
+          "sortie": {
+            "type": "fondu",
+            "duree_f": 10,
+            "courbe": "easeSmooth"
+          }
+        }
+      ]
+    },
+    "GB03": {
+      "nom": "Lockup produit + prix (scène 2)",
+      "composition": "hero_lockup",
+      "champ": "produit+prix",
+      "elements": [
+        {
+          "type": "carte",
+          "boite": {
+            "centre_x": 336,
+            "centre_y": 620,
+            "largeur": 520,
+            "hauteur": 268
+          },
+          "forme": {
+            "rayon": 28,
+            "remplissage": "ink",
+            "alpha": 224,
+            "contour": {
+              "couleur": "cream",
+              "alpha": 60,
+              "px": 1
+            }
+          },
+          "entree": {
+            "type": "echelle",
+            "depuis": 0.94,
+            "vers": 1.015,
+            "duree_f": 10,
+            "courbe": "easeOutCubic",
+            "stabilisation_f": 9
+          },
+          "sortie": {
+            "type": "fondu",
+            "duree_f": 8,
+            "courbe": "easeSmooth"
+          }
+        },
+        {
+          "type": "accent",
+          "forme": "barre_laterale",
+          "boite": {
+            "x": 24,
+            "y": 26,
+            "largeur": 6,
+            "hauteur": -26
+          },
+          "couleur": "orange",
+          "rayon": 3
+        },
+        {
+          "type": "texte",
+          "source": "produit",
+          "majuscules": true,
+          "boite": {
+            "x": 52,
+            "y": 26,
+            "largeur": 450,
+            "hauteur": 34
+          },
+          "typographie": {
+            "police": "ui",
+            "graisse": "Bold",
+            "taille": 27,
+            "taille_min": 22
+          },
+          "couleur": "cream@240",
+          "alignement": "gauche",
+          "entree": {
+            "type": "fondu",
+            "duree_f": 6,
+            "courbe": "easeOutCubic"
+          }
+        },
+        {
+          "type": "filet",
+          "x": 52,
+          "y": 74,
+          "longueur": "largeur_carte-92",
+          "epaisseur": 2,
+          "couleur": "orange",
+          "alpha": 190,
+          "entree": {
+            "type": "revelation_ligne",
+            "duree_f": 10,
+            "courbe": "easeOutCubic"
+          }
+        },
+        {
+          "type": "texte",
+          "source": "prix",
+          "majuscules": true,
+          "boite": {
+            "x": 52,
+            "y": 96,
+            "largeur": 450,
+            "hauteur": 90
+          },
+          "typographie": {
+            "police": "display",
+            "graisse": "ExtraBold",
+            "taille": 78,
+            "taille_min": 52
+          },
+          "couleur": "cream",
+          "alignement": "gauche",
+          "entree": {
+            "type": "fondu",
+            "debut_f": 4,
+            "duree_f": 7,
+            "courbe": "easeOutCubic"
+          }
+        }
+      ]
+    },
+    "GB04": {
+      "nom": "Accroche en segments (scène 2)",
+      "composition": "accroche_segments",
+      "champ": "accroche",
+      "elements": [
+        {
+          "type": "carte",
+          "boite": {
+            "x": 52,
+            "y": 205,
+            "largeur": 534,
+            "hauteur": 346
+          },
+          "forme": {
+            "rayon": 24,
+            "remplissage": "ink",
+            "alpha": 198,
+            "contour": null
+          },
+          "entree": {
+            "type": "glissement_vertical",
+            "depuis_px": 14,
+            "duree_f": 8,
+            "courbe": "easeOutExpo"
+          },
+          "sortie": {
+            "type": "fondu",
+            "duree_f": 10,
+            "courbe": "easeSmooth"
+          }
+        },
+        {
+          "type": "accent",
+          "forme": "barre_verticale",
+          "boite": {
+            "x": 18,
+            "y": 34,
+            "largeur": 5,
+            "hauteur": 277
+          },
+          "couleur": "orange",
+          "rayon": 2
+        },
+        {
+          "type": "texte_segments",
+          "source": "champ",
+          "separateur": "·",
+          "segments_max": 3,
+          "x": 53,
+          "premier_y": 33,
+          "interligne_px": 86,
+          "typographie": {
+            "police": "display",
+            "graisse": "ExtraBold",
+            "taille": 62,
+            "taille_min": 36
+          },
+          "dernier_segment": {
+            "police": "display",
+            "graisse": "Bold",
+            "taille": 43,
+            "taille_min": 36
+          },
+          "couleur": "cream",
+          "largeur_max_px": 430,
+          "entree": {
+            "type": "segment_a_segment",
+            "decalage_f": 4,
+            "duree_f": 9,
+            "courbe": "easeOutExpo",
+            "montee_px": 10
+          }
+        }
+      ]
+    },
+    "GB05": {
+      "nom": "Rappel d'enseigne (scène 3)",
+      "composition": "enseigne_rappel",
+      "champ": "nom",
+      "elements": [
+        {
+          "type": "carte",
+          "boite": {
+            "x": 58,
+            "y": 168,
+            "largeur": 264,
+            "hauteur": 54
+          },
+          "forme": {
+            "rayon": 24,
+            "remplissage": "ink",
+            "alpha": 210,
+            "contour": null
+          },
+          "entree": {
+            "type": "glissement_horizontal",
+            "depuis_px": -26,
+            "duree_f": 8,
+            "courbe": "easeOutCubic"
+          },
+          "sortie": {
+            "type": "fondu",
+            "duree_f": 8,
+            "courbe": "easeSmooth"
+          }
+        },
+        {
+          "type": "accent",
+          "forme": "pastille",
+          "boite": {
+            "x": 11,
+            "y": 10,
+            "largeur": 32,
+            "hauteur": 32
+          },
+          "couleur": "orange"
+        },
+        {
+          "type": "texte",
+          "source": "champ",
+          "majuscules": true,
+          "boite": {
+            "x": 55,
+            "y": 14,
+            "largeur": 204,
+            "hauteur": 26
+          },
+          "typographie": {
+            "police": "display",
+            "graisse": "Bold",
+            "taille": 21,
+            "taille_min": 17
+          },
+          "couleur": "cream",
+          "alignement": "gauche",
+          "entree": {
+            "type": "fondu",
+            "duree_f": 8,
+            "courbe": "easeOutCubic"
+          }
+        }
+      ]
+    },
+    "GB06": {
+      "nom": "Prix plein écran (scène 3)",
+      "composition": "prix_plein",
+      "champ": "prix",
+      "elements": [
+        {
+          "type": "carte",
+          "boite": {
+            "centre_x": 336,
+            "centre_y": 572,
+            "largeur": 448,
+            "hauteur": 162
+          },
+          "forme": {
+            "rayon": 26,
+            "remplissage": "ink",
+            "alpha": 238,
+            "contour": {
+              "couleur": "cream",
+              "alpha": 70,
+              "px": 1
+            }
+          },
+          "entree": {
+            "type": "echelle",
+            "depuis": 0.94,
+            "vers": 1.015,
+            "duree_f": 10,
+            "courbe": "easeOutCubic"
+          },
+          "sortie": {
+            "type": "fondu",
+            "duree_f": 8,
+            "courbe": "easeSmooth"
+          }
+        },
+        {
+          "type": "accent",
+          "forme": "barre_laterale",
+          "boite": {
+            "x": 22,
+            "y": 24,
+            "largeur": 6,
+            "hauteur": -24
+          },
+          "couleur": "orange",
+          "rayon": 3
+        },
+        {
+          "type": "texte",
+          "source": "produit",
+          "majuscules": true,
+          "boite": {
+            "x": 48,
+            "y": 26,
+            "largeur": 386,
+            "hauteur": 30
+          },
+          "typographie": {
+            "police": "ui",
+            "graisse": "Bold",
+            "taille": 25,
+            "taille_min": 20
+          },
+          "couleur": "cream@240",
+          "alignement": "gauche",
+          "entree": {
+            "type": "fondu",
+            "duree_f": 6,
+            "courbe": "easeOutCubic"
+          }
+        },
+        {
+          "type": "filet",
+          "x": 48,
+          "y": 68,
+          "longueur": "largeur_carte-84",
+          "epaisseur": 2,
+          "couleur": "orange",
+          "alpha": 185,
+          "entree": {
+            "type": "revelation_ligne",
+            "duree_f": 10,
+            "courbe": "easeOutCubic"
+          }
+        },
+        {
+          "type": "texte",
+          "source": "prix",
+          "majuscules": true,
+          "boite": {
+            "x": 48,
+            "y": 84,
+            "largeur": 394,
+            "hauteur": 74
+          },
+          "typographie": {
+            "police": "display",
+            "graisse": "ExtraBold",
+            "taille": 64,
+            "taille_min": 46
+          },
+          "couleur": "cream",
+          "alignement": "gauche",
+          "entree": {
+            "type": "fondu",
+            "debut_f": 3,
+            "duree_f": 7,
+            "courbe": "easeOutCubic"
+          }
+        }
+      ]
+    },
+    "GB07": {
+      "nom": "Adresse et épingle (scène 4)",
+      "composition": "adresse",
+      "champ": "quartier",
+      "elements": [
+        {
+          "type": "carte",
+          "boite": {
+            "x": 70,
+            "y": 613,
+            "largeur": 532,
+            "hauteur": 134
+          },
+          "forme": {
+            "rayon": 26,
+            "remplissage": "ink",
+            "alpha": 226,
+            "contour": {
+              "couleur": "cream",
+              "alpha": 58,
+              "px": 1
+            }
+          },
+          "entree": {
+            "type": "glissement_vertical",
+            "depuis_px": 16,
+            "duree_f": 9,
+            "courbe": "easeOutExpo"
+          },
+          "sortie": {
+            "type": "fondu",
+            "duree_f": 9,
+            "courbe": "easeSmooth"
+          }
+        },
+        {
+          "type": "accent",
+          "forme": "epingle",
+          "centre": {
+            "x": 110,
+            "y": 656
+          },
+          "couleur": "orange",
+          "couleur_centre": "cream",
+          "dimensions": {
+            "rayon_tete": 11,
+            "pointe_px": 20
+          }
+        },
+        {
+          "type": "texte",
+          "source": "quartier",
+          "partie": 0,
+          "separateur": "—",
+          "majuscules": true,
+          "boite": {
+            "x": 78,
+            "y": 25,
+            "largeur": 420,
+            "hauteur": 34
+          },
+          "typographie": {
+            "police": "display",
+            "graisse": "Bold",
+            "taille": 28,
+            "taille_min": 22
+          },
+          "couleur": "cream",
+          "alignement": "gauche",
+          "entree": {
+            "type": "fondu",
+            "duree_f": 7,
+            "courbe": "easeOutCubic"
+          }
+        },
+        {
+          "type": "texte",
+          "source": "quartier",
+          "partie": 1,
+          "separateur": "—",
+          "majuscules": true,
+          "boite": {
+            "x": 78,
+            "y": 73,
+            "largeur": 420,
+            "hauteur": 28
+          },
+          "typographie": {
+            "police": "ui",
+            "graisse": "Medium",
+            "taille": 22,
+            "taille_min": 18
+          },
+          "couleur": "cream@230",
+          "alignement": "gauche",
+          "entree": {
+            "type": "fondu",
+            "debut_f": 5,
+            "duree_f": 7,
+            "courbe": "easeOutCubic"
+          }
+        }
+      ]
+    },
+    "GB08": {
+      "nom": "Bouton d'action WhatsApp (scène 4)",
+      "composition": "cta_whatsapp",
+      "champ": "whatsapp",
+      "elements": [
+        {
+          "type": "carte",
+          "boite": {
+            "x": 76,
+            "y": 777,
+            "largeur": 526,
+            "hauteur": 130
+          },
+          "forme": {
+            "rayon": 28,
+            "remplissage": "ink",
+            "alpha": 232,
+            "contour": {
+              "couleur": "cream",
+              "alpha": 65,
+              "px": 1
+            }
+          },
+          "entree": {
+            "type": "echelle",
+            "depuis": 0.985,
+            "vers": 1.0,
+            "duree_f": 10,
+            "courbe": "easeOutCubic",
+            "glissement_vertical_px": 13
+          },
+          "sortie": {
+            "type": "fondu",
+            "duree_f": 6,
+            "courbe": "easeSmooth"
+          }
+        },
+        {
+          "type": "accent",
+          "forme": "barre_laterale",
+          "boite": {
+            "x": 22,
+            "y": 22,
+            "largeur": 5,
+            "hauteur": -22
+          },
+          "couleur": "green",
+          "rayon": 2
+        },
+        {
+          "type": "texte",
+          "texte_fixe": "COMMANDER SUR",
+          "boite": {
+            "centre_x_depuis_carte": 8,
+            "y": 30,
+            "largeur": 460,
+            "hauteur": 26
+          },
+          "typographie": {
+            "police": "ui",
+            "graisse": "Bold",
+            "taille": 21,
+            "taille_min": 18
+          },
+          "couleur": "cream@245",
+          "alignement": "centre",
+          "entree": {
+            "type": "fondu",
+            "duree_f": 7,
+            "courbe": "easeOutCubic"
+          }
+        },
+        {
+          "type": "texte",
+          "texte_fixe": "WHATSAPP",
+          "boite": {
+            "centre_x_depuis_carte": 8,
+            "y": 60,
+            "largeur": 460,
+            "hauteur": 38
+          },
+          "typographie": {
+            "police": "display",
+            "graisse": "ExtraBold",
+            "taille": 31,
+            "taille_min": 24
+          },
+          "couleur": "green",
+          "alignement": "centre",
+          "entree": {
+            "type": "fondu",
+            "debut_f": 2,
+            "duree_f": 7,
+            "courbe": "easeOutCubic"
+          }
+        },
+        {
+          "type": "texte",
+          "source": "champ",
+          "majuscules": true,
+          "boite": {
+            "centre_x_depuis_carte": 8,
+            "y": 104,
+            "largeur": 460,
+            "hauteur": 24
+          },
+          "typographie": {
+            "police": "ui",
+            "graisse": "Bold",
+            "taille": 20,
+            "taille_min": 16
+          },
+          "couleur": "cream@245",
+          "alignement": "centre",
+          "entree": {
+            "type": "fondu",
+            "debut_f": 4,
+            "duree_f": 7,
+            "courbe": "easeOutCubic"
+          }
+        }
+      ]
+    }
+  }
+}

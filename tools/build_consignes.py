@@ -21,6 +21,9 @@ def main() -> None:
     scenes = data["scenes"]
     mention = data["mention_voix_commune"]
     bouton = data["bouton_principal"]
+    # titre du bloc vocal : identique partout (interface, fiche imprimable, capture-guide)
+    titre_voix = data.get("titre_bloc_voix", "TU PEUX PARLER PENDANT QUE TU FILMES")
+    assert mention.strip(), "la mention vocale commune ne peut pas être vide"
 
     # --- 1. données JS pour la maquette -------------------------------------------------
     js = (
@@ -60,7 +63,7 @@ def main() -> None:
         lignes += [f"- {x}" for x in s["a_eviter"]]
         lignes += [
             "",
-            f"**Enregistrer sa voix** : « {mention} »",
+            f"**{titre_voix}** : « {mention} »",
             "",
             f"**Exemple de phrase (facultatif)** : « {s['exemple']} »",
             "",
@@ -69,6 +72,10 @@ def main() -> None:
         ]
     (ROOT / "capture-guide" / "consignes_4_scenes.md").write_text("\n".join(lignes), encoding="utf-8")
 
+    attendu = "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit."
+    genere = (ROOT / "capture-guide" / "consignes_4_scenes.md").read_text(encoding="utf-8")
+    assert attendu in genere, "la mention vocale V6.2 a été altérée dans la fiche générée"
+    assert "Enregistrer sa voix" not in genere, "ancien titre vocal encore présent"
     print("simulation/consignes.js et capture-guide/consignes_4_scenes.md régénérés "
           f"({len(scenes)} scènes, mention commune de {len(mention)} caractères).")
 

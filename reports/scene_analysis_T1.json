@@ -1,0 +1,332 @@
+{
+  "version": "T1-V5-scene-analyzer-1",
+  "principe": "mesurer d'abord, décider ensuite ; aucune image inventée, aucun aléatoire",
+  "miniature": {
+    "largeur": 180,
+    "hauteur": 320
+  },
+  "scenes": [
+    {
+      "scene": "S1",
+      "fichier": "S1.mp4",
+      "sha256": "a1d6b72f121a9a60",
+      "cadence_native": 30.0,
+      "largeur": 606,
+      "hauteur": 1080,
+      "images": 180,
+      "duree_s": 6.0,
+      "stabilite": {
+        "score": 0.5201,
+        "glissement_moyen_px": 1.781,
+        "glissement_ecart_type_px": 1.729,
+        "irregularite": 0.5332,
+        "lecture": "mouvement régulier (panoramique assumé)",
+        "images_tremblement": 0,
+        "glissement_median_px": 1.384,
+        "ecart_absolu_median_px": 1.271
+      },
+      "nettete": {
+        "mediane": 1838.76,
+        "p75": 2261.9,
+        "max": 2578.78,
+        "meilleure_image_hook": 44,
+        "nettete_hook": 1150.66
+      },
+      "fenetres_exploitables": [
+        {
+          "debut_f": 60,
+          "fin_f": 179
+        }
+      ],
+      "pivot": {
+        "pivot_detecte": false,
+        "methode": "gradient_structurel",
+        "applicable": false,
+        "note": "une seule intention de cadrage attendue dans cette scène : pas de pivot recherché"
+      },
+      "ancre_sujet": {
+        "x": 0.4801,
+        "y": 0.4944,
+        "methode": "barycentre de l'énergie de gradient",
+        "dispersion": 0.2789
+      },
+      "colorimetrie": {
+        "luminance_p10": 5.0,
+        "luminance_p50": 30.75,
+        "luminance_p90": 108.5,
+        "balance_rouge_bleu": 6.705,
+        "balance_vert": 1.17,
+        "gains_gray_world": {
+          "rouge": 0.97,
+          "vert": 0.97,
+          "bleu": 1.03
+        },
+        "dynamique": 103.5,
+        "correction_proposee": {
+          "gamma": 1.12,
+          "rechauffement": -0.03,
+          "saturation": 1.0,
+          "plafond_zoom_numerique": 1.32
+        }
+      },
+      "incertitudes": [
+        "pivot non détecté",
+        "ancre calculée par saillance"
+      ],
+      "performance": {
+        "analyse_s": 1.106,
+        "miniature": "180x320"
+      }
+    },
+    {
+      "scene": "S2",
+      "fichier": "S2.mp4",
+      "sha256": "427a6ad61a98ab7c",
+      "cadence_native": 30.0,
+      "largeur": 606,
+      "hauteur": 1080,
+      "images": 240,
+      "duree_s": 8.0,
+      "stabilite": {
+        "score": 0.9602,
+        "glissement_moyen_px": 0.581,
+        "glissement_ecart_type_px": 5.243,
+        "irregularite": 0.0443,
+        "lecture": "mouvement régulier (panoramique assumé)",
+        "images_tremblement": 1,
+        "glissement_median_px": 2.337,
+        "ecart_absolu_median_px": 0.046
+      },
+      "nettete": {
+        "mediane": 2604.14,
+        "p75": 3609.03,
+        "max": 5058.36,
+        "meilleure_image_hook": 31,
+        "nettete_hook": 2428.09
+      },
+      "fenetres_exploitables": [
+        {
+          "debut_f": 0,
+          "fin_f": 119
+        },
+        {
+          "debut_f": 135,
+          "fin_f": 239
+        }
+      ],
+      "pivot": {
+        "pivot_detecte": true,
+        "applicable": true,
+        "methode": "maximum du gradient structurel entre 25 % et 75 % de la prise",
+        "frame": 120,
+        "ratio_pic_mediane": 17.257,
+        "pic": 40.327,
+        "seuil_ratio": 2.6
+      },
+      "ancre_sujet": {
+        "x": 0.4919,
+        "y": 0.5219,
+        "methode": "barycentre de l'énergie de gradient",
+        "dispersion": 0.2775
+      },
+      "colorimetrie": {
+        "luminance_p10": 34.0,
+        "luminance_p50": 78.0,
+        "luminance_p90": 145.0,
+        "balance_rouge_bleu": 8.261,
+        "balance_vert": 1.061,
+        "gains_gray_world": {
+          "rouge": 0.97,
+          "vert": 0.97,
+          "bleu": 1.03
+        },
+        "dynamique": 111.0,
+        "correction_proposee": {
+          "gamma": 1.0333,
+          "rechauffement": -0.03,
+          "saturation": 1.0,
+          "plafond_zoom_numerique": 1.32
+        }
+      },
+      "incertitudes": [
+        "pivot détecté",
+        "ancre calculée par saillance"
+      ],
+      "performance": {
+        "analyse_s": 1.292,
+        "miniature": "180x320"
+      }
+    },
+    {
+      "scene": "S3",
+      "fichier": "S3.mp4",
+      "sha256": "284ec87f1f8f3536",
+      "cadence_native": 30.0,
+      "largeur": 404,
+      "hauteur": 720,
+      "images": 210,
+      "duree_s": 7.0,
+      "stabilite": {
+        "score": 0.9073,
+        "glissement_moyen_px": 0.404,
+        "glissement_ecart_type_px": 0.36,
+        "irregularite": 0.103,
+        "lecture": "mouvement régulier (panoramique assumé)",
+        "images_tremblement": 0,
+        "glissement_median_px": 0.304,
+        "ecart_absolu_median_px": 0.134
+      },
+      "nettete": {
+        "mediane": 6018.58,
+        "p75": 6452.16,
+        "max": 7734.9,
+        "meilleure_image_hook": 20,
+        "nettete_hook": 6396.27
+      },
+      "fenetres_exploitables": [
+        {
+          "debut_f": 0,
+          "fin_f": 149
+        },
+        {
+          "debut_f": 165,
+          "fin_f": 209
+        }
+      ],
+      "pivot": {
+        "pivot_detecte": false,
+        "methode": "gradient_structurel",
+        "applicable": false,
+        "note": "une seule intention de cadrage attendue dans cette scène : pas de pivot recherché"
+      },
+      "ancre_sujet": {
+        "x": 0.4254,
+        "y": 0.4042,
+        "methode": "haar_frontalface",
+        "dispersion": 0.2733,
+        "visage": {
+          "x": 0.0597,
+          "y": 0.2,
+          "w": 0.7313,
+          "h": 0.4083,
+          "methode": "haar_frontalface",
+          "confiance": "moyenne"
+        },
+        "zone_sure_visage": {
+          "y_haut": 0.18,
+          "y_bas": 0.6683,
+          "x_gauche": 0.0197,
+          "x_droite": 0.831
+        }
+      },
+      "colorimetrie": {
+        "luminance_p10": 40.0,
+        "luminance_p50": 148.0,
+        "luminance_p90": 237.0,
+        "balance_rouge_bleu": 1.28,
+        "balance_vert": 0.955,
+        "gains_gray_world": {
+          "rouge": 0.97,
+          "vert": 1.03,
+          "bleu": 1.03
+        },
+        "dynamique": 197.0,
+        "correction_proposee": {
+          "gamma": 1.0,
+          "rechauffement": -0.03,
+          "saturation": 1.0,
+          "plafond_zoom_numerique": 1.32
+        }
+      },
+      "incertitudes": [
+        "pivot non détecté",
+        "visage détecté"
+      ],
+      "performance": {
+        "analyse_s": 0.902,
+        "miniature": "180x320"
+      }
+    },
+    {
+      "scene": "S4",
+      "fichier": "S4.mp4",
+      "sha256": "d45d0b330ffa3b71",
+      "cadence_native": 30.0,
+      "largeur": 606,
+      "hauteur": 1080,
+      "images": 271,
+      "duree_s": 9.033,
+      "stabilite": {
+        "score": 0.8168,
+        "glissement_moyen_px": 0.792,
+        "glissement_ecart_type_px": 5.893,
+        "irregularite": 0.2036,
+        "lecture": "mouvement régulier (panoramique assumé)",
+        "images_tremblement": 1,
+        "glissement_median_px": 27.16,
+        "ecart_absolu_median_px": 0.287
+      },
+      "nettete": {
+        "mediane": 15675.61,
+        "p75": 17141.27,
+        "max": 18213.35,
+        "meilleure_image_hook": 2,
+        "nettete_hook": 18213.35
+      },
+      "fenetres_exploitables": [
+        {
+          "debut_f": 0,
+          "fin_f": 134
+        }
+      ],
+      "pivot": {
+        "pivot_detecte": true,
+        "applicable": true,
+        "methode": "maximum du gradient structurel entre 25 % et 75 % de la prise",
+        "frame": 138,
+        "ratio_pic_mediane": 2.797,
+        "pic": 75.969,
+        "seuil_ratio": 2.6
+      },
+      "ancre_sujet": {
+        "x": 0.4729,
+        "y": 0.4782,
+        "methode": "barycentre de l'énergie de gradient",
+        "dispersion": 0.2892
+      },
+      "colorimetrie": {
+        "luminance_p10": 56.0,
+        "luminance_p50": 103.0,
+        "luminance_p90": 209.0,
+        "balance_rouge_bleu": 1.326,
+        "balance_vert": 1.001,
+        "gains_gray_world": {
+          "rouge": 0.97,
+          "vert": 0.9994,
+          "bleu": 1.03
+        },
+        "dynamique": 153.0,
+        "correction_proposee": {
+          "gamma": 1.0,
+          "rechauffement": -0.03,
+          "saturation": 1.0,
+          "plafond_zoom_numerique": 1.32
+        }
+      },
+      "incertitudes": [
+        "pivot détecté",
+        "ancre calculée par saillance"
+      ],
+      "performance": {
+        "analyse_s": 1.535,
+        "miniature": "180x320"
+      }
+    }
+  ],
+  "performance": {
+    "total_s": 4.856,
+    "moyenne_par_scene_s": 1.214,
+    "objectif_0_5_s": "non atteint en Python pur sur 150 images par scène",
+    "miniature": "180x320"
+  }
+}

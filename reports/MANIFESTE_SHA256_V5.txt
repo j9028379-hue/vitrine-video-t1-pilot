@@ -1,0 +1,43 @@
+# Manifeste SHA-256 — livraison V5
+
+| Fichier | Octets | SHA-256 |
+|---|---|---|
+| `output/output_T1_master_v5.mp4` | 11924150 | `35d0e9f50bc2275ee2536431b23bf27e36a1804098f3aa3438da78dead79ac6e` |
+| `reports/montage_plan_v5_demo.json` | 50162 | `2a6d3caacb43a4b001f3ac5af4414112338d9f8ccea5590df364d0589be69b0a` |
+| `reports/scene_analysis_T1.json` | 8680 | `eb443125dbe812466cdb71906bd2bbc986f64df756b73c44e22a1ad52d2f5fdc` |
+| `reports/execution_manifest_v5.json` | 17739 | `9e61083c2312c5e505c810b114718f32e497aa165fd7a2f9f8692306fdc3fab2` |
+| `reports/worldclass_validation_T1.json` | 54713 | `9ac225693971a9c38314b03541161ea0c60e883b742652f4ec7c8d1b79437a9d` |
+| `reports/T1_WORLDCLASS_V5_LIVRAISON.md` | 10996 | `b1ad92b4d9abdc9711cb9073426f706e079762ba76df847425b048ab9bd04b4b` |
+| `reports/comparison_V3_1_V4_V5.md` | 4235 | `7e79d1a808c28ce87e0dc0bf1ba9510b6a8b3c44cb14708585e2fed05c7121f3` |
+| `reports/PORTABILITY_ANDROID_T1.md` | 9349 | `6033e34bdc01bf25477d112f5f07c2aa36455742c676f55e1d1d5da32a2eed17` |
+| `reports/profils_v5/profils_v5.json` | 22209 | `e4379bf60bda37a57ab5070d31663b72ae3ee2b15073e8d25b531fb9c7dfe4ef` |
+| `config/T1_worldclass_v5.json` | 20879 | `b6acda92a802f87fbf6fc5eb77643838f0adb0157ada8bb34063b531d7e9b267` |
+| `config/T1_presentation_v3_1.json` | 19527 | `0c7292d290df65e7190bcfa8b28d71fdf49a03c474b069874672e48e0497fc28` |
+| `engine/scene_analyzer.py` | 18429 | `9bcf48b4f15e588d08bbe4f79f1965fbe8878feb125e8547a79181a690daa266` |
+| `engine/montage_plan_builder.py` | 17212 | `9d4f1a01c579c39c64b6fa3610dcfb571b28ebe431fa4372572d018effd757af` |
+| `engine/adaptive_graphics_v5.py` | 43938 | `324165e24d9cc2bbfffb42896612cdcb341adffca8cf3ce0edf4ffdef43ccded` |
+| `engine/food_cinema_transitions.py` | 13841 | `cb9ec848f1020039033e5758237d563fb9512c79e7853f4aee059714d415af80` |
+| `engine/motion_v5.py` | 14183 | `8c12305bd49a927671266d2f99c5f1ffa576bbaa4ba8d77009d0c3f1e78860fd` |
+| `tools/verify_worldclass.py` | 16451 | `c14f7358d6dc169303722b5437802676d91e4788f86d54e179ccdc4082ba970f` |
+| `tools/build_profiles_v5.py` | 7733 | `d1ea8ed2f971ccde040862006eef49331f08f0f5c5c4e2919f49bbb9332c354d` |
+| `tools/comparison_v3_v4_v5.py` | 12420 | `47da3c4f7effc665d90bdf0fc9710c0b34f18d46674eed74ba27bd0ba6653a6b` |
+| `capture-guide/consignes_4_scenes.md` | 3298 | `2f2ec705d0729c044b2a0878fd4b8416c9ce58099bb65ac7a533ee4797d3071f` |
+| `capture-guide/consignes_T1.json` | 3189 | `190886a63bc7f17e5ebc2059faea95fb280f8c39a350ea0dfc39b33e12842d2b` |
+| `simulation/index.html` | 31948 | `d224efbd2b035a4dadb956b0c62ea9cd2e5e2d54fbd6a56309d37c2080ed1c0a` |
+| `reports/profils_v5/master_v5_accroche_un_mot.mp4` | 11843099 | `43b1d3659e35d7203339c5da7581874ad348d4414004331160f6d444f892925e` |
+| `reports/profils_v5/master_v5_accroche_vide.mp4` | 11864354 | `2595e95f3d74dc414b3c86cd056fede5b4ffb420ef14fabced5a828aa9e87473` |
+| `reports/profils_v5/master_v5_champs_longs.mp4` | 11968587 | `41be8591d11871d2634b742be7c32b839bf78bf3bc2435b6e3561cabeb33e9fd` |
+| `reports/profils_v5/master_v5_demo_nominal.mp4` | 11924150 | `35d0e9f50bc2275ee2536431b23bf27e36a1804098f3aa3438da78dead79ac6e` |
+| `reports/profils_v5/master_v5_fond_blanc.mp4` | 203384 | `331cfe83b632a16f760dfed7a52ccfe973aefc13e2b905fa77e679058b1a408f` |
+| `reports/profils_v5/planche_v5_accroche_un_mot.png` | 1083733 | `d128c55d991ae2a5265d054e80c340cfded74749d13432746af9b0a6e00c32b2` |
+| `reports/profils_v5/planche_v5_accroche_vide.png` | 1086602 | `5a7a6a245e27cc4542c4f8edfeccad9ff98f87861206de64011749a2035ed323` |
+| `reports/profils_v5/planche_v5_champs_longs.png` | 1090944 | `6447f40c703f68268e60eb271b4b8d4811b609c8b3e153a7e440185e184c9719` |
+| `reports/profils_v5/planche_v5_demo_nominal.png` | 1087673 | `82ff0e1ae002c8866d840cb14e03772a29f00f2a8d38c770c75b6cb57054a7a5` |
+| `reports/profils_v5/planche_v5_fond_blanc.png` | 95756 | `56c5c97de8358d46a8cc71c246ac614a03854771632733ecec7b86789e90c527` |
+| `reports/comparaison_V3_V4_V5/planche_dernière_transition.png` | 475634 | `7e278f237e7589dd9aa731983778f7004a22adbb00d4977a97b7965465ad0e76` |
+| `reports/comparaison_V3_V4_V5/planche_ouverture.png` | 382014 | `2c14c643ce1318deb7b05acdac3384f923557485afa88ffa2a00e0e27cf4e7d7` |
+| `reports/comparaison_V3_V4_V5/planche_packshot_final.png` | 471848 | `c50013cbca525946f8bd42315c0d90730e77be665607745d5057c6b4f7c98b45` |
+| `reports/comparaison_V3_V4_V5/planche_première_transition.png` | 429263 | `d81631284c35b0535a24eaa99c4809325ae15a669217da90f43e3747e6e797fc` |
+| `reports/comparaison_V3_V4_V5/planche_prix.png` | 476746 | `d9e951f2d577f777dffc73cb5e647d81da1fcdbc7ea452036bb9fce9c4bf52b3` |
+| `reports/comparaison_V3_V4_V5/planche_produit.png` | 435075 | `03395a09881b9d39bdf3a9266bba460952cfaaabc947df2348fd1077f1c897c6` |
+| `reports/comparaison_V3_V4_V5/planche_scène_humaine.png` | 492351 | `2a43901d6848ae8a1bad05cbf6ccfa0e8c63b89f3296abb5846e9c7c58dc4e26` |
