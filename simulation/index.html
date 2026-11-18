@@ -2,362 +2,362 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VITRINE VIDÉO — T1 Restaurants et Maquis — maquette de parcours</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VITRINE VIDÉO — T1 Restaurants et Maquis — fiche de tournage</title>
 <style>
   @font-face{font-family:"Jakarta";src:url("../assets/fonts/PlusJakartaSans-Variable.ttf") format("truetype");font-weight:200 800;font-display:swap}
   @font-face{font-family:"Montserrat";src:url("../assets/fonts/Montserrat-Variable.ttf") format("truetype");font-weight:100 900;font-display:swap}
   :root{
-    --bg:#080c16; --deep:#0f172a; --card:rgba(15,23,42,.92); --accent:#F2621B;
-    --cream:#FFF3EA; --ok:#3ddc97; --no:#ff6b6b; --line:rgba(255,255,255,.14);
+    --bg:#05080f; --deep:#0f172a; --sheet:rgba(12,19,32,.95); --accent:#F2621B;
+    --cream:#FFF3EA; --ok:#3ddc97; --no:#ff6b6b; --line:rgba(255,255,255,.13);
+    --ink:#ffffff; --muted:#a9b8cc;
     --sans:"Jakarta",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
     --display:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
   }
-  *{box-sizing:border-box}
-  body{margin:0;background:radial-gradient(1200px 700px at 50% -10%,#152238 0%,var(--bg) 60%);color:#fff;font-family:var(--sans);min-height:100vh}
-  a{color:var(--cream)}
-  header.top{max-width:1180px;margin:0 auto;padding:26px 22px 6px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
-  .brand{font-family:var(--display);font-weight:800;letter-spacing:.14em;font-size:15px;text-transform:uppercase}
-  .brand span{color:var(--accent)}
-  .tag{font-size:12px;letter-spacing:.09em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:7px 13px;color:#cfd8e6}
-  .tag.warn{border-color:rgba(242,98,27,.55);color:#ffd7c2;background:rgba(242,98,27,.10)}
-  main{max-width:1180px;margin:0 auto;padding:12px 22px 60px;display:grid;grid-template-columns:minmax(360px,430px) 1fr;gap:38px;align-items:start}
-  @media (max-width:980px){main{grid-template-columns:1fr}}
-  /* ---------- téléphone ---------- */
-  .phone{position:relative;width:100%;max-width:430px;aspect-ratio:430/880;border-radius:46px;background:linear-gradient(180deg,#1b2437,#0a0e18);
-    padding:11px;box-shadow:0 40px 90px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.09)}
-  .screen{position:relative;width:100%;height:100%;border-radius:36px;overflow:hidden;background:#000;isolation:isolate}
-  video#cam, video#replay, video#ad{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
-  video#cam{filter:saturate(1.05)}
-  .dim{position:absolute;inset:0;background:rgba(3,7,18,.40);transition:background .25s ease}
-  .dim.off{background:rgba(3,7,18,0)}
-  .notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:96px;height:22px;border-radius:999px;background:#05070d;z-index:40}
-  /* ---------- carte de consigne (état A) ---------- */
-  .card{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100% - 44px);max-width:340px;
-    background:var(--card);border:1px solid rgba(255,255,255,.10);border-radius:24px;padding:20px 18px 16px;z-index:30;
-    box-shadow:0 24px 60px rgba(0,0,0,.55);backdrop-filter:blur(2px);transition:opacity .12s linear,transform .12s linear}
-  .card.hidden{opacity:0;transform:translate(-50%,-50%) scale(.98);pointer-events:none}
-  .k{font-size:11px;font-weight:700;letter-spacing:.10em;color:var(--accent);text-transform:uppercase;margin:0 0 4px}
-  .k b{color:#fff;font-weight:800}
-  h1.dur{font-family:var(--display);font-weight:800;font-size:30px;line-height:1.05;margin:0 0 10px;letter-spacing:-.01em}
-  p.consigne{font-size:14.5px;font-weight:600;line-height:1.42;margin:0 0 13px;color:#fff}
-  .lists{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 12px}
-  .lists ul{margin:0;padding:0;list-style:none;font-size:10.6px;line-height:1.32;color:#dbe4f0}
-  .lists h3{margin:0 0 5px;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:#93a4bd;font-weight:700}
-  .lists li{display:flex;gap:5px;margin-bottom:4px}
-  .lists li::before{content:"";display:none}
-  .yes li::before{content:"✓";color:var(--ok);font-weight:800}
-  .nope li::before{content:"✕";color:var(--no);font-weight:800}
-  .mic{display:flex;gap:8px;align-items:flex-start;font-size:10.8px;line-height:1.34;color:rgba(255,243,234,.88);margin:0 0 9px}
-  .mic svg{flex:0 0 14px;margin-top:1px}
-  p.exemple{margin:0 0 13px;font-size:10.6px;font-style:italic;line-height:1.34;color:rgba(255,255,255,.70)}
-  .go{width:100%;height:52px;border:0;border-radius:999px;background:var(--accent);color:#fff;font-family:var(--display);
-    font-weight:800;font-size:16px;letter-spacing:.10em;text-transform:uppercase;cursor:pointer;box-shadow:0 12px 28px rgba(242,98,27,.35)}
-  .go:active{transform:translateY(1px)}
-  /* ---------- état B ---------- */
-  .rec{position:absolute;inset:0;z-index:25;pointer-events:none;opacity:0;transition:opacity .1s linear}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+
+  /* ---------- cadre applicatif ---------- */
+  #app{position:relative;margin:0 auto;width:100%;max-width:440px;height:100dvh;overflow:hidden;background:#000}
+  @media (min-width:520px){
+    body{background:radial-gradient(900px 600px at 50% 0%,#131f33 0%,#05080f 65%)}
+    #app{height:min(100dvh,940px);margin-top:max(0px,calc((100dvh - 940px)/2));border-radius:28px;
+         box-shadow:0 30px 90px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08)}
+  }
+  video#cam,video#replay,video#ad{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
+  video#replay{display:none}
+  .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,7,18,.55) 0%,rgba(3,7,18,.15) 30%,rgba(3,7,18,.6) 100%);
+         transition:opacity .18s ease}
+  .scrim.off{opacity:0}
+
+  /* ---------- fiche de tournage (état A) ---------- */
+  .sheet{position:absolute;left:0;right:0;bottom:0;z-index:20;max-height:86%;display:flex;flex-direction:column;
+         background:var(--sheet);border-radius:26px 26px 0 0;border-top:1px solid rgba(255,255,255,.10);
+         box-shadow:0 -18px 50px rgba(0,0,0,.45);transition:transform .2s ease,opacity .15s ease;backdrop-filter:blur(10px)}
+  .sheet.hidden{transform:translateY(102%);opacity:0;pointer-events:none}
+  .grabber{width:42px;height:4px;border-radius:999px;background:rgba(255,255,255,.28);margin:10px auto 4px;flex:0 0 auto}
+
+  .sheet-head{padding:4px 20px 10px;flex:0 0 auto}
+  .head-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .scene-counter{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .dots{display:flex;gap:6px}
+  .dots i{width:22px;height:4px;border-radius:999px;background:rgba(255,255,255,.18)}
+  .dots i.on{background:var(--accent)}
+  .duration{display:inline-flex;align-items:center;gap:8px;margin:12px 0 6px;padding:7px 14px;border-radius:999px;
+            background:rgba(242,98,27,.14);border:1px solid rgba(242,98,27,.45);font-size:18px;font-weight:800;color:#ffd9c5}
+  .duration svg{flex:0 0 auto}
+  .scene-title{font-family:var(--display);font-weight:800;font-size:23px;line-height:1.15;letter-spacing:-.01em;margin:4px 0 0}
+
+  .sheet-body{overflow-y:auto;overscroll-behavior:contain;padding:14px 20px 6px;flex:1 1 auto}
+  .consigne{font-size:17.5px;line-height:1.5;font-weight:600;color:#fff;margin:0 0 18px;text-wrap:pretty}
+
+  .block{margin:0 0 16px;padding:14px 15px;border-radius:16px;background:rgba(255,255,255,.045);border:1px solid var(--line)}
+  .block-title{display:flex;align-items:center;gap:8px;margin:0 0 9px;font-size:12.5px;font-weight:800;
+               letter-spacing:.13em;text-transform:uppercase;color:#93a4bd}
+  .block.film .block-title{color:#9ff0c8}
+  .block.avoid .block-title{color:#ffb4b4}
+  .block ul{list-style:none;margin:0;padding:0}
+  .block li{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.42;padding:5px 0;color:#eaf1fa}
+  .block li .mark{flex:0 0 18px;font-weight:800;line-height:1.42}
+  .block.film .mark{color:var(--ok)}
+  .block.avoid .mark{color:var(--no)}
+
+  .voice{display:flex;gap:11px;align-items:flex-start;margin:0 0 16px;padding:14px 15px;border-radius:16px;
+         background:rgba(242,98,27,.08);border:1px solid rgba(242,98,27,.28)}
+  .voice svg{flex:0 0 20px;margin-top:2px}
+  .voice .voice-title{font-size:12.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#ffc4a3;margin:0 0 5px}
+  .voice p{margin:0;font-size:14.5px;line-height:1.45;color:#ffe6d6}
+
+  .exemple{margin:0 0 18px;padding:14px 15px;border-radius:16px;border:1px dashed rgba(255,255,255,.22);background:rgba(255,255,255,.03)}
+  .exemple .exemple-title{font-size:12.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#93a4bd;margin:0 0 7px}
+  .exemple p{margin:0;font-size:14.5px;line-height:1.5;font-style:italic;color:rgba(255,255,255,.82)}
+
+  .sheet-foot{position:relative;flex:0 0 auto;padding:12px 20px calc(16px + env(safe-area-inset-bottom));
+              border-top:1px solid rgba(255,255,255,.09);background:rgba(12,19,32,.98)}
+  .sheet-foot::before{content:"";position:absolute;left:0;right:0;top:-30px;height:30px;pointer-events:none;
+              background:linear-gradient(180deg,rgba(12,19,32,0),rgba(12,19,32,.98))}
+  .cta{width:100%;height:56px;border:0;border-radius:999px;background:var(--accent);color:#fff;font-family:var(--display);
+       font-weight:800;font-size:17px;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;
+       box-shadow:0 14px 30px rgba(242,98,27,.32)}
+  .cta:active{transform:translateY(1px)}
+
+  /* ---------- état B : enregistrement ---------- */
+  .rec{position:absolute;inset:0;z-index:22;pointer-events:none;opacity:0;transition:opacity .12s linear}
   .rec.on{opacity:1}
-  .chrono{position:absolute;top:26px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;
-    background:rgba(6,10,20,.55);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:8px 15px;
-    font-weight:700;font-size:15px;letter-spacing:.06em;font-variant-numeric:tabular-nums}
-  .chrono .dot{width:9px;height:9px;border-radius:50%;background:#ff4d4d;box-shadow:0 0 0 4px rgba(255,77,77,.22)}
-  .chrono.hot{color:var(--accent);border-color:rgba(242,98,27,.6)}
+  .chrono{position:absolute;top:calc(18px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);
+          display:flex;align-items:center;gap:9px;padding:9px 16px;border-radius:999px;
+          background:rgba(6,10,20,.6);border:1px solid rgba(255,255,255,.18);
+          font-weight:800;font-size:17px;letter-spacing:.05em;font-variant-numeric:tabular-nums}
+  .chrono .dot{width:10px;height:10px;border-radius:50%;background:#ff4d4d;box-shadow:0 0 0 4px rgba(255,77,77,.22)}
+  .chrono.hot{color:var(--accent);border-color:rgba(242,98,27,.62)}
   .chrono.hot .dot{background:var(--accent);box-shadow:0 0 0 4px rgba(242,98,27,.25);animation:pulse .5s infinite alternate}
   @keyframes pulse{to{opacity:.35}}
-  .bar{position:absolute;left:6%;right:6%;bottom:28px;height:5px;box-shadow:0 1px 6px rgba(0,0,0,.5);border-radius:999px;background:rgba(255,255,255,.22);overflow:hidden}
+  .bar{position:absolute;left:7%;right:7%;bottom:calc(26px + env(safe-area-inset-bottom));height:5px;border-radius:999px;
+       background:rgba(255,255,255,.22);overflow:hidden;box-shadow:0 1px 8px rgba(0,0,0,.5)}
   .bar i{display:block;height:100%;width:0;background:#fff;border-radius:999px;transition:background .2s linear}
   .bar.hot i{background:var(--accent)}
-  /* ---------- état C ---------- */
-  .review{position:absolute;inset:0;z-index:30;display:none;flex-direction:column;justify-content:flex-end;padding:20px;gap:10px;
-    background:linear-gradient(180deg,rgba(3,7,18,0) 45%,rgba(3,7,18,.86) 100%)}
+  .rec-hint{position:absolute;left:0;right:0;bottom:calc(44px + env(safe-area-inset-bottom));text-align:center;
+            font-size:12.5px;letter-spacing:.10em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+
+  /* ---------- état C : validation ---------- */
+  .review{position:absolute;inset:0;z-index:24;display:none;flex-direction:column;justify-content:flex-end;
+          padding:18px 18px calc(18px + env(safe-area-inset-bottom));gap:12px;
+          background:linear-gradient(180deg,rgba(3,7,18,0) 40%,rgba(3,7,18,.9) 100%)}
   .review.on{display:flex}
-  .review .lbl{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;letter-spacing:.10em;
-    text-transform:uppercase;color:#cbd6e6;margin-bottom:auto;padding-top:34px}
-  .review .lbl .prise{background:rgba(6,10,20,.6);border:1px solid var(--line);border-radius:999px;padding:5px 10px}
-  .review .btns{display:grid;grid-template-columns:1fr 1.25fr;gap:10px}
-  .btn{height:48px;border-radius:999px;font-family:var(--display);font-weight:800;font-size:12.5px;letter-spacing:.10em;
-    text-transform:uppercase;cursor:pointer;border:2px solid #fff;background:transparent;color:#fff}
-  .btn.primary{background:var(--accent);border-color:var(--accent);box-shadow:0 12px 26px rgba(242,98,27,.34)}
-  .sound{font-size:10.5px;color:#9fb0c8;display:flex;align-items:center;gap:6px}
-  /* ---------- écrans de progression / fin ---------- */
-  .panel{position:absolute;inset:0;z-index:35;display:none;flex-direction:column;justify-content:center;padding:26px 20px;
-    background:radial-gradient(600px 400px at 50% 0%,#16233a 0%,#070b14 65%);text-align:center}
+  .review .lbl{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto;
+               font-size:12px;letter-spacing:.10em;text-transform:uppercase;color:#cbd6e6}
+  .review .prise{padding:6px 12px;border-radius:999px;background:rgba(6,10,20,.62);border:1px solid var(--line)}
+  .review .sound{display:flex;align-items:center;gap:7px;font-size:13px;color:#b9c7da}
+  .btns{display:grid;grid-template-columns:1fr 1.2fr;gap:10px}
+  .btn{height:54px;border-radius:999px;font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.07em;
+       text-transform:uppercase;cursor:pointer;border:2px solid #fff;background:transparent;color:#fff}
+  .btn.primary{background:var(--accent);border-color:var(--accent);box-shadow:0 14px 30px rgba(242,98,27,.30)}
+
+  /* ---------- montage / publicité / fin ---------- */
+  .panel{position:absolute;inset:0;z-index:26;display:none;flex-direction:column;justify-content:center;
+         padding:26px 22px;background:radial-gradient(600px 420px at 50% 0%,#16233a 0%,#070b14 65%);text-align:center}
   .panel.on{display:flex}
-  .panel h2{font-family:var(--display);font-weight:800;font-size:22px;margin:0 0 6px;letter-spacing:-.01em}
-  .panel p{font-size:12.5px;line-height:1.45;color:#c9d5e6;margin:0 0 18px}
-  .steps{display:grid;gap:8px;margin:0 0 18px;text-align:left}
-  .step{display:flex;gap:10px;align-items:center;font-size:12px;color:#8fa1ba}
-  .step .tick{width:20px;height:20px;border-radius:50%;border:2px solid #2b3a52;display:grid;place-items:center;font-size:11px}
+  .panel h2{font-family:var(--display);font-weight:800;font-size:24px;margin:0 0 8px}
+  .panel p{font-size:15px;line-height:1.5;color:#c9d5e6;margin:0 0 20px}
+  .steps{display:grid;gap:10px;margin:0 0 20px;text-align:left}
+  .step{display:flex;gap:11px;align-items:center;font-size:14px;color:#8fa1ba}
+  .step .tick{width:22px;height:22px;border-radius:50%;border:2px solid #2b3a52;display:grid;place-items:center;font-size:12px}
   .step.done{color:#fff}
   .step.done .tick{border-color:var(--ok);color:var(--ok)}
   .step.now .tick{border-color:var(--accent);color:var(--accent)}
-  .meter{height:5px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden;margin:0 0 16px}
+  .meter{height:6px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden;margin:0 0 18px}
   .meter i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s linear}
-  .adwrap{position:absolute;inset:0;z-index:36;display:none}
+  .adwrap{position:absolute;inset:0;z-index:28;display:none;background:#000}
   .adwrap.on{display:block}
-  .adwrap .badge{position:absolute;left:12px;top:12px;z-index:3;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
-    background:rgba(6,10,20,.66);border:1px solid var(--line);border-radius:999px;padding:5px 9px;color:#cfdae9}
-  .adwrap .close{position:absolute;right:12px;top:12px;z-index:3;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);
-    background:rgba(6,10,20,.7);color:#fff;font-size:15px;cursor:pointer}
-  /* ---------- colonne texte ---------- */
-  .side h2{font-family:var(--display);font-size:19px;font-weight:800;margin:0 0 8px}
-  .side p.lead{font-size:13.5px;line-height:1.6;color:#c2cfe0;margin:0 0 16px}
-  .side .warnbox{border:1px solid rgba(242,98,27,.45);background:rgba(242,98,27,.09);border-radius:14px;padding:12px 14px;
-    font-size:12px;line-height:1.5;color:#ffdcc9;margin:0 0 18px}
-  .rail{display:grid;gap:9px;margin:0 0 20px}
-  .rail button{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;text-align:left;cursor:pointer;
-    background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:12px;padding:10px 12px;color:#e6edf7;font-family:var(--sans);font-size:12.5px}
-  .rail button.cur{border-color:var(--accent);background:rgba(242,98,27,.12)}
-  .rail .n{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:#1a2536;font-size:11px;font-weight:800}
-  .rail .d{font-size:11px;color:#93a4bd}
-  .ctl{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
-  .ctl button{background:#16203a;border:1px solid var(--line);color:#dce6f3;border-radius:10px;padding:9px 12px;font-size:11.5px;cursor:pointer;font-family:var(--sans)}
-  .ctl button:hover{border-color:rgba(242,98,27,.6)}
-  table.meta{width:100%;border-collapse:collapse;font-size:12px;color:#c3d0e2}
-  table.meta td{padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top}
-  table.meta td:first-child{color:#8ea1bb;width:44%}
-  code{background:rgba(255,255,255,.07);border-radius:5px;padding:1px 5px;font-size:11.5px}
-  footer{max-width:1180px;margin:0 auto;padding:0 22px 40px;font-size:11.5px;color:#7e8fa8;line-height:1.6}
+  .adwrap .badge{position:absolute;left:12px;top:calc(12px + env(safe-area-inset-top));z-index:3;padding:6px 10px;border-radius:999px;
+                 background:rgba(6,10,20,.7);border:1px solid var(--line);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#cfdae9}
+  .adwrap .close{position:absolute;right:12px;top:calc(12px + env(safe-area-inset-top));z-index:3;width:34px;height:34px;border-radius:50%;
+                 border:1px solid var(--line);background:rgba(6,10,20,.72);color:#fff;font-size:16px;cursor:pointer}
+
+  /* ---------- barre de démonstration (hors application) ---------- */
+  .demo-fab{position:absolute;top:calc(12px + env(safe-area-inset-top));left:12px;z-index:40;width:38px;height:38px;border-radius:50%;
+            border:1px solid rgba(255,255,255,.22);background:rgba(6,10,20,.7);color:#fff;font-size:10px;font-weight:800;
+            letter-spacing:.04em;cursor:pointer;opacity:.5;display:grid;place-items:center}
+  body.capture .demo-fab{display:none}
+  .demo-fab:hover{opacity:1}
+  .demo-nav{position:absolute;inset:auto 0 0 0;z-index:41;display:none;padding:14px 16px calc(18px + env(safe-area-inset-bottom));
+            background:rgba(6,10,20,.97);border-top:1px solid var(--line)}
+  .demo-nav.on{display:block}
+  .demo-nav h4{margin:0 0 8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8ea1bb}
+  .demo-nav .row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+  .demo-nav button{flex:1 1 auto;min-width:84px;padding:9px 10px;border-radius:10px;border:1px solid var(--line);
+                   background:#131e33;color:#dce6f3;font-size:12px;font-family:var(--sans);cursor:pointer}
+  .demo-nav button.on{border-color:var(--accent);background:rgba(242,98,27,.18)}
+
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 </style>
 </head>
 <body>
-<header class="top">
-  <div class="brand">VITRINE <span>VIDÉO</span> · T1 « Restaurants et Maquis »</div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <span class="tag">4 prises : 6 · 8 · 7 · 9 s</span>
-    <span class="tag warn">Maquette de parcours — ne valide pas l'application Android</span>
-  </div>
-</header>
+<main id="app">
+  <video id="cam" playsinline muted preload="auto"></video>
+  <video id="replay" playsinline preload="auto"></video>
+  <div class="scrim" id="scrim"></div>
 
-<main>
-  <div>
-    <div class="phone">
-      <div class="screen" id="screen">
-        <div class="notch"></div>
-        <video id="cam" playsinline muted preload="auto"></video>
-        <video id="replay" playsinline preload="auto" style="display:none"></video>
-        <div class="dim" id="dim"></div>
+  <!-- ÉTAT A — fiche de tournage -->
+  <section class="sheet" id="sheet" aria-label="Fiche de tournage">
+    <div class="grabber"></div>
+    <header class="sheet-head">
+      <div class="head-row">
+        <div class="scene-counter" id="sceneCounter">SCÈNE 1/4</div>
+        <div class="dots" id="dots"><i class="on"></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="duration" id="duration">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F2621B" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span id="durationLabel">6 secondes</span>
+      </div>
+      <h1 class="scene-title" id="sceneTitle">LE PLAT</h1>
+    </header>
 
-        <!-- ÉTAT A — carte de consigne (vidéo en aperçu, carte par-dessus) -->
-        <div class="card" id="card">
-          <p class="k" id="cardK">SCÈNE 1/4 — <b>LE PLAT</b></p>
-          <h1 class="dur" id="cardDur">6 secondes</h1>
-          <p class="consigne" id="cardConsigne"></p>
-          <div class="lists">
-            <div class="yes"><h3>À montrer</h3><ul id="cardYes"></ul></div>
-            <div class="nope"><h3>À éviter</h3><ul id="cardNo"></ul></div>
-          </div>
-          <div class="mic">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F2621B" stroke-width="2.2" stroke-linecap="round"><path d="M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
-            <span id="cardMention"></span>
-          </div>
-          <p class="exemple" id="cardExemple"></p>
-          <button class="go" id="goBtn">GO · COMMENCER</button>
-        </div>
+    <div class="sheet-body" id="sheetBody">
+      <p class="consigne" id="consigne"></p>
 
-        <!-- ÉTAT B — enregistrement : caméra, chrono, barre uniquement -->
-        <div class="rec" id="rec">
-          <div class="chrono" id="chrono"><span class="dot"></span><span id="chronoVal">0:00</span></div>
-          <div class="bar" id="bar"><i id="barFill"></i></div>
-        </div>
+      <div class="block film">
+        <h2 class="block-title"><span aria-hidden="true">✓</span> À filmer</h2>
+        <ul id="listFilm"></ul>
+      </div>
 
-        <!-- ÉTAT C — validation de la prise, avec le son -->
-        <div class="review" id="review">
-          <div class="lbl"><span class="prise" id="reviewLabel">PRISE 1 · 0:06</span><span>Prise enregistrée</span></div>
-          <div class="sound"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9fb0c8" stroke-width="2"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg><span id="soundHint">Lecture avec le son, en boucle</span></div>
-          <div class="btns">
-            <button class="btn" id="redoBtn">REFAIRE</button>
-            <button class="btn primary" id="nextBtn">SCÈNE SUIVANTE</button>
-          </div>
-        </div>
+      <div class="block avoid">
+        <h2 class="block-title"><span aria-hidden="true">✕</span> À éviter</h2>
+        <ul id="listAvoid"></ul>
+      </div>
 
-        <!-- Progression : statut de montage -->
-        <div class="panel" id="panelMontage">
-          <h2>Montage en cours</h2>
-          <p>Les 4 prises sont réunies dans l'ordre, avec les textes et le son.</p>
-          <div class="steps" id="montageSteps"></div>
-          <div class="meter"><i id="montageMeter"></i></div>
-          <button class="go" id="montageGo" disabled>VOIR MA PUBLICITÉ</button>
-        </div>
-
-        <div class="adwrap" id="adwrap">
-          <span class="badge">Publicité finale · 30 s · version démo</span>
-          <button class="close" id="adClose">✕</button>
-          <video id="ad" playsinline controls preload="auto"></video>
-        </div>
-
-        <!-- Fin -->
-        <div class="panel" id="panelEnd">
-          <h2>Ta publicité est prête</h2>
-          <p>4 prises · 30 secondes · <span style="color:#fff">Maquis Démo</span> — données de démonstration fictives.</p>
-          <div class="steps">
-            <div class="step done"><span class="tick">✓</span><span>4 prises filmées (6 / 8 / 7 / 9 s)</span></div>
-            <div class="step done"><span class="tick">✓</span><span>Textes, prix et contact ajoutés</span></div>
-            <div class="step done"><span class="tick">✓</span><span>Voix et musique mixées</span></div>
-            <div class="step done"><span class="tick">✓</span><span>Prête à partager</span></div>
-          </div>
-          <button class="go" id="restartBtn">RECOMMENCER</button>
+      <div class="voice">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F2621B" stroke-width="2.2" stroke-linecap="round"><path d="M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
+        <div>
+          <p class="voice-title">Enregistrer sa voix</p>
+          <p id="voiceText"></p>
         </div>
       </div>
+
+      <div class="exemple">
+        <p class="exemple-title">Exemple de phrase — facultatif</p>
+        <p id="exempleText"></p>
+      </div>
+    </div>
+
+    <div class="sheet-foot">
+      <button class="cta" id="cta">COMMENCER À FILMER</button>
+    </div>
+  </section>
+
+  <!-- ÉTAT B — enregistrement : aperçu, chrono, barre -->
+  <div class="rec" id="rec" aria-hidden="true">
+    <div class="chrono" id="chrono"><span class="dot"></span><span id="chronoVal">0:00</span></div>
+    <p class="rec-hint">enregistrement</p>
+    <div class="bar" id="bar"><i id="barFill"></i></div>
+  </div>
+
+  <!-- ÉTAT C — validation de la prise, avec le son -->
+  <div class="review" id="review">
+    <div class="lbl"><span class="prise" id="reviewLabel">PRISE 1 · 0:06</span><span>Prise enregistrée</span></div>
+    <div class="sound">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#b9c7da" stroke-width="2"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg>
+      <span>Lecture avec le son, en boucle</span>
+    </div>
+    <div class="btns">
+      <button class="btn" id="redo">REFAIRE</button>
+      <button class="btn primary" id="next">SCÈNE SUIVANTE</button>
     </div>
   </div>
 
-  <div class="side">
-    <h2>Comment lire cette démonstration</h2>
-    <p class="lead">La vidéo tourne déjà dans le téléphone : c'est la prise correspondant à la scène en cours.
-      <b>GO · COMMENCER</b> masque complètement la carte et lance l'enregistrement de la durée imposée :
-      à l'écran il ne reste que l'aperçu caméra, le chrono et la barre de progression.
-      À la fin, la prise est rejouée <b>avec le son</b> et tu peux <b>REFAIRE</b> ou passer à la scène suivante.</p>
+  <!-- Montage -->
+  <div class="panel" id="panelMontage">
+    <h2>Montage en cours</h2>
+    <p>Les 4 prises sont réunies dans l'ordre, avec les textes et le son.</p>
+    <div class="steps" id="montageSteps"></div>
+    <div class="meter"><i id="montageMeter"></i></div>
+    <button class="cta" id="montageGo" disabled>VOIR MA PUBLICITÉ</button>
+  </div>
 
-    <div class="warnbox">Maquette de parcours dans un navigateur : elle montre les écrans, les durées et l'enchaînement.
-      Elle ne remplace pas un test sur l'application Android (caméra réelle, permissions, arrêt automatique du système).</div>
+  <!-- Publicité finale -->
+  <div class="adwrap" id="adwrap">
+    <span class="badge">Publicité finale · 30 s · démonstration</span>
+    <button class="close" id="adClose" aria-label="Fermer">✕</button>
+    <video id="ad" playsinline controls preload="auto"></video>
+  </div>
 
-    <div class="rail" id="rail"></div>
-
-    <div class="ctl">
-      <button data-jump="0">↺ Revenir à la scène 1</button>
-      <button data-state="A">État A · consigne</button>
-      <button data-state="B">État B · enregistrement</button>
-      <button data-state="C">État C · validation</button>
-      <button data-state="montage">Montage</button>
-      <button data-state="ad">Publicité</button>
-      <button data-state="end">Fin</button>
+  <!-- Fin -->
+  <div class="panel" id="panelEnd">
+    <h2>Ta publicité est prête</h2>
+    <p>4 prises · 30 secondes · <strong>Maquis Démo</strong> — données de démonstration fictives.</p>
+    <div class="steps">
+      <div class="step done"><span class="tick">✓</span><span>4 prises filmées (6 / 8 / 7 / 9 s)</span></div>
+      <div class="step done"><span class="tick">✓</span><span>Textes, prix et contact ajoutés</span></div>
+      <div class="step done"><span class="tick">✓</span><span>Voix et musique mixées</span></div>
+      <div class="step done"><span class="tick">✓</span><span>Prête à partager</span></div>
     </div>
+    <button class="cta" id="restart">RECOMMENCER</button>
+  </div>
 
-    <table class="meta">
-      <tr><td>Source des prises</td><td>4 vidéos <code>.mp4</code> de 6 / 8 / 7 / 9 s, reconstruites par <code>rushes/build_scenes.sh</code> (rushs Mixkit libres d'usage commercial)</td></tr>
-      <tr><td>Pendant l'enregistrement</td><td>carte retirée à l'image 0 — aucun grand texte sur la caméra</td></tr>
-      <tr><td>Durées</td><td>imposées et non modifiables : 6 s · 8 s · 7 s · 9 s</td></tr>
-      <tr><td>Son</td><td>voix synthétique française par prise, puis musique et effets dans la publicité</td></tr>
-      <tr><td>Données</td><td>Maquis Démo · Burger maison · 2 500 — valeurs fictives, aucun contact réel</td></tr>
-    </table>
+  <!-- Outils de démonstration (hors application) -->
+  <button class="demo-fab" id="demoFab" title="Navigation de démonstration">DÉMO</button>
+  <div class="demo-nav" id="demoNav">
+    <h4>Navigation de démonstration — hors application</h4>
+    <div class="row" id="navScenes"></div>
+    <div class="row">
+      <button data-etat="A">État A · consigne</button>
+      <button data-etat="B">État B · enregistrement</button>
+      <button data-etat="C">État C · validation</button>
+      <button data-etat="montage">Montage</button>
+      <button data-etat="ad">Publicité</button>
+      <button data-etat="end">Fin</button>
+    </div>
   </div>
 </main>
 
-<footer>
-  Maquette de parcours — VITRINE VIDÉO, gabarit T1 « Restaurants et Maquis ». Les quatre prises sont de véritables séquences vidéo ;
-  aucune photographie fixe n'est utilisée comme prise. Voix : synthèse vocale française, déclarée comme telle.
-  Aucune donnée personnelle, aucun contact réel : les valeurs affichées sont fictives.
-</footer>
-
+<script src="consignes.js"></script>
 <script>
 /* ------------------------------------------------------------------ *
- * Données des 4 scènes — consignes reprises mot pour mot de la spec V6.2
+ * Textes : une seule source — capture-guide/consignes_T1.json,
+ * compilé en simulation/consignes.js par tools/build_consignes.py.
  * ------------------------------------------------------------------ */
-const SCENES = [
-  {
-    n: 1, key: "S1", seconds: 6, titre: "LE PLAT", titreSpec: "Le plat",
-    consigne: "Approche ton téléphone tout près du plat bien chaud pour montrer tous les détails. Commence un peu loin puis rapproche-toi doucement.",
-    montrer: ["l'assiette entière", "la fumée ou le brillant de la sauce", "ta main qui sert"],
-    eviter: ["filmer de trop loin", "montrer le sol ou le plafond", "bouger trop vite"],
-    mention: "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit.",
-    exemple: "Voici notre riz au poulet braisé bien chaud avec alloco, prêt maintenant !",
-    video: "media/S1.mp4", voix: "media/voix1.mp3"
-  },
-  {
-    n: 2, key: "S2", seconds: 8, titre: "LE DESSUS ET LES DÉTAILS", titreSpec: "Le dessus et les détails",
-    consigne: "Passe ton téléphone au-dessus du plat pour montrer tout ce qu'il y a dedans, puis approche-toi très près de la partie la plus appétissante.",
-    montrer: ["le plat rempli vu d'au-dessus", "le plus près possible de la sauce ou de la viande"],
-    eviter: ["tes doigts devant la caméra", "filmer vers la fenêtre (tout devient sombre)"],
-    mention: "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour dire ce qu'il y a dans le plat et comment tu le prépares.",
-    exemple: "Regardez la sauce : tout est préparé ce matin avec de l'huile propre.",
-    video: "media/S2.mp4", voix: "media/voix2.mp3"
-  },
-  {
-    n: 3, key: "S3", seconds: 7, titre: "LA PERSONNE QUI SERT", titreSpec: "La personne qui sert",
-    consigne: "Filme la personne qui sert ou qui mange : sa main, son visage, son sourire. Mets-toi devant elle ou de côté, comme tu veux.",
-    montrer: ["une main qui sert", "le visage de la personne", "le comptoir propre derrière"],
-    eviter: ["filmer quelqu'un qui ne veut pas être filmé", "filmer un coin sombre"],
-    mention: "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit.",
-    exemple: "C'est moi qui prépare tous les jours. Venez goûter, on sert de midi jusqu'au soir.",
-    video: "media/S3.mp4", voix: "media/voix3.mp3"
-  },
-  {
-    n: 4, key: "S4", seconds: 9, titre: "LE LIEU ET LE CONTACT", titreSpec: "Le lieu et le contact",
-    consigne: "Recule et filme l'entrée de ton local avec le nom écrit dessus, puis le comptoir. On doit reconnaître l'endroit.",
-    montrer: ["le nom ou l'enseigne de ton local", "la rue autour", "l'entrée de face"],
-    eviter: ["filmer les passants de près", "filmer le ciel"],
-    mention: "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit.",
-    exemple: "Nous sommes à Abomey-Calavi, Arconville, à côté de la station. Appelez-nous sur WhatsApp.",
-    video: "media/S4.mp4", voix: "media/voix4.mp3"
-  }
-];
+const DATA = window.CONSIGNES_T1;
+const SCENES = DATA.scenes.map((s) => ({
+  ...s,
+  video: `media/S${s.n}.mp4`,
+  voix: `media/voix${s.n}.mp3`
+}));
 
-/* ------------------------------------------------------------------ */
 const $ = (id) => document.getElementById(id);
-const cam = $("cam"), replay = $("replay"), ad = $("ad");
-const card = $("card"), rec = $("rec"), review = $("review"), dim = $("dim");
-const chrono = $("chrono"), chronoVal = $("chronoVal"), bar = $("bar"), barFill = $("barFill");
-const panelMontage = $("panelMontage"), panelEnd = $("panelEnd"), adwrap = $("adwrap");
+const cam = $("cam"), replay = $("replay"), ad = $("ad"), audioVoix = new Audio();
+let idx = 0, rafId = null, recStart = 0, recording = false, state = "A";
 
-let idx = 0;                 // scène courante 0..3
-let timer = null, rafId = null, recStart = 0, recording = false;
-const etat = { A: "consigne", B: "enregistrement", C: "validation" };
+const fmt = (sec) => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, "0")}`;
 
-function fmt(s) { const m = Math.floor(s / 60); const r = Math.floor(s % 60); return m + ":" + String(r).padStart(2, "0"); }
-
-function setCard(i) {
+/* ---------------- rendu de la fiche (état A) ---------------- */
+function renderCard(i) {
   const s = SCENES[i];
-  $("cardK").innerHTML = "SCÈNE " + s.n + "/4 — <b>" + s.titre + "</b>";
-  $("cardDur").textContent = s.seconds + " secondes";
-  $("cardConsigne").textContent = s.consigne;
-  $("cardYes").innerHTML = s.montrer.map(t => "<li><span>" + t + "</span></li>").join("");
-  $("cardNo").innerHTML = s.eviter.map(t => "<li><span>" + t + "</span></li>").join("");
-  $("cardMention").textContent = s.mention;
-  $("cardExemple").textContent = "« " + s.exemple + " »";
-  $("nextBtn").textContent = s.n === 4 ? "VOIR MON MONTAGE" : "SCÈNE SUIVANTE";
-  renderRail(i);
-}
-
-function renderRail(cur) {
-  $("rail").innerHTML = SCENES.map((s, i) =>
-    "<button data-scene='" + i + "' class='" + (i === cur ? "cur" : "") + "'>" +
-    "<span class='n'>" + s.n + "</span>" +
-    "<span>" + s.titre + "<br><span class='d'>" + s.consigne.slice(0, 46) + "…</span></span>" +
-    "<span class='d'>" + s.seconds + " s</span></button>").join("");
-  $("rail").querySelectorAll("button").forEach(b => b.onclick = () => showCard(+b.dataset.scene));
+  $("sceneCounter").textContent = `SCÈNE ${s.n}/${s.total}`;
+  $("dots").innerHTML = SCENES.map((x) => `<i class="${x.n <= s.n ? "on" : ""}"></i>`).join("");
+  $("durationLabel").textContent = `${s.secondes} secondes`;
+  $("sceneTitle").textContent = s.titre;
+  $("consigne").textContent = s.consigne;
+  $("listFilm").innerHTML = s.a_filmer.map((t) => `<li><span class="mark">✓</span><span>${t}</span></li>`).join("");
+  $("listAvoid").innerHTML = s.a_eviter.map((t) => `<li><span class="mark">✕</span><span>${t}</span></li>`).join("");
+  $("voiceText").textContent = DATA.mention_voix_commune;
+  $("exempleText").textContent = `« ${s.exemple} »`;
+  $("cta").textContent = DATA.bouton_principal;
+  $("next").textContent = s.n === s.total ? "VOIR MON MONTAGE" : "SCÈNE SUIVANTE";
+  $("reviewLabel").textContent = `PRISE ${s.n} · 0:${String(s.secondes).padStart(2, "0")}`;
+  $("navScenes").innerHTML = SCENES.map((x) =>
+    `<button data-scene="${x.n - 1}" class="${x.n - 1 === i ? "on" : ""}">Scène ${x.n} · ${x.secondes} s</button>`).join("");
+  $("navScenes").querySelectorAll("button").forEach((b) => { b.onclick = () => showCard(+b.dataset.scene); });
 }
 
 function hideAll() {
-  card.classList.add("hidden"); rec.classList.remove("on"); review.classList.remove("on");
-  panelMontage.classList.remove("on"); panelEnd.classList.remove("on"); adwrap.classList.remove("on");
+  $("sheet").classList.add("hidden");
+  $("rec").classList.remove("on");
+  $("review").classList.remove("on");
+  $("panelMontage").classList.remove("on");
+  $("panelEnd").classList.remove("on");
+  $("adwrap").classList.remove("on");
   ad.pause(); replay.pause(); replay.style.display = "none";
 }
 
-/* ÉTAT A — aperçu caméra + carte de consigne */
+/* ---------------- état A ---------------- */
 function showCard(i) {
-  stopRecording(); idx = i; hideAll();
+  stopRecording();
+  idx = i; state = "A";
+  hideAll();
   const s = SCENES[i];
   cam.style.display = "block"; cam.muted = true; cam.loop = true;
   if (!cam.src.endsWith(s.video)) cam.src = s.video;
   cam.currentTime = 0; cam.play().catch(() => {});
-  dim.classList.remove("off");
-  setCard(i);
-  card.classList.remove("hidden");
-  review.dataset.ready = "A";
-  state = "A";
+  $("scrim").classList.remove("off");
+  $("sheetBody").scrollTop = 0;
+  renderCard(i);
+  $("sheet").classList.remove("hidden");
 }
 
-/* ÉTAT B — enregistrement : la carte disparaît à l'image 0 */
+/* ---------------- état B ---------------- */
 function startRecording() {
   const s = SCENES[idx];
+  stopRecording();
   hideAll();
+  state = "B";
   cam.style.display = "block"; cam.muted = true; cam.loop = false;
   if (!cam.src.endsWith(s.video)) cam.src = s.video;
   cam.currentTime = 0; cam.play().catch(() => {});
-  dim.classList.add("off");
-  rec.classList.add("on"); chrono.classList.remove("hot"); bar.classList.remove("hot");
-  chronoVal.textContent = "0:00"; barFill.style.width = "0%";
-  recStart = performance.now(); recording = true; state = "B";
-  const total = s.seconds * 1000;
+  $("scrim").classList.add("off");
+  $("rec").classList.add("on");
+  $("chrono").classList.remove("hot"); $("bar").classList.remove("hot");
+  $("chronoVal").textContent = "0:00"; $("barFill").style.width = "0%";
+  recStart = performance.now(); recording = true;
   const tick = () => {
     if (!recording) return;
-    const t = Math.min(s.seconds, (performance.now() - recStart) / 1000);
-    chronoVal.textContent = fmt(t);
-    barFill.style.width = (100 * t / s.seconds).toFixed(2) + "%";
-    const hot = (s.seconds - t) <= 3;
-    chrono.classList.toggle("hot", hot); bar.classList.toggle("hot", hot);
-    if (t >= s.seconds) { finishRecording(); return; }
+    const t = Math.min(s.secondes, (performance.now() - recStart) / 1000);
+    $("chronoVal").textContent = fmt(t);
+    $("barFill").style.width = `${(100 * t / s.secondes).toFixed(2)}%`;
+    const hot = s.secondes - t <= 3;
+    $("chrono").classList.toggle("hot", hot);
+    $("bar").classList.toggle("hot", hot);
+    if (t >= s.secondes) { finishRecording(); return; }
     rafId = requestAnimationFrame(tick);
   };
   rafId = requestAnimationFrame(tick);
@@ -366,81 +366,101 @@ function startRecording() {
 function stopRecording() {
   recording = false;
   if (rafId) cancelAnimationFrame(rafId);
-  if (timer) clearTimeout(timer);
   rafId = null;
 }
 
-/* ÉTAT C — la prise est rejouée avec le son, en boucle */
+/* ---------------- état C ---------------- */
 function finishRecording() {
   stopRecording();
   const s = SCENES[idx];
-  card.classList.add("hidden");
+  state = "C";
+  $("sheet").classList.add("hidden");
+  $("rec").classList.remove("on");
   cam.pause();
-  rec.classList.remove("on");
   replay.style.display = "block";
   replay.src = s.video; replay.currentTime = 0; replay.loop = true; replay.muted = false;
-  replay.volume = 1;
-  try { if (navigator.vibrate) navigator.vibrate([18, 40, 18]); } catch (e) {}
   replay.play().catch(() => {});
   audioVoix.src = s.voix; audioVoix.currentTime = 0; audioVoix.volume = 0.9;
   audioVoix.play().catch(() => {});
-  $("reviewLabel").textContent = "PRISE " + s.n + " · 0:" + String(s.seconds).padStart(2, "0");
-  review.classList.add("on");
-  state = "C";
+  try { if (navigator.vibrate) navigator.vibrate([18, 40, 18]); } catch (e) {}
+  $("review").classList.add("on");
 }
-const audioVoix = new Audio();
 
-/* Enchaînements */
-$("goBtn").onclick = () => startRecording();
-$("redoBtn").onclick = () => showCard(idx);
-$("nextBtn").onclick = () => {
-  if (idx < 3) { showCard(idx + 1); return; }
-  showMontage();
-};
-
+/* ---------------- montage / publicité / fin ---------------- */
 function showMontage() {
-  hideAll(); state = "montage";
+  stopRecording(); hideAll();
+  state = "montage";
   const steps = ["4 prises réunies", "Textes et prix ajoutés", "Voix et musique mixées", "Export 30 s", "Prêt à partager"];
-  $("montageSteps").innerHTML = steps.map((t, i) => "<div class='step' data-i='" + i + "'><span class='tick'>•</span><span>" + t + "</span></div>").join("");
-  panelMontage.classList.add("on");
-  const goBtn = $("montageGo"); goBtn.disabled = true;
+  $("montageSteps").innerHTML = steps.map((t, i) => `<div class="step"><span class="tick">•</span><span>${t}</span></div>`).join("");
+  $("montageMeter").style.width = "0%";
+  const go = $("montageGo"); go.disabled = true;
+  $("panelMontage").classList.add("on");
   let p = 0;
   const iv = setInterval(() => {
     p = Math.min(100, p + 6.5);
-    $("montageMeter").style.width = p + "%";
-    panelMontage.querySelectorAll(".step").forEach((el, i) => {
+    $("montageMeter").style.width = `${p}%`;
+    $("panelMontage").querySelectorAll(".step").forEach((el, i) => {
       const th = (i + 1) * 20;
       el.classList.toggle("done", p >= th);
       el.querySelector(".tick").textContent = p >= th ? "✓" : "•";
       el.classList.toggle("now", p < th && p >= th - 20);
     });
-    if (p >= 100) {
-      clearInterval(iv); goBtn.disabled = false; goBtn.textContent = "VOIR MA PUBLICITÉ";
-    }
+    if (p >= 100) { clearInterval(iv); go.disabled = false; go.textContent = "VOIR MA PUBLICITÉ"; }
   }, 110);
 }
 
-$("montageGo").onclick = () => { hideAll(); adwrap.classList.add("on"); ad.src = "media/publicite_T1_demo.mp4"; ad.play().catch(() => {}); state = "ad"; };
-$("adClose").onclick = () => { ad.pause(); adwrap.classList.remove("on"); panelEnd.classList.add("on"); state = "end"; };
-ad.onended = () => { adwrap.classList.remove("on"); panelEnd.classList.add("on"); state = "end"; };
-$("restartBtn").onclick = () => showCard(0);
-
-/* Outils de capture / vérification (utilisés par les captures d'écran) */
-window.__demo = {
-  showCard, startRecording, finishRecording, showMontage,
-  state: () => state,
-  forceEtat: (e) => {
-    if (e === "A") showCard(idx);
-    if (e === "B") { startRecording(); setTimeout(() => stopRecording(), 40); }
-    if (e === "C") finishRecording();
-    if (e === "montage") showMontage();
-    if (e === "ad") { hideAll(); adwrap.classList.add("on"); ad.src = "media/publicite_T1_demo.mp4"; state = "ad"; }
-    if (e === "end") { hideAll(); panelEnd.classList.add("on"); state = "end"; }
-  },
-  setProgress: (pct) => { barFill.style.width = pct + "%"; chronoVal.textContent = "0:" + String(Math.round(SCENES[idx].seconds * pct / 100)).padStart(2, "0"); },
-  scene: (i) => { idx = i; }
+$("cta").onclick = startRecording;
+$("redo").onclick = () => showCard(idx);
+$("next").onclick = () => (idx < SCENES.length - 1 ? showCard(idx + 1) : showMontage());
+$("montageGo").onclick = () => {
+  hideAll(); state = "ad";
+  $("adwrap").classList.add("on");
+  ad.src = "media/publicite_T1_demo.mp4";
+  ad.play().catch(() => {});
 };
-let state = "A";
+$("adClose").onclick = () => { ad.pause(); $("adwrap").classList.remove("on"); $("panelEnd").classList.add("on"); state = "end"; };
+ad.onended = () => { $("adwrap").classList.remove("on"); $("panelEnd").classList.add("on"); state = "end"; };
+$("restart").onclick = () => showCard(0);
+
+$("demoFab").onclick = () => {
+  const nav = $("demoNav");
+  nav.classList.toggle("demo-nav");
+  nav.classList.toggle("on");
+  $("demoFab").style.opacity = nav.classList.contains("on") ? 1 : .55;
+};
+$("demoNav").querySelectorAll("[data-etat]").forEach((b) => {
+  b.onclick = () => forceEtat(b.dataset.etat);
+});
+
+function forceEtat(e) {
+  if (e === "A") showCard(idx);
+  if (e === "B") {
+    startRecording();
+    setTimeout(() => { stopRecording(); $("rec").classList.remove("on"); }, 30);
+  }
+  if (e === "C") finishRecording();
+  if (e === "montage") showMontage();
+  if (e === "ad") { hideAll(); state = "ad"; $("adwrap").classList.add("on"); ad.src = "media/publicite_T1_demo.mp4"; }
+  if (e === "end") { hideAll(); $("panelEnd").classList.add("on"); state = "end"; }
+}
+
+/* API utilisée par les captures d'écran */
+window.__demo = {
+  showCard, startRecording, finishRecording, showMontage, forceEtat,
+  scene: (i) => { idx = i; },
+  freezeAt: (pct) => { stopRecording(); window.__demo.setProgress(pct); },
+  setProgress: (pct) => {
+    const s = SCENES[idx];
+    $("barFill").style.width = `${pct}%`;
+    $("chronoVal").textContent = fmt(s.secondes * pct / 100);
+    const hot = 100 - pct <= 50;
+    $("chrono").classList.toggle("hot", hot);
+    $("bar").classList.toggle("hot", hot);
+  },
+  state: () => state
+};
+
+if (new URLSearchParams(location.search).has("capture")) document.body.classList.add("capture");
 showCard(0);
 </script>
 </body>

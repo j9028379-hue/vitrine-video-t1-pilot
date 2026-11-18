@@ -1,0 +1,49 @@
+{
+  "version": "1.0",
+  "source_de_verite": "specs/restaurants_maquis_T1.spec_v6_2.json (champ scenes[n].guide_tournage)",
+  "note": "Source unique des textes affichés par la fiche de tournage : maquette HTML, guide de tournage, captures PNG et futur composant Android. Les consignes sont celles de V6.2, mot pour mot. La mention vocale est la même pour les quatre scènes (V6.2). Les listes « à filmer » / « à éviter » reprennent la formulation validée par le commanditaire (novembre 2026).",
+  "mention_voix_commune": "Tu peux parler pendant que tu filmes, en fon, yoruba, français ou anglais, pour présenter ton produit.",
+  "bouton_principal": "COMMENCER À FILMER",
+  "scenes": [
+    {
+      "n": 1,
+      "total": 4,
+      "secondes": 6,
+      "titre": "LE PLAT",
+      "consigne": "Approche ton téléphone tout près du plat bien chaud pour montrer tous les détails. Commence un peu loin puis rapproche-toi doucement.",
+      "a_filmer": ["L'assiette entière.", "La fumée ou le brillant de la sauce.", "Ta main qui sert."],
+      "a_eviter": ["Filmer de trop loin.", "Montrer le sol ou le plafond.", "Bouger trop vite."],
+      "exemple": "Voici notre riz au poulet braisé bien chaud avec alloco, prêt maintenant !"
+    },
+    {
+      "n": 2,
+      "total": 4,
+      "secondes": 8,
+      "titre": "LE DESSUS ET LES DÉTAILS",
+      "consigne": "Passe ton téléphone au-dessus du plat pour montrer tout ce qu'il y a dedans, puis approche-toi très près de la partie la plus appétissante.",
+      "a_filmer": ["Le plat rempli vu d'au-dessus.", "La sauce ou la viande de très près."],
+      "a_eviter": ["Tes doigts devant la caméra.", "Filmer vers la fenêtre, tout devient sombre."],
+      "exemple": "Regardez la sauce : tout est préparé ce matin avec de l'huile propre."
+    },
+    {
+      "n": 3,
+      "total": 4,
+      "secondes": 7,
+      "titre": "LA PERSONNE QUI SERT",
+      "consigne": "Filme la personne qui sert ou qui mange : sa main, son visage, son sourire. Mets-toi devant elle ou de côté, comme tu veux.",
+      "a_filmer": ["Une main qui sert.", "Le visage de la personne.", "Le comptoir propre derrière."],
+      "a_eviter": ["Filmer quelqu'un qui ne veut pas être filmé.", "Filmer un coin sombre."],
+      "exemple": "C'est moi qui prépare tous les jours. Venez goûter, on sert de midi jusqu'au soir."
+    },
+    {
+      "n": 4,
+      "total": 4,
+      "secondes": 9,
+      "titre": "LE LIEU ET LE CONTACT",
+      "consigne": "Recule et filme l'entrée de ton local avec le nom écrit dessus, puis le comptoir. On doit reconnaître l'endroit.",
+      "a_filmer": ["Le nom ou l'enseigne de ton local.", "La rue autour.", "L'entrée de face."],
+      "a_eviter": ["Filmer les passants de trop près.", "Filmer le ciel."],
+      "exemple": "Nous sommes à Abomey-Calavi, Arconville, à côté de la station. Appelez-nous sur WhatsApp."
+    }
+  ]
+}

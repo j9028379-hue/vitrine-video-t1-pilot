@@ -1,0 +1,257 @@
+[
+  {
+    "plan": "P01",
+    "scene": "S1",
+    "v3_1": {
+      "zoom_debut": 1.015,
+      "zoom_fin": 1.085,
+      "amplitude_dx": -0.027,
+      "amplitude_dy": 0.0
+    },
+    "plan_declare": {
+      "base": 1.0,
+      "mouvement": "MV01",
+      "parametres": {
+        "k_ratio": [
+          1.0,
+          1.05
+        ],
+        "easing": "easeInOutQuad"
+      }
+    }
+  },
+  {
+    "plan": "P02",
+    "scene": "S1",
+    "v3_1": {
+      "zoom_debut": 1.021,
+      "zoom_fin": 1.035,
+      "amplitude_dx": -0.009,
+      "amplitude_dy": 0.013
+    },
+    "plan_declare": {
+      "base": 1.35,
+      "mouvement": "MV03",
+      "parametres": {
+        "k_ratio": [
+          1.0,
+          1.08
+        ],
+        "dur_f": 6,
+        "easing": "easeOutQuint"
+      }
+    }
+  },
+  {
+    "plan": "P03",
+    "scene": "S1",
+    "v3_1": {
+      "zoom_debut": 1.027,
+      "zoom_fin": 1.085,
+      "amplitude_dx": 0.009,
+      "amplitude_dy": -0.013
+    },
+    "plan_declare": {
+      "base": 1.7,
+      "mouvement": "MV05",
+      "parametres": {
+        "pan_px": [
+          -14,
+          14
+        ],
+        "easing": "easeInOutQuad"
+      }
+    }
+  },
+  {
+    "plan": "P04",
+    "scene": "S2",
+    "v3_1": {
+      "zoom_debut": 1.015,
+      "zoom_fin": 1.035,
+      "amplitude_dx": 0.027,
+      "amplitude_dy": 0.0
+    },
+    "plan_declare": {
+      "base": 1.0,
+      "mouvement": "MV01",
+      "parametres": {
+        "k_ratio": [
+          1.0,
+          1.05
+        ],
+        "easing": "easeInOutQuad"
+      }
+    }
+  },
+  {
+    "plan": "P05",
+    "scene": "S2",
+    "v3_1": {
+      "zoom_debut": 1.021,
+      "zoom_fin": 1.085,
+      "amplitude_dx": -0.027,
+      "amplitude_dy": 0.013
+    },
+    "plan_declare": {
+      "base": 1.4,
+      "mouvement": "MV05",
+      "parametres": {
+        "pan_px": [
+          -14,
+          14
+        ],
+        "easing": "easeInOutQuad"
+      }
+    }
+  },
+  {
+    "plan": "P06",
+    "scene": "S2",
+    "v3_1": {
+      "zoom_debut": 1.027,
+      "zoom_fin": 1.035,
+      "amplitude_dx": -0.009,
+      "amplitude_dy": -0.013
+    },
+    "plan_declare": {
+      "base": 1.1,
+      "mouvement": "MV02",
+      "parametres": {
+        "k_ratio": [
+          1.0,
+          0.96
+        ],
+        "easing": "easeInOutQuad"
+      }
+    }
+  },
+  {
+    "plan": "P07",
+    "scene": "S3",
+    "v3_1": {
+      "zoom_debut": 1.015,
+      "zoom_fin": 1.085,
+      "amplitude_dx": 0.009,
+      "amplitude_dy": 0.0
+    },
+    "plan_declare": {
+      "base": 1.25,
+      "mouvement": "MV06",
+      "parametres": {
+        "pan_px": [
+          10,
+          -10
+        ],
+        "easing": "easeInOutQuad"
+      }
+    }
+  },
+  {
+    "plan": "P08",
+    "scene": "S3",
+    "v3_1": {
+      "zoom_debut": 1.021,
+      "zoom_fin": 1.035,
+      "amplitude_dx": 0.027,
+      "amplitude_dy": 0.013
+    },
+    "plan_declare": {
+      "base": 1.55,
+      "mouvement": "MV03",
+      "parametres": {
+        "k_ratio": [
+          1.0,
+          1.08
+        ],
+        "dur_f": 6,
+        "easing": "easeOutQuint"
+      }
+    }
+  },
+  {
+    "plan": "P09",
+    "scene": "S3",
+    "v3_1": {
+      "zoom_debut": 1.027,
+      "zoom_fin": 1.085,
+      "amplitude_dx": -0.027,
+      "amplitude_dy": -0.013
+    },
+    "plan_declare": {
+      "base": 1.0,
+      "mouvement": "MV05",
+      "parametres": {
+        "pan_px": [
+          -14,
+          14
+        ],
+        "easing": "easeInOutQuad"
+      }
+    }
+  },
+  {
+    "plan": "P10",
+    "scene": "S4",
+    "v3_1": {
+      "zoom_debut": 1.015,
+      "zoom_fin": 1.035,
+      "amplitude_dx": -0.009,
+      "amplitude_dy": 0.0
+    },
+    "plan_declare": {
+      "base": 1.4,
+      "mouvement": "MV01",
+      "parametres": {
+        "k_ratio": [
+          1.0,
+          1.05
+        ],
+        "easing": "easeInOutQuad"
+      }
+    }
+  },
+  {
+    "plan": "P11",
+    "scene": "S4",
+    "v3_1": {
+      "zoom_debut": 1.021,
+      "zoom_fin": 1.085,
+      "amplitude_dx": 0.009,
+      "amplitude_dy": 0.013
+    },
+    "plan_declare": {
+      "base": 1.05,
+      "mouvement": "MV02",
+      "parametres": {
+        "k_ratio": [
+          1.0,
+          0.96
+        ],
+        "easing": "easeInOutQuad"
+      }
+    }
+  },
+  {
+    "plan": "P12",
+    "scene": "S4",
+    "v3_1": {
+      "zoom_debut": 1.027,
+      "zoom_fin": 1.035,
+      "amplitude_dx": 0.027,
+      "amplitude_dy": -0.013
+    },
+    "plan_declare": {
+      "base": 1.35,
+      "mouvement": "MV11",
+      "parametres": {
+        "k_ratio": [
+          1.0,
+          1.02
+        ],
+        "easing": "linear",
+        "dur_min_f": 75
+      }
+    }
+  }
+]

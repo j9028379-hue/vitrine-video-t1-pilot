@@ -1,0 +1,19 @@
+{
+  "file": "output_T1_sans_voix_v3_1.mp4",
+  "result": "PASS",
+  "checks": {
+    "width_720": true,
+    "height_1280": true,
+    "fps_30": true,
+    "frames_900": true,
+    "duration_30s": true,
+    "no_audio": true
+  },
+  "width": 720,
+  "height": 1280,
+  "fps": "30/1",
+  "frames": 900,
+  "duration_seconds": 30.0,
+  "audio_streams": 0,
+  "size_bytes": 9291554
+}

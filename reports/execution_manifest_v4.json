@@ -1,0 +1,628 @@
+{
+  "plan": "render_plan_v4_demo.json",
+  "moteur": "engine/motion_v4.py",
+  "frames": 900,
+  "plans": [
+    {
+      "id": "P01",
+      "scene": "S1",
+      "sortie": {
+        "debut_f": 0,
+        "fin_f": 60,
+        "debut_s": 0.0,
+        "fin_s": 2.0
+      },
+      "source": {
+        "fichier": "rushes/source/demo_v4/S1.mp4",
+        "in_frame": 9,
+        "source_frames": 53,
+        "fin_reelle": 61,
+        "gel_fin_f": 7
+      },
+      "mouvement": {
+        "id": "MV01",
+        "nom": "zoom_in_lent",
+        "parametres": {
+          "k_ratio": [
+            1.0,
+            1.05
+          ],
+          "easing": "easeInOutQuad"
+        },
+        "base": 1.0
+      },
+      "transition_sortie": "TR01",
+      "blocs_visibles": [
+        "GB01 nom (enseigne mot à mot)"
+      ]
+    },
+    {
+      "id": "P02",
+      "scene": "S1",
+      "sortie": {
+        "debut_f": 60,
+        "fin_f": 105,
+        "debut_s": 2.0,
+        "fin_s": 3.5
+      },
+      "source": {
+        "fichier": "rushes/source/demo_v4/S1.mp4",
+        "in_frame": 65,
+        "source_frames": 39,
+        "fin_reelle": 103,
+        "gel_fin_f": 6
+      },
+      "mouvement": {
+        "id": "MV03",
+        "nom": "push_in_rapide",
+        "parametres": {
+          "k_ratio": [
+            1.0,
+            1.08
+          ],
+          "dur_f": 6,
+          "easing": "easeOutQuint"
+        },
+        "base": 1.35
+      },
+      "transition_sortie": "TR02",
+      "blocs_visibles": [
+        "GB01 nom (enseigne mot à mot)"
+      ]
+    },
+    {
+      "id": "P03",
+      "scene": "S1",
+      "sortie": {
+        "debut_f": 105,
+        "fin_f": 180,
+        "debut_s": 3.5,
+        "fin_s": 6.0
+      },
+      "source": {
+        "fichier": "rushes/source/demo_v4/S1.mp4",
+        "in_frame": 107,
+        "source_frames": 63,
+        "fin_reelle": 169,
+        "gel_fin_f": 12
+      },
+      "mouvement": {
+        "id": "MV05",
+        "nom": "pan_h",
+        "parametres": {
+          "pan_px": [
+            -14,
+            14
+          ],
+          "easing": "easeInOutQuad"
+        },
+        "base": 1.7
+      },
+      "transition_sortie": "TR03",
+      "blocs_visibles": [
+        "GB02 bandeau produit"
+      ]
+    },
+    {
+      "id": "P04",
+      "scene": "S2",
+      "sortie": {
+        "debut_f": 180,
+        "fin_f": 255,
+        "debut_s": 6.0,
+        "fin_s": 8.5
+      },
+      "source": {
+        "fichier": "rushes/source/demo_v4/S2.mp4",
+        "in_frame": 9,
+        "source_frames": 68,
+        "fin_reelle": 76,
+        "gel_fin_f": 7
+      },
+      "mouvement": {
+        "id": "MV01",
+        "nom": "zoom_in_lent",
+        "parametres": {
+          "k_ratio": [
+            1.0,
+            1.05
+          ],
+          "easing": "easeInOutQuad"
+        },
+        "base": 1.0
+      },
+      "transition_sortie": "TR01",
+      "blocs_visibles": [
+        "GB03 lockup produit + prix"
+      ]
+    },
+    {
+      "id": "P05",
+      "scene": "S2",
+      "sortie": {
+        "debut_f": 255,
+        "fin_f": 330,
+        "debut_s": 8.5,
+        "fin_s": 11.0
+      },
+      "source": {
+        "fichier": "rushes/source/demo_v4/S2.mp4",
+        "in_frame": 80,
+        "source_frames": 68,
+        "fin_reelle": 147,
+        "gel_fin_f": 7
+      },
+      "mouvement": {
+        "id": "MV05",
+        "nom": "pan_h",
+        "parametres": {
+          "pan_px": [
+            -14,
+            14
+          ],
+          "easing": "easeInOutQuad"
+        },
+        "base": 1.4
+      },
+      "transition_sortie": "TR01",
+      "blocs_visibles": [
+        "GB03 lockup produit + prix",
+        "GB04 accroche segmentée"
+      ]
+    },
+    {
+      "id": "P06",
+      "scene": "S2",
+      "sortie": {
+        "debut_f": 330,
+        "fin_f": 420,
+        "debut_s": 11.0,
+        "fin_s": 14.0
+      },
+      "source": {
+        "fichier": "rushes/source/demo_v4/S2.mp4",
+        "in_frame": 151,
+        "source_frames": 79,
+        "fin_reelle": 229,
+        "gel_fin_f": 11
+      },
+      "mouvement": {
+        "id": "MV02",
+        "nom": "zoom_out_lent",
+        "parametres": {
+          "k_ratio": [
+            1.0,
+            0.96
+          ],
+          "easing": "easeInOutQuad"
+        },
+        "base": 1.1
+      },
+      "transition_sortie": "TR05",
+      "blocs_visibles": [
+        "GB04 accroche segmentée"
+      ]
+    },
+    {
+      "id": "P07",
+      "scene": "S3",
+      "sortie": {
+        "debut_f": 420,
+        "fin_f": 495,
+        "debut_s": 14.0,
+        "fin_s": 16.5
+      },
+      "source": {
+        "fichier": "rushes/source/demo_v4/S3.mp4",
+        "in_frame": 9,
+        "source_frames": 68,
+        "fin_reelle": 76,
+        "gel_fin_f": 7
+      },
+      "mouvement": {
+        "id": "MV06",
+        "nom": "pan_v",
+        "parametres": {
+          "pan_px": [
+            10,
+            -10
+          ],
+          "easing": "easeInOutQuad"
+        },
+        "base": 1.25
+      },
+      "transition_sortie": "TR01",
+      "blocs_visibles": [
+        "GB05 rappel enseigne"
+      ]
+    },
+    {
+      "id": "P08",
+      "scene": "S3",
+      "sortie": {
+        "debut_f": 495,
+        "fin_f": 555,
+        "debut_s": 16.5,
+        "fin_s": 18.5
+      },
+      "source": {
+        "fichier": "rushes/source/demo_v4/S3.mp4",
+        "in_frame": 80,
+        "source_frames": 53,
+        "fin_reelle": 132,
+        "gel_fin_f": 7
+      },
+      "mouvement": {
+        "id": "MV03",
+        "nom": "push_in_rapide",
+        "parametres": {
+          "k_ratio": [
+            1.0,
+            1.08
+          ],
+          "dur_f": 6,
+          "easing": "easeOutQuint"
+        },
+        "base": 1.55
+      },
+      "transition_sortie": "TR01",
+      "blocs_visibles": [
+        "GB05 rappel enseigne",
+        "GB06 prix plein écran"
+      ]
+    },
+    {
+      "id": "P09",
+      "scene": "S3",
+      "sortie": {
+        "debut_f": 555,
+        "fin_f": 630,
+        "debut_s": 18.5,
+        "fin_s": 21.0
+      },
+      "source": {
+        "fichier": "rushes/source/demo_v4/S3.mp4",
+        "in_frame": 136,
+        "source_frames": 64,
+        "fin_reelle": 199,
+        "gel_fin_f": 11
+      },
+      "mouvement": {
+        "id": "MV05",
+        "nom": "pan_h",
+        "parametres": {
+          "pan_px": [
+            -14,
+            14
+          ],
+          "easing": "easeInOutQuad"
+        },
+        "base": 1.0
+      },
+      "transition_sortie": "TR04",
+      "blocs_visibles": [
+        "GB06 prix plein écran"
+      ]
+    },
+    {
+      "id": "P10",
+      "scene": "S4",
+      "sortie": {
+        "debut_f": 630,
+        "fin_f": 705,
+        "debut_s": 21.0,
+        "fin_s": 23.5
+      },
+      "source": {
+        "fichier": "rushes/source/demo_v4/S4.mp4",
+        "in_frame": 9,
+        "source_frames": 70,
+        "fin_reelle": 78,
+        "gel_fin_f": 5
+      },
+      "mouvement": {
+        "id": "MV01",
+        "nom": "zoom_in_lent",
+        "parametres": {
+          "k_ratio": [
+            1.0,
+            1.05
+          ],
+          "easing": "easeInOutQuad"
+        },
+        "base": 1.4
+      },
+      "transition_sortie": "TR01",
+      "blocs_visibles": [
+        "GB07 adresse + épingle"
+      ]
+    },
+    {
+      "id": "P11",
+      "scene": "S4",
+      "sortie": {
+        "debut_f": 705,
+        "fin_f": 795,
+        "debut_s": 23.5,
+        "fin_s": 26.5
+      },
+      "source": {
+        "fichier": "rushes/source/demo_v4/S4.mp4",
+        "in_frame": 82,
+        "source_frames": 85,
+        "fin_reelle": 166,
+        "gel_fin_f": 5
+      },
+      "mouvement": {
+        "id": "MV02",
+        "nom": "zoom_out_lent",
+        "parametres": {
+          "k_ratio": [
+            1.0,
+            0.96
+          ],
+          "easing": "easeInOutQuad"
+        },
+        "base": 1.05
+      },
+      "transition_sortie": "TR01",
+      "blocs_visibles": [
+        "GB07 adresse + épingle"
+      ]
+    },
+    {
+      "id": "P12",
+      "scene": "S4",
+      "sortie": {
+        "debut_f": 795,
+        "fin_f": 900,
+        "debut_s": 26.5,
+        "fin_s": 30.0
+      },
+      "source": {
+        "fichier": "rushes/source/demo_v4/S4.mp4",
+        "in_frame": 170,
+        "source_frames": 75,
+        "fin_reelle": 244,
+        "gel_fin_f": 30
+      },
+      "mouvement": {
+        "id": "MV11",
+        "nom": "drift",
+        "parametres": {
+          "k_ratio": [
+            1.0,
+            1.02
+          ],
+          "easing": "linear",
+          "dur_min_f": 75
+        },
+        "base": 1.35
+      },
+      "transition_sortie": "TR01",
+      "blocs_visibles": [
+        "GB08 CTA WhatsApp"
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "frame": 60,
+      "seconde": 2.0,
+      "id": "TR01",
+      "nom": "cut_sec",
+      "rendu": "cut",
+      "dur_f": 0,
+      "de_plan": "P01",
+      "vers_plan": "P02"
+    },
+    {
+      "frame": 105,
+      "seconde": 3.5,
+      "id": "TR02",
+      "nom": "punch_cut",
+      "rendu": "punch_cut",
+      "dur_f": 6,
+      "de_plan": "P02",
+      "vers_plan": "P03"
+    },
+    {
+      "frame": 180,
+      "seconde": 6.0,
+      "id": "TR03",
+      "nom": "wipe_geometrique",
+      "rendu": "wipe_diagonale",
+      "dur_f": 6,
+      "de_plan": "P03",
+      "vers_plan": "P04"
+    },
+    {
+      "frame": 255,
+      "seconde": 8.5,
+      "id": "TR01",
+      "nom": "cut_sec",
+      "rendu": "cut",
+      "dur_f": 0,
+      "de_plan": "P04",
+      "vers_plan": "P05"
+    },
+    {
+      "frame": 330,
+      "seconde": 11.0,
+      "id": "TR01",
+      "nom": "cut_sec",
+      "rendu": "cut",
+      "dur_f": 0,
+      "de_plan": "P05",
+      "vers_plan": "P06"
+    },
+    {
+      "frame": 420,
+      "seconde": 14.0,
+      "id": "TR05",
+      "nom": "fondu_court_crossfade",
+      "rendu": "fondu",
+      "dur_f": 6,
+      "de_plan": "P06",
+      "vers_plan": "P07"
+    },
+    {
+      "frame": 495,
+      "seconde": 16.5,
+      "id": "TR01",
+      "nom": "cut_sec",
+      "rendu": "cut",
+      "dur_f": 0,
+      "de_plan": "P07",
+      "vers_plan": "P08"
+    },
+    {
+      "frame": 555,
+      "seconde": 18.5,
+      "id": "TR01",
+      "nom": "cut_sec",
+      "rendu": "cut",
+      "dur_f": 0,
+      "de_plan": "P08",
+      "vers_plan": "P09"
+    },
+    {
+      "frame": 630,
+      "seconde": 21.0,
+      "id": "TR04",
+      "nom": "wipe_directionnel",
+      "rendu": "wipe_directionnel",
+      "dur_f": 6,
+      "de_plan": "P09",
+      "vers_plan": "P10"
+    },
+    {
+      "frame": 705,
+      "seconde": 23.5,
+      "id": "TR01",
+      "nom": "cut_sec",
+      "rendu": "cut",
+      "dur_f": 0,
+      "de_plan": "P10",
+      "vers_plan": "P11"
+    },
+    {
+      "frame": 795,
+      "seconde": 26.5,
+      "id": "TR01",
+      "nom": "cut_sec",
+      "rendu": "cut",
+      "dur_f": 0,
+      "de_plan": "P11",
+      "vers_plan": "P12"
+    }
+  ],
+  "blocs": [
+    {
+      "id": "GB01",
+      "champ": "nom",
+      "composition": "enseigne_mot_a_mot",
+      "start_f": 15,
+      "end_f": 90,
+      "start_s": 0.5,
+      "end_s": 3.0
+    },
+    {
+      "id": "GB02",
+      "champ": "produit",
+      "composition": "bandeau_produit",
+      "start_f": 120,
+      "end_f": 165,
+      "start_s": 4.0,
+      "end_s": 5.5
+    },
+    {
+      "id": "GB03",
+      "champ": "produit+prix",
+      "composition": "hero_lockup",
+      "start_f": 195,
+      "end_f": 285,
+      "start_s": 6.5,
+      "end_s": 9.5
+    },
+    {
+      "id": "GB04",
+      "champ": "accroche",
+      "composition": "accroche_segments",
+      "start_f": 300,
+      "end_f": 405,
+      "start_s": 10.0,
+      "end_s": 13.5
+    },
+    {
+      "id": "GB05",
+      "champ": "nom",
+      "composition": "enseigne_rappel",
+      "start_f": 450,
+      "end_f": 525,
+      "start_s": 15.0,
+      "end_s": 17.5
+    },
+    {
+      "id": "GB06",
+      "champ": "prix",
+      "composition": "prix_plein",
+      "start_f": 540,
+      "end_f": 615,
+      "start_s": 18.0,
+      "end_s": 20.5
+    },
+    {
+      "id": "GB07",
+      "champ": "quartier",
+      "composition": "adresse",
+      "start_f": 645,
+      "end_f": 765,
+      "start_s": 21.5,
+      "end_s": 25.5
+    },
+    {
+      "id": "GB08",
+      "champ": "whatsapp",
+      "composition": "cta_whatsapp",
+      "start_f": 795,
+      "end_f": 900,
+      "start_s": 26.5,
+      "end_s": 30.0
+    }
+  ],
+  "fenetres_graphiques": {
+    "GB01": [
+      15,
+      90
+    ],
+    "GB02": [
+      120,
+      165
+    ],
+    "GB03": [
+      195,
+      285
+    ],
+    "GB04": [
+      300,
+      405
+    ],
+    "GB05": [
+      450,
+      525
+    ],
+    "GB06": [
+      540,
+      615
+    ],
+    "GB07": [
+      645,
+      765
+    ],
+    "GB08": [
+      795,
+      900
+    ]
+  }
+}

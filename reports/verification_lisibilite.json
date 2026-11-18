@@ -1,0 +1,876 @@
+{
+  "cible": {
+    "consigne": "17–18 px",
+    "listes": "14–16 px",
+    "titres": "12–14 px",
+    "voix": "14–15 px",
+    "exemple": "14–15 px",
+    "bouton": "16–18 px"
+  },
+  "mesures": [
+    {
+      "viewport": {
+        "w": 360,
+        "h": 800
+      },
+      "overflow_horizontal": false,
+      "cta_visible": true,
+      "cta_font": 17,
+      "body_scrollable": true,
+      "body_scroll_height": 722,
+      "body_client_height": 467,
+      "consigne": {
+        "font": 17.5,
+        "lh": 26.25,
+        "w": 320,
+        "h": 105,
+        "bottom": 367,
+        "top": 262
+      },
+      "titre_section": {
+        "font": 12.5,
+        "lh": null,
+        "w": 288,
+        "h": 16,
+        "bottom": 416,
+        "top": 400
+      },
+      "item_liste": {
+        "font": 15,
+        "lh": 21.3,
+        "w": 288,
+        "h": 31,
+        "bottom": 457,
+        "top": 425
+      },
+      "mention_voix": {
+        "font": 14.5,
+        "lh": 21.025,
+        "w": 257,
+        "h": 63,
+        "bottom": 816,
+        "top": 753
+      },
+      "exemple": {
+        "font": 14.5,
+        "lh": 21.75,
+        "w": 288,
+        "h": 44,
+        "bottom": 932,
+        "top": 888
+      },
+      "titre_scene": {
+        "font": 23,
+        "lh": 26.45,
+        "w": 320,
+        "h": 26,
+        "bottom": 238,
+        "top": 212
+      },
+      "duree": {
+        "font": 18,
+        "lh": null,
+        "w": 100,
+        "h": 23,
+        "bottom": 194,
+        "top": 171
+      },
+      "scene": 1,
+      "duree_affichee": "6 secondes",
+      "taille_ecran": "360",
+      "etat": "A"
+    },
+    {
+      "viewport": {
+        "w": 360,
+        "h": 800
+      },
+      "overflow_horizontal": false,
+      "cta_visible": true,
+      "cta_font": 17,
+      "body_scrollable": true,
+      "body_scroll_height": 681,
+      "body_client_height": 440,
+      "consigne": {
+        "font": 17.5,
+        "lh": 26.25,
+        "w": 320,
+        "h": 105,
+        "bottom": 394,
+        "top": 289
+      },
+      "titre_section": {
+        "font": 12.5,
+        "lh": null,
+        "w": 288,
+        "h": 16,
+        "bottom": 443,
+        "top": 427
+      },
+      "item_liste": {
+        "font": 15,
+        "lh": 21.3,
+        "w": 288,
+        "h": 31,
+        "bottom": 483,
+        "top": 452
+      },
+      "mention_voix": {
+        "font": 14.5,
+        "lh": 21.025,
+        "w": 257,
+        "h": 63,
+        "bottom": 802,
+        "top": 738
+      },
+      "exemple": {
+        "font": 14.5,
+        "lh": 21.75,
+        "w": 288,
+        "h": 44,
+        "bottom": 917,
+        "top": 873
+      },
+      "titre_scene": {
+        "font": 23,
+        "lh": 26.45,
+        "w": 320,
+        "h": 53,
+        "bottom": 265,
+        "top": 212
+      },
+      "duree": {
+        "font": 18,
+        "lh": null,
+        "w": 100,
+        "h": 23,
+        "bottom": 194,
+        "top": 171
+      },
+      "scene": 2,
+      "duree_affichee": "8 secondes",
+      "taille_ecran": "360",
+      "etat": "A"
+    },
+    {
+      "viewport": {
+        "w": 360,
+        "h": 800
+      },
+      "overflow_horizontal": false,
+      "cta_visible": true,
+      "cta_font": 17,
+      "body_scrollable": true,
+      "body_scroll_height": 734,
+      "body_client_height": 467,
+      "consigne": {
+        "font": 17.5,
+        "lh": 26.25,
+        "w": 320,
+        "h": 105,
+        "bottom": 367,
+        "top": 262
+      },
+      "titre_section": {
+        "font": 12.5,
+        "lh": null,
+        "w": 288,
+        "h": 16,
+        "bottom": 416,
+        "top": 400
+      },
+      "item_liste": {
+        "font": 15,
+        "lh": 21.3,
+        "w": 288,
+        "h": 31,
+        "bottom": 457,
+        "top": 425
+      },
+      "mention_voix": {
+        "font": 14.5,
+        "lh": 21.025,
+        "w": 257,
+        "h": 63,
+        "bottom": 806,
+        "top": 743
+      },
+      "exemple": {
+        "font": 14.5,
+        "lh": 21.75,
+        "w": 288,
+        "h": 65,
+        "bottom": 943,
+        "top": 878
+      },
+      "titre_scene": {
+        "font": 23,
+        "lh": 26.45,
+        "w": 320,
+        "h": 26,
+        "bottom": 238,
+        "top": 212
+      },
+      "duree": {
+        "font": 18,
+        "lh": null,
+        "w": 99,
+        "h": 23,
+        "bottom": 194,
+        "top": 171
+      },
+      "scene": 3,
+      "duree_affichee": "7 secondes",
+      "taille_ecran": "360",
+      "etat": "A"
+    },
+    {
+      "viewport": {
+        "w": 360,
+        "h": 800
+      },
+      "overflow_horizontal": false,
+      "cta_visible": true,
+      "cta_font": 17,
+      "body_scrollable": true,
+      "body_scroll_height": 713,
+      "body_client_height": 467,
+      "consigne": {
+        "font": 17.5,
+        "lh": 26.25,
+        "w": 320,
+        "h": 105,
+        "bottom": 367,
+        "top": 262
+      },
+      "titre_section": {
+        "font": 12.5,
+        "lh": null,
+        "w": 288,
+        "h": 16,
+        "bottom": 416,
+        "top": 400
+      },
+      "item_liste": {
+        "font": 15,
+        "lh": 21.3,
+        "w": 288,
+        "h": 31,
+        "bottom": 457,
+        "top": 425
+      },
+      "mention_voix": {
+        "font": 14.5,
+        "lh": 21.025,
+        "w": 257,
+        "h": 63,
+        "bottom": 785,
+        "top": 722
+      },
+      "exemple": {
+        "font": 14.5,
+        "lh": 21.75,
+        "w": 288,
+        "h": 65,
+        "bottom": 922,
+        "top": 857
+      },
+      "titre_scene": {
+        "font": 23,
+        "lh": 26.45,
+        "w": 320,
+        "h": 26,
+        "bottom": 238,
+        "top": 212
+      },
+      "duree": {
+        "font": 18,
+        "lh": null,
+        "w": 100,
+        "h": 23,
+        "bottom": 194,
+        "top": 171
+      },
+      "scene": 4,
+      "duree_affichee": "9 secondes",
+      "taille_ecran": "360",
+      "etat": "A"
+    },
+    {
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "overflow_horizontal": false,
+      "cta_visible": true,
+      "cta_font": 17,
+      "body_scrollable": true,
+      "body_scroll_height": 722,
+      "body_client_height": 504,
+      "consigne": {
+        "font": 17.5,
+        "lh": 26.25,
+        "w": 350,
+        "h": 105,
+        "bottom": 374,
+        "top": 269
+      },
+      "titre_section": {
+        "font": 12.5,
+        "lh": null,
+        "w": 318,
+        "h": 16,
+        "bottom": 423,
+        "top": 407
+      },
+      "item_liste": {
+        "font": 15,
+        "lh": 21.3,
+        "w": 318,
+        "h": 31,
+        "bottom": 463,
+        "top": 432
+      },
+      "mention_voix": {
+        "font": 14.5,
+        "lh": 21.025,
+        "w": 287,
+        "h": 63,
+        "bottom": 823,
+        "top": 760
+      },
+      "exemple": {
+        "font": 14.5,
+        "lh": 21.75,
+        "w": 318,
+        "h": 44,
+        "bottom": 938,
+        "top": 894
+      },
+      "titre_scene": {
+        "font": 23,
+        "lh": 26.45,
+        "w": 350,
+        "h": 26,
+        "bottom": 245,
+        "top": 218
+      },
+      "duree": {
+        "font": 18,
+        "lh": null,
+        "w": 100,
+        "h": 23,
+        "bottom": 200,
+        "top": 177
+      },
+      "scene": 1,
+      "duree_affichee": "6 secondes",
+      "taille_ecran": "390",
+      "etat": "A"
+    },
+    {
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "overflow_horizontal": false,
+      "cta_visible": true,
+      "cta_font": 17,
+      "body_scrollable": true,
+      "body_scroll_height": 681,
+      "body_client_height": 504,
+      "consigne": {
+        "font": 17.5,
+        "lh": 26.25,
+        "w": 350,
+        "h": 105,
+        "bottom": 374,
+        "top": 269
+      },
+      "titre_section": {
+        "font": 12.5,
+        "lh": null,
+        "w": 318,
+        "h": 16,
+        "bottom": 423,
+        "top": 407
+      },
+      "item_liste": {
+        "font": 15,
+        "lh": 21.3,
+        "w": 318,
+        "h": 31,
+        "bottom": 463,
+        "top": 432
+      },
+      "mention_voix": {
+        "font": 14.5,
+        "lh": 21.025,
+        "w": 287,
+        "h": 63,
+        "bottom": 781,
+        "top": 718
+      },
+      "exemple": {
+        "font": 14.5,
+        "lh": 21.75,
+        "w": 318,
+        "h": 44,
+        "bottom": 897,
+        "top": 853
+      },
+      "titre_scene": {
+        "font": 23,
+        "lh": 26.45,
+        "w": 350,
+        "h": 26,
+        "bottom": 245,
+        "top": 218
+      },
+      "duree": {
+        "font": 18,
+        "lh": null,
+        "w": 100,
+        "h": 23,
+        "bottom": 200,
+        "top": 177
+      },
+      "scene": 2,
+      "duree_affichee": "8 secondes",
+      "taille_ecran": "390",
+      "etat": "A"
+    },
+    {
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "overflow_horizontal": false,
+      "cta_visible": true,
+      "cta_font": 17,
+      "body_scrollable": true,
+      "body_scroll_height": 686,
+      "body_client_height": 504,
+      "consigne": {
+        "font": 17.5,
+        "lh": 26.25,
+        "w": 350,
+        "h": 79,
+        "bottom": 347,
+        "top": 269
+      },
+      "titre_section": {
+        "font": 12.5,
+        "lh": null,
+        "w": 318,
+        "h": 16,
+        "bottom": 396,
+        "top": 380
+      },
+      "item_liste": {
+        "font": 15,
+        "lh": 21.3,
+        "w": 318,
+        "h": 31,
+        "bottom": 437,
+        "top": 405
+      },
+      "mention_voix": {
+        "font": 14.5,
+        "lh": 21.025,
+        "w": 287,
+        "h": 63,
+        "bottom": 786,
+        "top": 723
+      },
+      "exemple": {
+        "font": 14.5,
+        "lh": 21.75,
+        "w": 318,
+        "h": 44,
+        "bottom": 902,
+        "top": 858
+      },
+      "titre_scene": {
+        "font": 23,
+        "lh": 26.45,
+        "w": 350,
+        "h": 26,
+        "bottom": 245,
+        "top": 218
+      },
+      "duree": {
+        "font": 18,
+        "lh": null,
+        "w": 99,
+        "h": 23,
+        "bottom": 200,
+        "top": 177
+      },
+      "scene": 3,
+      "duree_affichee": "7 secondes",
+      "taille_ecran": "390",
+      "etat": "A"
+    },
+    {
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "overflow_horizontal": false,
+      "cta_visible": true,
+      "cta_font": 17,
+      "body_scrollable": true,
+      "body_scroll_height": 686,
+      "body_client_height": 504,
+      "consigne": {
+        "font": 17.5,
+        "lh": 26.25,
+        "w": 350,
+        "h": 79,
+        "bottom": 347,
+        "top": 269
+      },
+      "titre_section": {
+        "font": 12.5,
+        "lh": null,
+        "w": 318,
+        "h": 16,
+        "bottom": 396,
+        "top": 380
+      },
+      "item_liste": {
+        "font": 15,
+        "lh": 21.3,
+        "w": 318,
+        "h": 31,
+        "bottom": 437,
+        "top": 405
+      },
+      "mention_voix": {
+        "font": 14.5,
+        "lh": 21.025,
+        "w": 287,
+        "h": 63,
+        "bottom": 765,
+        "top": 702
+      },
+      "exemple": {
+        "font": 14.5,
+        "lh": 21.75,
+        "w": 318,
+        "h": 65,
+        "bottom": 902,
+        "top": 837
+      },
+      "titre_scene": {
+        "font": 23,
+        "lh": 26.45,
+        "w": 350,
+        "h": 26,
+        "bottom": 245,
+        "top": 218
+      },
+      "duree": {
+        "font": 18,
+        "lh": null,
+        "w": 100,
+        "h": 23,
+        "bottom": 200,
+        "top": 177
+      },
+      "scene": 4,
+      "duree_affichee": "9 secondes",
+      "taille_ecran": "390",
+      "etat": "A"
+    },
+    {
+      "viewport": {
+        "w": 430,
+        "h": 932
+      },
+      "overflow_horizontal": false,
+      "cta_visible": true,
+      "cta_font": 17,
+      "body_scrollable": true,
+      "body_scroll_height": 722,
+      "body_client_height": 580,
+      "consigne": {
+        "font": 17.5,
+        "lh": 26.25,
+        "w": 390,
+        "h": 105,
+        "bottom": 386,
+        "top": 281
+      },
+      "titre_section": {
+        "font": 12.5,
+        "lh": null,
+        "w": 358,
+        "h": 16,
+        "bottom": 435,
+        "top": 419
+      },
+      "item_liste": {
+        "font": 15,
+        "lh": 21.3,
+        "w": 358,
+        "h": 31,
+        "bottom": 475,
+        "top": 444
+      },
+      "mention_voix": {
+        "font": 14.5,
+        "lh": 21.025,
+        "w": 327,
+        "h": 63,
+        "bottom": 835,
+        "top": 772
+      },
+      "exemple": {
+        "font": 14.5,
+        "lh": 21.75,
+        "w": 358,
+        "h": 44,
+        "bottom": 950,
+        "top": 907
+      },
+      "titre_scene": {
+        "font": 23,
+        "lh": 26.45,
+        "w": 390,
+        "h": 26,
+        "bottom": 257,
+        "top": 230
+      },
+      "duree": {
+        "font": 18,
+        "lh": null,
+        "w": 100,
+        "h": 23,
+        "bottom": 212,
+        "top": 189
+      },
+      "scene": 1,
+      "duree_affichee": "6 secondes",
+      "taille_ecran": "430",
+      "etat": "A"
+    },
+    {
+      "viewport": {
+        "w": 430,
+        "h": 932
+      },
+      "overflow_horizontal": false,
+      "cta_visible": true,
+      "cta_font": 17,
+      "body_scrollable": true,
+      "body_scroll_height": 660,
+      "body_client_height": 580,
+      "consigne": {
+        "font": 17.5,
+        "lh": 26.25,
+        "w": 390,
+        "h": 105,
+        "bottom": 386,
+        "top": 281
+      },
+      "titre_section": {
+        "font": 12.5,
+        "lh": null,
+        "w": 358,
+        "h": 16,
+        "bottom": 435,
+        "top": 419
+      },
+      "item_liste": {
+        "font": 15,
+        "lh": 21.3,
+        "w": 358,
+        "h": 31,
+        "bottom": 475,
+        "top": 444
+      },
+      "mention_voix": {
+        "font": 14.5,
+        "lh": 21.025,
+        "w": 327,
+        "h": 63,
+        "bottom": 772,
+        "top": 709
+      },
+      "exemple": {
+        "font": 14.5,
+        "lh": 21.75,
+        "w": 358,
+        "h": 44,
+        "bottom": 888,
+        "top": 844
+      },
+      "titre_scene": {
+        "font": 23,
+        "lh": 26.45,
+        "w": 390,
+        "h": 26,
+        "bottom": 257,
+        "top": 230
+      },
+      "duree": {
+        "font": 18,
+        "lh": null,
+        "w": 100,
+        "h": 23,
+        "bottom": 212,
+        "top": 189
+      },
+      "scene": 2,
+      "duree_affichee": "8 secondes",
+      "taille_ecran": "430",
+      "etat": "A"
+    },
+    {
+      "viewport": {
+        "w": 430,
+        "h": 932
+      },
+      "overflow_horizontal": false,
+      "cta_visible": true,
+      "cta_font": 17,
+      "body_scrollable": true,
+      "body_scroll_height": 665,
+      "body_client_height": 580,
+      "consigne": {
+        "font": 17.5,
+        "lh": 26.25,
+        "w": 390,
+        "h": 79,
+        "bottom": 360,
+        "top": 281
+      },
+      "titre_section": {
+        "font": 12.5,
+        "lh": null,
+        "w": 358,
+        "h": 16,
+        "bottom": 409,
+        "top": 393
+      },
+      "item_liste": {
+        "font": 15,
+        "lh": 21.3,
+        "w": 358,
+        "h": 31,
+        "bottom": 449,
+        "top": 418
+      },
+      "mention_voix": {
+        "font": 14.5,
+        "lh": 21.025,
+        "w": 327,
+        "h": 63,
+        "bottom": 777,
+        "top": 714
+      },
+      "exemple": {
+        "font": 14.5,
+        "lh": 21.75,
+        "w": 358,
+        "h": 44,
+        "bottom": 893,
+        "top": 849
+      },
+      "titre_scene": {
+        "font": 23,
+        "lh": 26.45,
+        "w": 390,
+        "h": 26,
+        "bottom": 257,
+        "top": 230
+      },
+      "duree": {
+        "font": 18,
+        "lh": null,
+        "w": 99,
+        "h": 23,
+        "bottom": 212,
+        "top": 189
+      },
+      "scene": 3,
+      "duree_affichee": "7 secondes",
+      "taille_ecran": "430",
+      "etat": "A"
+    },
+    {
+      "viewport": {
+        "w": 430,
+        "h": 932
+      },
+      "overflow_horizontal": false,
+      "cta_visible": true,
+      "cta_font": 17,
+      "body_scrollable": true,
+      "body_scroll_height": 665,
+      "body_client_height": 580,
+      "consigne": {
+        "font": 17.5,
+        "lh": 26.25,
+        "w": 390,
+        "h": 79,
+        "bottom": 360,
+        "top": 281
+      },
+      "titre_section": {
+        "font": 12.5,
+        "lh": null,
+        "w": 358,
+        "h": 16,
+        "bottom": 409,
+        "top": 393
+      },
+      "item_liste": {
+        "font": 15,
+        "lh": 21.3,
+        "w": 358,
+        "h": 31,
+        "bottom": 449,
+        "top": 418
+      },
+      "mention_voix": {
+        "font": 14.5,
+        "lh": 21.025,
+        "w": 327,
+        "h": 63,
+        "bottom": 777,
+        "top": 714
+      },
+      "exemple": {
+        "font": 14.5,
+        "lh": 21.75,
+        "w": 358,
+        "h": 44,
+        "bottom": 893,
+        "top": 849
+      },
+      "titre_scene": {
+        "font": 23,
+        "lh": 26.45,
+        "w": 390,
+        "h": 26,
+        "bottom": 257,
+        "top": 230
+      },
+      "duree": {
+        "font": 18,
+        "lh": null,
+        "w": 100,
+        "h": 23,
+        "bottom": 212,
+        "top": 189
+      },
+      "scene": 4,
+      "duree_affichee": "9 secondes",
+      "taille_ecran": "430",
+      "etat": "A"
+    }
+  ]
+}
