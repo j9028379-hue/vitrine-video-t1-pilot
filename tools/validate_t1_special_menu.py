@@ -133,12 +133,20 @@ def main() -> None:
             "baseline_alignment": config.get("price_format", {}).get("baseline_alignment", False),
         },
         "impact_transition_contract": {
-            "enabled": bool(config.get("impact_transition_system", {}).get("enabled")),
-            "major_cut_frames": config.get("impact_transition_system", {}).get("major_scene_cuts", {}).get("cut_frames", []),
-            "minor_cut_frames": config.get("impact_transition_system", {}).get("minor_cuts", {}).get("cut_frames", []),
-            "source_time_map": config.get("impact_transition_system", {}).get("source_time_map", "identity"),
-            "audio_time_map": config.get("impact_transition_system", {}).get("audio_time_map", "identity"),
-            "text_layer_affected": config.get("impact_transition_system", {}).get("text_layer_affected", False),
+            "generic_v2_enabled": bool(config.get("impact_transition_system", {}).get("enabled")),
+            "choreography_v3_enabled": bool(config.get("premium_transition_choreography", {}).get("enabled")),
+            "event_names": [
+                event["name"] for event in config.get("premium_transition_choreography", {}).get("events", [])
+            ],
+            "cut_frames": [
+                event["cut_f"] for event in config.get("premium_transition_choreography", {}).get("events", [])
+            ] or (
+                config.get("impact_transition_system", {}).get("major_scene_cuts", {}).get("cut_frames", [])
+                + config.get("impact_transition_system", {}).get("minor_cuts", {}).get("cut_frames", [])
+            ),
+            "source_time_map": config.get("premium_transition_choreography", config.get("impact_transition_system", {})).get("source_time_map", "identity"),
+            "audio_time_map": config.get("premium_transition_choreography", config.get("impact_transition_system", {})).get("audio_time_map", "identity"),
+            "text_layer_affected": config.get("premium_transition_choreography", config.get("impact_transition_system", {})).get("text_layer_affected", False),
         },
         "non_destructive": {
             "capture_guide_sha256": capture_hash,

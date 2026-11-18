@@ -101,6 +101,22 @@ def validate_config(config: dict[str, Any]) -> None:
             raise ValueError("Les effets majeurs sont réservés aux trois frontières de scènes.")
         if impact.get("text_layer_affected") is not False:
             raise ValueError("Les effets impact doivent rester derrière le texte net.")
+    choreography = config.get("premium_transition_choreography")
+    if choreography and choreography.get("enabled"):
+        if choreography.get("source_time_map") != "identity" or choreography.get("audio_time_map") != "identity":
+            raise ValueError("La chorégraphie premium ne doit jamais remapper la parole.")
+        if choreography.get("text_layer_affected") is not False:
+            raise ValueError("La chorégraphie doit rester derrière les textes nets.")
+        events = choreography["events"]
+        cuts = [int(event["cut_f"]) for event in events]
+        if sorted(cuts) != sorted(config["edit_timeline"]["hard_cut_frames"]):
+            raise ValueError("La chorégraphie doit couvrir chaque coupe exactement une fois.")
+        if len(set(cuts)) != len(cuts) or len(set(event["name"] for event in events)) != len(events):
+            raise ValueError("Les événements premium doivent être uniques, sans répétition générique.")
+        for event in events:
+            if event["phase"] == "human":
+                if not event.get("face_safe") or event.get("chromatic_shift_px_max", 0) != 0:
+                    raise ValueError(f"Effet visage non sûr : {event['name']}")
     for font in config["fonts"].values():
         if not isinstance(font, dict) or "file" not in font:
             continue
@@ -529,33 +545,79 @@ def render_graphics(
 
     if "G05_CTA" in active_ids:
         cta_layer, cta_draw = _new_layer(w, h)
-        y = int(h * 0.535)
-        headline = "Commander"
-        head_font = _font(display_path, 72)
-        head_w = head_font.getlength(headline)
-        cta_draw.text(((w - head_w) / 2, y), headline, font=head_font, fill=ivory)
-        sans = _font(sans_path, 24, 300)
-        _draw_tracking(cta_draw, "MAINTENANT", w / 2, y + 82, sans, ivory, 24 * 0.13)
+        cta_spec = next(g for g in config["graphics"] if g["id"] == "G05_CTA")
+        mirror_opening = cta_spec.get("layout", {}).get("mode") == "mirror_opening"
+        if mirror_opening:
+            # Final resolution reuses the exact opening hierarchy: merchant
+            # product in DM Serif, tracked Montserrat action line, then utility
+            # information. There is no second visual identity, border, or card.
+            y = int(h * float(cta_spec["layout"].get("top_y", 0.49)))
+            lines, product_font = _fit_lines(
+                fields["produit"], display_path, 84, 52, int(w * 0.78), allow_two_lines=True
+            )
+            line_height = int(product_font.size * 0.96)
+            for offset, line in enumerate(lines):
+                line_w = product_font.getlength(line)
+                cta_draw.text(((w - line_w) / 2, y + offset * line_height), line, font=product_font, fill=ivory)
+            label_y = y + len(lines) * line_height + 20
+            label_font = _font(sans_path, 35, 300)
+            _draw_tracking(
+                cta_draw,
+                "COMMANDER MAINTENANT",
+                w / 2,
+                label_y,
+                label_font,
+                ivory,
+                35 * 0.15,
+            )
 
-        price_main, _ = _display_price(fields["prix"])
-        offer = f"{fields['produit']}  ·  {price_main} FCFA"
-        util_small = _font(utility_path, 22, 700)
-        while util_small.getlength(offer) > w * 0.80 and util_small.size > 16:
-            util_small = _font(utility_path, util_small.size - 1, 700)
-        offer_w = util_small.getlength(offer)
-        cta_draw.text(((w - offer_w) / 2, y + 132), offer, font=util_small, fill=secondary)
+            price_main, suffix = _display_price(fields["prix"])
+            price_text = f"{price_main} {suffix}"
+            price_font = _font(utility_path, 26, 700)
+            price_w = price_font.getlength(price_text)
+            support_y = label_y + 62
+            cta_draw.text(((w - price_w) / 2, support_y), price_text, font=price_font, fill=secondary)
 
-        phone_font = _font(utility_path, 34, 700)
-        phone_w = phone_font.getlength(fields["whatsapp"])
-        total_w = 20 + 12 + phone_w
-        start_x = (w - total_w) / 2
-        green = _hex_rgba("#25D366")
-        cta_draw.ellipse((start_x, y + 183, start_x + 20, y + 203), fill=green)
-        cta_draw.text((start_x + 32, y + 170), fields["whatsapp"], font=phone_font, fill=ivory)
+            phone_font = _font(utility_path, 34, 700)
+            phone_w = phone_font.getlength(fields["whatsapp"])
+            total_w = 20 + 12 + phone_w
+            start_x = (w - total_w) / 2
+            green = _hex_rgba("#25D366")
+            cta_draw.ellipse((start_x, support_y + 57, start_x + 20, support_y + 77), fill=green)
+            cta_draw.text((start_x + 32, support_y + 44), fields["whatsapp"], font=phone_font, fill=ivory)
 
-        name_font = _font(sans_path, 13, 300)
-        _draw_tracking(cta_draw, fields["nom"], w / 2, y + 240, name_font, secondary, 1.3)
-        progress = (frame_index - 810) / 22.0
+            name_font = _font(sans_path, 13, 300)
+            _draw_tracking(cta_draw, fields["nom"], w / 2, support_y + 112, name_font, secondary, 1.3)
+            reveal_frames = int(cta_spec.get("animation", {}).get("reveal_frames", 20))
+            progress = (frame_index - 810) / max(reveal_frames, 1)
+        else:
+            y = int(h * 0.535)
+            headline = "Commander"
+            head_font = _font(display_path, 72)
+            head_w = head_font.getlength(headline)
+            cta_draw.text(((w - head_w) / 2, y), headline, font=head_font, fill=ivory)
+            sans = _font(sans_path, 24, 300)
+            _draw_tracking(cta_draw, "MAINTENANT", w / 2, y + 82, sans, ivory, 24 * 0.13)
+
+            price_main, _ = _display_price(fields["prix"])
+            offer = f"{fields['produit']}  ·  {price_main} FCFA"
+            util_small = _font(utility_path, 22, 700)
+            while util_small.getlength(offer) > w * 0.80 and util_small.size > 16:
+                util_small = _font(utility_path, util_small.size - 1, 700)
+            offer_w = util_small.getlength(offer)
+            cta_draw.text(((w - offer_w) / 2, y + 132), offer, font=util_small, fill=secondary)
+
+            phone_font = _font(utility_path, 34, 700)
+            phone_w = phone_font.getlength(fields["whatsapp"])
+            total_w = 20 + 12 + phone_w
+            start_x = (w - total_w) / 2
+            green = _hex_rgba("#25D366")
+            cta_draw.ellipse((start_x, y + 183, start_x + 20, y + 203), fill=green)
+            cta_draw.text((start_x + 32, y + 170), fields["whatsapp"], font=phone_font, fill=ivory)
+
+            name_font = _font(sans_path, 13, 300)
+            _draw_tracking(cta_draw, fields["nom"], w / 2, y + 240, name_font, secondary, 1.3)
+            progress = (frame_index - 810) / 22.0
         layer = Image.alpha_composite(layer, _reveal(cta_layer, progress))
 
     composed = Image.alpha_composite(base, layer).convert("RGB")
@@ -565,22 +627,45 @@ def render_graphics(
 def impact_transition_state(config: dict[str, Any], frame_index: int) -> dict[str, Any] | None:
     """Return a non-temporal cut treatment for one output frame.
 
-    The state never changes source time. It only drives spatial/color uniforms
-    around an existing single-frame hard cut.
+    V3 uses an event-by-event choreography. V2 falls back to its two generic
+    profiles. Neither mode changes the source or audio clock.
     """
+    choreography = config.get("premium_transition_choreography")
+    if choreography and choreography.get("enabled"):
+        for event in choreography["events"]:
+            cut = int(event["cut_f"])
+            pre = int(event["pre_frames"])
+            post = int(event["post_frames"])
+            start, end = cut - pre, cut + post
+            if not start <= frame_index < end:
+                continue
+            if frame_index < cut:
+                phase = "outgoing"
+                intensity = (frame_index - start + 1) / max(pre, 1)
+            else:
+                phase = "incoming"
+                intensity = 1.0 - (frame_index - cut) / max(post, 1)
+            return {
+                "kind": "choreographed",
+                "name": event["name"],
+                "narrative_phase": event["phase"],
+                "profile": event,
+                "cut_f": cut,
+                "phase": phase,
+                "intensity": float(np.clip(intensity, 0.0, 1.0)),
+                "window_progress": float(np.clip((frame_index - start) / max(end - start - 1, 1), 0.0, 1.0)),
+                "direction": int(event.get("direction", 0)),
+            }
+        return None
+
     system = config.get("impact_transition_system")
     if not system or not system.get("enabled"):
         return None
-    profiles = (
-        ("major", system["major_scene_cuts"]),
-        ("minor", system["minor_cuts"]),
-    )
+    profiles = (("major", system["major_scene_cuts"]), ("minor", system["minor_cuts"]))
     for kind, profile in profiles:
         for index, cut in enumerate(profile["cut_frames"]):
-            pre = int(profile["pre_frames"])
-            post = int(profile["post_frames"])
-            start = cut - pre
-            end = cut + post
+            pre, post = int(profile["pre_frames"]), int(profile["post_frames"])
+            start, end = cut - pre, cut + post
             if not start <= frame_index < end:
                 continue
             if frame_index < cut:
@@ -590,18 +675,16 @@ def impact_transition_state(config: dict[str, Any], frame_index: int) -> dict[st
                 phase = "incoming"
                 intensity = 1.0 - (frame_index - cut) / max(post, 1)
             if kind == "major":
-                label = profile["directions_by_cut"].get(str(cut), "right")
-                direction = 1 if label == "right" else -1
+                direction = 1 if profile["directions_by_cut"].get(str(cut), "right") == "right" else -1
             else:
                 direction = 1 if index % 2 == 0 else -1
-            window_progress = (frame_index - start) / max(end - start - 1, 1)
             return {
                 "kind": kind,
                 "profile": profile,
                 "cut_f": cut,
                 "phase": phase,
                 "intensity": float(np.clip(intensity, 0.0, 1.0)),
-                "window_progress": float(np.clip(window_progress, 0.0, 1.0)),
+                "window_progress": float(np.clip((frame_index - start) / max(end - start - 1, 1), 0.0, 1.0)),
                 "direction": direction,
             }
     return None
@@ -648,16 +731,33 @@ def apply_impact_transition(frame: np.ndarray, state: dict[str, Any] | None) -> 
     phase_sign = 1 if state["phase"] == "outgoing" else -1
 
     translation_max = float(profile.get("translation_px_max", 0.0))
-    if translation_max:
+    if translation_max and direction:
         frame = _translate_reflect(frame, phase_sign * direction * translation_max * intensity)
 
     blur_px = int(round(float(profile.get("directional_blur_px_max", 0)) * intensity))
-    frame = _directional_blur(frame, blur_px, phase_sign * direction)
+    if direction:
+        frame = _directional_blur(frame, blur_px, phase_sign * direction)
+
+    softness = float(profile.get("gaussian_softness_px_max", 0.0)) * intensity
+    if softness > 0.05:
+        softened = cv2.GaussianBlur(frame, (0, 0), max(softness, 0.1))
+        soft_mix = min(0.62, 0.42 + 0.20 * intensity)
+        frame = cv2.addWeighted(frame, 1.0 - soft_mix, softened, soft_mix, 0)
 
     chromatic_px = int(round(float(profile.get("chromatic_shift_px_max", 0)) * intensity))
-    frame = _chromatic_shift(frame, chromatic_px, direction)
+    if direction:
+        frame = _chromatic_shift(frame, chromatic_px, direction)
 
     image = frame.astype(np.float32)
+    bloom_alpha = float(profile.get("highlight_bloom_alpha_max", 0.0)) * intensity
+    if bloom_alpha:
+        luma = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.float32)
+        highlights = np.clip((luma - 150.0) / 105.0, 0.0, 1.0)
+        highlights = cv2.GaussianBlur(highlights, (0, 0), 6.0)[..., None]
+        warm_white = np.asarray([205.0, 235.0, 255.0], dtype=np.float32)
+        alpha = bloom_alpha * highlights
+        image = image * (1.0 - alpha) + warm_white[None, None, :] * alpha
+
     flash_alpha = float(profile.get("warm_flash_alpha_max", 0.0)) * intensity
     if flash_alpha:
         amber_bgr = np.asarray([58.0, 174.0, 255.0], dtype=np.float32)
@@ -667,9 +767,22 @@ def apply_impact_transition(frame: np.ndarray, state: dict[str, Any] | None) -> 
     if sweep_alpha:
         h, w = frame.shape[:2]
         yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
-        diagonal = xx / max(w - 1, 1) + 0.62 * yy / max(h - 1, 1)
-        center = -0.18 + 1.98 * state["window_progress"]
-        band = np.exp(-0.5 * ((diagonal - center) / 0.10) ** 2)[..., None]
+        nx = xx / max(w - 1, 1)
+        ny = yy / max(h - 1, 1)
+        orientation = profile.get("sweep_orientation", "diagonal_forward")
+        progress = state["window_progress"]
+        if orientation == "horizontal":
+            coordinate, extent = nx, 1.0
+            if direction < 0:
+                progress = 1.0 - progress
+        elif orientation == "vertical":
+            coordinate, extent = ny, 1.0
+        elif orientation == "diagonal_reverse":
+            coordinate, extent = (1.0 - nx) + 0.62 * ny, 1.62
+        else:
+            coordinate, extent = nx + 0.62 * ny, 1.62
+        center = -0.18 + (extent + 0.36) * progress
+        band = np.exp(-0.5 * ((coordinate - center) / 0.10) ** 2)[..., None]
         gold = np.asarray([80.0, 196.0, 255.0], dtype=np.float32)
         alpha = sweep_alpha * band * (0.45 + 0.55 * intensity)
         image = image * (1.0 - alpha) + gold[None, None, :] * alpha
@@ -792,10 +905,12 @@ def render_project(
         "duration_s":frames_written / canvas["fps"],
         "audio":False,
         "impact_transitions": {
-            "enabled": bool(config.get("impact_transition_system", {}).get("enabled")),
-            "major_cut_frames": config.get("impact_transition_system", {}).get("major_scene_cuts", {}).get("cut_frames", []),
-            "minor_cut_frames": config.get("impact_transition_system", {}).get("minor_cuts", {}).get("cut_frames", []),
-            "source_time_map": config.get("impact_transition_system", {}).get("source_time_map", "identity"),
+            "generic_v2_enabled": bool(config.get("impact_transition_system", {}).get("enabled")),
+            "choreography_v3_enabled": bool(config.get("premium_transition_choreography", {}).get("enabled")),
+            "event_names": [
+                event["name"] for event in config.get("premium_transition_choreography", {}).get("events", [])
+            ],
+            "source_time_map": config.get("premium_transition_choreography", config.get("impact_transition_system", {})).get("source_time_map", "identity"),
         },
         "sha256":digest,
         "bytes":output_path.stat().st_size,

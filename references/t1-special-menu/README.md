@@ -11,7 +11,10 @@ Référence publique : [TikTok — Special Menu | Food Template](https://www.tik
 5. `../../output/output_T1_special_menu_reference_v1.mp4` — première preuve visuelle muette ;
 6. `../../config/T1_special_menu_reference_v2.json` — révision prix + transitions impact ;
 7. `../../reports/T1_SPECIAL_MENU_V2_REFINEMENT.md` — spécification de la V2 ;
-8. `../../output/output_T1_special_menu_reference_v2.mp4` — prévisualisation V2.
+8. `../../output/output_T1_special_menu_reference_v2.mp4` — prévisualisation V2 ;
+9. `../../config/T1_special_menu_reference_v3.json` — identité finale unifiée + chorégraphie évolutive ;
+10. `../../reports/T1_SPECIAL_MENU_V3_UNIFICATION.md` — spécification V3 ;
+11. `../../output/output_T1_special_menu_reference_v3.mp4` — prévisualisation V3 courante.
 
 ## Reproduire les rendus
 
@@ -19,17 +22,21 @@ Référence publique : [TikTok — Special Menu | Food Template](https://www.tik
 # V1 conservée
 PYTHONPATH=. python3 tools/render_t1_special_menu.py
 
-# V2 courante
+# V2 conservée
 PYTHONPATH=. python3 tools/render_t1_special_menu_v2.py
+
+# V3 courante
+PYTHONPATH=. python3 tools/render_t1_special_menu_v3.py
 PYTHONPATH=. python3 tools/validate_t1_special_menu.py \
-  --config config/T1_special_menu_reference_v2.json \
-  --video output/output_T1_special_menu_reference_v2.mp4 \
-  --report reports/T1_special_menu_v2_render_validation.json
+  --config config/T1_special_menu_reference_v3.json \
+  --video output/output_T1_special_menu_reference_v3.mp4 \
+  --report reports/T1_special_menu_v3_render_validation.json
 
 PYTHONPATH=. pytest -q \
   tests/test_t1_special_menu_reference.py \
   tests/test_special_menu_renderer.py \
-  tests/test_special_menu_v2_refinements.py
+  tests/test_special_menu_v2_refinements.py \
+  tests/test_special_menu_v3_choreography.py
 ```
 
 ## Règles de sécurité produit
