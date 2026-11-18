@@ -1,4 +1,4 @@
-import hashlib, json, subprocess, sys
+import hashlib, json, subprocess, sys, zipfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import pytest
@@ -34,25 +34,41 @@ def test_selection_is_deterministic_and_uses_all_four_approved_tracks():
  config=load_config()
  a=select_music_track(config,render_job_id='render-job-stable')
  b=select_music_track(config,render_job_id='render-job-stable')
- assert a['id']==b['id'] and a['pixabay_id'] in EXPECTED
- for track in config['tracks']:
-  chosen=select_music_track(config,render_job_id='ignored',requested_variant_id=track['id'])
+ assert a['id']==b['id']==config['tracks'][0]['id']
+ for index,track in enumerate(config['tracks']):
+  previous=config['tracks'][index-1]['id'] if index else None
+  chosen=select_music_track(config,render_job_id='ignored',requested_variant_id=track['id'],previous_variant_id=previous)
   assert chosen['pixabay_id']==track['pixabay_id']
  with pytest.raises(ValueError,match='inconnue'):
   select_music_track(config,render_job_id='job',requested_variant_id='t1_music_573944')
 
 
-def test_casino_rotation_never_repeats_the_previous_successful_track():
+def test_contract_rejects_a_default_other_than_track_one():
+ config=load_config(); config['selection_contract']['default_variant_id']=config['tracks'][1]['id']
+ with pytest.raises(ValueError,match='cycle strict'):
+  select_music_track(config,render_job_id='invalid-default')
+
+
+def test_selection_requires_a_nonempty_render_job_id():
+ config=load_config()
+ with pytest.raises(ValueError,match='render_job_id'):
+  select_music_track(config,render_job_id='')
+ with pytest.raises(ValueError,match='render_job_id'):
+  select_music_track(config,render_job_id='',requested_variant_id=config['tracks'][0]['id'])
+
+
+def test_automatic_rotation_follows_the_strict_1_2_3_4_cycle():
  config=load_config(); previous=None; observed=[]
+ expected=config['selection_contract']['allowed_variant_ids'] * 64
  for index in range(256):
   chosen=select_music_track(config,render_job_id=f'production-{index:04d}',previous_variant_id=previous)
-  assert chosen['id']!=previous
   observed.append(chosen['id']); previous=chosen['id']
- assert set(observed)==set(config['selection_contract']['allowed_variant_ids'])
- assert config['selection_contract']['automatic_candidate_count_after_first_render']==3
+ assert observed==expected
+ assert all(left!=right for left,right in zip(observed,observed[1:]))
+ assert config['selection_contract']['automatic_candidate_count_after_first_render']==1
 
 
-def test_explicit_selection_cannot_bypass_the_no_repeat_rule():
+def test_explicit_selection_must_be_the_exact_successor():
  config=load_config(); previous='t1_music_178406'
  with pytest.raises(ValueError,match='immédiate interdite'):
   select_music_track(config,render_job_id='job',requested_variant_id=previous,previous_variant_id=previous)
@@ -60,6 +76,10 @@ def test_explicit_selection_cannot_bypass_the_no_repeat_rule():
   select_music_track(config,render_job_id='job',previous_variant_id='t1_music_573944')
  chosen=select_music_track(config,render_job_id='job',requested_variant_id='t1_music_239426',previous_variant_id=previous)
  assert chosen['id']=='t1_music_239426'
+ with pytest.raises(ValueError,match='ne peut pas le contourner'):
+  select_music_track(config,render_job_id='job',requested_variant_id='t1_music_406552',previous_variant_id='t1_music_239426')
+ with pytest.raises(ValueError,match='t1_music_239426'):
+  select_music_track(config,render_job_id='first-job',requested_variant_id='t1_music_464383')
 
 
 def test_persistent_state_advances_only_after_success_and_survives_reload(tmp_path):
@@ -71,7 +91,7 @@ def test_persistent_state_advances_only_after_success_and_survives_reload(tmp_pa
  assert committed['successful_render_count']==1
  assert load_music_selection_state(state_path)==committed
  second=select_music_track_from_state(config,render_job_id='state-job-2',state_path=state_path)
- assert second['id']!=first['id']
+ assert second['id']==config['tracks'][1]['id']
  unchanged=record_music_render_result(config,state_path=state_path,render_job_id='state-job-2',selected_music_id=second['id'],succeeded=False)
  assert unchanged==committed and load_music_selection_state(state_path)==committed
 
@@ -82,17 +102,32 @@ def test_persistent_state_rejects_explicit_repeat_and_success_callback_is_idempo
  assert record_music_render_result(config,state_path=state_path,render_job_id='success-1',selected_music_id=selected,succeeded=True)==first
  with pytest.raises(ValueError,match='immédiate interdite'):
   select_music_track_from_state(config,render_job_id='success-2',state_path=state_path,requested_variant_id=selected)
- with pytest.raises(ValueError,match='immédiate interdite'):
+ with pytest.raises(ValueError,match='cycle strict'):
   record_music_render_result(config,state_path=state_path,render_job_id='success-2',selected_music_id=selected,succeeded=True)
  schema=json.loads((ROOT/'schemas/T1_music_selection_state.schema.json').read_text())
  Draft202012Validator(schema).validate(load_music_selection_state(state_path))
 
 
-def test_concurrent_duplicate_success_is_serialized_and_rejected_once(tmp_path):
- config=load_config(); state_path=tmp_path/'music-state.json'; selected=config['tracks'][0]['id']
+def test_old_success_replay_after_a_full_cycle_is_idempotent(tmp_path):
+ config=load_config(); state_path=tmp_path/'music-state.json'; tracks=config['selection_contract']['allowed_variant_ids']
+ snapshots=[]
+ for index,selected in enumerate(tracks,1):
+  snapshots.append(record_music_render_result(config,state_path=state_path,render_job_id=f'cycle-{index}',selected_music_id=selected,succeeded=True))
+ after_cycle=load_music_selection_state(state_path)
+ replayed=record_music_render_result(config,state_path=state_path,render_job_id='cycle-1',selected_music_id=tracks[0],succeeded=True)
+ assert replayed==after_cycle
+ assert replayed['successful_render_count']==4
+ assert replayed['last_successful_render_job_id']=='cycle-4'
+ assert replayed['successful_render_jobs']=={f'cycle-{index}':track for index,track in enumerate(tracks,1)}
+ with pytest.raises(ValueError,match='ne peut pas changer'):
+  record_music_render_result(config,state_path=state_path,render_job_id='cycle-1',selected_music_id=tracks[1],succeeded=True)
+
+
+def test_concurrent_out_of_sequence_success_is_serialized_and_rejected_without_mutation(tmp_path):
+ config=load_config(); state_path=tmp_path/'music-state.json'; first=config['tracks'][0]['id']
  def commit(job_id):
   try:
-   record_music_render_result(config,state_path=state_path,render_job_id=job_id,selected_music_id=selected,succeeded=True)
+   record_music_render_result(config,state_path=state_path,render_job_id=job_id,selected_music_id=first,succeeded=True)
    return 'committed'
   except ValueError:
    return 'rejected'
@@ -100,12 +135,25 @@ def test_concurrent_duplicate_success_is_serialized_and_rejected_once(tmp_path):
   outcomes=list(executor.map(commit,['concurrent-t1-1','concurrent-t1-2']))
  assert sorted(outcomes)==['committed','rejected']
  state=load_music_selection_state(state_path)
- assert state['last_successful_music_id']==selected and state['successful_render_count']==1
+ assert state['last_successful_music_id']==first and state['successful_render_count']==1
+ assert len(state['successful_render_jobs'])==1
+
+
+def test_interprocess_concurrent_success_is_serialized(tmp_path):
+ state_path=tmp_path/'music-state.json'; selected=load_config()['tracks'][0]['id']; tool=ROOT/'tools/record_t1_music_result.py'
+ processes=[subprocess.Popen([
+  sys.executable,str(tool),'--state',str(state_path),'--render-job-id',job_id,
+  '--selected-music-id',selected,'--status','success',
+ ],cwd=ROOT,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True) for job_id in ['process-t1-1','process-t1-2']]
+ results=[process.communicate(timeout=30) for process in processes]
+ assert sorted(process.returncode for process in processes)==[0,1],results
+ state=load_music_selection_state(state_path)
+ assert state['successful_render_count']==1 and len(state['successful_render_jobs'])==1
 
 
 def test_persistent_state_rejects_unknown_last_success(tmp_path):
  state_path=tmp_path/'music-state.json'
- state_path.write_text(json.dumps({'schema_version':'1.0.0','last_successful_music_id':'t1_music_573944','last_successful_render_job_id':'bad-job','successful_render_count':1}))
+ state_path.write_text(json.dumps({'schema_version':'1.0.0','last_successful_music_id':'t1_music_573944','last_successful_render_job_id':'bad-job','successful_render_count':1,'successful_render_jobs':{'bad-job':'t1_music_573944'}}))
  with pytest.raises(ValueError,match='inconnue'):
   load_music_selection_state(state_path)
 
@@ -116,13 +164,13 @@ def test_adapter_attaches_local_music_without_changing_merchant_fields():
  v62=json.loads((ROOT/'specs/restaurants_maquis_T1.spec_v6_2.public-safe.json').read_text())
  raw=json.loads((ROOT/'demo/T1_demo_input.json').read_text())
  plan=build_render_plan(v12,v62,raw); before=dict(plan['fields'])
- attach_music_track(plan,config,render_job_id='job-match-out',requested_variant_id='t1_music_178406')
+ attach_music_track(plan,config,render_job_id='job-match-out',requested_variant_id='t1_music_178406',previous_variant_id='t1_music_406552')
  assert plan['fields']==before and plan['output']['audio'] is True
  assert plan['audio_track']['audio_profile']=='afrobeat_amapiano'
  assert plan['audio_track']['pixabay_id']==178406
  assert plan['audio_track']['file'].endswith('t1_178406_120bpm_30s.mp3')
- assert plan['audio_track']['previous_variant_id'] is None
- assert plan['audio_track']['last_successful_music_id'] is None
+ assert plan['audio_track']['previous_variant_id']=='t1_music_406552'
+ assert plan['audio_track']['last_successful_music_id']=='t1_music_406552'
  assert plan['audio_track']['no_immediate_repeat'] is True
  assert plan['audio_track']['state_update_policy']=='after_success_only'
  assert plan['audio_track']['network_required'] is False
@@ -138,7 +186,7 @@ def test_voice_stem_and_ducking_attach_without_changing_visual_timing():
  v62=json.loads((ROOT/'specs/restaurants_maquis_T1.spec_v6_2.public-safe.json').read_text())
  raw=json.loads((ROOT/'demo/T1_demo_input.json').read_text())
  plan=build_render_plan(v12,v62,raw); original_shots=plan['shots']; original_overlays=plan['overlays']
- attach_music_track(plan,config,render_job_id='voice-test',requested_variant_id='t1_music_178406')
+ attach_music_track(plan,config,render_job_id='voice-test',requested_variant_id='t1_music_178406',previous_variant_id='t1_music_406552')
  attach_voice_track(plan,voice)
  assert plan['shots']==original_shots and plan['overlays']==original_overlays
  assert plan['voice_track']['enabled'] is True and plan['voice_track']['network_required'] is False
@@ -172,6 +220,32 @@ def test_voice_music_reference_mix_qc_is_green_for_exact_four_variants():
   assert item['preview_mp4']['clipped_sample_count']==0
   assert item['preview_mp4']['visual_source_bitstream_identical'] is True
   assert item['intelligibility_proxy']['aggregate_speech_to_music_db']>=4
+
+def test_reproducible_bundle_embeds_the_current_contract_runtime_and_docs():
+ bundle=ROOT/'packages/t1-special-menu-music-v1/t1-special-menu-afrobeat-amapiano-music-v1.zip'
+ prefix='t1-special-menu-afrobeat-amapiano-music-v1/'
+ required=[
+  'packages/t1-special-menu-music-v1/manifest.json',
+  'config/T1_special_menu_music_pack_v1_0_0.json',
+  'schemas/T1_music_pack.schema.json',
+  'schemas/T1_music_selection_state.schema.json',
+  'adapter/t1_adapter.py',
+  'tools/record_t1_music_result.py',
+  'docs/T1_MUSIC_INTEGRATION.md',
+ ]
+ with zipfile.ZipFile(bundle) as archive:
+  assert len(archive.namelist())==len(set(archive.namelist()))
+  for rel in required:
+   assert archive.read(prefix+rel)==(ROOT/rel).read_bytes()
+  build=json.loads(archive.read(prefix+'BUILD-MANIFEST.json'))
+  listed={item['path']:item for item in build['files']}
+  archived={name[len(prefix):] for name in archive.namelist() if name!=prefix+'BUILD-MANIFEST.json'}
+  assert set(listed)==archived
+  for rel,item in listed.items():
+   payload=archive.read(prefix+rel)
+   assert len(payload)==item['bytes']
+   assert hashlib.sha256(payload).hexdigest()==item['sha256']
+
 
 def test_validator_accepts_release():
  subprocess.run([sys.executable,str(ROOT/'tools/validate_t1_music_pack.py')],cwd=ROOT,check=True)

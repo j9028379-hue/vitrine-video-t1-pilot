@@ -1,9 +1,9 @@
 {
   "report_schema_version": "1.0.0",
-  "status": "PASS",
+  "status": "PASS_WITH_DOCUMENTED_EXTERNAL_GOLDEN_LIMITATION",
   "date": "2026-11-18",
   "scope": {
-    "purpose": "prepare T1 catalogue metadata and enforce non-repeating local music rotation",
+    "purpose": "prepare T1 catalogue metadata and enforce the persistent strict 1→2→3→4→1 music rotation",
     "ota_implemented": false,
     "network_or_cloudflare_code_added": false,
     "stable_release_overwritten": false
@@ -151,19 +151,21 @@
       "sha256": "2ddb781df3934a770bf3312a8a6c3f005d8bbf2ebe6beb08ca48164c68d18c81"
     },
     "after": {
-      "bytes": 11680,
-      "sha256": "37a5dc2f785362959605bb1bbeafefa6f47a67a2af34246e0603105de1a1e72a",
+      "bytes": 11966,
+      "sha256": "74a204a263000a036fbd93676d67e9746b578780c9a94d6a12564af43756e0b4",
       "audio_profile": "afrobeat_amapiano"
     },
     "audio_profile_matches_canonical": true
   },
   "rotation_contract": {
-    "first_render": "sha256(render_job_id) over all four approved tracks; previous_variant_id is null",
-    "following_render": "exclude previous_variant_id, then sha256(render_job_id) over the three remaining approved tracks",
-    "explicit_repeat": "rejected",
-    "state": "variant_id from the last successful render, owned by the local render orchestrator",
-    "immediate_repeat_allowed": false,
-    "later_return_allowed": true,
+    "initial_state": "track 1 only (t1_music_239426); previous_variant_id is null",
+    "following_render": "exact successor in approved order 1→2→3→4→1, based only on the last successful render",
+    "explicit_selection": "must equal the exact expected successor; repeats and skips are rejected",
+    "state": "caller-owned persistent JSON advanced only after success/QC PASS",
+    "idempotency_ledger": "successful_render_jobs maps every successful render_job_id to its immutable music ID",
+    "old_success_replay": "idempotent even after one or more complete cycles",
+    "failure": "no state mutation",
+    "concurrency": "interprocess lock serializes callbacks; out-of-sequence success is rejected without mutation",
     "network_required": false
   },
   "invariants": {
@@ -228,45 +230,58 @@
     },
     "candidate_pytest": {
       "status": "PASS",
-      "passed": 104
+      "passed": 113,
+      "deselected": 0,
+      "golden_source": "verified local copy of the stable Release golden; ignored by Git"
     },
     "template_validator": {
-      "status": "PASS",
+      "status": "PASS_WITH_REQUIRED_GOLDEN",
       "checks_passed": 15,
-      "checks_total": 15
+      "checks_total": 15,
+      "require_golden_status": "PASS",
+      "require_golden_checks_passed": 15,
+      "require_golden_checks_total": 15
     },
     "music_validator": {
       "status": "PASS"
     },
     "engine_acceptance": {
-      "status": "PASS",
+      "status": "GOLDEN_CONFORMANCE_REVALIDATED",
       "renderer": "engine.special_menu_style.render_project",
-      "frames": 900,
-      "fps": 30,
-      "duration_s": 30.0
+      "expected_frames": 900,
+      "expected_fps": 30,
+      "expected_duration_s": 30.0,
+      "fresh_render_performed": false
     },
     "golden_render_binary_identity": {
       "status": "PASS",
-      "candidate_sha256": "784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7",
-      "golden_sha256": "784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7",
-      "bytes": 20276905
-    },
-    "casino_stress_test": {
-      "status": "PASS",
-      "renders": 10000,
-      "adjacent_repeats": 0,
-      "variant_counts": {
-        "t1_music_239426": 2480,
-        "t1_music_464383": 2486,
-        "t1_music_406552": 2515,
-        "t1_music_178406": 2519
-      }
+      "sha256": "784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7",
+      "bytes": 20276905,
+      "path": "output/output_T1_special_menu_reference_v3.mp4",
+      "git_ignored": true,
+      "keyframes_validated": 12,
+      "note": "Verified local copy of the stable golden; no Release replacement performed."
     },
     "music_bundle_reproducibility": {
       "status": "PASS",
       "two_consecutive_builds_byte_identical": true,
-      "sha256": "e06ca8b690e2bc6d3684ac92784567041d30cfa375308be117f2f1e1210daa8e",
-      "bytes": 2431804
+      "members": 21,
+      "duplicate_members": 0,
+      "embedded_contract_runtime_and_docs_match_checkout": true,
+      "sha256": "b8b447592831e9a89adab45a61b32ad1ff43a4a09c80a232c7d34278071704e5",
+      "bytes": 2436510
+    },
+    "strict_cycle_stress_test": {
+      "status": "PASS",
+      "renders": 10000,
+      "exact_order_repetitions": 2500,
+      "adjacent_repeats": 0,
+      "variant_counts": {
+        "t1_music_239426": 2500,
+        "t1_music_464383": 2500,
+        "t1_music_406552": 2500,
+        "t1_music_178406": 2500
+      }
     }
   },
   "files_changed": [
@@ -277,10 +292,12 @@
     "packages/t1-special-menu-music-v1/manifest.json",
     "packages/t1-special-menu-music-v1/t1-special-menu-afrobeat-amapiano-music-v1.zip",
     "packages/t1-special-menu-v1/manifest.json",
+    "reports/T1_FINAL_AUDIT_2026-11-18.md",
     "reports/T1_OTA_PREPARATION_NO_NETWORK_V1.md",
     "reports/T1_ota_preparation_no_network_v1_validation.json",
     "reports/T1_template_package_v1_validation.json",
     "schemas/T1_music_pack.schema.json",
+    "schemas/T1_music_selection_state.schema.json",
     "schemas/T1_template_package.schema.json",
     "tests/test_t1_music_pack.py",
     "tests/test_t1_template_package_v1.py",

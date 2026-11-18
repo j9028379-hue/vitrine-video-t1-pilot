@@ -13,8 +13,8 @@
   "artifacts": [
     {
       "path": "config/T1_special_menu_music_pack_v1_0_0.json",
-      "bytes": 11857,
-      "sha256": "786b3492647c6a64037a619f8ca217c8a0891e8ee8ae0e734bc4d9759fc15547"
+      "bytes": 11966,
+      "sha256": "74a204a263000a036fbd93676d67e9746b578780c9a94d6a12564af43756e0b4"
     },
     {
       "path": "audio/music/t1-afrobeat-amapiano-v1/t1_239426_120bpm_30s.mp3",

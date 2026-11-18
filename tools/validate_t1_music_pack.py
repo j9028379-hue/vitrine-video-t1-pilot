@@ -7,6 +7,7 @@ from jsonschema import Draft202012Validator, FormatChecker
 ROOT=Path(__file__).resolve().parents[1]
 CFG=ROOT/'config/T1_special_menu_music_pack_v1_0_0.json'
 SCHEMA=ROOT/'schemas/T1_music_pack.schema.json'
+STATE_SCHEMA=ROOT/'schemas/T1_music_selection_state.schema.json'
 MANIFEST=ROOT/'packages/t1-special-menu-music-v1/manifest.json'
 EXPECTED_IDS=[239426,464383,406552,178406]
 PUBLISHED_BASE={
@@ -23,9 +24,14 @@ def ffprobe(path:Path)->dict:
  return json.loads(subprocess.check_output(command,text=True))
 def validate()->bool:
  ok=True
- cfg=json.loads(CFG.read_text()); schema=json.loads(SCHEMA.read_text())
+ cfg=json.loads(CFG.read_text()); schema=json.loads(SCHEMA.read_text()); state_schema=json.loads(STATE_SCHEMA.read_text())
+ for label,candidate in [('music pack',schema),('selection state',state_schema)]:
+  try: Draft202012Validator.check_schema(candidate)
+  except Exception as error: ok=fail(f'{label} schema is invalid: {error}') and ok
  errors=sorted(Draft202012Validator(schema,format_checker=FormatChecker()).iter_errors(cfg),key=lambda e:list(e.path))
  for error in errors: ok=fail(f'schema {list(error.path)}: {error.message}') and ok
+ initial_state={'schema_version':'1.0.0','last_successful_music_id':None,'last_successful_render_job_id':None,'successful_render_count':0,'successful_render_jobs':{}}
+ for error in Draft202012Validator(state_schema).iter_errors(initial_state): ok=fail(f'initial state schema: {error.message}') and ok
  ids=[track['pixabay_id'] for track in cfg['tracks']]
  if cfg.get('audio_profile')!='afrobeat_amapiano': ok=fail('audio profile does not match the delivered Afrobeat/Amapiano catalogue') and ok
  if ids!=EXPECTED_IDS: ok=fail(f'approved IDs/order mismatch: {ids}') and ok
@@ -37,9 +43,13 @@ def validate()->bool:
  capture=ROOT/'capture-guide/consignes_T1.json'
  if not capture.is_file() or digest(capture)!=PUBLISHED_BASE['capture_guide_sha256']: ok=fail('capture guide changed') and ok
  selection=cfg.get('selection_contract',{})
+ if selection.get('allowed_variant_ids')!=[f't1_music_{item}' for item in EXPECTED_IDS]: ok=fail('strict rotation order differs from the approved four-track order') and ok
+ if selection.get('default_variant_id')!='t1_music_239426': ok=fail('initial state must select the first approved track') and ok
+ if selection.get('runtime_mode')!='production auto and explicit selection follow the strict approved order 1→2→3→4 after each successful render': ok=fail('runtime mode does not require the strict four-step cycle') and ok
  if not selection.get('no_immediate_repeat'): ok=fail('immediate music repetition is not forbidden') and ok
- if selection.get('automatic_candidate_count_after_first_render')!=3: ok=fail('automatic rotation must choose among the three tracks other than the previous one') and ok
- if selection.get('selection_state_scope')!='caller-owned persistent JSON' or selection.get('selection_state_schema')!='schemas/T1_music_selection_state.schema.json' or selection.get('state_update_policy')!='after_success_only' or selection.get('failed_render_state_policy')!='unchanged' or selection.get('network_required') is not False: ok=fail('music rotation must use the offline persistent after-success-only contract') and ok
+ if selection.get('explicit_selection_policy')!='exact_successor_only': ok=fail('explicit music selection can bypass the exact successor') and ok
+ if selection.get('automatic_candidate_count_after_first_render')!=1: ok=fail('automatic rotation must select exactly the next track in the strict four-step cycle') and ok
+ if selection.get('selection_state_scope')!='caller-owned persistent JSON' or selection.get('selection_state_schema')!='schemas/T1_music_selection_state.schema.json' or selection.get('idempotency_ledger_key')!='successful_render_jobs' or selection.get('state_update_policy')!='after_success_only' or selection.get('failed_render_state_policy')!='unchanged' or selection.get('network_required') is not False: ok=fail('music rotation must use the offline persistent idempotent after-success-only contract') and ok
  for track in cfg['tracks']:
   path=ROOT/track['file']; evidence=ROOT/track['evidence_file']
   if not path.is_file(): ok=fail(f'missing audio {path}') and ok; continue

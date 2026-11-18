@@ -145,12 +145,13 @@ def select_music_track(
     requested_variant_id: str = "auto",
     previous_variant_id: str | None = None,
 ) -> dict[str, Any]:
-    """Select one approved local track without immediately repeating the last one.
+    """Select one approved local track in the strict 1 → 2 → 3 → 4 cycle.
 
-    ``previous_variant_id`` is ``None`` only for the first render.  Afterwards the
+    ``previous_variant_id`` is ``None`` only for the first render. Afterwards the
     local orchestrator passes the variant ID from the last *successful* render.
-    Selection stays deterministic for idempotent retries of the same job and does
-    not need a server, network call or catalogue download.
+    Automatic retries of the same job therefore keep the same selection, while a
+    failed render leaves the cycle unchanged. No network or catalogue lookup is
+    required.
     """
     tracks = music_pack.get("tracks", [])
     selection = music_pack.get("selection_contract", {})
@@ -164,24 +165,36 @@ def select_music_track(
         raise ValueError("Le pack musical ne correspond pas au lot approuvé.")
     if any(track.get("content_id_registered") or not track.get("production_eligible") for track in tracks):
         raise ValueError("Toutes les variantes doivent être sans Content ID et prêtes pour la production.")
-    if selection.get("no_immediate_repeat") is not True:
-        raise ValueError("Le contrat musical doit interdire toute répétition immédiate.")
+    if (
+        selection.get("default_variant_id") != approved_ids[0]
+        or selection.get("runtime_mode") != "production auto and explicit selection follow the strict approved order 1→2→3→4 after each successful render"
+        or selection.get("no_immediate_repeat") is not True
+        or selection.get("automatic_candidate_count_after_first_render") != 1
+        or selection.get("explicit_selection_policy") != "exact_successor_only"
+        or selection.get("idempotency_ledger_key") != "successful_render_jobs"
+        or selection.get("state_update_policy") != "after_success_only"
+        or selection.get("failed_render_state_policy") != "unchanged"
+    ):
+        raise ValueError("Le contrat musical T1 doit imposer le cycle strict et avancer seulement après succès.")
 
     by_id = {track["id"]: track for track in tracks}
     if previous_variant_id is not None and previous_variant_id not in by_id:
         raise ValueError(f"Variante musicale précédente inconnue : {previous_variant_id}")
+    if not render_job_id:
+        raise ValueError("render_job_id est obligatoire pour une sélection cyclique reproductible.")
+    previous_index = -1 if previous_variant_id is None else approved_ids.index(previous_variant_id)
+    expected = tracks[(previous_index + 1) % len(tracks)]
     if requested_variant_id != "auto":
         if requested_variant_id not in by_id:
             raise ValueError(f"Variante musicale inconnue : {requested_variant_id}")
         if requested_variant_id == previous_variant_id:
             raise ValueError("Répétition musicale immédiate interdite.")
-        return by_id[requested_variant_id]
-    if not render_job_id:
-        raise ValueError("render_job_id est obligatoire pour une sélection automatique reproductible.")
-
-    candidates = [track for track in tracks if track["id"] != previous_variant_id]
-    digest = hashlib.sha256(render_job_id.encode("utf-8")).digest()
-    return candidates[int.from_bytes(digest[:8], "big") % len(candidates)]
+        if requested_variant_id != expected["id"]:
+            raise ValueError(
+                f"Le cycle T1 strict attend {expected['id']} ; {requested_variant_id} ne peut pas le contourner."
+            )
+        return expected
+    return expected
 
 
 MUSIC_STATE_SCHEMA_VERSION = "1.0.0"
@@ -195,6 +208,7 @@ def load_music_selection_state(state_path: Path) -> dict[str, Any]:
             "last_successful_music_id": None,
             "last_successful_render_job_id": None,
             "successful_render_count": 0,
+            "successful_render_jobs": {},
         }
     state = load_json(state_path)
     required = {
@@ -202,6 +216,7 @@ def load_music_selection_state(state_path: Path) -> dict[str, Any]:
         "last_successful_music_id",
         "last_successful_render_job_id",
         "successful_render_count",
+        "successful_render_jobs",
     }
     if set(state) != required or state["schema_version"] != MUSIC_STATE_SCHEMA_VERSION:
         raise ValueError("État de rotation musicale T1 invalide.")
@@ -210,8 +225,19 @@ def load_music_selection_state(state_path: Path) -> dict[str, Any]:
         raise ValueError("Dernière musique réussie T1 inconnue.")
     if not isinstance(state["successful_render_count"], int) or state["successful_render_count"] < 0:
         raise ValueError("Compteur de réussites musicales T1 invalide.")
+    receipts = state["successful_render_jobs"]
+    if (
+        not isinstance(receipts, dict)
+        or any(not isinstance(job_id, str) or not job_id or music_id not in allowed_ids - {None} for job_id, music_id in receipts.items())
+        or len(receipts) != state["successful_render_count"]
+    ):
+        raise ValueError("Registre idempotent des réussites musicales T1 invalide.")
     if (state["last_successful_music_id"] is None) != (state["last_successful_render_job_id"] is None):
         raise ValueError("L'état T1 doit renseigner ensemble la musique et le rendu réussis.")
+    if (state["successful_render_count"] == 0) != (state["last_successful_music_id"] is None):
+        raise ValueError("Un état T1 vide ne peut contenir aucune réussite, et inversement.")
+    if state["last_successful_render_job_id"] is not None and receipts.get(state["last_successful_render_job_id"]) != state["last_successful_music_id"]:
+        raise ValueError("La dernière réussite T1 doit être présente dans le registre idempotent.")
     return state
 
 
@@ -242,8 +268,8 @@ def _record_music_render_result_unlocked(
 ) -> dict[str, Any]:
     """Atomically advance rotation state after success and never after failure.
 
-    Replaying the same successful callback is idempotent. A different successful
-    job may not commit the same music as the immediately preceding success.
+    Replaying any previously recorded successful callback is idempotent. Every
+    new successful job must commit the exact successor of the last success.
     """
     if not render_job_id:
         raise ValueError("render_job_id est obligatoire pour enregistrer le résultat musical.")
@@ -253,17 +279,25 @@ def _record_music_render_result_unlocked(
     current = load_music_selection_state(state_path)
     if not succeeded:
         return current
-    if current["last_successful_render_job_id"] == render_job_id:
-        if current["last_successful_music_id"] != selected_music_id:
+    if render_job_id in current["successful_render_jobs"]:
+        if current["successful_render_jobs"][render_job_id] != selected_music_id:
             raise ValueError("Un même rendu réussi ne peut pas changer de musique après coup.")
         return current
-    if current["last_successful_music_id"] == selected_music_id:
-        raise ValueError("Répétition musicale immédiate interdite lors de la validation du succès.")
+    ordered_ids = list(music_pack["selection_contract"]["allowed_variant_ids"])
+    previous_id = current["last_successful_music_id"]
+    expected_id = ordered_ids[0] if previous_id is None else ordered_ids[(ordered_ids.index(previous_id) + 1) % len(ordered_ids)]
+    if selected_music_id != expected_id:
+        raise ValueError(
+            f"Le succès T1 doit respecter le cycle strict : {expected_id} attendu, {selected_music_id} reçu."
+        )
+    updated_jobs = dict(current["successful_render_jobs"])
+    updated_jobs[render_job_id] = selected_music_id
     updated = {
         "schema_version": MUSIC_STATE_SCHEMA_VERSION,
         "last_successful_music_id": selected_music_id,
         "last_successful_render_job_id": render_job_id,
         "successful_render_count": current["successful_render_count"] + 1,
+        "successful_render_jobs": updated_jobs,
     }
     state_path.parent.mkdir(parents=True, exist_ok=True)
     descriptor, temporary_name = tempfile.mkstemp(prefix=f".{state_path.name}.", dir=state_path.parent)

@@ -24,20 +24,31 @@ Le gabarit silencieux publié reste byte-identique. Son adaptateur accepte déso
 python3 -m adapter.t1_adapter \
   --enable-music \
   --render-job-id t1-production-0001 \
+  --music-state /var/lib/vitrine-video/t1-music-state.json \
   --music-variant auto \
-  --output /tmp/render_plan_music.json
+  --output /tmp/render_plan_music_0001.json
 ```
 
-La sélection peut être explicite avec l'un des identifiants suivants :
+Les identifiants approuvés forment un ordre fermé et immuable :
 
-- `t1_music_239426`
-- `t1_music_464383`
-- `t1_music_406552`
-- `t1_music_178406`
+1. `t1_music_239426`
+2. `t1_music_464383`
+3. `t1_music_406552`
+4. `t1_music_178406`
 
-Le mode `auto` conserve une sélection stable et reproductible, mais interdit désormais la répétition immédiate. Au premier rendu, il applique le hash du `render_job_id` aux quatre variantes. Pour chaque rendu suivant, l'orchestrateur fournit l'identifiant du dernier rendu **réussi**. Le chemin recommandé est un état JSON persistant passé par `--music-state`; l'adaptateur exclut `last_successful_music_id` puis applique le hash aux trois candidates restantes. Une piste peut donc revenir après une autre, jamais deux fois de suite. La règle s'applique aussi à un choix explicite, qui est rejeté s'il répète la piste précédente.
+L'état initial sélectionne exclusivement la piste 1. Après chaque rendu **réussi**, `auto` sélectionne exclusivement le successeur exact `1→2→3→4→1`; un échec ou un QC refusé laisse l'état inchangé. Un choix explicite ne sert qu'à confirmer ce même successeur : il ne peut ni répéter la piste précédente, ni sauter une position, y compris au premier rendu. Le chemin recommandé est l'état JSON persistant passé par `--music-state`, qui contient le dernier succès et le registre durable `successful_render_jobs`. Aucun hash de `render_job_id`, hasard ou autre sélection alternative n'intervient.
 
-Exemple pour un rendu suivant :
+Après le premier rendu, l'orchestrateur valide la piste 1 :
+
+```bash
+python3 tools/record_t1_music_result.py \
+  --state /var/lib/vitrine-video/t1-music-state.json \
+  --render-job-id t1-production-0001 \
+  --selected-music-id t1_music_239426 \
+  --status success
+```
+
+Le rendu suivant sélectionne alors la piste 2 :
 
 ```bash
 python3 -m adapter.t1_adapter \
@@ -48,17 +59,17 @@ python3 -m adapter.t1_adapter \
   --output /tmp/render_plan_music_0002.json
 ```
 
-Après le rendu, l'orchestrateur confirme explicitement le résultat :
+Après ce rendu, l'orchestrateur confirme explicitement la piste 2 :
 
 ```bash
 python3 tools/record_t1_music_result.py \
   --state /var/lib/vitrine-video/t1-music-state.json \
   --render-job-id t1-production-0002 \
-  --selected-music-id t1_music_178406 \
+  --selected-music-id t1_music_464383 \
   --status success
 ```
 
-Avec `--status failed`, le fichier d'état n'est ni créé ni modifié. Une réussite est écrite atomiquement sous verrou interprocessus, la répétition du même callback réussi est idempotente et deux validations concurrentes ne peuvent pas perdre une mise à jour. Le contrat de l'état est `schemas/T1_music_selection_state.schema.json`. Aucun champ n'est ajouté au commerçant, aucun réseau n'est requis et aucun code OTA/Cloudflare n'est introduit. Le plan produit référence le fichier local, son SHA-256, les images 0–900 et les paramètres de mixage.
+Avec `--status failed`, le fichier d'état n'est ni créé ni modifié. Une réussite est écrite atomiquement sous verrou interprocessus. Le registre `successful_render_jobs` rend idempotent le rejeu de **tout** succès déjà enregistré, même après un ou plusieurs tours complets; le même job ne peut jamais changer de piste. Deux validations concurrentes sont sérialisées et toute validation qui ne correspond pas au successeur attendu est rejetée sans mutation. Le contrat de l'état est `schemas/T1_music_selection_state.schema.json`. Aucun champ n'est ajouté au commerçant, aucun réseau n'est requis et aucun code OTA/Cloudflare n'est introduit. Le plan produit référence le fichier local, son SHA-256, les images 0–900 et les paramètres de mixage.
 
 ## Lecture Android hors ligne
 
@@ -93,6 +104,7 @@ Attachement au plan de rendu (exemple avec Match Out) :
 ```bash
 python3 -m adapter.t1_adapter \
   --enable-music \
+  --previous-music-variant t1_music_406552 \
   --music-variant t1_music_178406 \
   --enable-voice \
   --render-job-id t1-voice-demo-0001 \

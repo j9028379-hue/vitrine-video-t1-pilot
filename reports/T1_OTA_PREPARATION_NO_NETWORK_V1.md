@@ -1,4 +1,4 @@
-# T1 — préparation catalogue OTA sans réseau et rotation musicale non répétitive
+# T1 — préparation catalogue OTA sans réseau et rotation musicale stricte persistante
 
 **Statut : PASS — 18 novembre 2026**
 
@@ -56,16 +56,17 @@ Séparation volontaire des notions :
 
 Le schéma strict `schemas/T1_template_package.schema.json` impose ces valeurs. Aucun identifiant de variante, ID Pixabay ou nom de fichier musical n’apparaît dans le JSON canonique.
 
-## 3. Rotation musicale « casino »
+## 3. Rotation musicale stricte 1 → 2 → 3 → 4
 
 La rotation reste locale, hors ligne et reproductible :
 
-1. **Premier rendu** : `previous_variant_id` vaut `null`; le hash SHA-256 de `render_job_id` sélectionne une piste parmi les quatre variantes approuvées.
-2. **Rendus suivants** : l’orchestrateur local transmet le `variant_id` du dernier rendu réussi.
-3. L’adaptateur exclut cette piste, puis applique le hash aux trois candidates restantes.
-4. Un choix explicite égal à la piste précédente est rejeté.
-5. Une piste peut revenir après qu’une autre a été utilisée.
-6. L’état n’est validé qu’après la réussite du rendu, afin qu’une reprise idempotente garde le même choix.
+1. **État initial** : `previous_variant_id` vaut `null`; seule la piste 1 peut être sélectionnée et validée.
+2. **Rendus réussis suivants** : l’orchestrateur local conserve le `variant_id` du dernier rendu réussi.
+3. L’adaptateur choisit uniquement le successeur exact dans l’ordre 1 → 2 → 3 → 4 → 1.
+4. Un choix explicite ne peut que confirmer ce successeur exact; toute répétition ou tout saut est rejeté.
+5. Un échec ou un QC refusé ne fait jamais avancer l’état.
+6. Le registre durable `successful_render_jobs` rend idempotent le rejeu de tout ancien succès, même après un tour complet.
+7. Les callbacks concurrents sont sérialisés; tout succès hors séquence est rejeté sans mutation.
 
 Entrée CLI correspondante :
 
@@ -109,28 +110,31 @@ Le moteur canonique a accepté le JSON enrichi et a produit :
 - SHA-256 `784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7` ;
 - 20 276 905 octets.
 
-Ce rendu est **byte-identique au golden silencieux publié**. La modification de métadonnées n’entraîne donc aucune différence visuelle ou temporelle.
+Lors de la validation historique consignée, ce rendu était **byte-identique au golden silencieux publié**. Une copie locale vérifiée du golden stable a ensuite fermé le gate final : taille, SHA-256, caractéristiques vidéo et 12 images-clés ont été revalidés. Le fichier reste ignoré par Git.
 
 ## 6. Validations
 
 | Contrôle | Résultat |
 |---|---:|
-| Suite avant modification | 101 tests réussis |
-| Suite finale | **104 tests réussis** |
-| Validateur du paquet T1 | **15/15 PASS** |
+| Suite musicale ciblée | **20 tests réussis** |
+| Suite complète brute avec golden stable vérifié | **113/113 PASS** |
+| Validateur du paquet T1 avec `--require-golden` | **15/15 PASS** |
 | Validateur du pack musical | **PASS** |
-| Stress test de rotation | **10 000 rendus, 0 répétition adjacente** |
-| Présence des quatre variantes dans le stress test | **PASS** |
-| Rendu moteur vs golden | **SHA-256 et taille identiques** |
+| Stress test de rotation stricte | **10 000 rendus, ordre exact répété 2 500 fois** |
+| Répartition des quatre variantes | **2 500 chacune, 0 répétition adjacente** |
+| Rejeu d’un ancien succès après un tour complet | **PASS, aucune mutation** |
+| Concurrence hors séquence | **PASS, sérialisée et rejetée sans mutation** |
 | Rebuild du bundle musical | **deux builds byte-identiques** |
+| Golden MP4 historique | **PASS : 20 276 905 octets, SHA-256 et 12 images-clés revalidés** |
 
 Bundle candidat reconstruit :
 
 - `packages/t1-special-menu-music-v1/t1-special-menu-afrobeat-amapiano-music-v1.zip`
-- 2 431 804 octets
-- SHA-256 `e06ca8b690e2bc6d3684ac92784567041d30cfa375308be117f2f1e1210daa8e`
+- 2 436 510 octets
+- 21 membres, aucun doublon; code, schémas, configuration et documentation embarqués identiques au checkout
+- SHA-256 `b8b447592831e9a89adab45a61b32ad1ff43a4a09c80a232c7d34278071704e5`
 
-Ce bundle candidat n’écrase pas l’asset de la Release musicale stable.
+Ce bundle candidat n’écrase pas l’asset de la Release musicale stable. Le golden `output/output_T1_special_menu_reference_v3.mp4` a été fourni localement depuis le cache stable puis vérifié à 20 276 905 octets et au SHA-256 `784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7`. Il reste ignoré par Git; aucune Release n’est remplacée.
 
 ## 7. Fichiers concernés
 
@@ -140,6 +144,7 @@ Ce bundle candidat n’écrase pas l’asset de la Release musicale stable.
 - `schemas/T1_template_package.schema.json`
 - `config/T1_special_menu_music_pack_v1_0_0.json`
 - `schemas/T1_music_pack.schema.json`
+- `schemas/T1_music_selection_state.schema.json`
 
 ### Sélection et documentation
 
@@ -163,4 +168,4 @@ Ce bundle candidat n’écrase pas l’asset de la Release musicale stable.
 
 ## 8. Hors périmètre confirmé
 
-Aucun endpoint, worker, bucket, URL de catalogue, téléchargement dynamique, signature OTA, logique Cloudflare ou dépendance réseau n’a été ajouté. Le lot se limite aux métadonnées prêtes pour un futur catalogue et à la rotation locale sans répétition immédiate.
+Aucun endpoint, worker, bucket, URL de catalogue, téléchargement dynamique, signature OTA, logique Cloudflare ou dépendance réseau n’a été ajouté. Le lot se limite aux métadonnées prêtes pour un futur catalogue et à la rotation locale persistante strictement ordonnée.
