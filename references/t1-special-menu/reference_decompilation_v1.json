@@ -1,0 +1,414 @@
+{
+  "schema_version": "1.0.0",
+  "document_type": "observed_reference_decompilation",
+  "status": "reference_approved_by_product_owner",
+  "reference": {
+    "label": "T1-A — Special Menu | Food Template",
+    "platform": "TikTok",
+    "canonical_url": "https://www.tiktok.com/@ctemplate99/video/7525857155178712376",
+    "creator": "@ctemplate99",
+    "tiktok_video_id": "7525857155178712376",
+    "published_date": "2025-07-11",
+    "caption": "#CapCut Special Menu | Food Template #cinematic #food #restaurant #aesthetic #capcuttemplate",
+    "capcut_anchor_observed": {
+      "label": "CapCut · Animated text",
+      "capability_key": "text_animation;text_animation_7095603601355051521",
+      "note": "L'ancre publique expose l'effet de texte, pas le projet CapCut ni les noms de police internes."
+    },
+    "engagement_snapshot": {
+      "observed_at": "2026-11-18T13:19:23+01:00",
+      "plays": 215348,
+      "likes": 2018,
+      "comments": 12,
+      "shares": 764,
+      "downloads": 837
+    },
+    "analyzed_copy": {
+      "width": 576,
+      "height": 1024,
+      "fps": 30.0,
+      "frames": 570,
+      "duration_s": 19.0,
+      "sha256": "2e73cd3192e1b5b347703d87cf06956d549343ba76127c192f9cf533592a2d1d",
+      "bytes": 1965092,
+      "storage_policy": "not_committed_third_party_media",
+      "reason": "Le MP4 tiers reste hors du dépôt; seules les mesures, le hash et l'architecture dérivée sont versionnés."
+    }
+  },
+  "methodology": {
+    "frame_decode": "OpenCV sequential decode of all 570 frames",
+    "cut_detection": "adjacent-frame MAD + HSV histogram Bhattacharyya distance + manual frame-strip confirmation",
+    "motion_detection": "Farnebäck optical flow on 144x256 analysis proxies",
+    "audio_beat_detection": "librosa onset envelope and beat tracker on the public original sound",
+    "font_identification": "pixel-shape comparison against portable SIL-OFL candidates; flattened MP4 contains no editable font metadata",
+    "color_measurement": "per-frame luma percentiles, HSV saturation, Lab chroma and mean R-B balance"
+  },
+  "video_structure": {
+    "editing_grammar": "Nine food action shots. Eight single-frame hard cuts on musical phrase boundaries. No crossfade, wipe, portal, glitch, whip, barcode or double exposure.",
+    "shot_count": 9,
+    "hard_cut_frames": [
+      51,
+      113,
+      176,
+      240,
+      303,
+      366,
+      430,
+      492
+    ],
+    "hard_cut_times_s": [
+      1.7,
+      3.7667,
+      5.8667,
+      8.0,
+      10.1,
+      12.2,
+      14.3333,
+      16.4
+    ],
+    "outro_fade": {
+      "start_f": 562,
+      "end_f_exclusive": 570,
+      "duration_f": 8,
+      "duration_s": 0.2667,
+      "target": "black"
+    },
+    "average_shot_duration_s": 2.0778,
+    "key_finding": "Le dynamisme vient des coupes franches, des gestes culinaires continus et de la cohérence de lumière/couleur — pas d'un effet de transition spectaculaire."
+  },
+  "beat_analysis": {
+    "detected_bpm": 114.84375,
+    "beat_period_s": 0.52245,
+    "cut_period_beats": 4,
+    "cut_pattern": "one hard cut every four beats after the opening phrase",
+    "detected_beat_times_s": [
+      0.0813,
+      0.6385,
+      1.2074,
+      1.7183,
+      2.2407,
+      2.7748,
+      3.2972,
+      3.8197,
+      4.3537,
+      4.8762,
+      5.4102,
+      5.9211,
+      6.4668,
+      6.9892,
+      7.5117,
+      8.0341,
+      8.5682,
+      9.0906,
+      9.6131,
+      10.1471,
+      10.658,
+      11.192,
+      11.7261,
+      12.2485,
+      12.7826,
+      13.2934,
+      13.8391,
+      14.3499,
+      14.884,
+      15.4064,
+      15.9289,
+      16.4629,
+      17.0202,
+      17.5311
+    ],
+    "mapping_rule_for_120_bpm": "four beats become exactly 2.000 seconds / 60 frames"
+  },
+  "observed_shots": [
+    {
+      "id": "R01",
+      "start_f": 0,
+      "end_f_exclusive": 51,
+      "duration_f": 51,
+      "duration_s": 1.7,
+      "content": "dark plated dish; sauce poured from a white pitcher",
+      "framing": "close vertical hero",
+      "action": "continuous pour",
+      "text": "title lockup + micro signature",
+      "transition_out": "hard_cut"
+    },
+    {
+      "id": "R02",
+      "start_f": 51,
+      "end_f_exclusive": 113,
+      "duration_f": 62,
+      "duration_s": 2.0667,
+      "content": "rice and glazed protein",
+      "framing": "three-quarter close-up",
+      "action": "chopsticks lift/touch food",
+      "text": null,
+      "transition_out": "hard_cut"
+    },
+    {
+      "id": "R03",
+      "start_f": 113,
+      "end_f_exclusive": 176,
+      "duration_f": 63,
+      "duration_s": 2.1,
+      "content": "pizza",
+      "framing": "low close-up",
+      "action": "oil poured above pizza",
+      "text": null,
+      "transition_out": "hard_cut"
+    },
+    {
+      "id": "R04",
+      "start_f": 176,
+      "end_f_exclusive": 240,
+      "duration_f": 64,
+      "duration_s": 2.1333,
+      "content": "rolled plated dish with salad",
+      "framing": "macro close-up",
+      "action": "subtle camera/food motion",
+      "text": null,
+      "transition_out": "hard_cut"
+    },
+    {
+      "id": "R05",
+      "start_f": 240,
+      "end_f_exclusive": 303,
+      "duration_f": 63,
+      "duration_s": 2.1,
+      "content": "eggs and greens on bread",
+      "framing": "table-level close-up",
+      "action": "sauce spooned over plate",
+      "text": null,
+      "transition_out": "hard_cut"
+    },
+    {
+      "id": "R06",
+      "start_f": 303,
+      "end_f_exclusive": 366,
+      "duration_f": 63,
+      "duration_s": 2.1,
+      "content": "poached eggs on toast",
+      "framing": "tight plate close-up",
+      "action": "knife opens yolk",
+      "text": null,
+      "transition_out": "hard_cut"
+    },
+    {
+      "id": "R07",
+      "start_f": 366,
+      "end_f_exclusive": 430,
+      "duration_f": 64,
+      "duration_s": 2.1333,
+      "content": "warm spiced drink",
+      "framing": "still-life close-up",
+      "action": "red liquid poured into glass",
+      "text": null,
+      "transition_out": "hard_cut"
+    },
+    {
+      "id": "R08",
+      "start_f": 430,
+      "end_f_exclusive": 492,
+      "duration_f": 62,
+      "duration_s": 2.0667,
+      "content": "sliced steak and vegetables",
+      "framing": "top three-quarter",
+      "action": "hand finishes plating",
+      "text": null,
+      "transition_out": "hard_cut"
+    },
+    {
+      "id": "R09",
+      "start_f": 492,
+      "end_f_exclusive": 562,
+      "duration_f": 70,
+      "duration_s": 2.3333,
+      "content": "salmon and potatoes",
+      "framing": "side close-up",
+      "action": "seasoning falls from hand",
+      "text": null,
+      "transition_out": "fade_to_black_8f"
+    }
+  ],
+  "transition_forensics": {
+    "hard_cut_evidence": [
+      {
+        "at_f": 51,
+        "mad": 50.7778,
+        "hsv_hist_distance": 0.50136
+      },
+      {
+        "at_f": 113,
+        "mad": 74.5042,
+        "hsv_hist_distance": 0.53894
+      },
+      {
+        "at_f": 176,
+        "mad": 85.6293,
+        "hsv_hist_distance": 0.5508
+      },
+      {
+        "at_f": 240,
+        "mad": 73.0527,
+        "hsv_hist_distance": 0.56292
+      },
+      {
+        "at_f": 303,
+        "mad": 53.2459,
+        "hsv_hist_distance": 0.46578
+      },
+      {
+        "at_f": 366,
+        "mad": 66.5864,
+        "hsv_hist_distance": 0.55102
+      },
+      {
+        "at_f": 430,
+        "mad": 68.9808,
+        "hsv_hist_distance": 0.55906
+      },
+      {
+        "at_f": 492,
+        "mad": 78.831,
+        "hsv_hist_distance": 0.28924
+      }
+    ],
+    "frame_rule": "Last frame of outgoing shot is followed directly by first frame of incoming shot; transition duration is 0 frames.",
+    "visual_match_rules": [
+      "cut on a visible food action",
+      "alternate angle/scale",
+      "keep the dish large in frame",
+      "maintain warm highlights and dark surroundings",
+      "avoid two static actions consecutively"
+    ]
+  },
+  "title_forensics": {
+    "active_shot": "R01",
+    "first_visible_f": 4,
+    "full_reveal_f": 24,
+    "hold_until_f": 50,
+    "animation": {
+      "type": "left_to_right_linear_mask_reveal",
+      "duration_f": 20,
+      "duration_s": 0.6667,
+      "fade": false,
+      "scale_animation": false,
+      "bounce": false
+    },
+    "line_1": {
+      "observed_text": "Special",
+      "role": "display_serif",
+      "font_pixel_match": "DM Serif Display Regular",
+      "confidence": 0.93,
+      "bbox_normalized_approx": {
+        "x": 0.234,
+        "y": 0.244,
+        "w": 0.478,
+        "h": 0.083
+      }
+    },
+    "line_2": {
+      "observed_text": "Menu",
+      "role": "light_geometric_sans",
+      "font_pixel_match": "Montserrat Light",
+      "confidence": 0.9,
+      "tracking_em_approx": 0.15,
+      "bbox_normalized_approx": {
+        "x": 0.292,
+        "y": 0.329,
+        "w": 0.416,
+        "h": 0.071
+      }
+    },
+    "alignment": "center",
+    "color": "#FBF7EE",
+    "shadow": "none or sub-pixel soft dark edge only",
+    "important_limitation": "The exact editable font names cannot be extracted from a flattened MP4. The selected OFL files are the closest pixel-shape matches and are portable to Python and Android."
+  },
+  "look_forensics": {
+    "description": "warm low-key food cinema with deep blacks, warm amber highlights, restrained cool/teal surroundings, selective food saturation and shallow-depth source footage",
+    "all_frames_median": {
+      "luma_mean_0_255": 64.84,
+      "luma_p5_0_255": 5.0,
+      "luma_p95_0_255": 196.0,
+      "hsv_saturation_mean_0_255": 136.65,
+      "mean_red_minus_blue": 29.86,
+      "lab_a_minus_neutral": 4.8,
+      "lab_b_minus_neutral": 10.81
+    },
+    "per_shot_medians": [
+      {
+        "id": "R01",
+        "luma_mean": 48.45,
+        "p5": 3.0,
+        "p95": 174.0,
+        "sat": 156.29,
+        "r_minus_b": 29.4
+      },
+      {
+        "id": "R02",
+        "luma_mean": 51.93,
+        "p5": 5.0,
+        "p95": 135.0,
+        "sat": 134.27,
+        "r_minus_b": 27.59
+      },
+      {
+        "id": "R03",
+        "luma_mean": 90.58,
+        "p5": 4.0,
+        "p95": 201.0,
+        "sat": 136.03,
+        "r_minus_b": 37.32
+      },
+      {
+        "id": "R04",
+        "luma_mean": 78.7,
+        "p5": 9.0,
+        "p95": 187.0,
+        "sat": 92.47,
+        "r_minus_b": 20.09
+      },
+      {
+        "id": "R05",
+        "luma_mean": 26.92,
+        "p5": 2.0,
+        "p95": 114.85,
+        "sat": 155.66,
+        "r_minus_b": 16.85
+      },
+      {
+        "id": "R06",
+        "luma_mean": 64.64,
+        "p5": 3.0,
+        "p95": 205.0,
+        "sat": 172.19,
+        "r_minus_b": 38.7
+      },
+      {
+        "id": "R07",
+        "luma_mean": 90.43,
+        "p5": 15.0,
+        "p95": 209.0,
+        "sat": 144.48,
+        "r_minus_b": 59.55
+      },
+      {
+        "id": "R08",
+        "luma_mean": 58.46,
+        "p5": 5.0,
+        "p95": 196.0,
+        "sat": 127.4,
+        "r_minus_b": 29.59
+      },
+      {
+        "id": "R09",
+        "luma_mean": 85.64,
+        "p5": 7.0,
+        "p95": 200.0,
+        "sat": 125.16,
+        "r_minus_b": 47.49
+      }
+    ],
+    "not_a_single_filter_warning": "Part of the look comes from lighting, lens depth, food styling and source exposure. A grade can harmonize merchant clips but cannot manufacture missing light, focus or appetizing action."
+  }
+}
