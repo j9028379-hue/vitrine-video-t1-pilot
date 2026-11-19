@@ -1,8 +1,12 @@
 import hashlib, json, subprocess, sys
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import pytest
 from jsonschema import Draft202012Validator, FormatChecker
-from adapter.t1_adapter import attach_music_track, attach_voice_track, build_render_plan, select_music_track
+from adapter.t1_adapter import (
+ load_music_selection_state, record_music_render_result, select_music_track_from_state,
+ attach_music_track, attach_voice_track, build_render_plan, select_music_track,
+)
 ROOT=Path(__file__).resolve().parents[1]
 CFG=ROOT/'config/T1_special_menu_music_pack_v1_0_0.json'
 VOICE_CFG=ROOT/'config/T1_special_menu_voice_mix_v1_0_0.json'
@@ -56,6 +60,56 @@ def test_explicit_selection_cannot_bypass_the_no_repeat_rule():
   select_music_track(config,render_job_id='job',previous_variant_id='t1_music_573944')
  chosen=select_music_track(config,render_job_id='job',requested_variant_id='t1_music_239426',previous_variant_id=previous)
  assert chosen['id']=='t1_music_239426'
+
+
+def test_persistent_state_advances_only_after_success_and_survives_reload(tmp_path):
+ config=load_config(); state_path=tmp_path/'music-state.json'
+ first=select_music_track_from_state(config,render_job_id='state-job-1',state_path=state_path)
+ failed=record_music_render_result(config,state_path=state_path,render_job_id='state-job-1',selected_music_id=first['id'],succeeded=False)
+ assert failed['last_successful_music_id'] is None and not state_path.exists()
+ committed=record_music_render_result(config,state_path=state_path,render_job_id='state-job-1',selected_music_id=first['id'],succeeded=True)
+ assert committed['successful_render_count']==1
+ assert load_music_selection_state(state_path)==committed
+ second=select_music_track_from_state(config,render_job_id='state-job-2',state_path=state_path)
+ assert second['id']!=first['id']
+ unchanged=record_music_render_result(config,state_path=state_path,render_job_id='state-job-2',selected_music_id=second['id'],succeeded=False)
+ assert unchanged==committed and load_music_selection_state(state_path)==committed
+
+
+def test_persistent_state_rejects_explicit_repeat_and_success_callback_is_idempotent(tmp_path):
+ config=load_config(); state_path=tmp_path/'music-state.json'; selected=config['tracks'][0]['id']
+ first=record_music_render_result(config,state_path=state_path,render_job_id='success-1',selected_music_id=selected,succeeded=True)
+ assert record_music_render_result(config,state_path=state_path,render_job_id='success-1',selected_music_id=selected,succeeded=True)==first
+ with pytest.raises(ValueError,match='immédiate interdite'):
+  select_music_track_from_state(config,render_job_id='success-2',state_path=state_path,requested_variant_id=selected)
+ with pytest.raises(ValueError,match='immédiate interdite'):
+  record_music_render_result(config,state_path=state_path,render_job_id='success-2',selected_music_id=selected,succeeded=True)
+ schema=json.loads((ROOT/'schemas/T1_music_selection_state.schema.json').read_text())
+ Draft202012Validator(schema).validate(load_music_selection_state(state_path))
+
+
+def test_concurrent_duplicate_success_is_serialized_and_rejected_once(tmp_path):
+ config=load_config(); state_path=tmp_path/'music-state.json'; selected=config['tracks'][0]['id']
+ def commit(job_id):
+  try:
+   record_music_render_result(config,state_path=state_path,render_job_id=job_id,selected_music_id=selected,succeeded=True)
+   return 'committed'
+  except ValueError:
+   return 'rejected'
+ with ThreadPoolExecutor(max_workers=2) as executor:
+  outcomes=list(executor.map(commit,['concurrent-t1-1','concurrent-t1-2']))
+ assert sorted(outcomes)==['committed','rejected']
+ state=load_music_selection_state(state_path)
+ assert state['last_successful_music_id']==selected and state['successful_render_count']==1
+
+
+def test_persistent_state_rejects_unknown_last_success(tmp_path):
+ state_path=tmp_path/'music-state.json'
+ state_path.write_text(json.dumps({'schema_version':'1.0.0','last_successful_music_id':'t1_music_573944','last_successful_render_job_id':'bad-job','successful_render_count':1}))
+ with pytest.raises(ValueError,match='inconnue'):
+  load_music_selection_state(state_path)
+
+
 def test_adapter_attaches_local_music_without_changing_merchant_fields():
  config=load_config()
  v12=json.loads((ROOT/'specs/T1_ENGINEERING_SPEC_V1_2.json').read_text())
@@ -68,7 +122,9 @@ def test_adapter_attaches_local_music_without_changing_merchant_fields():
  assert plan['audio_track']['pixabay_id']==178406
  assert plan['audio_track']['file'].endswith('t1_178406_120bpm_30s.mp3')
  assert plan['audio_track']['previous_variant_id'] is None
+ assert plan['audio_track']['last_successful_music_id'] is None
  assert plan['audio_track']['no_immediate_repeat'] is True
+ assert plan['audio_track']['state_update_policy']=='after_success_only'
  assert plan['audio_track']['network_required'] is False
  assert plan['audio_track']['start_f']==0 and plan['audio_track']['end_f_exclusive']==900
 def test_voice_mix_contract_matches_its_schema():

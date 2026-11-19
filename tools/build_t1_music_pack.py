@@ -14,8 +14,8 @@ def main()->None:
  subprocess.run([sys.executable,str(ROOT/'tools/validate_t1_music_pack.py')],cwd=ROOT,check=True)
  manifest=json.loads(PKG.read_text())
  files=[
-  PKG,ROOT/'schemas/T1_music_pack.schema.json',ROOT/'adapter/t1_adapter.py',
-  ROOT/'tools/build_t1_music_pack.py',ROOT/'tools/validate_t1_music_pack.py',ROOT/'tools/refresh_t1_music_manifest.py',
+  PKG,ROOT/'schemas/T1_music_pack.schema.json',ROOT/'schemas/T1_music_selection_state.schema.json',ROOT/'adapter/t1_adapter.py',
+  ROOT/'tools/build_t1_music_pack.py',ROOT/'tools/validate_t1_music_pack.py',ROOT/'tools/refresh_t1_music_manifest.py',ROOT/'tools/record_t1_music_result.py',
   ROOT/'docs/T1_MUSIC_INTEGRATION.md',
  ]
  files += [ROOT/artifact['path'] for artifact in manifest['artifacts']]

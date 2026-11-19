@@ -39,7 +39,7 @@ def validate()->bool:
  selection=cfg.get('selection_contract',{})
  if not selection.get('no_immediate_repeat'): ok=fail('immediate music repetition is not forbidden') and ok
  if selection.get('automatic_candidate_count_after_first_render')!=3: ok=fail('automatic rotation must choose among the three tracks other than the previous one') and ok
- if selection.get('selection_state_scope')!='local render orchestrator' or selection.get('network_required') is not False: ok=fail('music rotation must remain local and offline') and ok
+ if selection.get('selection_state_scope')!='caller-owned persistent JSON' or selection.get('selection_state_schema')!='schemas/T1_music_selection_state.schema.json' or selection.get('state_update_policy')!='after_success_only' or selection.get('failed_render_state_policy')!='unchanged' or selection.get('network_required') is not False: ok=fail('music rotation must use the offline persistent after-success-only contract') and ok
  for track in cfg['tracks']:
   path=ROOT/track['file']; evidence=ROOT/track['evidence_file']
   if not path.is_file(): ok=fail(f'missing audio {path}') and ok; continue

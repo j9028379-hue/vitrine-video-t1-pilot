@@ -5,6 +5,12 @@ on:
     branches:
       - feat/t1-special-menu-reference-v1
   workflow_dispatch:
+    inputs:
+      publish_release:
+        description: Publier explicitement la Release historique T1
+        required: true
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -154,6 +160,7 @@ jobs:
           retention-days: 30
 
       - name: Write public release notes
+        if: github.event_name == 'workflow_dispatch' && inputs.publish_release
         run: |
           cat > release-notes.md <<'EOF'
           # T1 — montage complet avec voix française
@@ -171,12 +178,14 @@ jobs:
           EOF
 
       - name: Publish the public GitHub Release and direct-download asset
+        if: github.event_name == 'workflow_dispatch' && inputs.publish_release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           TAG='t1-complete-voice-video-v1.0.0'
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release delete "$TAG" --cleanup-tag --yes
+            echo "La Release $TAG existe déjà : refus de l’écraser." >&2
+            exit 1
           fi
           gh release create "$TAG" \
             release/VIDEO_T1_MONTAGE_COMPLET_A_VALIDER.mp4 \

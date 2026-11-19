@@ -35,7 +35,7 @@ La sélection peut être explicite avec l'un des identifiants suivants :
 - `t1_music_406552`
 - `t1_music_178406`
 
-Le mode `auto` conserve une sélection stable et reproductible, mais interdit désormais la répétition immédiate. Au premier rendu, il applique le hash du `render_job_id` aux quatre variantes. Pour chaque rendu suivant, l'orchestrateur local fournit le `variant_id` du dernier rendu **réussi** via `previous_variant_id`; l'adaptateur exclut cette piste puis applique le hash aux trois candidates restantes. Une piste peut donc revenir après une autre, jamais deux fois de suite. La règle s'applique aussi à un choix explicite, qui est rejeté s'il répète la piste précédente.
+Le mode `auto` conserve une sélection stable et reproductible, mais interdit désormais la répétition immédiate. Au premier rendu, il applique le hash du `render_job_id` aux quatre variantes. Pour chaque rendu suivant, l'orchestrateur fournit l'identifiant du dernier rendu **réussi**. Le chemin recommandé est un état JSON persistant passé par `--music-state`; l'adaptateur exclut `last_successful_music_id` puis applique le hash aux trois candidates restantes. Une piste peut donc revenir après une autre, jamais deux fois de suite. La règle s'applique aussi à un choix explicite, qui est rejeté s'il répète la piste précédente.
 
 Exemple pour un rendu suivant :
 
@@ -43,12 +43,22 @@ Exemple pour un rendu suivant :
 python3 -m adapter.t1_adapter \
   --enable-music \
   --render-job-id t1-production-0002 \
-  --previous-music-variant t1_music_178406 \
+  --music-state /var/lib/vitrine-video/t1-music-state.json \
   --music-variant auto \
   --output /tmp/render_plan_music_0002.json
 ```
 
-L'état se limite à cet identifiant local et n'est validé qu'après la réussite d'un rendu. Aucun champ n'est ajouté au commerçant, aucun réseau n'est requis et aucun code OTA/Cloudflare n'est introduit. Le plan produit référence le fichier local, son SHA-256, les images 0–900 et les paramètres de mixage.
+Après le rendu, l'orchestrateur confirme explicitement le résultat :
+
+```bash
+python3 tools/record_t1_music_result.py \
+  --state /var/lib/vitrine-video/t1-music-state.json \
+  --render-job-id t1-production-0002 \
+  --selected-music-id t1_music_178406 \
+  --status success
+```
+
+Avec `--status failed`, le fichier d'état n'est ni créé ni modifié. Une réussite est écrite atomiquement sous verrou interprocessus, la répétition du même callback réussi est idempotente et deux validations concurrentes ne peuvent pas perdre une mise à jour. Le contrat de l'état est `schemas/T1_music_selection_state.schema.json`. Aucun champ n'est ajouté au commerçant, aucun réseau n'est requis et aucun code OTA/Cloudflare n'est introduit. Le plan produit référence le fichier local, son SHA-256, les images 0–900 et les paramètres de mixage.
 
 ## Lecture Android hors ligne
 
@@ -93,7 +103,7 @@ Le QC automatique mesure la durée, les LUFS, le true peak WAV/AAC, l'absence d'
 
 ## Rendu final sur GitHub Actions
 
-Le workflow `.github/workflows/render_t1_complete_voice.yml` exécute sur `ubuntu-latest` le moteur canonique `engine.special_menu_style.render_project`, vérifie les trois polices enregistrées, reconstruit le master visuel, génère les quatre mixes, exécute les tests, puis publie la variante Match Out `178406` dans la Release publique `t1-complete-voice-video-v1.0.0`.
+Le workflow `.github/workflows/render_t1_complete_voice.yml` exécute sur `ubuntu-latest` le moteur canonique `engine.special_menu_style.render_project`, vérifie les trois polices enregistrées, reconstruit le master visuel, génère les quatre mixes et exécute les tests. Sur `push`, il publie uniquement l’artefact Actions. La Release historique `t1-complete-voice-video-v1.0.0` n’est envisagée que par lancement manuel avec `publish_release=true` et le workflow refuse désormais de l’écraser si elle existe.
 
 Le fichier principal publié est `VIDEO_T1_MONTAGE_COMPLET_A_VALIDER.mp4`. Le rendu local n'est qu'un contrôle préalable ; le livrable de validation doit provenir de cette exécution serveur.
 

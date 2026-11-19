@@ -35,7 +35,7 @@
     "selection_contract": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["variant_count", "merchant_field_added", "allowed_variant_ids", "default_variant_id", "runtime_mode", "no_immediate_repeat", "previous_variant_id_contract", "automatic_candidate_count_after_first_render", "selection_state_scope", "all_tracks_production_eligible", "network_required"],
+      "required": ["variant_count", "merchant_field_added", "allowed_variant_ids", "default_variant_id", "runtime_mode", "no_immediate_repeat", "previous_variant_id_contract", "automatic_candidate_count_after_first_render", "selection_state_scope", "selection_state_schema", "state_update_policy", "failed_render_state_policy", "all_tracks_production_eligible", "network_required"],
       "properties": {
         "variant_count": {"const": 4},
         "merchant_field_added": {"const": false},
@@ -45,7 +45,10 @@
         "no_immediate_repeat": {"const": true},
         "previous_variant_id_contract": {"const": "null for first render; otherwise variant_id from last successful render"},
         "automatic_candidate_count_after_first_render": {"const": 3},
-        "selection_state_scope": {"const": "local render orchestrator"},
+        "selection_state_scope": {"const": "caller-owned persistent JSON"},
+        "selection_state_schema": {"const": "schemas/T1_music_selection_state.schema.json"},
+        "state_update_policy": {"const": "after_success_only"},
+        "failed_render_state_policy": {"const": "unchanged"},
         "all_tracks_production_eligible": {"const": true},
         "network_required": {"const": false}
       }
