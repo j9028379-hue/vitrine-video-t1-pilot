@@ -1,0 +1,797 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vitrine.video/schemas/T1_template_package.schema.json",
+  "title": "Vitrine Vidéo — paquet de gabarit T1",
+  "description": "Contrat canonique du gabarit T1, indépendant de l'interface et du serveur.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "template_id",
+    "version",
+    "audio_profile",
+    "package_phase",
+    "id",
+    "display_name",
+    "status",
+    "approved_reference",
+    "non_destructive_contract",
+    "canvas",
+    "cadence",
+    "scene_capture_contract",
+    "merchant_input_contract",
+    "fonts",
+    "look_pipeline",
+    "edit_timeline",
+    "speech_continuity",
+    "graphics",
+    "fallbacks",
+    "android_media3_contract",
+    "quality_gates",
+    "revision",
+    "price_format",
+    "impact_transition_system",
+    "premium_transition_choreography",
+    "end_lockup_consistency",
+    "implementation_handoff",
+    "media_ingest_contract",
+    "execution_contract",
+    "render_protocol",
+    "error_catalog",
+    "conformance_contract",
+    "audio_policy"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "../schemas/T1_template_package.schema.json"
+    },
+    "schema_version": {
+      "const": "2.1.0"
+    },
+    "template_id": {
+      "const": "T1"
+    },
+    "version": {
+      "const": "1.0.0"
+    },
+    "audio_profile": {
+      "const": "afrobeat_amapiano",
+      "description": "Identifiant sémantique d’ambiance; ce n’est ni un nom de fichier ni une version de catalogue musical."
+    },
+    "package_phase": {
+      "const": "visual_capture_assembly_complete_audio_deferred"
+    },
+    "id": {
+      "const": "restaurants_maquis_T1_special_menu_v1_0_0"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "const": "stable_silent_template_contract"
+    },
+    "approved_reference": {
+      "const": "references/t1-special-menu/reference_decompilation_v1.json"
+    },
+    "non_destructive_contract": {
+      "type": "object",
+      "required": [
+        "main_branch_must_not_change",
+        "capture_guide_unchanged",
+        "existing_specs_unchanged",
+        "existing_releases_unchanged"
+      ]
+    },
+    "canvas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height",
+        "fps",
+        "frames",
+        "duration_s",
+        "frame_interval_ms"
+      ],
+      "properties": {
+        "width": {
+          "const": 720
+        },
+        "height": {
+          "const": 1280
+        },
+        "fps": {
+          "const": 30
+        },
+        "frames": {
+          "const": 900
+        },
+        "duration_s": {
+          "const": 30.0
+        },
+        "frame_interval_ms": {
+          "type": "number",
+          "minimum": 33.333,
+          "maximum": 33.334
+        }
+      }
+    },
+    "cadence": {
+      "type": "object",
+      "required": [
+        "bpm",
+        "beat_frames"
+      ],
+      "properties": {
+        "bpm": {
+          "const": 120
+        },
+        "beat_frames": {
+          "const": 15
+        }
+      }
+    },
+    "scene_capture_contract": {
+      "type": "object",
+      "required": [
+        "source",
+        "must_remain_byte_identical",
+        "voice_allowed_all_scenes",
+        "speech_subtitles",
+        "scenes",
+        "stable_ui_screen_count"
+      ],
+      "properties": {
+        "source": {
+          "const": "capture-guide/consignes_T1.json"
+        },
+        "must_remain_byte_identical": {
+          "const": true
+        },
+        "voice_allowed_all_scenes": {
+          "const": true
+        },
+        "speech_subtitles": {
+          "const": false
+        },
+        "stable_ui_screen_count": {
+          "const": 12
+        },
+        "scenes": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/sceneS1"
+            },
+            {
+              "$ref": "#/$defs/sceneS2"
+            },
+            {
+              "$ref": "#/$defs/sceneS3"
+            },
+            {
+              "$ref": "#/$defs/sceneS4"
+            }
+          ]
+        }
+      }
+    },
+    "merchant_input_contract": {
+      "type": "object",
+      "required": [
+        "new_required_fields",
+        "fields"
+      ],
+      "properties": {
+        "new_required_fields": {
+          "const": 0
+        },
+        "fields": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6
+        }
+      }
+    },
+    "fonts": {
+      "type": "object",
+      "required": [
+        "display_serif",
+        "light_sans",
+        "utility",
+        "font_load_failure"
+      ]
+    },
+    "look_pipeline": {
+      "type": "object",
+      "required": [
+        "id",
+        "working_space",
+        "steps"
+      ],
+      "properties": {
+        "steps": {
+          "type": "array",
+          "minItems": 9
+        }
+      }
+    },
+    "edit_timeline": {
+      "type": "object",
+      "required": [
+        "timebase",
+        "shots",
+        "hard_cut_frames",
+        "crossfades",
+        "speed_ramps",
+        "freeze_frames"
+      ],
+      "properties": {
+        "shots": {
+          "type": "array",
+          "minItems": 14,
+          "maxItems": 14
+        },
+        "hard_cut_frames": {
+          "const": [
+            60,
+            120,
+            180,
+            240,
+            300,
+            360,
+            420,
+            480,
+            540,
+            630,
+            690,
+            750,
+            810
+          ]
+        },
+        "crossfades": {
+          "maxItems": 0
+        },
+        "speed_ramps": {
+          "maxItems": 0
+        },
+        "freeze_frames": {
+          "maxItems": 0
+        }
+      }
+    },
+    "speech_continuity": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "graphics": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7
+    },
+    "fallbacks": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "android_media3_contract": {
+      "type": "object",
+      "required": [
+        "composition",
+        "color",
+        "text",
+        "decoder_budget"
+      ]
+    },
+    "quality_gates": {
+      "type": "array",
+      "minItems": 22,
+      "uniqueItems": true
+    },
+    "revision": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "price_format": {
+      "type": "object",
+      "required": [
+        "currency",
+        "single_line_lockup",
+        "example_output"
+      ],
+      "properties": {
+        "currency": {
+          "const": "FCFA"
+        },
+        "single_line_lockup": {
+          "const": true
+        },
+        "example_output": {
+          "const": "2 500 FCFA"
+        }
+      }
+    },
+    "impact_transition_system": {
+      "type": "object"
+    },
+    "premium_transition_choreography": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "source_time_map",
+        "audio_time_map",
+        "one_video_decoder",
+        "events"
+      ],
+      "properties": {
+        "enabled": {
+          "const": true
+        },
+        "source_time_map": {
+          "const": "identity"
+        },
+        "audio_time_map": {
+          "const": "identity"
+        },
+        "one_video_decoder": {
+          "const": true
+        },
+        "events": {
+          "type": "array",
+          "minItems": 13,
+          "maxItems": 13
+        }
+      }
+    },
+    "end_lockup_consistency": {
+      "type": "object",
+      "required": [
+        "mode",
+        "primary_field",
+        "hard_card",
+        "border"
+      ],
+      "properties": {
+        "hard_card": {
+          "const": false
+        },
+        "border": {
+          "const": false
+        }
+      }
+    },
+    "implementation_handoff": {
+      "type": "object",
+      "required": [
+        "not_a_mockup",
+        "merchant_payload_schema",
+        "capture_payload_schema",
+        "screens",
+        "navigation_rules",
+        "renderer_handoff"
+      ],
+      "properties": {
+        "not_a_mockup": {
+          "const": true
+        },
+        "screens": {
+          "type": "array",
+          "minItems": 12,
+          "maxItems": 12,
+          "items": {
+            "$ref": "#/$defs/captureScreen"
+          }
+        }
+      }
+    },
+    "media_ingest_contract": {
+      "$ref": "#/$defs/mediaIngest"
+    },
+    "execution_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "network_required",
+        "preferred_profile",
+        "profile_path",
+        "preferred_backend",
+        "ffmpeg_runtime_required"
+      ],
+      "properties": {
+        "mode": {
+          "const": "offline_on_device"
+        },
+        "network_required": {
+          "const": false
+        },
+        "preferred_profile": {
+          "const": "T1_ANDROID_OFFLINE_2GB"
+        },
+        "profile_path": {
+          "const": "profiles/T1_android_offline_2gb.json"
+        },
+        "preferred_backend": {
+          "const": "AndroidX Media3 Transformer + MediaCodec + custom GlEffect"
+        },
+        "ffmpeg_runtime_required": {
+          "const": false
+        }
+      }
+    },
+    "render_protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "job_schema",
+        "result_schema",
+        "error_schema",
+        "progress_states",
+        "idempotent",
+        "remote_server_required"
+      ],
+      "properties": {
+        "job_schema": {
+          "const": "schemas/T1_render_job.schema.json"
+        },
+        "result_schema": {
+          "const": "schemas/T1_render_result.schema.json"
+        },
+        "error_schema": {
+          "const": "schemas/T1_render_error.schema.json"
+        },
+        "progress_states": {
+          "const": [
+            "VALIDATING",
+            "ANALYZING",
+            "RENDERING",
+            "ENCODING",
+            "FINALIZING",
+            "COMPLETED"
+          ]
+        },
+        "idempotent": {
+          "const": true
+        },
+        "remote_server_required": {
+          "const": false
+        }
+      }
+    },
+    "error_catalog": {
+      "type": "array",
+      "minItems": 12,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "retryable",
+          "meaning"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^T1_[A-Z0-9_]+$"
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "meaning": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "conformance_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "golden_manifest",
+        "valid_job_fixture",
+        "reference_output",
+        "reference_output_sha256",
+        "portable_visual_tolerance"
+      ],
+      "properties": {
+        "golden_manifest": {
+          "const": "conformance/T1_special_menu_golden_v1.json"
+        },
+        "valid_job_fixture": {
+          "const": "fixtures/t1-special-menu/render_job.valid.json"
+        },
+        "reference_output": {
+          "const": "output/output_T1_special_menu_reference_v3.mp4"
+        },
+        "reference_output_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "portable_visual_tolerance": {
+          "type": "object"
+        }
+      }
+    },
+    "audio_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "merchant_voice_timeline",
+        "music",
+        "sfx",
+        "automatic_subtitles"
+      ],
+      "properties": {
+        "phase": {
+          "const": "deferred_after_silent_template_freeze"
+        },
+        "merchant_voice_timeline": {
+          "const": "reserved_identity_1_0x"
+        },
+        "music": {
+          "const": "deferred; future curated catalogue target 20 to 30 models"
+        },
+        "sfx": {
+          "const": "none; approved reference contains no SFX grammar"
+        },
+        "automatic_subtitles": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sceneBase": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "start_f",
+        "end_f_exclusive",
+        "frames",
+        "duration_s",
+        "capture_instruction_unchanged"
+      ]
+    },
+    "sceneS1": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/sceneBase"
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "S1"
+            },
+            "start_f": {
+              "const": 0
+            },
+            "end_f_exclusive": {
+              "const": 180
+            },
+            "frames": {
+              "const": 180
+            },
+            "duration_s": {
+              "const": 6.0
+            }
+          }
+        }
+      ]
+    },
+    "sceneS2": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/sceneBase"
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "S2"
+            },
+            "start_f": {
+              "const": 180
+            },
+            "end_f_exclusive": {
+              "const": 420
+            },
+            "frames": {
+              "const": 240
+            },
+            "duration_s": {
+              "const": 8.0
+            }
+          }
+        }
+      ]
+    },
+    "sceneS3": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/sceneBase"
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "S3"
+            },
+            "start_f": {
+              "const": 420
+            },
+            "end_f_exclusive": {
+              "const": 630
+            },
+            "frames": {
+              "const": 210
+            },
+            "duration_s": {
+              "const": 7.0
+            }
+          }
+        }
+      ]
+    },
+    "sceneS4": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/sceneBase"
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "S4"
+            },
+            "start_f": {
+              "const": 630
+            },
+            "end_f_exclusive": {
+              "const": 900
+            },
+            "frames": {
+              "const": 270
+            },
+            "duration_s": {
+              "const": 9.0
+            }
+          }
+        }
+      ]
+    },
+    "captureScreen": {
+      "type": "object",
+      "required": [
+        "scene_id",
+        "ordinal",
+        "screen_id",
+        "route_key",
+        "state",
+        "resolved_text",
+        "visible_components",
+        "forbidden_components",
+        "actions",
+        "proof_png"
+      ],
+      "properties": {
+        "scene_id": {
+          "enum": [
+            "S1",
+            "S2",
+            "S3",
+            "S4"
+          ]
+        },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "screen_id": {
+          "type": "string",
+          "pattern": "^T1_CAPTURE_S[1-4]_[ABC]_(GUIDE|RECORDING|REVIEW)$"
+        },
+        "route_key": {
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "A_GUIDE",
+            "B_RECORDING",
+            "C_REVIEW"
+          ]
+        },
+        "resolved_text": {
+          "type": "object"
+        },
+        "visible_components": {
+          "type": "array"
+        },
+        "forbidden_components": {
+          "type": "array"
+        },
+        "actions": {
+          "type": "array",
+          "minItems": 1
+        },
+        "proof_png": {
+          "type": "string"
+        }
+      }
+    },
+    "mediaIngest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy",
+        "accepted_container",
+        "accepted_video_mime",
+        "accepted_video_codec",
+        "dimensions",
+        "fps",
+        "rotation",
+        "color",
+        "audio",
+        "scene_frame_contract",
+        "normalization",
+        "rejection_rules"
+      ],
+      "properties": {
+        "policy": {
+          "const": "validate_then_normalize_without_retiming"
+        },
+        "accepted_container": {
+          "const": [
+            "mp4"
+          ]
+        },
+        "accepted_video_mime": {
+          "const": [
+            "video/avc"
+          ]
+        },
+        "accepted_video_codec": {
+          "const": [
+            "H.264 Baseline",
+            "H.264 Main"
+          ]
+        },
+        "dimensions": {
+          "type": "object"
+        },
+        "fps": {
+          "type": "object"
+        },
+        "rotation": {
+          "type": "object"
+        },
+        "color": {
+          "type": "object"
+        },
+        "audio": {
+          "type": "object"
+        },
+        "scene_frame_contract": {
+          "type": "object",
+          "required": [
+            "S1",
+            "S2",
+            "S3",
+            "S4"
+          ]
+        },
+        "normalization": {
+          "type": "object"
+        },
+        "rejection_rules": {
+          "type": "array",
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

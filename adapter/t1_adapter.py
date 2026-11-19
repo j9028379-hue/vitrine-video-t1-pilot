@@ -2,16 +2,24 @@
 from __future__ import annotations
 
 import argparse
+import fcntl
+import hashlib
 import json
+import os
 import re
+import tempfile
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 V12_PATH = ROOT / "specs" / "T1_ENGINEERING_SPEC_V1_2.json"
 V62_PATH = ROOT / "specs" / "restaurants_maquis_T1.spec_v6_2.json"
+V62_PUBLIC_PATH = ROOT / "specs" / "restaurants_maquis_T1.spec_v6_2.public-safe.json"
+DEFAULT_V62_PATH = V62_PATH if V62_PATH.exists() else V62_PUBLIC_PATH
 INPUT_PATH = ROOT / "demo" / "T1_demo_input.json"
 OUTPUT_PATH = ROOT / "render_plan.json"
+MUSIC_PACK_PATH = ROOT / "config" / "T1_special_menu_music_pack_v1_0_0.json"
+VOICE_MIX_PATH = ROOT / "config" / "T1_special_menu_voice_mix_v1_0_0.json"
 
 
 def load_json(path: Path) -> Any:
@@ -64,6 +72,8 @@ def validate_specs(v12: dict[str, Any], v62: dict[str, Any]) -> None:
 
 def build_render_plan(v12: dict[str, Any], v62: dict[str, Any], raw_input: dict[str, Any], v62_source: str | None = None) -> dict[str, Any]:
     validate_specs(v12, v62)
+    if v62_source is None:
+        v62_source = str(DEFAULT_V62_PATH.relative_to(ROOT))
     if raw_input.get("demo") is not True:
         raise ValueError("Le fichier d'entrée de ce pilote doit rester explicitement marqué demo=true.")
     data = normalize_fields(raw_input, v12["data_contract"])
@@ -110,7 +120,7 @@ def build_render_plan(v12: dict[str, Any], v62: dict[str, Any], raw_input: dict[
         "demo_only": True,
         "spec_sources": {
             "v12": "specs/T1_ENGINEERING_SPEC_V1_2.json",
-            "v62": v62_source or str(V62_PATH.relative_to(ROOT)),
+            "v62": v62_source,
             "write_back": False,
         },
         "output": {"width": 720, "height": 1280, "fps": 30, "frames": 900, "duration_s": 30.0, "audio": False},
@@ -128,20 +138,324 @@ def build_render_plan(v12: dict[str, Any], v62: dict[str, Any], raw_input: dict[
     }
 
 
+def select_music_track(
+    music_pack: dict[str, Any],
+    *,
+    render_job_id: str,
+    requested_variant_id: str = "auto",
+    previous_variant_id: str | None = None,
+) -> dict[str, Any]:
+    """Select one approved local track without immediately repeating the last one.
+
+    ``previous_variant_id`` is ``None`` only for the first render.  Afterwards the
+    local orchestrator passes the variant ID from the last *successful* render.
+    Selection stays deterministic for idempotent retries of the same job and does
+    not need a server, network call or catalogue download.
+    """
+    tracks = music_pack.get("tracks", [])
+    selection = music_pack.get("selection_contract", {})
+    approved_ids = selection.get("allowed_variant_ids", [])
+    expected_pixabay_ids = [239426, 464383, 406552, 178406]
+    if music_pack.get("audio_profile") != "afrobeat_amapiano":
+        raise ValueError("Le profil audio ne correspond pas au catalogue Afrobeat/Amapiano approuvé.")
+    if len(tracks) != 4 or [track.get("id") for track in tracks] != approved_ids:
+        raise ValueError("Le pack musical doit contenir exactement les quatre variantes approuvées.")
+    if [track.get("pixabay_id") for track in tracks] != expected_pixabay_ids:
+        raise ValueError("Le pack musical ne correspond pas au lot approuvé.")
+    if any(track.get("content_id_registered") or not track.get("production_eligible") for track in tracks):
+        raise ValueError("Toutes les variantes doivent être sans Content ID et prêtes pour la production.")
+    if selection.get("no_immediate_repeat") is not True:
+        raise ValueError("Le contrat musical doit interdire toute répétition immédiate.")
+
+    by_id = {track["id"]: track for track in tracks}
+    if previous_variant_id is not None and previous_variant_id not in by_id:
+        raise ValueError(f"Variante musicale précédente inconnue : {previous_variant_id}")
+    if requested_variant_id != "auto":
+        if requested_variant_id not in by_id:
+            raise ValueError(f"Variante musicale inconnue : {requested_variant_id}")
+        if requested_variant_id == previous_variant_id:
+            raise ValueError("Répétition musicale immédiate interdite.")
+        return by_id[requested_variant_id]
+    if not render_job_id:
+        raise ValueError("render_job_id est obligatoire pour une sélection automatique reproductible.")
+
+    candidates = [track for track in tracks if track["id"] != previous_variant_id]
+    digest = hashlib.sha256(render_job_id.encode("utf-8")).digest()
+    return candidates[int.from_bytes(digest[:8], "big") % len(candidates)]
+
+
+MUSIC_STATE_SCHEMA_VERSION = "1.0.0"
+
+
+def load_music_selection_state(state_path: Path) -> dict[str, Any]:
+    """Load the caller-owned state that survives independent render attempts."""
+    if not state_path.exists():
+        return {
+            "schema_version": MUSIC_STATE_SCHEMA_VERSION,
+            "last_successful_music_id": None,
+            "last_successful_render_job_id": None,
+            "successful_render_count": 0,
+        }
+    state = load_json(state_path)
+    required = {
+        "schema_version",
+        "last_successful_music_id",
+        "last_successful_render_job_id",
+        "successful_render_count",
+    }
+    if set(state) != required or state["schema_version"] != MUSIC_STATE_SCHEMA_VERSION:
+        raise ValueError("État de rotation musicale T1 invalide.")
+    allowed_ids = {None, "t1_music_239426", "t1_music_464383", "t1_music_406552", "t1_music_178406"}
+    if state["last_successful_music_id"] not in allowed_ids:
+        raise ValueError("Dernière musique réussie T1 inconnue.")
+    if not isinstance(state["successful_render_count"], int) or state["successful_render_count"] < 0:
+        raise ValueError("Compteur de réussites musicales T1 invalide.")
+    if (state["last_successful_music_id"] is None) != (state["last_successful_render_job_id"] is None):
+        raise ValueError("L'état T1 doit renseigner ensemble la musique et le rendu réussis.")
+    return state
+
+
+def select_music_track_from_state(
+    music_pack: dict[str, Any],
+    *,
+    render_job_id: str,
+    state_path: Path,
+    requested_variant_id: str = "auto",
+) -> dict[str, Any]:
+    """Select against the last success persisted by the render orchestrator."""
+    state = load_music_selection_state(state_path)
+    return select_music_track(
+        music_pack,
+        render_job_id=render_job_id,
+        requested_variant_id=requested_variant_id,
+        previous_variant_id=state["last_successful_music_id"],
+    )
+
+
+def _record_music_render_result_unlocked(
+    music_pack: dict[str, Any],
+    *,
+    state_path: Path,
+    render_job_id: str,
+    selected_music_id: str,
+    succeeded: bool,
+) -> dict[str, Any]:
+    """Atomically advance rotation state after success and never after failure.
+
+    Replaying the same successful callback is idempotent. A different successful
+    job may not commit the same music as the immediately preceding success.
+    """
+    if not render_job_id:
+        raise ValueError("render_job_id est obligatoire pour enregistrer le résultat musical.")
+    allowed = set(music_pack.get("selection_contract", {}).get("allowed_variant_ids", []))
+    if selected_music_id not in allowed:
+        raise ValueError("La musique rendue n'appartient pas au pool T1 approuvé.")
+    current = load_music_selection_state(state_path)
+    if not succeeded:
+        return current
+    if current["last_successful_render_job_id"] == render_job_id:
+        if current["last_successful_music_id"] != selected_music_id:
+            raise ValueError("Un même rendu réussi ne peut pas changer de musique après coup.")
+        return current
+    if current["last_successful_music_id"] == selected_music_id:
+        raise ValueError("Répétition musicale immédiate interdite lors de la validation du succès.")
+    updated = {
+        "schema_version": MUSIC_STATE_SCHEMA_VERSION,
+        "last_successful_music_id": selected_music_id,
+        "last_successful_render_job_id": render_job_id,
+        "successful_render_count": current["successful_render_count"] + 1,
+    }
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary_name = tempfile.mkstemp(prefix=f".{state_path.name}.", dir=state_path.parent)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+            json.dump(updated, stream, ensure_ascii=False, indent=2)
+            stream.write("\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary_name, state_path)
+    finally:
+        if os.path.exists(temporary_name):
+            os.unlink(temporary_name)
+    return updated
+
+
+def record_music_render_result(
+    music_pack: dict[str, Any],
+    *,
+    state_path: Path,
+    render_job_id: str,
+    selected_music_id: str,
+    succeeded: bool,
+) -> dict[str, Any]:
+    """Serialize callbacks across processes before applying the atomic update."""
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    lock_path = state_path.parent / f".{state_path.name}.lock"
+    with lock_path.open("a+", encoding="utf-8") as lock:
+        fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+        try:
+            return _record_music_render_result_unlocked(
+                music_pack,
+                state_path=state_path,
+                render_job_id=render_job_id,
+                selected_music_id=selected_music_id,
+                succeeded=succeeded,
+            )
+        finally:
+            fcntl.flock(lock.fileno(), fcntl.LOCK_UN)
+
+
+def attach_music_track(
+    plan: dict[str, Any],
+    music_pack: dict[str, Any],
+    *,
+    render_job_id: str,
+    requested_variant_id: str = "auto",
+    previous_variant_id: str | None = None,
+) -> dict[str, Any]:
+    """Attach the selected local MP3 without changing merchant data or visual timing."""
+    selected = select_music_track(
+        music_pack,
+        render_job_id=render_job_id,
+        requested_variant_id=requested_variant_id,
+        previous_variant_id=previous_variant_id,
+    )
+    plan["output"]["audio"] = True
+    plan["audio_track"] = {
+        "enabled": True,
+        "mode": "offline_music_sidecar_v1",
+        "pack_id": music_pack["id"],
+        "audio_profile": music_pack["audio_profile"],
+        "variant_id": selected["id"],
+        "previous_variant_id": previous_variant_id,
+        "last_successful_music_id": previous_variant_id,
+        "no_immediate_repeat": True,
+        "state_update_policy": "after_success_only",
+        "pixabay_id": selected["pixabay_id"],
+        "file": selected["file"],
+        "sha256": selected["sha256"],
+        "start_f": 0,
+        "end_f_exclusive": 900,
+        "time_map": "identity_1_0x",
+        "network_required": False,
+        "runtime_no_speech_gain_db": selected["runtime_no_speech_gain_db"],
+        "runtime_speech_gain_db": selected["runtime_speech_gain_db"],
+        "duck_attack_ms": music_pack["mix_contract"]["duck_attack_ms"],
+        "duck_release_ms": music_pack["mix_contract"]["duck_release_ms"],
+        "final_ducking_status": music_pack["mix_contract"]["final_ducking_status"],
+        "sfx": False,
+        "production_eligible": True,
+    }
+    return plan
+
+
+def attach_voice_track(plan: dict[str, Any], voice_mix: dict[str, Any]) -> dict[str, Any]:
+    """Attach the validated 30 s French voice stem and its ducking contract."""
+    audio_track = plan.get("audio_track", {})
+    if not audio_track.get("enabled"):
+        raise ValueError("La voix T1 exige qu'une des quatre musiques approuvées soit déjà attachée.")
+    clips = voice_mix.get("voice", {}).get("clips", [])
+    if len(clips) != 4 or [clip.get("scene") for clip in clips] != [1, 2, 3, 4]:
+        raise ValueError("Le sidecar voix doit contenir exactement une prise pour chacune des quatre scènes.")
+    mix = voice_mix["mix_contract"]
+    stem_rel = voice_mix["voice"]["stem_file"]
+    stem = ROOT / stem_rel
+    if not stem.is_file():
+        raise ValueError(f"Tige voix locale absente : {stem_rel}")
+    plan["voice_track"] = {
+        "enabled": True,
+        "mode": "offline_voice_stem_v1",
+        "file": stem_rel,
+        "sha256": hashlib.sha256(stem.read_bytes()).hexdigest(),
+        "voice_id": voice_mix["voice"]["voice_id"],
+        "language": voice_mix["voice"]["language"],
+        "start_f": 0,
+        "end_f_exclusive": 900,
+        "time_map": "identity_1_0x",
+        "gain_db": mix["voice_gain_db"],
+        "network_required": False,
+        "placements": [
+            {
+                "scene": clip["scene"],
+                "start_s": clip["start_s"],
+                "start_f": int(round(float(clip["start_s"]) * 30)),
+                "text": clip["text"],
+            }
+            for clip in clips
+        ],
+    }
+    audio_track.update({
+        "runtime_no_speech_gain_db": mix["music_open_gain_db"],
+        "runtime_speech_gain_db": mix["music_under_voice_gain_db"],
+        "duck_attack_ms": mix["duck_attack_ms"],
+        "duck_release_ms": mix["duck_release_ms"],
+        "final_ducking_status": "validated_offline_reference_mix_v1",
+        "sfx": False,
+    })
+    plan["audio_mix"] = {
+        "mode": "music_plus_voice_ducking_v1",
+        "music_variant_count": 4,
+        "duck_depth_db": mix["duck_depth_db"],
+        "attack_curve": mix["duck_attack_curve"],
+        "release_curve": mix["duck_release_curve"],
+        "master_target_lufs": mix["master_target_lufs"],
+        "master_true_peak_dbtp_max": mix["master_true_peak_dbtp_max"],
+        "sfx": False,
+        "validation_report": "reports/T1_voice_music_v1_validation.json",
+    }
+    return plan
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--v12", type=Path, default=V12_PATH)
-    parser.add_argument("--v62", type=Path, default=V62_PATH)
+    parser.add_argument("--v62", type=Path, default=DEFAULT_V62_PATH)
     parser.add_argument("--input", type=Path, default=INPUT_PATH)
     parser.add_argument("--output", type=Path, default=OUTPUT_PATH)
+    parser.add_argument("--enable-music", action="store_true", help="Attach the approved T1 four-track offline music sidecar.")
+    parser.add_argument("--music-pack", type=Path, default=MUSIC_PACK_PATH)
+    parser.add_argument("--music-variant", default="auto", help="Variant ID, or 'auto' for deterministic selection.")
+    parser.add_argument(
+        "--previous-music-variant",
+        default=None,
+        help="Variant ID used by the last successful render; omit only for the first render.",
+    )
+    parser.add_argument(
+        "--music-state",
+        type=Path,
+        help="Caller-owned persistent JSON state; when supplied it is the source of the last successful music ID.",
+    )
+    parser.add_argument("--render-job-id", default="t1-demo-0001", help="Stable key used by automatic music selection.")
+    parser.add_argument("--enable-voice", action="store_true", help="Attach the validated French 30 s voice stem and ducking contract.")
+    parser.add_argument("--voice-mix", type=Path, default=VOICE_MIX_PATH)
     args = parser.parse_args()
     try:
         v62_source = str(args.v62.resolve().relative_to(ROOT))
     except ValueError:
         v62_source = str(args.v62.resolve())
     plan = build_render_plan(load_json(args.v12), load_json(args.v62), load_json(args.input), v62_source=v62_source)
+    if args.enable_music:
+        previous_variant_id = args.previous_music_variant
+        if args.music_state is not None:
+            persisted = load_music_selection_state(args.music_state)["last_successful_music_id"]
+            if previous_variant_id is not None and previous_variant_id != persisted:
+                raise ValueError("--previous-music-variant diverge de --music-state.")
+            previous_variant_id = persisted
+        plan = attach_music_track(
+            plan,
+            load_json(args.music_pack),
+            render_job_id=args.render_job_id,
+            requested_variant_id=args.music_variant,
+            previous_variant_id=previous_variant_id,
+        )
+    if args.enable_voice:
+        if not args.enable_music:
+            raise ValueError("--enable-voice exige --enable-music.")
+        plan = attach_voice_track(plan, load_json(args.voice_mix))
     args.output.write_text(json.dumps(plan, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"render_plan.json écrit : {args.output} — {len(plan['shots'])} plans, {len(plan['overlays'])} blocs, {plan['output']['frames']} images.")
+    music_note = f", musique {plan['audio_track']['variant_id']}" if plan["audio_track"]["enabled"] else ", silencieux"
+    voice_note = ", voix française + ducking validé" if plan.get("voice_track", {}).get("enabled") else ""
+    print(f"render_plan.json écrit : {args.output} — {len(plan['shots'])} plans, {len(plan['overlays'])} blocs, {plan['output']['frames']} images{music_note}{voice_note}.")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "status": "generated_and_objectively_validated",
+  "configuration": "config/T1_special_menu_voice_mix_v1_0_0.json",
+  "voice_provider": "Arena.ai Agent Mode",
+  "voice_id": "voice-00",
+  "language": "fr",
+  "clips": [
+    {
+      "scene": 1,
+      "start_s": 1.2,
+      "text": "Voici notre burger maison, préparé pour vous.",
+      "source": "audio/voice/t1-voice-v1/voix_fr_scene1.wav",
+      "processed": "audio/voice/t1-voice-v1/processed/voix_fr_scene1_norm.wav",
+      "end_s": 4.07,
+      "duration_s": 2.87,
+      "decoded_samples": 137760,
+      "source_sha256": "3460fb09be9dfabf114d43bf3a8f03a067f09d4a9ae9a9583dc482e27477de24",
+      "processed_sha256": "be21b7ad6952e9333a9fb409c6066eed00c52af993f52207174d3dc6e3e579b7",
+      "normalization": {
+        "applied_gain_db": -0.99,
+        "integrated_lufs": -20.02,
+        "true_peak_dbtp": -3.09,
+        "loudness_range_lu": 0.0
+      }
+    },
+    {
+      "scene": 2,
+      "start_s": 6.8,
+      "text": "Regardez le pain doré, la garniture et tous les détails.",
+      "source": "audio/voice/t1-voice-v1/voix_fr_scene2.wav",
+      "processed": "audio/voice/t1-voice-v1/processed/voix_fr_scene2_norm.wav",
+      "end_s": 10.31,
+      "duration_s": 3.51,
+      "decoded_samples": 168480,
+      "source_sha256": "4d4cff3f18f5d196e97746d74b07130583893e20716ff62b1200d238eccfe748",
+      "processed_sha256": "9fc2fac2a81938b4758d0b5568fd953df5d65a69149253632700893402028591",
+      "normalization": {
+        "applied_gain_db": -0.03,
+        "integrated_lufs": -20.18,
+        "true_peak_dbtp": -3.04,
+        "loudness_range_lu": 3.0
+      }
+    },
+    {
+      "scene": 3,
+      "start_s": 14.7,
+      "text": "On vous le sert tout juste préparé. Venez le découvrir !",
+      "source": "audio/voice/t1-voice-v1/voix_fr_scene3.wav",
+      "processed": "audio/voice/t1-voice-v1/processed/voix_fr_scene3_norm.wav",
+      "end_s": 17.89,
+      "duration_s": 3.19,
+      "decoded_samples": 153120,
+      "source_sha256": "4cfedc753d199d513d515cf27b09e1dcaefce192c755cbb78882eed6bc8a3f34",
+      "processed_sha256": "8223c1651c3c9958515e510191fb5b15ff51cfd8f1b06de729e7f5b286610ca1",
+      "normalization": {
+        "applied_gain_db": -0.78,
+        "integrated_lufs": -19.99,
+        "true_peak_dbtp": -3.79,
+        "loudness_range_lu": 1.1
+      }
+    },
+    {
+      "scene": 4,
+      "start_s": 21.8,
+      "text": "Retrouvez Maquis Démo à Arconville. Pour commander, contactez-nous sur WhatsApp.",
+      "source": "audio/voice/t1-voice-v1/voix_fr_scene4.wav",
+      "processed": "audio/voice/t1-voice-v1/processed/voix_fr_scene4_norm.wav",
+      "end_s": 26.27,
+      "duration_s": 4.47,
+      "decoded_samples": 214560,
+      "source_sha256": "6ed19661b9b772627342648e77cefaabdf5548813ac74d2b136ca0290ab090b8",
+      "processed_sha256": "d3db45c6eab105c541d04c7ff62379352ab0d1f7fac95767fdcbb82667880d75",
+      "normalization": {
+        "applied_gain_db": 0.1,
+        "integrated_lufs": -20.09,
+        "true_peak_dbtp": -3.08,
+        "loudness_range_lu": 4.9
+      }
+    }
+  ],
+  "stem": {
+    "file": "audio/voice/t1-voice-v1/t1_voice_stem_30s.wav",
+    "sha256": "e38bf082391d542042f9ba64ee8ae8e1bd2748a391456373ed418d2744a6eb70",
+    "bytes": 4320102,
+    "decoded_samples": 1440000,
+    "duration_s": 30.0,
+    "integrated_lufs": -19.44,
+    "true_peak_dbtp": -3.04,
+    "sample_peak_dbfs": -3.038,
+    "clipped_sample_count": 0,
+    "nan_count": 0,
+    "inf_count": 0,
+    "dc_offset_max_abs": 6.43e-05
+  },
+  "mix_validation": "reports/T1_voice_music_v1_validation.json"
+}

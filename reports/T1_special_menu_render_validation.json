@@ -1,0 +1,96 @@
+{
+  "status": "PASS",
+  "config": "config/T1_special_menu_reference_v1.json",
+  "video": "output/output_T1_special_menu_reference_v1.mp4",
+  "video_sha256": "2a3f7b0cbada36e0ee36745338ada0a7c7a28380e8df46dd5ecbf388daca89df",
+  "video_bytes": 19464254,
+  "decoded": {
+    "width": 720,
+    "height": 1280,
+    "fps": 30.0,
+    "advertised_frames": 900,
+    "decoded_frames": 900,
+    "duration_s": 30.0
+  },
+  "motion": {
+    "adjacent_pair_count": 899,
+    "mad_mean": 4.654399,
+    "mad_median": 3.883979,
+    "mad_p95": 11.873992,
+    "mad_max": 62.809444,
+    "static_pairs_mad_lt_0_15": 0,
+    "near_static_pairs_mad_lt_0_50": 0,
+    "declared_cut_metrics": [
+      {
+        "at_f": 60,
+        "mad": 20.614611
+      },
+      {
+        "at_f": 120,
+        "mad": 9.947627
+      },
+      {
+        "at_f": 180,
+        "mad": 40.713081
+      },
+      {
+        "at_f": 240,
+        "mad": 10.873237
+      },
+      {
+        "at_f": 300,
+        "mad": 40.346779
+      },
+      {
+        "at_f": 360,
+        "mad": 23.898537
+      },
+      {
+        "at_f": 420,
+        "mad": 54.922192
+      },
+      {
+        "at_f": 480,
+        "mad": 26.020805
+      },
+      {
+        "at_f": 540,
+        "mad": 31.054634
+      },
+      {
+        "at_f": 630,
+        "mad": 62.809444
+      },
+      {
+        "at_f": 690,
+        "mad": 21.241138
+      },
+      {
+        "at_f": 750,
+        "mad": 26.581553
+      },
+      {
+        "at_f": 810,
+        "mad": 13.251709
+      }
+    ]
+  },
+  "cta_final_frame": {
+    "frame": 899,
+    "green_accent_pixels": 349,
+    "frame_mean_luma_proxy": 20.190228,
+    "graphics_opacity_contract": 1.0
+  },
+  "non_destructive": {
+    "capture_guide_sha256": "93a807f88e0e0f909cb589e8539419a4d1c387c12bc1b9966ba7dbe1a936075c",
+    "capture_guide_matches_base": true,
+    "origin_main": "ad4ff15a76dcba7bd08b7e8f56052e842b3e794f",
+    "expected_origin_main": "ad4ff15a76dcba7bd08b7e8f56052e842b3e794f",
+    "origin_main_untouched": true
+  },
+  "audio": {
+    "present_in_visual_preview": false,
+    "reason": "Audio phase remains intentionally paused.",
+    "speech_timeline_contract": "1.0x continuous source time per scene"
+  }
+}

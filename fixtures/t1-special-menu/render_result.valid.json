@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "status": "COMPLETED",
+  "job_id": "t1-golden-0001",
+  "idempotency_key": "t1-special-menu-golden-v1",
+  "template_id": "restaurants_maquis_T1_special_menu_v1_0_0",
+  "template_version": "1.0.0",
+  "profile_used": "T1_REFERENCE_PYTHON",
+  "output": {
+    "uri": "output/output_T1_special_menu_reference_v3.mp4",
+    "mime_type": "video/mp4",
+    "width": 720,
+    "height": 1280,
+    "fps": 30,
+    "frames": 900,
+    "duration_ms": 30000,
+    "bytes": 20276905,
+    "sha256": "784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7",
+    "audio_present": false
+  },
+  "metrics": {
+    "elapsed_ms": 0,
+    "peak_memory_mb": 0,
+    "decoder_count": 1,
+    "encoder_count": 1,
+    "static_frame_pairs": 0
+  },
+  "warnings": [
+    "Reference fixture: runtime elapsed time and memory must be populated by the integrating engine."
+  ]
+}

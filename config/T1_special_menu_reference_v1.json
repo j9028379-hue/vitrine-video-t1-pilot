@@ -1,0 +1,941 @@
+{
+  "schema_version": "1.0.0",
+  "id": "restaurants_maquis_T1_special_menu_reference_v1",
+  "display_name": "T1 — Plat du jour — Special Menu Reference",
+  "status": "implementation_candidate_on_feature_branch",
+  "approved_reference": "references/t1-special-menu/reference_decompilation_v1.json",
+  "non_destructive_contract": {
+    "base_commit": "ad4ff15a76dcba7bd08b7e8f56052e842b3e794f",
+    "main_branch_must_not_change": true,
+    "capture_guide_unchanged": true,
+    "existing_specs_unchanged": true,
+    "existing_releases_unchanged": true,
+    "visual_phase_audio_pause_preserved": true
+  },
+  "canvas": {
+    "width": 720,
+    "height": 1280,
+    "fps": 30,
+    "frames": 900,
+    "duration_s": 30.0,
+    "frame_interval_ms": 33.333333
+  },
+  "cadence": {
+    "bpm": 120,
+    "beat_frames": 15,
+    "beat_s": 0.5,
+    "four_beat_phrase_frames": 60,
+    "four_beat_phrase_s": 2.0,
+    "mapping_from_reference": "114.84375 BPM / ~63f phrase -> 120 BPM / exactly 60f phrase"
+  },
+  "scene_capture_contract": {
+    "source": "capture-guide/consignes_T1.json",
+    "must_remain_byte_identical": true,
+    "voice_allowed_all_scenes": true,
+    "languages_free": true,
+    "speech_subtitles": false,
+    "scenes": [
+      {
+        "id": "S1",
+        "name": "Le plat",
+        "start_f": 0,
+        "end_f_exclusive": 180,
+        "frames": 180,
+        "duration_s": 6.0,
+        "capture_instruction_unchanged": true
+      },
+      {
+        "id": "S2",
+        "name": "Le dessus et les détails",
+        "start_f": 180,
+        "end_f_exclusive": 420,
+        "frames": 240,
+        "duration_s": 8.0,
+        "capture_instruction_unchanged": true
+      },
+      {
+        "id": "S3",
+        "name": "La personne qui sert",
+        "start_f": 420,
+        "end_f_exclusive": 630,
+        "frames": 210,
+        "duration_s": 7.0,
+        "capture_instruction_unchanged": true,
+        "face_and_mouth_protected": true
+      },
+      {
+        "id": "S4",
+        "name": "Le lieu et le contact",
+        "start_f": 630,
+        "end_f_exclusive": 900,
+        "frames": 270,
+        "duration_s": 9.0,
+        "capture_instruction_unchanged": true
+      }
+    ]
+  },
+  "merchant_input_contract": {
+    "source": "specs/T1_ENGINEERING_SPEC_V1_2.json#/data_contract",
+    "new_required_fields": 0,
+    "fields": [
+      {
+        "id": "nom",
+        "required": true,
+        "max_chars": 40,
+        "uses": [
+          "G01_MICRO",
+          "G04_LOCATION",
+          "G05_CTA"
+        ]
+      },
+      {
+        "id": "produit",
+        "required": true,
+        "max_chars": 32,
+        "uses": [
+          "G01_HERO",
+          "G05_CTA"
+        ]
+      },
+      {
+        "id": "prix",
+        "required": true,
+        "max_chars": 7,
+        "uses": [
+          "G02_PRICE",
+          "G05_CTA"
+        ],
+        "display_rule": "append FCFA only when absent"
+      },
+      {
+        "id": "whatsapp",
+        "required": true,
+        "max_chars": 20,
+        "uses": [
+          "G05_CTA"
+        ]
+      },
+      {
+        "id": "quartier",
+        "required": true,
+        "max_chars": 40,
+        "uses": [
+          "G04_LOCATION"
+        ]
+      },
+      {
+        "id": "accroche",
+        "required": false,
+        "max_chars": 48,
+        "uses": [
+          "G03_HOOK"
+        ],
+        "empty_rule": "omit G03; never invent replacement copy"
+      }
+    ],
+    "fixed_template_copy": [
+      "PLAT DU JOUR",
+      "COMMANDER MAINTENANT"
+    ],
+    "fixed_copy_is_not_merchant_claim": true
+  },
+  "fonts": {
+    "display_serif": {
+      "family": "DM Serif Display",
+      "file": "assets/fonts/DMSerifDisplay-Regular.ttf",
+      "sha256": "8cc3643535edf039aa5d95440a8542735e9197e4f4b8d9303e980fefbf5ab616",
+      "license": "SIL OFL 1.1",
+      "weight": 400,
+      "reference_role": "Special"
+    },
+    "light_sans": {
+      "family": "Montserrat",
+      "file": "assets/fonts/Montserrat-Variable.ttf",
+      "license": "SIL OFL 1.1",
+      "weight": 300,
+      "tracking_em": 0.15,
+      "reference_role": "Menu"
+    },
+    "utility": {
+      "family": "Plus Jakarta Sans",
+      "file": "assets/fonts/PlusJakartaSans-Variable.ttf",
+      "license": "SIL OFL 1.1",
+      "weight": 700,
+      "tabular_figures": true,
+      "role": "price, address, WhatsApp"
+    },
+    "forbidden_fallbacks": [
+      "Roboto default",
+      "Android sans fallback",
+      "OpenCV Hershey for final text"
+    ],
+    "font_load_failure": "hard_fail_render"
+  },
+  "look_pipeline": {
+    "id": "warm_low_key_food_cinema_v1",
+    "analysis_scope": "per scene, sampled once; fixed parameters within each scene to prevent exposure flicker",
+    "working_space": "sRGB float32 0..1",
+    "steps": [
+      {
+        "order": 1,
+        "op": "percentile_exposure",
+        "sample_stride_f": 15,
+        "target_luma_median": 0.29,
+        "gain_clamp": [
+          0.82,
+          1.18
+        ]
+      },
+      {
+        "order": 2,
+        "op": "capped_gray_world",
+        "max_channel_gain_delta": 0.06
+      },
+      {
+        "order": 3,
+        "op": "warm_balance",
+        "rgb_gain": [
+          1.055,
+          1.005,
+          0.945
+        ],
+        "target_mean_red_minus_blue_0_255": 30.0
+      },
+      {
+        "order": 4,
+        "op": "filmic_curve",
+        "points": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.05,
+            0.022
+          ],
+          [
+            0.18,
+            0.13
+          ],
+          [
+            0.5,
+            0.49
+          ],
+          [
+            0.82,
+            0.87
+          ],
+          [
+            1.0,
+            0.985
+          ]
+        ],
+        "interpolation": "monotonic_linear_lut_4096"
+      },
+      {
+        "order": 5,
+        "op": "split_tone",
+        "shadow_rgb": [
+          0.985,
+          1.005,
+          1.018
+        ],
+        "highlight_rgb": [
+          1.03,
+          1.01,
+          0.97
+        ],
+        "shadow_end": 0.35,
+        "highlight_start": 0.62
+      },
+      {
+        "order": 6,
+        "op": "selective_saturation",
+        "global": 1.06,
+        "orange_red": 1.1,
+        "green": 0.9,
+        "cyan_blue": 0.94,
+        "skin_protect": true
+      },
+      {
+        "order": 7,
+        "op": "local_contrast",
+        "unsharp_radius_px_at_720": 1.1,
+        "amount": 0.12
+      },
+      {
+        "order": 8,
+        "op": "vignette",
+        "strength": 0.16,
+        "inner_radius": 0.48,
+        "outer_radius": 0.95,
+        "center": [
+          0.5,
+          0.48
+        ]
+      },
+      {
+        "order": 9,
+        "op": "deterministic_luma_grain",
+        "sigma": 0.006,
+        "seed_formula": "scene_index*100000 + frame_index",
+        "chroma_grain": false
+      }
+    ],
+    "text_readability": {
+      "method": "soft full-frame/radial darkening only",
+      "hard_rectangles_forbidden": true,
+      "gray_boxes_forbidden": true,
+      "max_extra_darkening": 0.22,
+      "feather_px_at_720": 96
+    }
+  },
+  "edit_timeline": {
+    "timebase": "frames_at_30fps",
+    "end_semantics": "exclusive",
+    "shots": [
+      {
+        "id": "P01",
+        "scene": "S1",
+        "out_start_f": 0,
+        "out_end_f_exclusive": 60,
+        "out_frames": 60,
+        "source_in_f": 0,
+        "source_out_f_exclusive": 60,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.0,
+          "end": 1.04,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4801,
+          0.4944
+        ],
+        "intent": "plat_entier_approche",
+        "transition_in": "none",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P02",
+        "scene": "S1",
+        "out_start_f": 60,
+        "out_end_f_exclusive": 120,
+        "out_frames": 60,
+        "source_in_f": 60,
+        "source_out_f_exclusive": 120,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.08,
+          "end": 1.12,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4801,
+          0.4944
+        ],
+        "intent": "sauce_brillance_main",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P03",
+        "scene": "S1",
+        "out_start_f": 120,
+        "out_end_f_exclusive": 180,
+        "out_frames": 60,
+        "source_in_f": 120,
+        "source_out_f_exclusive": 180,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.16,
+          "end": 1.2,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4801,
+          0.4944
+        ],
+        "intent": "macro_partie_appetissante",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P04",
+        "scene": "S2",
+        "out_start_f": 180,
+        "out_end_f_exclusive": 240,
+        "out_frames": 60,
+        "source_in_f": 0,
+        "source_out_f_exclusive": 60,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.0,
+          "end": 1.03,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4919,
+          0.5219
+        ],
+        "intent": "dessus_large",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P05",
+        "scene": "S2",
+        "out_start_f": 240,
+        "out_end_f_exclusive": 300,
+        "out_frames": 60,
+        "source_in_f": 60,
+        "source_out_f_exclusive": 120,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.08,
+          "end": 1.12,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4919,
+          0.5219
+        ],
+        "intent": "detail_a",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P06",
+        "scene": "S2",
+        "out_start_f": 300,
+        "out_end_f_exclusive": 360,
+        "out_frames": 60,
+        "source_in_f": 120,
+        "source_out_f_exclusive": 180,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.16,
+          "end": 1.2,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4919,
+          0.5219
+        ],
+        "intent": "detail_b",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P07",
+        "scene": "S2",
+        "out_start_f": 360,
+        "out_end_f_exclusive": 420,
+        "out_frames": 60,
+        "source_in_f": 180,
+        "source_out_f_exclusive": 240,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.06,
+          "end": 1.1,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4919,
+          0.5219
+        ],
+        "intent": "detail_final",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P08",
+        "scene": "S3",
+        "out_start_f": 420,
+        "out_end_f_exclusive": 480,
+        "out_frames": 60,
+        "source_in_f": 0,
+        "source_out_f_exclusive": 60,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.0,
+          "end": 1.02,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4254,
+          0.4042
+        ],
+        "intent": "personne_service_plan_moyen",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P09",
+        "scene": "S3",
+        "out_start_f": 480,
+        "out_end_f_exclusive": 540,
+        "out_frames": 60,
+        "source_in_f": 60,
+        "source_out_f_exclusive": 120,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.07,
+          "end": 1.09,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4254,
+          0.4042
+        ],
+        "intent": "personne_service_plan_serre",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P10",
+        "scene": "S3",
+        "out_start_f": 540,
+        "out_end_f_exclusive": 630,
+        "out_frames": 90,
+        "source_in_f": 120,
+        "source_out_f_exclusive": 210,
+        "source_frames": 90,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.0,
+          "end": 1.03,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4254,
+          0.4042
+        ],
+        "intent": "visage_sourire_service",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P11",
+        "scene": "S4",
+        "out_start_f": 630,
+        "out_end_f_exclusive": 690,
+        "out_frames": 60,
+        "source_in_f": 0,
+        "source_out_f_exclusive": 60,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.0,
+          "end": 1.02,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4729,
+          0.4782
+        ],
+        "intent": "entree_large",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P12",
+        "scene": "S4",
+        "out_start_f": 690,
+        "out_end_f_exclusive": 750,
+        "out_frames": 60,
+        "source_in_f": 60,
+        "source_out_f_exclusive": 120,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.08,
+          "end": 1.12,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4729,
+          0.4782
+        ],
+        "intent": "enseigne",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P13",
+        "scene": "S4",
+        "out_start_f": 750,
+        "out_end_f_exclusive": 810,
+        "out_frames": 60,
+        "source_in_f": 120,
+        "source_out_f_exclusive": 180,
+        "source_frames": 60,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.0,
+          "end": 1.04,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4729,
+          0.4782
+        ],
+        "intent": "comptoir",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      },
+      {
+        "id": "P14",
+        "scene": "S4",
+        "out_start_f": 810,
+        "out_end_f_exclusive": 900,
+        "out_frames": 90,
+        "source_in_f": 180,
+        "source_out_f_exclusive": 270,
+        "source_frames": 90,
+        "source_speed": 1.0,
+        "source_contiguous": true,
+        "zoom": {
+          "start": 1.08,
+          "end": 1.11,
+          "easing": "easeInOutSine"
+        },
+        "anchor_normalized": [
+          0.4729,
+          0.4782
+        ],
+        "intent": "lieu_sous_cta",
+        "transition_in": "hard_cut",
+        "lip_sync_safe": true
+      }
+    ],
+    "hard_cut_frames": [
+      60,
+      120,
+      180,
+      240,
+      300,
+      360,
+      420,
+      480,
+      540,
+      630,
+      690,
+      750,
+      810
+    ],
+    "crossfades": [],
+    "wipes": [],
+    "glitches": [],
+    "speed_ramps": [],
+    "freeze_frames": [],
+    "rule": "temporal source mapping remains continuous and 1.0x inside every merchant scene"
+  },
+  "speech_continuity": {
+    "source_audio_policy": "detach each scene audio, concatenate at exact scene boundaries, never retime, never slice words at internal visual cuts",
+    "internal_hard_cuts": "transform/crop changes only; source time remains continuous",
+    "S3_face_rule": "no source-frame drop, duplication, speed change or mouth occlusion",
+    "future_audio_phase": "preserve validated 120 BPM grid, ducking, non-repetition and sector identity; no speech subtitles",
+    "visual_preview_audio": false
+  },
+  "graphics": [
+    {
+      "id": "G01_HERO",
+      "start_f": 4,
+      "reveal_end_f": 24,
+      "end_f_exclusive": 60,
+      "scene": "S1",
+      "fields": [
+        "produit"
+      ],
+      "layout": {
+        "anchor": "center",
+        "center_x": 0.5,
+        "top_y": 0.245,
+        "max_width": 0.78,
+        "lines_max": 2
+      },
+      "style": {
+        "font": "display_serif",
+        "size_px": 84,
+        "min_size_px": 52,
+        "line_height": 0.92,
+        "color": "#FBF7EE",
+        "align": "center"
+      },
+      "animation": {
+        "type": "left_to_right_mask",
+        "easing": "linear",
+        "opacity": 1.0
+      }
+    },
+    {
+      "id": "G01_LABEL",
+      "start_f": 4,
+      "reveal_end_f": 24,
+      "end_f_exclusive": 60,
+      "scene": "S1",
+      "fixed_text": "PLAT DU JOUR",
+      "layout": {
+        "center_x": 0.5,
+        "top_y": 0.365,
+        "max_width": 0.62
+      },
+      "style": {
+        "font": "light_sans",
+        "size_px": 35,
+        "min_size_px": 28,
+        "tracking_em": 0.15,
+        "color": "#FBF7EE",
+        "align": "center"
+      },
+      "animation": {
+        "type": "left_to_right_mask",
+        "easing": "linear"
+      }
+    },
+    {
+      "id": "G01_MICRO",
+      "start_f": 0,
+      "end_f_exclusive": 60,
+      "scene": "S1",
+      "fields": [
+        "nom"
+      ],
+      "layout": {
+        "center_x": 0.5,
+        "baseline_y": 0.845,
+        "max_width": 0.62
+      },
+      "style": {
+        "font": "light_sans",
+        "size_px": 12,
+        "tracking_em": 0.1,
+        "color": "#EDE4D5",
+        "opacity": 0.82,
+        "align": "center"
+      }
+    },
+    {
+      "id": "G02_PRICE",
+      "start_f": 184,
+      "reveal_end_f": 204,
+      "end_f_exclusive": 240,
+      "scene": "S2",
+      "fields": [
+        "prix"
+      ],
+      "layout": {
+        "center_x": 0.5,
+        "top_y": 0.67,
+        "max_width": 0.76
+      },
+      "style": {
+        "font": "display_serif",
+        "size_px": 86,
+        "min_size_px": 58,
+        "color": "#FBF7EE",
+        "suffix_font": "utility",
+        "suffix_size_px": 28,
+        "align": "center"
+      },
+      "animation": {
+        "type": "left_to_right_mask",
+        "easing": "linear"
+      }
+    },
+    {
+      "id": "G03_HOOK",
+      "start_f": 304,
+      "reveal_end_f": 324,
+      "end_f_exclusive": 360,
+      "scene": "S2",
+      "fields": [
+        "accroche"
+      ],
+      "optional": true,
+      "empty_behavior": "omit",
+      "layout": {
+        "center_x": 0.5,
+        "top_y": 0.2,
+        "max_width": 0.78,
+        "lines_max": 2
+      },
+      "style": {
+        "font": "display_serif",
+        "size_px": 58,
+        "min_size_px": 40,
+        "color": "#FBF7EE",
+        "align": "center"
+      },
+      "animation": {
+        "type": "left_to_right_mask",
+        "easing": "linear"
+      }
+    },
+    {
+      "id": "G04_LOCATION",
+      "start_f": 634,
+      "reveal_end_f": 655,
+      "end_f_exclusive": 750,
+      "scene": "S4",
+      "fields": [
+        "nom",
+        "quartier"
+      ],
+      "layout": {
+        "center_x": 0.5,
+        "top_y": 0.22,
+        "max_width": 0.8
+      },
+      "style": {
+        "primary_font": "display_serif",
+        "primary_size_px": 62,
+        "primary_min_px": 42,
+        "secondary_font": "light_sans",
+        "secondary_size_px": 24,
+        "secondary_tracking_em": 0.1,
+        "color": "#FBF7EE",
+        "align": "center"
+      },
+      "animation": {
+        "type": "left_to_right_mask",
+        "easing": "linear"
+      }
+    },
+    {
+      "id": "G05_CTA",
+      "start_f": 810,
+      "reveal_end_f": 832,
+      "end_f_exclusive": 900,
+      "scene": "S4",
+      "fields": [
+        "nom",
+        "produit",
+        "prix",
+        "whatsapp"
+      ],
+      "fixed_text": "COMMANDER MAINTENANT",
+      "layout": {
+        "center_x": 0.5,
+        "top_y": 0.54,
+        "max_width": 0.82,
+        "bottom_safe_y": 0.89
+      },
+      "style": {
+        "headline_font": "display_serif",
+        "headline_size_px": 72,
+        "secondary_font": "light_sans",
+        "secondary_size_px": 24,
+        "secondary_tracking_em": 0.13,
+        "contact_font": "utility",
+        "contact_size_px": 31,
+        "color": "#FBF7EE",
+        "whatsapp_accent": "#25D366",
+        "hard_card": false
+      },
+      "animation": {
+        "type": "left_to_right_mask",
+        "easing": "linear",
+        "hold_full_opacity_through_f": 899
+      },
+      "background_outro": {
+        "start_f": 892,
+        "end_f_exclusive": 900,
+        "fade_to_black_alpha": 0.34,
+        "graphics_opacity": 1.0
+      }
+    }
+  ],
+  "fallbacks": {
+    "accroche_empty": "omit G03 and leave food image clean",
+    "long_product": "fit 84->52 px; then split at nearest word boundary into two balanced lines; never truncate",
+    "long_name": "fit 62->42 px; maximum two lines; never remove accents",
+    "bright_background": "increase soft radial darkening up to 0.22; never draw a rectangular scrim",
+    "face_detected": "move non-CTA text away from face; CTA only in S4",
+    "missing_font": "fail with explicit error; do not substitute"
+  },
+  "android_media3_contract": {
+    "capture_layer_change": false,
+    "scene_files_unchanged": true,
+    "composition": "EditedMediaItemSequence for S1..S4; frame-continuous transforms per scene",
+    "hard_cuts": "single-sequence concatenation or matrix-state discontinuity; zero overlap",
+    "color": "custom GlEffect implementing LUT/split-tone/vignette; deterministic uniforms per scene",
+    "text": "pre-rasterized transparent overlays from bundled TTFs or Android Canvas with exact typefaces",
+    "mask_reveal": "animated clip rect / shader x-threshold; one overlay sequence",
+    "decoder_budget": "one video decoder; no two-stream crossfade",
+    "audio_future": "original scene audio remains at 1.0x; music/SFX phase separate"
+  },
+  "quality_gates": [
+    {
+      "id": "Q01",
+      "assert": "canvas == 720x1280@30 and frames == 900"
+    },
+    {
+      "id": "Q02",
+      "assert": "scene boundaries == [0,180,420,630,900]"
+    },
+    {
+      "id": "Q03",
+      "assert": "all shot source windows are contiguous within each scene"
+    },
+    {
+      "id": "Q04",
+      "assert": "all source_speed == 1.0 and no freeze frames"
+    },
+    {
+      "id": "Q05",
+      "assert": "all transitions are zero-frame hard cuts"
+    },
+    {
+      "id": "Q06",
+      "assert": "S3 has no time remap and no face overlay"
+    },
+    {
+      "id": "Q07",
+      "assert": "G05_CTA opacity at frame 899 == 1.0"
+    },
+    {
+      "id": "Q08",
+      "assert": "no hard-edged gray/black rectangle behind text"
+    },
+    {
+      "id": "Q09",
+      "assert": "font files exist and SHA256 matches"
+    },
+    {
+      "id": "Q10",
+      "assert": "capture-guide/consignes_T1.json remains byte-identical to base commit"
+    },
+    {
+      "id": "Q11",
+      "assert": "no speech subtitles"
+    },
+    {
+      "id": "Q12",
+      "assert": "main branch and previous releases remain untouched"
+    }
+  ]
+}

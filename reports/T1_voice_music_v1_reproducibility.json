@@ -1,0 +1,100 @@
+{
+  "status": "PASS",
+  "checked_on": "2026-11-18",
+  "method": "Two consecutive complete rebuilds (mixes plus listening board) followed by a byte-for-byte SHA-256 comparison.",
+  "commands": [
+    "python3 audio/scripts/mix_t1_voice_music_v1.py --preview-dir output/t1-voice-music-v1",
+    "python3 audio/scripts/build_t1_voice_listening_board.py --preview-dir output/t1-voice-music-v1"
+  ],
+  "compared_file_count": 22,
+  "files": [
+    {
+      "path": "audio/voice/t1-voice-v1/processed/voix_fr_scene1_norm.wav",
+      "sha256": "be21b7ad6952e9333a9fb409c6066eed00c52af993f52207174d3dc6e3e579b7"
+    },
+    {
+      "path": "audio/voice/t1-voice-v1/processed/voix_fr_scene2_norm.wav",
+      "sha256": "9fc2fac2a81938b4758d0b5568fd953df5d65a69149253632700893402028591"
+    },
+    {
+      "path": "audio/voice/t1-voice-v1/processed/voix_fr_scene3_norm.wav",
+      "sha256": "8223c1651c3c9958515e510191fb5b15ff51cfd8f1b06de729e7f5b286610ca1"
+    },
+    {
+      "path": "audio/voice/t1-voice-v1/processed/voix_fr_scene4_norm.wav",
+      "sha256": "d3db45c6eab105c541d04c7ff62379352ab0d1f7fac95767fdcbb82667880d75"
+    },
+    {
+      "path": "audio/voice/t1-voice-v1/t1_voice_stem_30s.wav",
+      "sha256": "e38bf082391d542042f9ba64ee8ae8e1bd2748a391456373ed418d2744a6eb70"
+    },
+    {
+      "path": "reports/T1_voice_music_v1_validation.json",
+      "sha256": "6e4dc159dbd883bab1e66edbecf986e4ed05220ef07edfc95af054e8b479a951"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_178406.mp3",
+      "sha256": "e53707b958d4758ac4ecbc2cf5c7a60c0aabd707b97cce6cc342f2a3bdda99f9"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_178406.mp4",
+      "sha256": "67141189ca7c666130a713341c9237d752bfdbef29bd166ac064561ef5efce16"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_178406.wav",
+      "sha256": "694fc50e42f38c2df81df006f7920825c3f3dbc37c5cc70439e7b6f3ddfb1cbd"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_239426.mp3",
+      "sha256": "bc043ea86207f2cb0d4892fc0529e49cad8a6c60ceba1c51d6b97c9f9d8b51a0"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_239426.mp4",
+      "sha256": "4e07d4417684a3f3a362eb6b6f981505ed975834144e8152027be07af728c1e8"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_239426.wav",
+      "sha256": "d478e00f83e5349ffe7bda075973a36de3b88f668cfc60922f7664723f872f5d"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_406552.mp3",
+      "sha256": "2ad16b621e3ffd77384adb8c83a8fdf597b8e73639c12fa5fcbcb248f6632e9a"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_406552.mp4",
+      "sha256": "0c732ef82e2e1313d1fc3e79657fb51088db2c69d51624027cd4479fdb197562"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_406552.wav",
+      "sha256": "2e7d4bc541688df9b2a585b3431fbca5b2c335e1228450c1c971b01b464465b7"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_464383.mp3",
+      "sha256": "d9d1fb3b00df7f39d4ad25cc451d846303f62e5aa7de3f66fdae145792942176"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_464383.mp4",
+      "sha256": "ac76a604c9cb0d9ebbdcf42db340b9a3cf2714e32b9b13da084e92631c9580bf"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_464383.wav",
+      "sha256": "7aabd030c9f0a7eba7d117fdcf311b82237520ebb8a759a3114ce61ee634dc3d"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_listening_board.html",
+      "sha256": "0ebad10161aefcdbb80e0e788e4a17e323752615b3580863c4fae23b7ee2c1bf"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_voice_music_validation.json",
+      "sha256": "6e4dc159dbd883bab1e66edbecf986e4ed05220ef07edfc95af054e8b479a951"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_ducking_automation_10ms.csv",
+      "sha256": "aca6cff9b3a2c39718ba368377b1c76312562890939d51f3fa4bbc0d1dcf7aeb"
+    },
+    {
+      "path": "output/t1-voice-music-v1/T1_ducking_voice_timeline.png",
+      "sha256": "b9c4e25c774623c0bf7449ad79f92ca64a1f220a222ecdf68f216a51e55ead03"
+    }
+  ]
+}

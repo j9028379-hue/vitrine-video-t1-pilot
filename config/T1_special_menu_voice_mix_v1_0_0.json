@@ -1,0 +1,82 @@
+{
+  "$schema": "../schemas/T1_voice_mix.schema.json",
+  "schema_version": "1.0.0",
+  "id": "restaurants_maquis_T1_voice_mix_v1_0_0",
+  "display_name": "T1 — voix française et ducking des 4 variantes musicales",
+  "status": "offline_reference_mix",
+  "approved_on": "2026-11-18",
+  "duration_s": 30.0,
+  "sample_rate_hz": 48000,
+  "visual_source": "output/output_T1_special_menu_reference_v3.mp4",
+  "music_pack": "config/T1_special_menu_music_pack_v1_0_0.json",
+  "voice": {
+    "provider": "Arena.ai Agent Mode",
+    "voice_id": "voice-00",
+    "language": "fr",
+    "identity": "masculine advertising",
+    "stem_file": "audio/voice/t1-voice-v1/t1_voice_stem_30s.wav",
+    "normalization_target_lufs": -20.0,
+    "normalization_true_peak_dbtp_max": -3.0,
+    "clips": [
+      {
+        "scene": 1,
+        "start_s": 1.2,
+        "text": "Voici notre burger maison, préparé pour vous.",
+        "source": "audio/voice/t1-voice-v1/voix_fr_scene1.wav",
+        "processed": "audio/voice/t1-voice-v1/processed/voix_fr_scene1_norm.wav"
+      },
+      {
+        "scene": 2,
+        "start_s": 6.8,
+        "text": "Regardez le pain doré, la garniture et tous les détails.",
+        "source": "audio/voice/t1-voice-v1/voix_fr_scene2.wav",
+        "processed": "audio/voice/t1-voice-v1/processed/voix_fr_scene2_norm.wav"
+      },
+      {
+        "scene": 3,
+        "start_s": 14.7,
+        "text": "On vous le sert tout juste préparé. Venez le découvrir !",
+        "source": "audio/voice/t1-voice-v1/voix_fr_scene3.wav",
+        "processed": "audio/voice/t1-voice-v1/processed/voix_fr_scene3_norm.wav"
+      },
+      {
+        "scene": 4,
+        "start_s": 21.8,
+        "text": "Retrouvez Maquis Démo à Arconville. Pour commander, contactez-nous sur WhatsApp.",
+        "source": "audio/voice/t1-voice-v1/voix_fr_scene4.wav",
+        "processed": "audio/voice/t1-voice-v1/processed/voix_fr_scene4_norm.wav"
+      }
+    ]
+  },
+  "mix_contract": {
+    "music_open_gain_db": -3.0,
+    "music_under_voice_gain_db": -10.0,
+    "duck_depth_db": -7.0,
+    "duck_attack_ms": 120,
+    "duck_release_ms": 450,
+    "duck_attack_curve": "linear_db",
+    "duck_release_curve": "linear_db",
+    "voice_gain_db": 0.0,
+    "sfx": "none",
+    "master_target_lufs": -16.0,
+    "master_true_peak_dbtp_max": -2.0,
+    "delivery_audio": "stereo 48 kHz"
+  },
+  "quality_gates": {
+    "exact_music_variant_count": 4,
+    "approved_variant_ids": [
+      "t1_music_239426",
+      "t1_music_464383",
+      "t1_music_406552",
+      "t1_music_178406"
+    ],
+    "duration_tolerance_s": 0.001,
+    "integrated_lufs_min": -16.5,
+    "integrated_lufs_max": -15.5,
+    "wav_true_peak_dbtp_max": -1.9,
+    "aac_true_peak_dbtp_max": -1.0,
+    "minimum_active_speech_to_music_db": 4.0,
+    "clipped_sample_count_max": 0,
+    "human_listening_required_for_creative_approval": true
+  }
+}

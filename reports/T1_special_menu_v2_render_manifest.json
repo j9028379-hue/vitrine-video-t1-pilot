@@ -1,0 +1,93 @@
+{
+  "renderer": "engine.special_menu_style.render_project",
+  "config": "config/T1_special_menu_reference_v2.json",
+  "input": "demo/T1_demo_input.json",
+  "output": "output/output_T1_special_menu_reference_v2.mp4",
+  "width": 720,
+  "height": 1280,
+  "fps": 30,
+  "frames": 900,
+  "duration_s": 30.0,
+  "audio": false,
+  "impact_transitions": {
+    "enabled": true,
+    "major_cut_frames": [
+      180,
+      420,
+      630
+    ],
+    "minor_cut_frames": [
+      60,
+      120,
+      240,
+      300,
+      360,
+      480,
+      540,
+      690,
+      750,
+      810
+    ],
+    "source_time_map": "identity"
+  },
+  "sha256": "9a485a6f202c9438c74628cd05bf4dfa8d0a623794d7af717592b196074e38b0",
+  "bytes": 20595205,
+  "scenes": [
+    {
+      "scene": "S1",
+      "frames": 180,
+      "source": "simulation/media/S1.mp4",
+      "source_fps": 30.0,
+      "grade": {
+        "exposure_gain": 0.88497,
+        "gray_world_bgr": [
+          1.06,
+          0.94,
+          0.94
+        ]
+      }
+    },
+    {
+      "scene": "S2",
+      "frames": 240,
+      "source": "simulation/media/S2.mp4",
+      "source_fps": 30.0,
+      "grade": {
+        "exposure_gain": 0.82,
+        "gray_world_bgr": [
+          1.06,
+          1.011414,
+          0.94
+        ]
+      }
+    },
+    {
+      "scene": "S3",
+      "frames": 210,
+      "source": "simulation/media/S3.mp4",
+      "source_fps": 30.0,
+      "grade": {
+        "exposure_gain": 0.82,
+        "gray_world_bgr": [
+          1.06,
+          1.032011,
+          0.94
+        ]
+      }
+    },
+    {
+      "scene": "S4",
+      "frames": 270,
+      "source": "simulation/media/S4.mp4",
+      "source_fps": 30.0,
+      "grade": {
+        "exposure_gain": 0.82,
+        "gray_world_bgr": [
+          1.06,
+          0.989482,
+          0.94
+        ]
+      }
+    }
+  ]
+}

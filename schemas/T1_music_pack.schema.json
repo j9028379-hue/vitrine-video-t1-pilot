@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vitrine.video/schemas/T1_music_pack.schema.json",
+  "title": "T1 offline Afrobeat/Amapiano music sidecar",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schema_version", "id", "audio_profile", "display_name", "status", "approved_on", "replaces_rejected_candidate", "non_destructive_base", "selection_contract", "timeline", "format", "mix_contract", "license_contract", "tracks", "quality_gate"],
+  "properties": {
+    "$schema": {"const": "../schemas/T1_music_pack.schema.json"},
+    "schema_version": {"const": "1.0.0"},
+    "id": {"const": "restaurants_maquis_T1_afrobeat_amapiano_music_v1_0_0"},
+    "audio_profile": {"const": "afrobeat_amapiano"},
+    "display_name": {"type": "string", "minLength": 1},
+    "status": {"const": "release_ready_all_four_tracks"},
+    "approved_on": {"const": "2026-11-18"},
+    "replaces_rejected_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pixabay_id", "reason"],
+      "properties": {"pixabay_id": {"const": 573944}, "reason": {"type": "string", "minLength": 1}}
+    },
+    "non_destructive_base": {
+      "type": "object",
+      "required": ["commit", "canonical_silent_template", "canonical_silent_template_sha256", "silent_package_manifest", "silent_package_manifest_sha256", "capture_guide_sha256", "base_files_must_remain_unchanged"],
+      "properties": {
+        "commit": {"const": "cab2aa2a4a841341c9e84aeb08e243ea9baec0f4"},
+        "canonical_silent_template": {"type": "string"},
+        "canonical_silent_template_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "silent_package_manifest": {"type": "string"},
+        "silent_package_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "capture_guide_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "base_files_must_remain_unchanged": {"const": true}
+      }
+    },
+    "selection_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["variant_count", "merchant_field_added", "allowed_variant_ids", "default_variant_id", "runtime_mode", "no_immediate_repeat", "previous_variant_id_contract", "automatic_candidate_count_after_first_render", "selection_state_scope", "selection_state_schema", "state_update_policy", "failed_render_state_policy", "all_tracks_production_eligible", "network_required"],
+      "properties": {
+        "variant_count": {"const": 4},
+        "merchant_field_added": {"const": false},
+        "allowed_variant_ids": {"const": ["t1_music_239426", "t1_music_464383", "t1_music_406552", "t1_music_178406"]},
+        "default_variant_id": {"enum": ["t1_music_239426", "t1_music_464383", "t1_music_406552", "t1_music_178406"]},
+        "runtime_mode": {"const": "explicit preview choice; production auto hashes render_job_id across approved candidates excluding previous_variant_id"},
+        "no_immediate_repeat": {"const": true},
+        "previous_variant_id_contract": {"const": "null for first render; otherwise variant_id from last successful render"},
+        "automatic_candidate_count_after_first_render": {"const": 3},
+        "selection_state_scope": {"const": "caller-owned persistent JSON"},
+        "selection_state_schema": {"const": "schemas/T1_music_selection_state.schema.json"},
+        "state_update_policy": {"const": "after_success_only"},
+        "failed_render_state_policy": {"const": "unchanged"},
+        "all_tracks_production_eligible": {"const": true},
+        "network_required": {"const": false}
+      }
+    },
+    "timeline": {
+      "type": "object",
+      "required": ["duration_s", "frames", "fps", "bpm_target", "beat_frames_target", "scene_markers_s", "scene_markers_frames", "scene_durations_s"],
+      "properties": {
+        "duration_s": {"const": 30.0}, "frames": {"const": 900}, "fps": {"const": 30}, "bpm_target": {"const": 120}, "beat_frames_target": {"const": 15},
+        "scene_markers_s": {"const": [0, 6, 14, 21, 30]}, "scene_markers_frames": {"const": [0, 180, 420, 630, 900]}, "scene_durations_s": {"const": [6, 8, 7, 9]}
+      }
+    },
+    "format": {"type": "object"},
+    "mix_contract": {"type": "object"},
+    "license_contract": {
+      "type": "object",
+      "required": ["license", "license_url", "official_download_only", "standalone_redistribution_forbidden", "original_full_tracks_bundled", "adapted_30s_template_edits_bundled", "content_id_track_count", "proof"],
+      "properties": {"content_id_track_count": {"const": 0}}
+    },
+    "tracks": {
+      "type": "array", "minItems": 4, "maxItems": 4,
+      "prefixItems": [
+        {"allOf": [{"$ref": "#/$defs/track"}, {"properties": {"id": {"const": "t1_music_239426"}, "pixabay_id": {"const": 239426}}}]},
+        {"allOf": [{"$ref": "#/$defs/track"}, {"properties": {"id": {"const": "t1_music_464383"}, "pixabay_id": {"const": 464383}}}]},
+        {"allOf": [{"$ref": "#/$defs/track"}, {"properties": {"id": {"const": "t1_music_406552"}, "pixabay_id": {"const": 406552}}}]},
+        {"allOf": [{"$ref": "#/$defs/track"}, {"properties": {"id": {"const": "t1_music_178406"}, "pixabay_id": {"const": 178406}}}]}
+      ],
+      "items": false
+    },
+    "quality_gate": {
+      "type": "object",
+      "required": ["exactly_four_tracks", "approved_pixabay_ids", "forbidden_pixabay_ids", "duration_exact_30s", "measured_bpm_acceptance", "lufs_acceptance", "true_peak_dbtp_max", "qc_all_pass", "production_ready_track_count", "content_id_track_count"],
+      "properties": {
+        "exactly_four_tracks": {"const": true}, "approved_pixabay_ids": {"const": [239426, 464383, 406552, 178406]}, "forbidden_pixabay_ids": {"const": [573944]},
+        "duration_exact_30s": {"const": true}, "qc_all_pass": {"const": true}, "production_ready_track_count": {"const": 4}, "content_id_track_count": {"const": 0}
+      }
+    }
+  },
+  "$defs": {
+    "track": {
+      "type": "object",
+      "required": ["id", "pixabay_id", "title", "artist", "file", "source_bpm", "target_bpm", "tempo_multiplier", "source_start_s", "duration_s", "sample_rate_hz", "channels", "content_id_registered", "master_integrated_lufs_target", "master_true_peak_dbtp_max", "runtime_no_speech_gain_db", "runtime_speech_gain_db", "sha256", "bytes", "official_page", "license", "scene_markers_s", "scene_markers_frames", "qc", "evidence_file", "audition_approved_by_user", "approval_date", "production_eligible"],
+      "properties": {
+        "id": {"type": "string"}, "pixabay_id": {"type": "integer"}, "title": {"type": "string"}, "artist": {"type": "string"}, "file": {"type": "string"},
+        "source_bpm": {"type": "number"}, "target_bpm": {"const": 120}, "tempo_multiplier": {"type": "number"}, "source_start_s": {"type": "number"},
+        "duration_s": {"const": 30.0}, "sample_rate_hz": {"const": 44100}, "channels": {"const": 2}, "content_id_registered": {"const": false},
+        "master_integrated_lufs_target": {"const": -17}, "master_true_peak_dbtp_max": {"const": -1.0}, "runtime_no_speech_gain_db": {"const": -3}, "runtime_speech_gain_db": {"const": -10},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "bytes": {"type": "integer", "minimum": 1}, "official_page": {"type": "string", "format": "uri"}, "license": {"type": "string", "format": "uri"},
+        "scene_markers_s": {"const": [0, 6, 14, 21, 30]}, "scene_markers_frames": {"const": [0, 180, 420, 630, 900]},
+        "qc": {"$ref": "#/$defs/qc"}, "evidence_file": {"type": "string"}, "audition_approved_by_user": {"const": true}, "approval_date": {"const": "2026-11-18"}, "production_eligible": {"const": true}
+      }
+    },
+    "qc": {
+      "type": "object",
+      "required": ["measured_bpm", "duration_s_measured", "samples", "integrated_lufs", "true_peak_dbtp", "sha256_recomputed", "pass_duration_exact", "pass_bpm_118_122", "pass_true_peak_le_minus_0_7", "pass_lufs_minus_17_7_to_minus_16_7"],
+      "properties": {
+        "measured_bpm": {"type": "number", "minimum": 118, "maximum": 122}, "duration_s_measured": {"const": 30.0}, "samples": {"const": 1323000},
+        "integrated_lufs": {"type": "number", "minimum": -17.7, "maximum": -16.7}, "true_peak_dbtp": {"type": "number", "maximum": -0.7},
+        "sha256_recomputed": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "pass_duration_exact": {"const": true}, "pass_bpm_118_122": {"const": true}, "pass_true_peak_le_minus_0_7": {"const": true}, "pass_lufs_minus_17_7_to_minus_16_7": {"const": true}
+      }
+    }
+  }
+}

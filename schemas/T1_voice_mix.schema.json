@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vitrine-video.example/schemas/T1_voice_mix.schema.json",
+  "title": "T1 French voice and four-track ducking contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "display_name",
+    "status",
+    "approved_on",
+    "duration_s",
+    "sample_rate_hz",
+    "visual_source",
+    "music_pack",
+    "voice",
+    "mix_contract",
+    "quality_gates"
+  ],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"const": "1.0.0"},
+    "id": {"const": "restaurants_maquis_T1_voice_mix_v1_0_0"},
+    "display_name": {"type": "string", "minLength": 1},
+    "status": {"const": "offline_reference_mix"},
+    "approved_on": {"type": "string", "format": "date"},
+    "duration_s": {"const": 30.0},
+    "sample_rate_hz": {"const": 48000},
+    "visual_source": {"const": "output/output_T1_special_menu_reference_v3.mp4"},
+    "music_pack": {"const": "config/T1_special_menu_music_pack_v1_0_0.json"},
+    "voice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "voice_id",
+        "language",
+        "identity",
+        "stem_file",
+        "normalization_target_lufs",
+        "normalization_true_peak_dbtp_max",
+        "clips"
+      ],
+      "properties": {
+        "provider": {"const": "Arena.ai Agent Mode"},
+        "voice_id": {"const": "voice-00"},
+        "language": {"const": "fr"},
+        "identity": {"const": "masculine advertising"},
+        "stem_file": {"const": "audio/voice/t1-voice-v1/t1_voice_stem_30s.wav"},
+        "normalization_target_lufs": {"const": -20.0},
+        "normalization_true_peak_dbtp_max": {"const": -3.0},
+        "clips": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "prefixItems": [
+            {"$ref": "#/$defs/scene1"},
+            {"$ref": "#/$defs/scene2"},
+            {"$ref": "#/$defs/scene3"},
+            {"$ref": "#/$defs/scene4"}
+          ],
+          "items": false
+        }
+      }
+    },
+    "mix_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "music_open_gain_db",
+        "music_under_voice_gain_db",
+        "duck_depth_db",
+        "duck_attack_ms",
+        "duck_release_ms",
+        "duck_attack_curve",
+        "duck_release_curve",
+        "voice_gain_db",
+        "sfx",
+        "master_target_lufs",
+        "master_true_peak_dbtp_max",
+        "delivery_audio"
+      ],
+      "properties": {
+        "music_open_gain_db": {"const": -3.0},
+        "music_under_voice_gain_db": {"const": -10.0},
+        "duck_depth_db": {"const": -7.0},
+        "duck_attack_ms": {"const": 120},
+        "duck_release_ms": {"const": 450},
+        "duck_attack_curve": {"const": "linear_db"},
+        "duck_release_curve": {"const": "linear_db"},
+        "voice_gain_db": {"const": 0.0},
+        "sfx": {"const": "none"},
+        "master_target_lufs": {"const": -16.0},
+        "master_true_peak_dbtp_max": {"const": -2.0},
+        "delivery_audio": {"const": "stereo 48 kHz"}
+      }
+    },
+    "quality_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exact_music_variant_count",
+        "approved_variant_ids",
+        "duration_tolerance_s",
+        "integrated_lufs_min",
+        "integrated_lufs_max",
+        "wav_true_peak_dbtp_max",
+        "aac_true_peak_dbtp_max",
+        "minimum_active_speech_to_music_db",
+        "clipped_sample_count_max",
+        "human_listening_required_for_creative_approval"
+      ],
+      "properties": {
+        "exact_music_variant_count": {"const": 4},
+        "approved_variant_ids": {
+          "const": [
+            "t1_music_239426",
+            "t1_music_464383",
+            "t1_music_406552",
+            "t1_music_178406"
+          ]
+        },
+        "duration_tolerance_s": {"const": 0.001},
+        "integrated_lufs_min": {"const": -16.5},
+        "integrated_lufs_max": {"const": -15.5},
+        "wav_true_peak_dbtp_max": {"const": -1.9},
+        "aac_true_peak_dbtp_max": {"const": -1.0},
+        "minimum_active_speech_to_music_db": {"const": 4.0},
+        "clipped_sample_count_max": {"const": 0},
+        "human_listening_required_for_creative_approval": {"const": true}
+      }
+    }
+  },
+  "$defs": {
+    "clip": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scene", "start_s", "text", "source", "processed"],
+      "properties": {
+        "scene": {"type": "integer"},
+        "start_s": {"type": "number"},
+        "text": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "pattern": "^audio/voice/t1-voice-v1/voix_fr_scene[1-4]\\.wav$"},
+        "processed": {"type": "string", "pattern": "^audio/voice/t1-voice-v1/processed/voix_fr_scene[1-4]_norm\\.wav$"}
+      }
+    },
+    "scene1": {"allOf": [{"$ref": "#/$defs/clip"}, {"properties": {"scene": {"const": 1}, "start_s": {"const": 1.2}}}]},
+    "scene2": {"allOf": [{"$ref": "#/$defs/clip"}, {"properties": {"scene": {"const": 2}, "start_s": {"const": 6.8}}}]},
+    "scene3": {"allOf": [{"$ref": "#/$defs/clip"}, {"properties": {"scene": {"const": 3}, "start_s": {"const": 14.7}}}]},
+    "scene4": {"allOf": [{"$ref": "#/$defs/clip"}, {"properties": {"scene": {"const": 4}, "start_s": {"const": 21.8}}}]}
+  }
+}

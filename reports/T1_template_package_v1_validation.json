@@ -1,0 +1,179 @@
+{
+  "status": "PASS",
+  "package_id": "restaurants_maquis_T1_special_menu_template",
+  "template_id": "T1",
+  "version": "1.0.0",
+  "audio_profile": "afrobeat_amapiano",
+  "template_schema_version": "2.1.0",
+  "published_package_contract": {
+    "template_id": "restaurants_maquis_T1_special_menu_v1_0_0",
+    "template_version": "1.0.0",
+    "release_tag": "t1-special-menu-template-v1.0.0-silent"
+  },
+  "offline": true,
+  "target_ram_mb": 2048,
+  "checks_passed": 15,
+  "checks_total": 15,
+  "checks": [
+    {
+      "name": "manifest_artifacts_present",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "manifest_hashes_and_sizes",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "schema:config/T1_special_menu_template_v1_0_0.json",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "schema:fixtures/t1-special-menu/render_job.valid.json",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "schema:fixtures/t1-special-menu/render_result.valid.json",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "schema:fixtures/t1-special-menu/render_error.unsupported_media.json",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "catalogue_identity",
+      "status": "PASS",
+      "detail": {
+        "schema_version": "2.1.0",
+        "template_id": "T1",
+        "version": "1.0.0",
+        "audio_profile": "afrobeat_amapiano",
+        "legacy_template_version_present": false
+      }
+    },
+    {
+      "name": "twelve_screen_order",
+      "status": "PASS",
+      "detail": [
+        "T1_CAPTURE_S1_A_GUIDE",
+        "T1_CAPTURE_S1_B_RECORDING",
+        "T1_CAPTURE_S1_C_REVIEW",
+        "T1_CAPTURE_S2_A_GUIDE",
+        "T1_CAPTURE_S2_B_RECORDING",
+        "T1_CAPTURE_S2_C_REVIEW",
+        "T1_CAPTURE_S3_A_GUIDE",
+        "T1_CAPTURE_S3_B_RECORDING",
+        "T1_CAPTURE_S3_C_REVIEW",
+        "T1_CAPTURE_S4_A_GUIDE",
+        "T1_CAPTURE_S4_B_RECORDING",
+        "T1_CAPTURE_S4_C_REVIEW"
+      ]
+    },
+    {
+      "name": "six_universal_fields",
+      "status": "PASS",
+      "detail": [
+        "nom",
+        "produit",
+        "prix",
+        "whatsapp",
+        "quartier",
+        "accroche"
+      ]
+    },
+    {
+      "name": "four_scene_timing",
+      "status": "PASS",
+      "detail": [
+        [
+          "S1",
+          180,
+          6.0
+        ],
+        [
+          "S2",
+          240,
+          8.0
+        ],
+        [
+          "S3",
+          210,
+          7.0
+        ],
+        [
+          "S4",
+          270,
+          9.0
+        ]
+      ]
+    },
+    {
+      "name": "audio_phase",
+      "status": "PASS",
+      "detail": {
+        "phase": "deferred_after_silent_template_freeze",
+        "merchant_voice_timeline": "reserved_identity_1_0x",
+        "music": "deferred; future curated catalogue target 20 to 30 models",
+        "sfx": "none; approved reference contains no SFX grammar",
+        "automatic_subtitles": false
+      }
+    },
+    {
+      "name": "offline_2gb_profile",
+      "status": "PASS",
+      "detail": {
+        "ram_mb": 2048,
+        "server": false,
+        "decoder_count": 1,
+        "memory_hard_limit_mb": 256,
+        "ffmpeg_required": false
+      }
+    },
+    {
+      "name": "capture_media_contract",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "golden_master",
+      "status": "PASS",
+      "detail": {
+        "sha256": "784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7",
+        "bytes": 20276905,
+        "decoded": {
+          "width": 720,
+          "height": 1280,
+          "fps": 30.0,
+          "frames": 900,
+          "duration_ms": 30000
+        }
+      }
+    },
+    {
+      "name": "golden_keyframes",
+      "status": "PASS",
+      "detail": {
+        "frames": [
+          0,
+          45,
+          179,
+          180,
+          419,
+          420,
+          629,
+          630,
+          809,
+          810,
+          817,
+          899
+        ],
+        "count": 12
+      }
+    }
+  ]
+}

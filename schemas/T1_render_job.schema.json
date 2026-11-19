@@ -1,0 +1,328 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vitrine.video/schemas/T1_render_job.schema.json",
+  "title": "T1 Special Menu — RenderJob",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "job_id",
+    "idempotency_key",
+    "template_id",
+    "template_version",
+    "execution_profile",
+    "network_policy",
+    "merchant_payload",
+    "captures",
+    "audio_mode",
+    "output"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "job_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{7,63}$"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 128
+    },
+    "template_id": {
+      "const": "restaurants_maquis_T1_special_menu_v1_0_0"
+    },
+    "template_version": {
+      "const": "1.0.0"
+    },
+    "execution_profile": {
+      "enum": [
+        "T1_ANDROID_OFFLINE_2GB",
+        "T1_REFERENCE_PYTHON"
+      ]
+    },
+    "network_policy": {
+      "const": "offline_only"
+    },
+    "merchant_payload": {
+      "$ref": "#/$defs/merchantPayload"
+    },
+    "captures": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "properties": {
+        "S1": {
+          "$ref": "#/$defs/captureS1"
+        },
+        "S2": {
+          "$ref": "#/$defs/captureS2"
+        },
+        "S3": {
+          "$ref": "#/$defs/captureS3"
+        },
+        "S4": {
+          "$ref": "#/$defs/captureS4"
+        }
+      }
+    },
+    "audio_mode": {
+      "const": "silent_conformance_voice_timeline_reserved"
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "uri",
+        "container",
+        "video_mime",
+        "width",
+        "height",
+        "fps",
+        "frames",
+        "duration_ms",
+        "target_video_bitrate_bps",
+        "overwrite"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "container": {
+          "const": "mp4"
+        },
+        "video_mime": {
+          "const": "video/avc"
+        },
+        "width": {
+          "const": 720
+        },
+        "height": {
+          "const": 1280
+        },
+        "fps": {
+          "const": 30
+        },
+        "frames": {
+          "const": 900
+        },
+        "duration_ms": {
+          "const": 30000
+        },
+        "target_video_bitrate_bps": {
+          "type": "integer",
+          "minimum": 4000000,
+          "maximum": 6000000
+        },
+        "overwrite": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "merchantPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nom",
+        "produit",
+        "prix",
+        "whatsapp",
+        "quartier"
+      ],
+      "properties": {
+        "nom": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "produit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "prix": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 7,
+          "pattern": "^[0-9 .]+$"
+        },
+        "whatsapp": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 20
+        },
+        "quartier": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "accroche": {
+          "type": "string",
+          "maxLength": 48
+        }
+      }
+    },
+    "captureBase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "uri",
+        "mime_type",
+        "video_codec",
+        "width",
+        "height",
+        "fps",
+        "frame_count",
+        "duration_ms",
+        "rotation_degrees",
+        "has_audio",
+        "audio_codec",
+        "sha256"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mime_type": {
+          "const": "video/mp4"
+        },
+        "video_codec": {
+          "enum": [
+            "video/avc",
+            "H.264"
+          ]
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 540,
+          "maximum": 1080
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 960,
+          "maximum": 1920
+        },
+        "fps": {
+          "const": 30
+        },
+        "frame_count": {
+          "type": "integer"
+        },
+        "duration_ms": {
+          "type": "integer"
+        },
+        "rotation_degrees": {
+          "enum": [
+            0,
+            90,
+            180,
+            270
+          ]
+        },
+        "has_audio": {
+          "const": true
+        },
+        "audio_codec": {
+          "enum": [
+            "AAC-LC",
+            "fixture_external_voice_track"
+          ]
+        },
+        "audio_uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "captureS1": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/captureBase"
+        },
+        {
+          "properties": {
+            "frame_count": {
+              "minimum": 180,
+              "maximum": 181
+            },
+            "duration_ms": {
+              "minimum": 6000,
+              "maximum": 6034
+            }
+          }
+        }
+      ]
+    },
+    "captureS2": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/captureBase"
+        },
+        {
+          "properties": {
+            "frame_count": {
+              "minimum": 240,
+              "maximum": 241
+            },
+            "duration_ms": {
+              "minimum": 8000,
+              "maximum": 8034
+            }
+          }
+        }
+      ]
+    },
+    "captureS3": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/captureBase"
+        },
+        {
+          "properties": {
+            "frame_count": {
+              "minimum": 210,
+              "maximum": 211
+            },
+            "duration_ms": {
+              "minimum": 7000,
+              "maximum": 7034
+            }
+          }
+        }
+      ]
+    },
+    "captureS4": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/captureBase"
+        },
+        {
+          "properties": {
+            "frame_count": {
+              "minimum": 270,
+              "maximum": 271
+            },
+            "duration_ms": {
+              "minimum": 9000,
+              "maximum": 9034
+            }
+          }
+        }
+      ]
+    }
+  }
+}

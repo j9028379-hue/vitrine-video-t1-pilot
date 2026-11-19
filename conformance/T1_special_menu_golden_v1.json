@@ -1,0 +1,253 @@
+{
+  "schema_version": "1.0.0",
+  "template_id": "restaurants_maquis_T1_special_menu_v1_0_0",
+  "template_version": "1.0.0",
+  "reference_backend": "Python/OpenCV/Pillow renderer",
+  "inputs": {
+    "S1": {
+      "path": "simulation/media/S1.mp4",
+      "sha256": "0940247f74605b650139d0f4d0e3f5aedf942736c8dab43e1457748072bc8033",
+      "bytes": 238823,
+      "decoded": {
+        "width": 540,
+        "height": 960,
+        "fps": 30.0,
+        "frames": 180,
+        "duration_ms": 6000
+      },
+      "required_frames": 180
+    },
+    "S2": {
+      "path": "simulation/media/S2.mp4",
+      "sha256": "62c991e577132a59fc0dc4cbab5bc38dbde4c2afe5fd85bfcb99126a939cf9fa",
+      "bytes": 311543,
+      "decoded": {
+        "width": 540,
+        "height": 960,
+        "fps": 30.0,
+        "frames": 240,
+        "duration_ms": 8000
+      },
+      "required_frames": 240
+    },
+    "S3": {
+      "path": "simulation/media/S3.mp4",
+      "sha256": "668a39c0df544dbe36ddcbb94bf3b545635271ec146343fdb0b19bca24686a51",
+      "bytes": 452929,
+      "decoded": {
+        "width": 540,
+        "height": 960,
+        "fps": 30.0,
+        "frames": 210,
+        "duration_ms": 7000
+      },
+      "required_frames": 210
+    },
+    "S4": {
+      "path": "simulation/media/S4.mp4",
+      "sha256": "8ab5cece53aafddca76258c7b2483d970e030da9fc51c2180db5042261c1364f",
+      "bytes": 468865,
+      "decoded": {
+        "width": 540,
+        "height": 960,
+        "fps": 30.0,
+        "frames": 271,
+        "duration_ms": 9033
+      },
+      "required_frames": 270
+    }
+  },
+  "reference_output": {
+    "path": "output/output_T1_special_menu_reference_v3.mp4",
+    "sha256": "784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7",
+    "bytes": 20276905,
+    "decoded": {
+      "width": 720,
+      "height": 1280,
+      "fps": 30.0,
+      "frames": 900,
+      "duration_ms": 30000
+    },
+    "binary_hash_rule": "exact only for the reference backend"
+  },
+  "keyframes": [
+    {
+      "frame": 0,
+      "time_ms": 0,
+      "decoded_bgr_sha256_reference_backend": "4b3ffc49ad36451767fa36a26ef2d656df8e1e7c8ead9ac764f26ce30589b504",
+      "dhash64": "0104849880007000",
+      "mean_bgr": [
+        1.815267,
+        22.002507,
+        40.948261
+      ],
+      "mean_luma": 25.391749
+    },
+    {
+      "frame": 45,
+      "time_ms": 1500,
+      "decoded_bgr_sha256_reference_backend": "0afd02eb2dcd3e853337f0183fcd050e13f294dedfa178ac9bd653801b931a47",
+      "dhash64": "00c0b8bc68c00040",
+      "mean_bgr": [
+        10.129545,
+        40.287021,
+        63.099571
+      ],
+      "mean_luma": 43.679882
+    },
+    {
+      "frame": 179,
+      "time_ms": 5967,
+      "decoded_bgr_sha256_reference_backend": "44a65c5f253e4ea7adca6d5907e8c01dcb48f0f57ad4724b25f0f78be06046ca",
+      "dhash64": "e0e160c2c0f9b938",
+      "mean_bgr": [
+        41.574093,
+        96.89541,
+        139.064382
+      ],
+      "mean_luma": 103.179824
+    },
+    {
+      "frame": 180,
+      "time_ms": 6000,
+      "decoded_bgr_sha256_reference_backend": "519fafeb991f8d37e4f011388fe97227c28ffc252b69e1cd2969a971daf65164",
+      "dhash64": "d4d8d8f3f564e293",
+      "mean_bgr": [
+        18.842458,
+        90.01386,
+        142.449042
+      ],
+      "mean_luma": 97.514667
+    },
+    {
+      "frame": 419,
+      "time_ms": 13967,
+      "decoded_bgr_sha256_reference_backend": "5efea328853b8196edc7e5282faea226200e8af3648381e4521d2985fc5837ea",
+      "dhash64": "b2d893d9de7473e0",
+      "mean_bgr": [
+        42.732691,
+        93.593279,
+        139.998396
+      ],
+      "mean_luma": 101.612007
+    },
+    {
+      "frame": 420,
+      "time_ms": 14000,
+      "decoded_bgr_sha256_reference_backend": "bcb6c31488e2a799d031bb5ce89ba5485bb2cafddcb0dd063f6d2bb782e44509",
+      "dhash64": "c74767694c0f38c8",
+      "mean_bgr": [
+        77.301466,
+        101.756535,
+        125.56736
+      ],
+      "mean_luma": 106.054581
+    },
+    {
+      "frame": 629,
+      "time_ms": 20967,
+      "decoded_bgr_sha256_reference_backend": "066d802dbb7b8e7aa12d20077b558cec60e8664e086ca7e444bb5ca76ffd3939",
+      "dhash64": "0d0662346a316cca",
+      "mean_bgr": [
+        77.990233,
+        118.310426,
+        150.520522
+      ],
+      "mean_luma": 123.312618
+    },
+    {
+      "frame": 630,
+      "time_ms": 21000,
+      "decoded_bgr_sha256_reference_backend": "2adaeb0857f82b1cd3c5e5106c69235f7daffa461bc5f56dd809456b04f6c9cf",
+      "dhash64": "afc753e6e194b8f4",
+      "mean_bgr": [
+        57.778513,
+        97.076942,
+        122.741474
+      ],
+      "mean_luma": 100.220892
+    },
+    {
+      "frame": 809,
+      "time_ms": 26967,
+      "decoded_bgr_sha256_reference_backend": "51875bf7e2f5638a05527abe4c4351b377ee15a88176a100d1d213e4fe05dac6",
+      "dhash64": "c1c49a1c0f1f13fe",
+      "mean_bgr": [
+        27.806038,
+        43.963125,
+        59.857808
+      ],
+      "mean_luma": 46.857756
+    },
+    {
+      "frame": 810,
+      "time_ms": 27000,
+      "decoded_bgr_sha256_reference_backend": "4c2e6d652fa986c7c58a8b28fe172103e979bcb48929cdfe28728aad4cef9e3c",
+      "dhash64": "4164525c070f1bf7",
+      "mean_bgr": [
+        21.427942,
+        36.163192,
+        50.099785
+      ],
+      "mean_luma": 38.656208
+    },
+    {
+      "frame": 817,
+      "time_ms": 27233,
+      "decoded_bgr_sha256_reference_backend": "24fcfb8373bdd7f37a6ea44c313a415d866fc36742531b3035174be2f0ee1cd9",
+      "dhash64": "c1c41a5e472b13fa",
+      "mean_bgr": [
+        21.203172,
+        32.192938,
+        43.426086
+      ],
+      "mean_luma": 34.260858
+    },
+    {
+      "frame": 899,
+      "time_ms": 29967,
+      "decoded_bgr_sha256_reference_backend": "c321dd989cea6e0454c4ef5beea18e77e10e2d9a07ca9d59fdc48b3a896c413f",
+      "dhash64": "5181d6cd847093df",
+      "mean_bgr": [
+        14.161893,
+        21.407939,
+        28.538549
+      ],
+      "mean_luma": 22.687933
+    }
+  ],
+  "semantic_checks": {
+    "scene_boundaries": [
+      180,
+      420,
+      630,
+      900
+    ],
+    "cut_frames": [
+      60,
+      120,
+      180,
+      240,
+      300,
+      360,
+      420,
+      480,
+      540,
+      630,
+      690,
+      750,
+      810
+    ],
+    "cta_full_opacity_frame": 899,
+    "stable_background_from_frame": 817,
+    "static_pairs_allowed": 0,
+    "source_time_map": "identity",
+    "audio_time_map": "identity"
+  },
+  "portable_backend_tolerance": {
+    "minimum_keyframe_ssim": 0.93,
+    "maximum_keyframe_mean_absolute_error_0_255": 9.0,
+    "maximum_dhash_hamming_distance": 8,
+    "geometry_tolerance_px_at_720": 2
+  }
+}

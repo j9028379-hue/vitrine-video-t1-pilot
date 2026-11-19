@@ -1,0 +1,310 @@
+{
+  "manifest_schema_version": "1.0.0",
+  "package_id": "restaurants_maquis_T1_special_menu_template",
+  "template_id": "restaurants_maquis_T1_special_menu_v1_0_0",
+  "template_version": "1.0.0",
+  "release_tag": "t1-special-menu-template-v1.0.0-silent",
+  "release_channel": "stable_silent",
+  "status": "template_side_complete_audio_deferred",
+  "canonical_template": "config/T1_special_menu_template_v1_0_0.json",
+  "runtime": {
+    "mode": "offline_on_device",
+    "target": "Android phone with 2 GB RAM",
+    "preferred_backend": "AndroidX Media3 Transformer + MediaCodec + custom GlEffect",
+    "remote_render_server": false,
+    "bundled_ffmpeg_required": false
+  },
+  "audio": {
+    "merchant_voice_timeline": "reserved_identity_1_0x",
+    "music": "deferred_to_next_phase",
+    "future_music_model_target": "20 to 30 curated models",
+    "sfx": "none_for_this_reference"
+  },
+  "commands": {
+    "rebuild_contract": "PYTHONPATH=. python3 tools/build_t1_template_package_v1.py",
+    "validate": "PYTHONPATH=. python3 tools/validate_t1_template_package.py --require-golden",
+    "build_bundle": "PYTHONPATH=. python3 tools/build_t1_template_package_v1.py --bundle /tmp/T1_special_menu_template_v1_0_0.zip"
+  },
+  "artifacts": [
+    {
+      "path": "config/T1_special_menu_template_v1_0_0.json",
+      "role": "canonical_template",
+      "required": true,
+      "bundle": true,
+      "bytes": 84205,
+      "sha256": "ba4ef9a1fc15f9b023dec618bbcbd69ad9bb365476e71949f982b42f456cf876"
+    },
+    {
+      "path": "config/T1_special_menu_reference_v3_1.json",
+      "role": "immutable_visual_ancestor",
+      "required": true,
+      "bundle": true,
+      "bytes": 77256,
+      "sha256": "ce29eb91b5f03ebddd3922156ad7c796a7b333d916dfde2728dce8bb632c19f2"
+    },
+    {
+      "path": "schemas/T1_template_package.schema.json",
+      "role": "template_schema",
+      "required": true,
+      "bundle": true,
+      "bytes": 17333,
+      "sha256": "1629f7940928748f6d7e407d3ceb800af7a0955036a1cf5f0ff8577a1fb0ba72"
+    },
+    {
+      "path": "schemas/T1_render_job.schema.json",
+      "role": "render_job_schema",
+      "required": true,
+      "bundle": true,
+      "bytes": 6721,
+      "sha256": "0176a9b31adee7e8f4417479c74e152015812dc9f73c374e7df023da1fec793f"
+    },
+    {
+      "path": "schemas/T1_render_result.schema.json",
+      "role": "render_result_schema",
+      "required": true,
+      "bundle": true,
+      "bytes": 2639,
+      "sha256": "2f15e99adac00bd83df1bb20f0817a81cfe12a5065f0231386a66d8c88b9af06"
+    },
+    {
+      "path": "schemas/T1_render_error.schema.json",
+      "role": "render_error_schema",
+      "required": true,
+      "bundle": true,
+      "bytes": 1600,
+      "sha256": "f854994a2ab31df9a016498948d31f4822396043c4a44a96349b3c96b6362a3b"
+    },
+    {
+      "path": "profiles/T1_android_offline_2gb.json",
+      "role": "required_low_end_profile",
+      "required": true,
+      "bundle": true,
+      "bytes": 5518,
+      "sha256": "419f3048910843dbb944c83a7cdd16feae74e5eaf2f82d1864cf9e8e903e0286"
+    },
+    {
+      "path": "fixtures/t1-special-menu/render_job.valid.json",
+      "role": "valid_job_fixture",
+      "required": true,
+      "bundle": true,
+      "bytes": 2792,
+      "sha256": "22e003b22b1cef537c31ab19d4e9929b349901dae496fee22aff0e2930ec64c7"
+    },
+    {
+      "path": "fixtures/t1-special-menu/render_result.valid.json",
+      "role": "valid_result_fixture",
+      "required": true,
+      "bundle": true,
+      "bytes": 876,
+      "sha256": "13cf9237d6ff3044970d33a542f2ac540c70f40fb39318721204d02b7d4bd46d"
+    },
+    {
+      "path": "fixtures/t1-special-menu/render_error.unsupported_media.json",
+      "role": "valid_error_fixture",
+      "required": true,
+      "bundle": true,
+      "bytes": 414,
+      "sha256": "928286749ef5138e69526c1cfaea700cb74d9b9be6049d592cb7fc336dd7ab0e"
+    },
+    {
+      "path": "conformance/T1_special_menu_golden_v1.json",
+      "role": "golden_conformance_manifest",
+      "required": true,
+      "bundle": true,
+      "bytes": 6494,
+      "sha256": "90eadb77f70986cd68a076b5ad4b5be1f2d8f684363816c03340c1857d51dfa7"
+    },
+    {
+      "path": "capture-guide/consignes_T1.json",
+      "role": "locked_capture_copy",
+      "required": true,
+      "bundle": true,
+      "bytes": 2904,
+      "sha256": "93a807f88e0e0f909cb589e8539419a4d1c387c12bc1b9966ba7dbe1a936075c"
+    },
+    {
+      "path": "demo/T1_demo_input.json",
+      "role": "merchant_fixture",
+      "required": true,
+      "bundle": true,
+      "bytes": 258,
+      "sha256": "526aa15db7e98caa3b23267b6b19d96f2896331c8530ea521fe5d4589d348e50"
+    },
+    {
+      "path": "simulation/media/S1.mp4",
+      "role": "capture_fixture_S1",
+      "required": true,
+      "bundle": true,
+      "bytes": 238823,
+      "sha256": "0940247f74605b650139d0f4d0e3f5aedf942736c8dab43e1457748072bc8033"
+    },
+    {
+      "path": "simulation/media/S2.mp4",
+      "role": "capture_fixture_S2",
+      "required": true,
+      "bundle": true,
+      "bytes": 311543,
+      "sha256": "62c991e577132a59fc0dc4cbab5bc38dbde4c2afe5fd85bfcb99126a939cf9fa"
+    },
+    {
+      "path": "simulation/media/S3.mp4",
+      "role": "capture_fixture_S3",
+      "required": true,
+      "bundle": true,
+      "bytes": 452929,
+      "sha256": "668a39c0df544dbe36ddcbb94bf3b545635271ec146343fdb0b19bca24686a51"
+    },
+    {
+      "path": "simulation/media/S4.mp4",
+      "role": "capture_fixture_S4",
+      "required": true,
+      "bundle": true,
+      "bytes": 468865,
+      "sha256": "8ab5cece53aafddca76258c7b2483d970e030da9fc51c2180db5042261c1364f"
+    },
+    {
+      "path": "simulation/media/voix1.mp3",
+      "role": "fixture_voice_S1",
+      "required": true,
+      "bundle": true,
+      "bytes": 49362,
+      "sha256": "944df5a1fb48bf299b6eb18838a69c15309df08cf4bb5ce1c20d5080f155ceaa"
+    },
+    {
+      "path": "simulation/media/voix2.mp3",
+      "role": "fixture_voice_S2",
+      "required": true,
+      "bundle": true,
+      "bytes": 73185,
+      "sha256": "6e7b814c86c071c5b5147fde089eadaf0cac2948f195716693207a0626c75ac6"
+    },
+    {
+      "path": "simulation/media/voix3.mp3",
+      "role": "fixture_voice_S3",
+      "required": true,
+      "bundle": true,
+      "bytes": 56049,
+      "sha256": "35a8f364a8bf7e89c0e42ff22e02be7f00d82b18668556bdb86472143d010871"
+    },
+    {
+      "path": "simulation/media/voix4.mp3",
+      "role": "fixture_voice_S4",
+      "required": true,
+      "bundle": true,
+      "bytes": 71932,
+      "sha256": "c30d39e8f6922fe6834753536d0c3495eecb707aa11b53dcbba11b12228bcb8d"
+    },
+    {
+      "path": "assets/fonts/DMSerifDisplay-Regular.ttf",
+      "role": "font_display",
+      "required": true,
+      "bundle": true,
+      "bytes": 76580,
+      "sha256": "8cc3643535edf039aa5d95440a8542735e9197e4f4b8d9303e980fefbf5ab616"
+    },
+    {
+      "path": "assets/fonts/Montserrat-Variable.ttf",
+      "role": "font_light_sans",
+      "required": true,
+      "bundle": true,
+      "bytes": 744936,
+      "sha256": "0f7b311b2f3279e4eef9b2f968bcdbab6e28f4daeb1f049f4f278a902bcd82f7"
+    },
+    {
+      "path": "assets/fonts/PlusJakartaSans-Variable.ttf",
+      "role": "font_utility",
+      "required": true,
+      "bundle": true,
+      "bytes": 176288,
+      "sha256": "89b3fb38aa0d275d7a731d0d817a4f1622b316b4d7fbdedcf02ee9099ff68bc8"
+    },
+    {
+      "path": "assets/fonts/OFL-DMSerifDisplay.txt",
+      "role": "font_license",
+      "required": true,
+      "bundle": true,
+      "bytes": 4512,
+      "sha256": "aa49c876a28d8c0b0a3027d6c25b9c607eee8c0fb96165011d42a6ace1408fe1"
+    },
+    {
+      "path": "assets/fonts/OFL-Montserrat.txt",
+      "role": "font_license",
+      "required": true,
+      "bundle": true,
+      "bytes": 4400,
+      "sha256": "8b7141c03fa4f8d44e6345d5d4931709290f0f67875e452e95ac1fd3a027802e"
+    },
+    {
+      "path": "assets/fonts/OFL-PlusJakartaSans.txt",
+      "role": "font_license",
+      "required": true,
+      "bundle": true,
+      "bytes": 4402,
+      "sha256": "995c7199cab65954f545996326755daee7b63cc6b42b06c13da1f9502ab08a99"
+    },
+    {
+      "path": "engine/special_menu_style.py",
+      "role": "reference_renderer",
+      "required": true,
+      "bundle": true,
+      "bytes": 43408,
+      "sha256": "dd168a347877b6e74f39a4706156b888df140e716200de347ecb18cc6d9cea29"
+    },
+    {
+      "path": "tools/render_t1_special_menu_v3.py",
+      "role": "reference_render_cli",
+      "required": true,
+      "bundle": true,
+      "bytes": 1518,
+      "sha256": "810fa7eb9ba6daff3b91a42b9395e4ad53b9f17051c7e90542a52338fb64ad8c"
+    },
+    {
+      "path": "tools/validate_t1_special_menu.py",
+      "role": "visual_validator",
+      "required": true,
+      "bundle": true,
+      "bytes": 7491,
+      "sha256": "b8314d9d86c6385261c6b8ed6d4da7ba81af5bf96e84a5673e0105d022f875a5"
+    },
+    {
+      "path": "tools/build_t1_template_package_v1.py",
+      "role": "package_builder",
+      "required": true,
+      "bundle": true,
+      "bytes": 26280,
+      "sha256": "1867aba8263b1f62a779a4f8e0a40a8ea368b67d2b37e83d0fa8bae5099d1317"
+    },
+    {
+      "path": "tools/validate_t1_template_package.py",
+      "role": "package_validator",
+      "required": true,
+      "bundle": true,
+      "bytes": 10317,
+      "sha256": "5825ecff143ef9e2dc649480b2f5bf69088621388dcc5dece271d5ca80882c84"
+    },
+    {
+      "path": "reports/T1_TEMPLATE_PACKAGE_V1_SILENT.md",
+      "role": "integration_documentation",
+      "required": true,
+      "bundle": true,
+      "bytes": 6160,
+      "sha256": "736b5cb7440b6d7f80efd89479284f190936441344a0b61e9d993bd752efac34"
+    },
+    {
+      "path": "ui-screens/planche_12_etats.png",
+      "role": "visual_capture_proof",
+      "required": true,
+      "bundle": true,
+      "bytes": 2392372,
+      "sha256": "f52788a50cf94f783a970061b49d319ffdd2a13c64cdc31995700632f0b41875"
+    },
+    {
+      "path": "output/output_T1_special_menu_reference_v3.mp4",
+      "role": "golden_master",
+      "required": true,
+      "bundle": true,
+      "bytes": 20276905,
+      "sha256": "784bd77591508995822237bf8633d6ec50d245cac39afdca91f9b130296c50c7"
+    }
+  ]
+}
